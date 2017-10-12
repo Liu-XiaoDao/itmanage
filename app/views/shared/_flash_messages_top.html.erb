@@ -1,0 +1,6 @@
+<% flash.each do | message_type, message | %>
+  <div class="flash-alert-top alert alert-<%= "#{message_type}" %>">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <%= sanitize message %>
+  </div>
+<% end %>

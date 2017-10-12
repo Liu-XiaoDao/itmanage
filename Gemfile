@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gems.ruby-china.org'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -8,6 +8,20 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
+
+
+################################
+###########自己添加#####
+
+gem 'sprockets'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'mysql2', '>= 0.3.18', '< 0.5'
+gem 'simple_form'
+
+
+
+###############################
+
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use Puma as the app server
