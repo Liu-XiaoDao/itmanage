@@ -7,7 +7,7 @@ class WelcomeController < ApplicationController
 
 
 
-    # render json: request
+    render plain: request.params.to_s + "---" + request.url.to_s + "---" + request.path.to_s
 
 
 
