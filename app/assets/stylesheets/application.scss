@@ -1,19 +1,59 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
  *= require_self
  */
+
+@charset "utf-8";
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+
+/* helpers */
+
+@import "helpers/variables";
+
+/* component */
+
+@import "component/base";
+@import "component/post";
+@import "component/post_collection";
+@import "component/pagination";
+@import "component/back_to_top";
+@import "component/avatar";
+@import "component/form";
+@import "component/scrollbar";
+@import "component/markdown_toolbar";
+@import "component/markdown";
+@import "component/emoji_picker";
+@import "component/comment";
+@import "component/category_setting_modal";
+@import "component/search_modal";
+@import "component/boxed_group";
+@import "component/post_group";
+@import "component/user_group";
+@import "component/notifications";
+
+/* layout */
+
+@import "layout/base";
+/* @import "layout/header"; */
+@import "layout/footer";
+
+/* pages */
+
+@import "pages/login";
+@import "pages/category";
+@import "pages/aboutme";
+@import "pages/edit_post";
+@import "pages/setting";
+@import "pages/drafts";
+@import "pages/userspace";
+
+/* media */
+@import "media/base";
+
+/* admin */
+@import "admin/base";
+@import "admin/index";
 
 

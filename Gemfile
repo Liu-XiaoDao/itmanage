@@ -14,13 +14,17 @@ gem 'rails', '~> 5.1.4'
 ###########自己添加#####
 
 gem 'sprockets'
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass', '~> 3.3.7'
 gem 'mysql2', '>= 0.3.18', '< 0.5'
+gem 'exception_notification'#这个是发生异常后，发送邮件给开发者
 gem 'simple_form'
+gem 'rack-mini-profiler'  #这个是在左上角显示性能检测信息
+gem 'omniauth-ldap'     #ldap域登陆
 
-
-
-###############################
+# gem 'pry'   #调试工具
+# gem 'pry-remote'
+# gem 'pry-rails'   #这三个是关于调试的
+##############################y
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'

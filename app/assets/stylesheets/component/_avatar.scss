@@ -1,0 +1,28 @@
+/* 构建头像 */
+@mixin build_avatar($avatar_size: 22px, $font-size: 14px, $background: #ccc) {
+    display: inline-block;
+    width: $avatar_size;
+    height: $avatar_size;
+    line-height: $avatar_size;
+    text-align: center;
+    color: white;
+    background: $background;
+    font-size: $font-size;
+    border-radius: 100%;
+}
+
+.avatar-xs {
+    @include build_avatar(22px, 14px, $default-avatar-color);
+}
+
+.avatar-sm {
+    @include build_avatar(32px, 21px, $default-avatar-color);
+}
+
+.avatar-md {
+    @include build_avatar(48px, 28px, $default-avatar-color);
+}
+
+.avatar-lg {
+    @include build_avatar(80px, 50px, $default-avatar-color);
+}

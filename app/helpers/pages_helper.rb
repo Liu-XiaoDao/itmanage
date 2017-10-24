@@ -1,10 +1,4 @@
 module PagesHelper
-  ## 切换语系
-  def link_to_locale(path, mclass: '')
-    link_text = I18n.t(:lang) == "EN" ? "中文" : "EN"
-    link_url = I18n.t(:lang) == "EN" ? path + "?locale=zh-CN" : path + "?locale=en"
-    link_to link_text, link_url, id: "locale_btn", class: mclass
-  end
 
   ## 设置标题
   def title(pre_title = '')
@@ -19,7 +13,7 @@ module PagesHelper
   # css_class: 显示的样式
   def link_to_login(text, css_class, path)
     link_class = css_class	if text == path
-    link_text = I18n.send(:t, text)
+    link_text = text
     link_to link_text, "#", class: link_class
   end
 
@@ -29,10 +23,5 @@ module PagesHelper
     "style= 'display: #{display_value}'".html_safe
   end
 
-  ## 时间标签
-  def mtime_tag(time, strf: "%Y-%m-%d %H:%M", opts: {})
-    return if time.blank?
-    content_tag :span, time.strftime(strf), opts
-  end
-  
+
 end

@@ -1,0 +1,36 @@
+<% provide :c_active, "user" %>
+
+  <div class="container" style="padding-top:70px;">
+    <div class="col-sm-12 col-md-10 center-block" style="float: none;">
+
+
+    <div class="alert alert-info">
+    	系统共有 <b><%= @users.count %></b> 位用户
+    </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+              <tr><th>头像</th><th>ID</th><th>用户名</th><th>邮箱</th><th>昵称</th><th>用户创建时间</th></tr>
+          </thead>
+          <tbody>
+
+			<% @users.each do |user| %>
+			    <tr>
+			      <td><%= user.avatar %></td>
+			      <td><%= link_to user.id, edit_user_path(user) %></td>
+			      <td><%= user.username %></td>
+			      <td><%= user.email %></td>
+			      <td><%= user.nickname %></td>
+			      <td><%= user.created_at %></td>
+			      <td><%= link_to '修改', edit_user_path(user) %></td>
+			      <td><%= link_to '删除', user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+			    </tr>
+			  <% end %>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>

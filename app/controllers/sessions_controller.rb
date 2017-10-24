@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+
+  skip_before_action :check_signed_in, only: [:new, :create]      #整个系统都需要登录操作所以在application中设置,检测是都登录,但是在登录和注册页面需要跳过验证
+
   layout 'login'
 
   def new
@@ -6,31 +9,35 @@ class SessionsController < ApplicationController
     @user = User.new
   end
 
+
+
   def create
-    @user = User.find_by email: session_param(:email)
-    # 用户已进入黑名单
-    if @user && @user.disabled?
-      @user.errors.add :email, I18n.t("errors.email_disabled")
-      return
+
+    if params.has_key?(:session)
+        @user = User.find_by email: session_param(:email)
+
+        if @user && @user.compare(session_param(:password))
+            sign_in @user     #用户名加入session
+            redirect_to root_path
+        elsif @user
+          # 密码错误
+          @user.errors.add :password, "密码错误"
+        else
+          flash[:warning] = "没有此用户"
+          render :new
+        end
+    else
+        @user = User.from_omniauth(request.env["omniauth.auth"])      #这是通过ldap认证后,返回邮箱,再用邮箱找到用户,在返回用户
+        sign_in @user
     end
 
-    if @user && @user.authenticated?(:password, session_param(:password))
-      sign_in @user
-      session_param(:remember_me) == "1" ? remember_me(@user) : forget_me(@user)
-      redirect_back_or user_path(@user.username)
-    elsif @user
-      # 密码错误
-      @user.errors.add :password, I18n.t("errors.not_right")
-    else
-      @user = build_user "", session_param(:email), session_param(:password)
-      @user.valid? || @user.errors.delete(:username)
-      @user.errors.add :email, I18n.t("errors.email_disabled") if @user.errors.full_messages.empty?
-    end
   end
+
+
 
   def destroy
     sign_out
-    redirect_to root_path
+    redirect_to signin_path
   end
 
   private 

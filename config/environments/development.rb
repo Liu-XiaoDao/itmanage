@@ -27,9 +27,14 @@ Rails.application.configure do
   end
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.perform_caching = false
+  ###############邮件设定##################
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: "http://itmanage.liuxiaodao.top" }
+  config.action_mailer.smtp_settings = config_for(:email).symbolize_keys
+  #################################
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -51,4 +56,14 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+
+  ###########异常通知############ 
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+  :email => {
+    :email_prefix => "[IT] ",
+    :sender_address => %{<liu_xiaodao@163.com>},
+    :exception_recipients => %w{}
+  }
+  ###############################
 end

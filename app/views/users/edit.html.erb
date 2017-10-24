@@ -1,0 +1,173 @@
+<% provide :c_active, "user" %>
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+
+
+
+<div class="mainer" style="margin-top: 0; padding-top: 70px;">
+    <div class="container-fluid">
+        <div class="col-md-10 col-lg-10 col-center-block content-wrap">
+            <div id="content">
+                <!-- 用户信息设置 -->
+                <div class="col-md-8 profile-setting">
+                    <div class="boxed-group">
+                        <%= content_tag :h3, "用户资料:" %>
+                        <div class="boxed-group-inner">
+                            <%= simple_form_for @user, url: user_path(@user), method: :patch, remote: true do |f| %>
+                            <div class="form-group">
+                                <%= content_tag :span, "用户名:" %>
+                                <%= f.input_field :username, class: "form-control form-input-normal" %>
+                            </div>
+                            <div class="form-group">
+                                <%= content_tag :span, "昵称:" %>
+                                <%= f.input_field :nickname, class: "form-control form-input-normal" %>
+                            </div>
+                            <div class="form-group">
+                                <%= content_tag :span, "email:" %>
+                                <%= f.input_field :email, disabled: true, class: "form-control form-input-normal" %>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <%= f.submit "更新资料", class: "btn btn-primary submit" %>
+                            </div>
+                            <% end %>
+                        </div>
+                    </div>post
+                </div>
+                <!-- 头像与密码设置 -->
+                <div class="col-md-4 account-setting">
+                    <div class="boxed-group">
+                        <%= simple_form_for @user, url: upload_avatar_user_path(@user), method: :post, html:{ multipart: true } do |f| %>
+                        <div class="boxed-group-inner boxed-group-round-border">
+                            <%= image_tag(@user.avatar, alt:"#{@user.avatar}", class: "avatar-md") %>
+                            <div class="avatar-upload">
+                                <%= content_tag :span, "上传头像", id: "upload-avatar-btn", class: "btn avatar-btn" %>
+                                <%= f.input_field :avatar, as: :file, accept:  'image/jpg,image/jpeg,image/png,image/gif', class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
+                            </div>
+                            <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
+                        </div>
+                        <% end %>
+                    </div>
+                    <div class="boxed-group" id= "edit-password">
+                        <%= content_tag :h3, "修改密码" %>
+                        <div class="boxed-group-inner boxed-group-round-border">
+                            <%= simple_form_for @user, url: updatepw_user_path(@user), method: :post, remote: true do |f| %>
+                            <div class="form-error-container">
+                                <%= render 'shared/form_error_messages', object: f.object %>
+                            </div>
+                            <div class="form-group">
+                                <%= content_tag :span, "密码" %>
+                                <%= f.password_field :password, class: "form-control form-input-normal" %>
+                            </div>
+                            <div class="form-group">
+                                <%= f.submit "更新密码", class: "btn btn-primary submit" %>
+                            </div>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 profile-setting" style="padding-top: 30px;">
+                    <div class="boxed-group">
+                        <%= content_tag :h3, "用户设备列表" %>
+                        <div class="boxed-group-inner">
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr><th>ID</th><th>设备名</th><th>设备类型</th><th>分配类别</th><th>分配时间</th><th>到期时间</th><th>操作</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                              <td>abcam001</td>
+                                              <td>台式电脑</td>
+                                              <td>电脑</td>
+                                              <td>办公使用</td>
+                                              <td>2017-10-12 06:42:19</td>
+                                              <td>2017-11-12 06:42:19</td>
+                                              <td><%= link_to '修改', "#" %></td>
+                                              <td><%= link_to '删除', "#", method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                                            </tr>
+                                            <tr>
+                                              <td>abcam001</td>
+                                              <td>台式电脑</td>
+                                              <td>电脑</td>
+                                              <td>办公使用</td>
+                                              <td>2017-10-12 06:42:19</td>
+                                              <td>2017-11-12 06:42:19</td>
+                                              <td><%= link_to '修改', "#" %></td>
+                                              <td><%= link_to '删除', "#", method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                                            </tr>
+                                            <tr>
+                                              <td>abcam001</td>
+                                              <td>台式电脑</td>
+                                              <td>电脑</td>
+                                              <td>办公使用</td>
+                                              <td>2017-10-12 06:42:19</td>
+                                              <td>2017-11-12 06:42:19</td>
+                                              <td><%= link_to '修改', "#" %></td>
+                                              <td><%= link_to '删除', "#", method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                                            </tr>
+                                            <tr>
+                                              <td>abcam001</td>
+                                              <td>台式电脑</td>
+                                              <td>电脑</td>
+                                              <td>办公使用</td>
+                                              <td>2017-10-12 06:42:19</td>
+                                              <td>2017-11-12 06:42:19</td>
+                                              <td><%= link_to '修改', "#" %></td>
+                                              <td><%= link_to '删除', "#", method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                                            </tr>
+                                            <tr>
+                                              <td>abcam001</td>
+                                              <td>台式电脑</td>
+                                              <td>电脑</td>
+                                              <td>办公使用</td>
+                                              <td>2017-10-12 06:42:19</td>
+                                              <td>2017-11-12 06:42:19</td>
+                                              <td><%= link_to '修改', "#" %></td>
+                                              <td><%= link_to '删除', "#", method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                                            </tr>
+                                            <tr>
+                                              <td>abcam001</td>
+                                              <td>台式电脑</td>
+                                              <td>电脑</td>
+                                              <td>办公使用</td>
+                                              <td>2017-10-12 06:42:19</td>
+                                              <td>2017-11-12 06:42:19</td>
+                                              <td><%= link_to '修改', "#" %></td>
+                                              <td><%= link_to '删除', "#", method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%= javascript_include_tag 'uploader' %>
+
+<script>
+    $("#upload-avatar-input").on("change", function(){
+        var size_in_megabytes = this.files[0].size/1024/1024;
+        if (size_in_megabytes > 1) {
+            <% flash.now[:warning] = t "flash.warning.avatar_too_big", size: 1 %>
+            $(".mainer").eq(0).before("<%= j render(partial: 'shared/flash_messages_inner') %>");
+            <% flash.delete :warning %>
+        } else {
+            // 提交图片
+            $("#avatar-submit").click();
+        }
+    });
+</script>

@@ -1,0 +1,42 @@
+<% provide :c_active, "asset" %>
+
+  <div class="container" style="padding-top:70px;">
+    <div class="col-sm-12 col-md-10 center-block" style="float: none;">
+
+
+    <div class="alert alert-info">
+    	系统共有 <b><%= @devices.count %></b> 台设备<a href="<%= new_device_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加设备</a>
+    </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+              <tr><th>ID</th><th>设备号</th><th>设备名称</th><th>设备服务号</th><th>设备类型</th><th>设备管理部门</th><th>设备详情</th><th>设备所属</th><th>设备状态</th><th>到货时间</th><th>第一次使用时间</th><th>销毁时间</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+
+			<% @devices.each do |device| %>
+			    <tr>
+			      <td><%= device.id %></td>
+			      <td><%= link_to device.asset_code, device_path(device) %></td>
+			      <td><%= device.asset_name %></td>
+			      <td><%= device.service_sn %></td>
+			      <td><%= device.model %></td>
+			      <td><%= device.managed_by %></td>
+			      <td><%= device.asset_details %></td>
+			      <td><%= device.belong_to %></td>
+			      <td><%= device.status %></td>
+			      <td><%= device.receive_date %></td>
+			      <td><%= device.first_date %></td>
+			      <td><%= device.scrap_date %></td>
+			      <td><%= link_to '修改', edit_device_path(device) %></td>
+			      <td><%= link_to '删除', device_path(device), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+			    </tr>
+			  <% end %>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
