@@ -18,31 +18,94 @@
 					<label>设备服务号:</label><br>
 					<%= f.input_field :service_sn, placeholder: "设备服务号", class: "form-control" %>
 				</div>
+
+
 				<div class="form-group">
-					<label>设备类型:</label><br>
-					<%= f.input_field :model, placeholder: "设备类型", class: "form-control" %>
-				</div>
-				<div class="form-group">
-					<label>管理部门:</label><br>
-					<%= f.input_field :managed_by, placeholder: "管理部门", class: "form-control" %>
-				</div>
+		          	<label for="name">设备类型:</label>
+		          	<select class="form-control" name=device[decategory_id]>
+		            	<% @decategorys.each do |decategory| %>
+		              		<option value="<%= decategory.id %>"><%= decategory.name %></option>
+		            	<% end %>
+		          	</select>
+		        </div>
+
+		        <div class="form-group">
+					<label for="time" class="control-label">到货时间时间:&nbsp;</label>
+			        <div class="input-group controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+			          <input type="text" class="form-control" size="16" readonly name="device[receive_date]">
+			          <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+			          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+			        </div>
+			        <script type="text/javascript">
+			          $('.form_datetime').datetimepicker({
+			              format: 'yyyy/mm/dd',
+			              language: 'zh-CN',
+			              weekStart: 1,
+			              todayBtn:  1,
+			              autoclose: 1,
+			              todayHighlight: 1,
+			              startView: 2,
+			              forceParse: 0,
+			              showMeridian: 1
+			          });
+			        </script>
+		        </div>
+
+				
+		        <div class="form-group">
+		          	<label for="name">用户:</label>
+		          	<select class="form-control" name=device[user_id]>
+		            	<% @users.each do |user| %>
+		              		<option value="<%= user.id %>"><%= user.username %></option>
+		            	<% end %>
+		          	</select>
+		        </div>
+
+		        <div class="form-group">
+		          	<label for="name">管理部门:</label>
+		          	<select class="form-control" name=device[managed_by]>
+		            	<% @departments.each do |department| %>
+		              		<option value="<%= department.id %>"><%= department.department_name %></option>
+		            	<% end %>
+		          	</select>
+		        </div>
+
+
 				<div class="form-group">
 					<label>设备详情:</label><br>
 					<%= f.input_field :asset_details, placeholder: "设备详情", class: "form-control" %>
 				</div>
+
+
 				<div class="form-group">
-					<label>设备所属:</label><br>
-					<%= f.input_field :belong_to, placeholder: "设备所属", class: "form-control" %>
-				</div>
-				<div class="form-group">
-					<label>设备状态:</label><br>
-					<%= f.input_field :status, placeholder: "设备状态", class: "form-control" %>
-				</div>
+		          	<label for="name">设备所属:</label>
+		          	<select class="form-control" name=device[belong_to]>
+		          			<option value=""></option>
+		            	<% @devices.each do |device| %>
+		              		<option value="<%= device.id %>"><%= device.asset_code %></option>
+		            	<% end %>
+		          	</select>
+		        </div>
+
+
+		        <div class="form-group">
+		          	<label for="name">设备状态:</label>
+		          	<select class="form-control" name=device[status]>
+		          		<option value="1">闲置</option>
+		            	<option value="2">在用</option>
+		            	<option value="3">维修</option>
+		            	<option value="4">借用</option>
+		            	<option value="5">报废</option>
+		            	<option value="6">报废清理</option>
+		            	<option value="7">报废借用</option>
+		          	</select>
+		        </div>
+
 
 
 				<%= f.button :submit, "确定添加", class: "btn btn-primary btn-block" %>
 			<% end %>
-			<br/><a href="/admin/gres">>>返回设备列表</a>
+			<br/><a href="<%= devices_path %>">>>返回设备列表</a>
 		</div>
 	</div>
 

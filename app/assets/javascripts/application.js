@@ -8,11 +8,16 @@
 // compiled file. JavaScript code in this file should be added after the last require_* statement.
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
-// about supported directives.
-
+// about supported directives.   // require bootstrap-sprockets
+//= require_tree .
 //= require rails-ujs
 //= require turbolinks
-//= require_tree .
-//= require bootstrap-sprockets
 
-//= require myjquery
+
+
+
+
+//= require dateselect/bootstrap-datetimepicker
+//= require dateselect/bootstrap-datetimepicker.zh-CN
+
+

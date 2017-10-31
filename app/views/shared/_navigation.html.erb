@@ -20,8 +20,8 @@
             <%= link_to  content_tag(:span, '', class: "glyphicon glyphicon-user")+" 用户管理",users_path %>
           </li>
 
-		      <li class="<%= check_if_active 'asset1',yield(:c_active) %>" >
-            <%= link_to  content_tag(:span, '', class: "glyphicon glyphicon-calendar")+" 设备管理",devices_path %>
+		      <li class="<%= check_if_active 'department',yield(:c_active) %>" >
+            <%= link_to  content_tag(:span, '', class: "glyphicon glyphicon-calendar")+" 部门管理",departments_path %>
           </li>
 
 
@@ -40,7 +40,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-hdd"></span> 设备<b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><%= link_to  " 设备管理",devices_path %></li>
-              <li><%= link_to  " 设备分类",devices_path %><li>
+              <li><%= link_to  " 设备分类",decategorys_path %><li>
             </ul>
       </li>
 

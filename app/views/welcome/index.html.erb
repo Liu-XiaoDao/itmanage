@@ -6,31 +6,23 @@
 
 
 <div class="container">
-    <form action="" class="form-horizontal">
-        <fieldset>
-            <legend>Test</legend>
-            <div class="control-group">
-                <label class="control-label">DateTime Picking</label>
-                <div class="controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-                    <input size="16" type="text" value="" readonly>
-                    <span class="add-on"><i class="icon-remove"></i></span>
-					<span class="add-on"><i class="icon-th"></i></span>
-                </div>
-				<input type="hidden" id="dtp_input1" value="" /><br/>
-            </div>
-			
-        </fieldset>
-    </form>
+    <div class="input-group controls input-append date form_datetime col-sm-3" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+        <input type="text" class="form-control" size="16" readonly>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+    </div>
 </div>
+
 <script type="text/javascript">
     $('.form_datetime').datetimepicker({
-        //language:  'fr',
+        format: 'yyyy/mm/dd hh:mm:ss',
+        language: 'zh-CN',
         weekStart: 1,
         todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 2,
-		forceParse: 0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
         showMeridian: 1
     });
 
@@ -66,4 +58,78 @@ http://www.bootcss.com/p/bootstrap-datetimepicker/
             <input type="submit" name="commit" value="上传图片"  id="avatar-submit" data-disable-with="">
         </div>
     </form>
+</div>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+	<form class="form-inline" role="form">
+		<div class="form-group">
+			<label for="name" class="control-label">名字:&nbsp;</label>
+			<input type="text" class="form-control" id="name" 
+				   placeholder="请输入名称">
+		</div>
+		<div class="form-group">
+			<label for="name" class="control-label">名字:&nbsp;</label>
+			<input type="text" class="form-control" id="name" 
+				   placeholder="请输入名称">
+		</div>
+		<div class="form-group">
+			<label for="name" class="control-label">名字:&nbsp;</label>
+			<input type="text" class="form-control" id="name" 
+				   placeholder="请输入名称">
+		</div>
+
+		<div class="form-group">
+			<label for="name">选择列表</label>
+			<select class="form-control">
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-default">提交</button>
+		</div>
+	</form>
+</div>
+
+
+<div class="div1" style="width: 200px;height: 200px;background: red;">
+
+</div>
+
+<script type="text/javascript">
+$('.div1').click(function(){
+	alert('q')
+})
+</script>
+
+
+
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">开始演示模态框</button>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+      </div>
+      <div class="modal-body">在这里添加一些文本</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">提交更改</button>
+      </div>
+    </div>
+  </div>
 </div>

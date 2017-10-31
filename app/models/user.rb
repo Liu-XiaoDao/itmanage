@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 
-  has_many :devices
+
 
 
   validates :username, :email, :password, presence: true   #这几个变量不能为空

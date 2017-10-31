@@ -5,9 +5,15 @@ class WelcomeController < ApplicationController
   def index
     user = '111'
 
+    
 
+    # if user.match(/1/i)
+    # 	render plain: 'true'
+    # else
+    # 	puts 'false'
+    # end
 
-    render plain: request.params.to_s + "---" + request.url.to_s + "---" + request.path.to_s
+    # render plain: request.params.to_s + "---" + request.url.to_s + "---" + request.path.to_s
 
 
 

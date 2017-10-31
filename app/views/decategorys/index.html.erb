@@ -1,0 +1,34 @@
+<% provide :c_active, "asset" %>
+
+  <div class="container" style="padding-top:70px;">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+
+
+      <div class="alert alert-info">
+      	系统共有 <b><%= @decategorys.count %></b> 种设备<a href="<%= new_decategory_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加设备分类</a>
+      </div>
+
+    
+      <div class="table-responsive" style="padding-top: 20px;">
+        <table class="table table-striped">
+          <thead>
+              <tr><th>ID</th><th>设备类型</th><th>设备数量</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+
+    			  <% @decategorys.each do |decategory| %>
+    			    <tr>
+    			      <td><%= decategory.id %></td>
+    			      <td><%= decategory.name %></td>
+    			      <td><%= decategory.devices.count %></td>
+    			      <td><%= link_to '修改', edit_decategory_path(decategory) %></td>
+    			      <td><%= link_to '删除', decategory_path(decategory), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+    			    </tr>
+    			  <% end %>
+          
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @decategorys, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>

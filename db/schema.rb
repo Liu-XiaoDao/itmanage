@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023004128) do
+ActiveRecord::Schema.define(version: 20171030021904) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -24,6 +24,19 @@ ActiveRecord::Schema.define(version: 20171023004128) do
     t.datetime "receive_date"
     t.datetime "first_date"
     t.datetime "scrap_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "decategories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "department_name", null: false
+    t.string "manager_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -43,6 +56,7 @@ ActiveRecord::Schema.define(version: 20171023004128) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.integer "decategory_id"
     t.index ["user_id"], name: "index_devices_on_user_id"
   end
 
@@ -55,6 +69,7 @@ ActiveRecord::Schema.define(version: 20171023004128) do
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "department"
   end
 
   add_foreign_key "devices", "users"

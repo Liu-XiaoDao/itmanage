@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
 
+
+
   root 'home#index'
 
   get '/welcome/index' => 'welcome#index'
@@ -13,9 +15,12 @@ Rails.application.routes.draw do
   post '/signin' => 'sessions#create'
   delete '/signout' => 'sessions#destroy'
 
+  get '/ajaxgetdevice' => 'devices#ajaxgetdevice'
 
+  resources :decategorys
   resources :devices
-
+  resources :departments
+  get 'users/search' => 'users#search'
   resources :users do
   	post 'upload_avatar', on: :member
   	post 'updatepw', on: :member
