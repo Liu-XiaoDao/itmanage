@@ -59,7 +59,6 @@ class UsersController < ApplicationController
 
 
   def assigndevise
-return render json: params
     #使用设备id拿到设备
     device = Device.find params[:device][:department_id]
 
