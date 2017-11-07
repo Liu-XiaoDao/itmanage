@@ -55,7 +55,7 @@ i        <div class="form-group">
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
           <thead>
-              <tr><th>头像</th><th>ID</th><th>用户名</th><th>邮箱</th><th>昵称</th><th>用户创建时间</th></tr>
+              <tr><th>头像</th><th>ID</th><th>用户名</th><th>邮箱</th><th>设备数量</th><th>操作</th></tr>
           </thead>
           <tbody>
 
@@ -65,8 +65,7 @@ i        <div class="form-group">
     			      <td><%= link_to user.id, edit_user_path(user) %></td>
     			      <td><%= user.username %></td>
     			      <td><%= user.email %></td>
-    			      <td><%= user.nickname %></td>
-    			      <td><%= user.created_at %></td>
+                <td><%= user.devices.count %></td>
     			      <td><%= link_to '修改', edit_user_path(user) %></td>
     			      <td><%= link_to '删除', user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
     			    </tr>

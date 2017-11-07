@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107011043) do
+ActiveRecord::Schema.define(version: 20171107095857) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20171107011043) do
     t.string "model"
     t.string "managed_by"
     t.string "asset_details"
-    t.string "belong_to"
+    t.integer "belong_to"
     t.integer "status", default: 0
     t.datetime "receive_date"
     t.datetime "first_date"
@@ -72,8 +72,10 @@ ActiveRecord::Schema.define(version: 20171107011043) do
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "department"
+    t.bigint "department_id"
+    t.index ["department_id"], name: "index_users_on_department_id"
   end
 
   add_foreign_key "devices", "users"
+  add_foreign_key "users", "departments"
 end

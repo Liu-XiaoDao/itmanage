@@ -5,6 +5,7 @@ class DevicesController < ApplicationController
 
 	def index
 		@devices = Device.all
+		@departments = Department.all
 	end
 
 	def new

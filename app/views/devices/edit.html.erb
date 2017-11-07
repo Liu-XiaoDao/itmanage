@@ -63,7 +63,7 @@
 		          	<select class="form-control" name=device[belong_to] value="<%= @device.belong_to %>">
 		          			<option value="0"></option>
 		            	<% @devices.each do |device| %>
-		              		<option value="<%= device.id %>"><%= device.asset_code %></option>
+		              		<option value="<%= device.id %>"  <%= @device.belong_to == device.id ? 'selected = "selected"' : '' %>><%= device.asset_code %></option>
 		            	<% end %>
 		          	</select>
 		        </div>
@@ -71,14 +71,14 @@
 				<div class="form-group">
 		          	<label for="name">设备状态:</label><%= @device.status %>
 		          	<select class="form-control" name=device[status]>
-		          		<option value="0" <%= @device.status == '0' ? 'selected = "selected"' : '' %>>未分配</option>
-		          		<option value="1" <%= @device.status == '1' ? 'selected = "selected"' : '' %>>办公使用</option>
-		            	<option value="2" <%= @device.status == '2' ? 'selected = "selected"' : '' %>>闲置</option>
+		          		<option value="0" <%= @device.status == 0 ? 'selected = "selected"' : '' %>>未分配</option>
+		          		<option value="1" <%= @device.status == 1 ? 'selected = "selected"' : '' %>>办公使用</option>
+		            	<option value="2" <%= @device.status == 2 ? 'selected = "selected"' : '' %>>闲置</option>
 		            	<option value="3" <%= @device.status == 3 ? 'selected = "selected"' : '' %>>维修</option>
-		            	<option value="4" <%= @device.status == '4' ? 'selected = "selected"' : '' %>>借用</option>
-		            	<option value="5" <%= @device.status == '5' ? 'selected = "selected"' : '' %>>报废</option>
-		            	<option value="6" <%= @device.status == '6' ? 'selected = "selected"' : '' %>>报废清理</option>
-		            	<option value="7" <%= @device.status == '7' ? 'selected = "selected"' : '' %>>报废借用</option>
+		            	<option value="4" <%= @device.status == 4 ? 'selected = "selected"' : '' %>>借用</option>
+		            	<option value="5" <%= @device.status == 5 ? 'selected = "selected"' : '' %>>报废</option>
+		            	<option value="6" <%= @device.status == 6 ? 'selected = "selected"' : '' %>>报废清理</option>
+		            	<option value="7" <%= @device.status == 7 ? 'selected = "selected"' : '' %>>报废借用</option>
 		          	</select>
 		        </div>
 

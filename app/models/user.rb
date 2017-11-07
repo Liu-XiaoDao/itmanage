@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
   has_many :devices
-
+  belongs_to :department, optional: true
 
   validates :username, :email, :password, presence: true   #这几个变量不能为空
   validates :username, length: { in: 6..25 }, #长度6-25

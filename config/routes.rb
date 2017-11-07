@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   delete '/signout' => 'sessions#destroy'
 
   get '/ajaxgetdevice' => 'devices#ajaxgetdevice'
+  get '/ajaxgetuser' => 'departments#departmentusers'
 
   resources :decategorys
   resources :devices

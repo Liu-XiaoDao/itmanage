@@ -35,6 +35,15 @@ class DepartmentsController < ApplicationController
 		end
 	end
 
+	def departmentusers  #返回指定部门中所有员工
+		@department = Department.find(params[:id])
+		@departmentusers = @department.users
+		render json: @departmentusers
+		# @devices = User.where(decategory_id: params[:decategoryid], is_assign: 0)
+	 #    render json: @devices
+	
+	end
+
 	def destroy
     	@department = Department.find(params[:id])
     	@department.destroy
