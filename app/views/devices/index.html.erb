@@ -25,9 +25,9 @@
 			      <td><%= device.asset_details %></td>
 			      <td><%= device.belong_to %></td>
 			      <td><%= device_status device.status %></td>
-			      <td><%= device.receive_date.strftime("%Y-%m-%d %H:%M:%S") %></td>
-			      <td><%= device.first_date.strftime("%Y-%m-%d %H:%M:%S") %></td>
-			      <td><%= device.scrap_date.strftime("%Y-%m-%d %H:%M:%S") %></td>
+			      <td><%= device.receive_date %></td>
+			      <td><%= device.first_date %></td>
+			      <td><%= device.scrap_date %></td>
 			      <td><%= link_to '修改', edit_device_path(device) %></td>
 			      <td><%= link_to '删除', device_path(device), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
 			      <td><%= link_to '分配',"#", "data-toggle": "modal", "data-target": "#myModal" %></td>
