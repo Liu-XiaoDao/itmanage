@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     end
 
     #分配设备,设备的user_id设置为当前用户的id
-    device.user_id = params[:device][:id]
+    device.user_id = params[:id]
     #分配设备是设备的状态只有两种借用或者办公用,其他状态在设备页自己处理
     device.status = params[:device][:assigntype]
     #根据分配类型,设置是否有借用天数
