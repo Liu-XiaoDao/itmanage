@@ -5,7 +5,8 @@ class WelcomeController < ApplicationController
   def index
     user = '111'
 
-    
+    @fouryear = Time.now + 4.years
+    @fouryear = @fouryear.strftime("%Y-%m-%d %H:%M:%S")
 
     # if user.match(/1/i)
     # 	render plain: 'true'

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :users do
   	post 'upload_avatar', on: :member
   	post 'updatepw', on: :member
+    post 'assigndevise', on: :member
   end  
 
 

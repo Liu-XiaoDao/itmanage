@@ -1,6 +1,6 @@
 <% provide :c_active, "home" %>
 <div class="container" style="padding-top:70px;">
-    <div class="col-sm-12 col-md-10 center-block" style="float: none;">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
       <div class="panel panel-primary">
         <div class="panel-heading"><h3 class="panel-title">IT设备管理</h3></div>
           <ul class="list-group">
@@ -41,25 +41,25 @@
 
 
 
-    <div class="input-group controls input-append date form_datetime col-sm-3" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-        <input type="text" class="form-control" size="16" readonly>
-        <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
-        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-    </div>
-
-    <script type="text/javascript">
-    $('.form_datetime').datetimepicker({
-        format: 'yyyy/mm/dd hh:mm:ss',
-        language: 'zh-CN',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1
-    });
-
-</script>
-
   </div>
+
+
+
+
+<div class="container">
+    <div class="row">
+    	<div class="col-md-3">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">设备数量</h3></div>
+	          	<ul class="list-group">
+					<% @devicesstatus.each do |dstatus|%>
+						<li class="list-group-item"><%= device_status dstatus.status %>设备:&nbsp;<span class="badge"><%= dstatus.count %></span></li>
+					<% end %>
+				</ul>
+	      	</div>
+    	</div>
+
+    </div>
+</div>
+
+

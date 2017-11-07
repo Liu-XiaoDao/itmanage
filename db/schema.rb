@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030021904) do
+ActiveRecord::Schema.define(version: 20171107011043) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -42,14 +42,14 @@ ActiveRecord::Schema.define(version: 20171030021904) do
   end
 
   create_table "devices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.string "asset_code", null: false
-    t.string "asset_name", null: false
+    t.string "asset_code"
+    t.string "asset_name"
     t.string "service_sn"
     t.string "model"
     t.string "managed_by"
     t.string "asset_details"
     t.string "belong_to"
-    t.integer "status"
+    t.integer "status", default: 0
     t.datetime "receive_date"
     t.datetime "first_date"
     t.datetime "scrap_date"
@@ -57,6 +57,9 @@ ActiveRecord::Schema.define(version: 20171030021904) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.integer "decategory_id"
+    t.datetime "assign_time"
+    t.integer "borrow_timeleft"
+    t.integer "is_assign", default: 0
     t.index ["user_id"], name: "index_devices_on_user_id"
   end
 
