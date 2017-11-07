@@ -30,7 +30,7 @@
 			      <td><%= device.scrap_date %></td>
 			      <td><%= link_to '修改', edit_device_path(device) %></td>
 			      <td><%= link_to '删除', device_path(device), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
-			      <td><%= link_to '分配',"#", "data-toggle": "modal", "data-target": "#myModal" %></td>
+			      <td><%= link_to '分配',"#", "data-toggle": "modal", "data-target": "#myModal", "did": "<%= device.id %>" %></td>
 			    </tr>
 			<% end %>
           </tbody>
