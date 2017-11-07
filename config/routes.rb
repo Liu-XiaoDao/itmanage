@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
 
 
 
@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   get '/welcome/index' => 'welcome#index'
   post '/welcome#index' => 'welcome#index'
-  
+
   get '/signup' => 'accounts#new'
   post '/signup' => 'accounts#create'
 
@@ -19,14 +19,16 @@ Rails.application.routes.draw do
   get '/ajaxgetuser' => 'departments#departmentusers'
 
   resources :decategorys
-  resources :devices
+  resources :devices do
+    post 'assigndevise', on: :member
+  end
   resources :departments
   get 'users/search' => 'users#search'
   resources :users do
   	post 'upload_avatar', on: :member
   	post 'updatepw', on: :member
     post 'assigndevise', on: :member
-  end  
+  end
 
 
 
