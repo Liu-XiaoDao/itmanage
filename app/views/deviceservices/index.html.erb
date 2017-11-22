@@ -1,0 +1,39 @@
+<% provide :c_active, "service" %>
+
+  <div class="container" style="padding-top:70px;">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+
+
+    <div class="alert alert-info">
+    	系统共有 <b><%= @deviceservices.count %></b> 条服务信息<a href="<%= new_deviceservice_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加服务信息</a>
+    </div>
+
+
+
+	  <div class="table-responsive">
+	    <table class="table table-striped table-hover">
+	      <thead>
+	          <tr><th>设备</th><th>服务名</th><th>开始时间</th><th>到期时间</th><th>服务提供商</th><th>价格</th><th>备注</th><th>操作</th></tr>
+	      </thead>
+	      <tbody>
+
+			<% @deviceservices.each do |deviceservice| %>
+			    <tr>
+			      <td><%= device_name deviceservice.device_id %></td>
+			      <td><%= deviceservice.servicename %></td>
+            <td><%= deviceservice.begin_date.try(:strftime, "%Y-%m-%d") %></td>
+            <td><%= deviceservice.end_date.try(:strftime, "%Y-%m-%d") %></td>
+            <td><%= deviceservice.serviceprovider %></td>
+            <td><%= deviceservice.price %> 元</td>
+            <td><%= deviceservice.describe %></td>
+			      <td><%= link_to '修改', edit_deviceservice_path(deviceservice) %></td>
+			      <td><%= link_to '删除', deviceservice_path(deviceservice), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+			    </tr>
+			<% end %>
+	      </tbody>
+	    </table>
+	  </div>
+	<%= will_paginate @deviceservices, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+

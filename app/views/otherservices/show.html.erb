@@ -1,0 +1,42 @@
+<% provide :c_active, "service" %>
+
+<div class="container" style="padding-top:70px;" >
+    <div class="row">
+    	<div class="col-sm-12 col-md-12 center-block">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">服务详情</h3></div>
+	          	<ul class="list-group">
+					<% @otherservice.attributes.dup.each do |key,value|%>
+						<li class="list-group-item"><span style="width: 29%;height: 100%;display: block;float: left;"><%= key %></span>:<span style="width: 69%;height: 100%;display: block;float: right;"><%= value %></span></li>
+					<% end %>
+				</ul>
+				<br/>
+				<br/>
+				<br/>
+
+				<div class="row" style="margin: 0 15px; ">
+					<h4>相关图片:</h4>
+					<% @images.each do |image|%>
+						<div class="col-sm-6 col-md-3">
+					        <a href="<%= image.imgurl %>" class="thumbnail">
+					            <img src="<%= image.imgurl %>" alt="<%= image.otherservice_id %>">
+					        </a>
+					    </div>
+					<% end %>
+					<div class="col-sm-6 col-md-3">
+				        <div class="thumbnail" style="text-align: center;padding-bottom: 15px;">
+				        	上传图片
+				            <%= image_tag "image.png" %>
+				        </div>
+				    </div>
+				</div>
+	      	</div>
+    	</div>
+    </div>
+
+
+
+
+
+
+</div>

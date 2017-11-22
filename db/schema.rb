@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171121030354) do
+ActiveRecord::Schema.define(version: 20171122074838) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -65,6 +65,48 @@ ActiveRecord::Schema.define(version: 20171121030354) do
     t.index ["user_id"], name: "index_devices_on_user_id"
   end
 
+  create_table "deviceservices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "servicename", null: false
+    t.bigint "device_id"
+    t.string "serviceprovider"
+    t.float "price", limit: 24
+    t.datetime "begin_date"
+    t.integer "months"
+    t.datetime "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "describe"
+    t.index ["device_id"], name: "index_deviceservices_on_device_id"
+  end
+
+  create_table "oserviceimgs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "imgurl", null: false
+    t.bigint "otherservice_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["otherservice_id"], name: "index_oserviceimgs_on_otherservice_id"
+  end
+
+  create_table "otherservices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "servicename", null: false
+    t.string "serviceprovider"
+    t.float "price", limit: 24
+    t.datetime "begin_date"
+    t.integer "months"
+    t.datetime "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "describe"
+  end
+
+  create_table "serviceimgs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "imgurl", null: false
+    t.bigint "deviceservice_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deviceservice_id"], name: "index_serviceimgs_on_deviceservice_id"
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", null: false
     t.string "email", null: false
@@ -79,5 +121,8 @@ ActiveRecord::Schema.define(version: 20171121030354) do
   end
 
   add_foreign_key "devices", "users"
+  add_foreign_key "deviceservices", "devices"
+  add_foreign_key "oserviceimgs", "otherservices"
+  add_foreign_key "serviceimgs", "deviceservices"
   add_foreign_key "users", "departments"
 end

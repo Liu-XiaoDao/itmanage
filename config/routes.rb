@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+
+
+
   root 'home#index'
 
   get '/welcome/index' => 'welcome#index'
@@ -33,6 +36,8 @@ Rails.application.routes.draw do
 
 
   resources :departments
+
+
   get 'users/search' => 'users#search'
   resources :users do
   	post 'upload_avatar', on: :member
@@ -40,7 +45,11 @@ Rails.application.routes.draw do
     post 'assigndevise', on: :member
   end
 
+  #设备服务路由
+  resources :deviceservices
 
+  #其他服务路由
+  resources :otherservices
 
 
 
