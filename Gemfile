@@ -22,7 +22,7 @@ gem 'rack-mini-profiler'  #这个是在左上角显示性能检测信息
 gem 'omniauth-ldap'     #ldap域登陆
 
 gem 'will_paginate'   #分页
-
+gem 'rails-i18n'   #多语言
 # gem 'pry'   #调试工具
 # gem 'pry-remote'
 # gem 'pry-rails'   #这三个是关于调试的

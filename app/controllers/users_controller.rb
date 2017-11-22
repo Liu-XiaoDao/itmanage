@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     @created_at = params[:user][:created_at]
     @department = params[:user][:department]
 
-    @users = User.where("username = ? or email = ? or created_at = ? or department = ?",@username,@email,@created_at,@department).paginate page: params[:page], per_page: 1
+    @users = User.where("username = ? or email = ? or created_at = ? or department_id = ?",@username,@email,@created_at,@department).paginate page: params[:page], per_page: 10
     @departments = Department.all
     render "index"
   end
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
 
   def assigndevise
     #使用设备id拿到设备
-    device = Device.find params[:device][:department_id]
+    device = Device.find params[:device][:id]
 
     #等于0,表示是新添加设备之前从未有人使用,第一次分配时要,设置4年的报废时间
     if device.status == 0
@@ -90,6 +90,6 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:username, :nickname, :email)
+      params.require(:user).permit(:username, :attendance, :email)
     end
 end

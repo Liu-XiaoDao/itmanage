@@ -10,13 +10,18 @@
     
     <%= csrf_meta_tags %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_link_tag    'dateselect' %>
+    <%= stylesheet_link_tag    'dateselect', media: 'all', 'data-turbolinks-track': 'reload' %>
+
   </head>
   <body>
   
     <%= render 'shared/navigation' %>
     <%= yield %>
 
-
+    <script>
+      // $(function(){
+      //   $('select').searchableSelect();
+      // });
+    </script>
   </body>
 </html>

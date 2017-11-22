@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107095857) do
+ActiveRecord::Schema.define(version: 20171121030354) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 20171107095857) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "decategorycode"
+    t.integer "parent_id"
   end
 
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -49,8 +51,8 @@ ActiveRecord::Schema.define(version: 20171107095857) do
     t.string "managed_by"
     t.string "asset_details"
     t.integer "belong_to"
-    t.integer "status", default: 0
-    t.datetime "receive_date"
+    t.integer "status", default: 1
+    t.datetime "release_date"
     t.datetime "first_date"
     t.datetime "scrap_date"
     t.datetime "created_at", null: false
@@ -66,7 +68,7 @@ ActiveRecord::Schema.define(version: 20171107095857) do
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", null: false
     t.string "email", null: false
-    t.string "nickname"
+    t.string "attendance"
     t.string "avatar"
     t.boolean "admin", default: false, null: false
     t.string "password"

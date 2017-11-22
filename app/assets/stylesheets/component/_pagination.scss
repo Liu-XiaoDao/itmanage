@@ -1,31 +1,32 @@
-.pagination {
+/*分页的样式注释掉*/
+/*.pagination {
     margin-top: 80px;
     width: 100%;
     padding-top: 6px;
     border-top: 1px solid #ddd;
     color: $lightgray;
-    border-radius: 0;
+    border-radius: 0;*/
 
     /* 分页数字项 */
-    .page-number {
+    /* .page-number {
         padding: 8px 10px;
         margin: auto 2.5px;
 
         &:hover {
             border-top: 1px solid $lightgray;
         }
-    }
+    }*/
 
     /* 当前页 */
-    .current {
+    /* .current {
         background-color: lightgray;
         border: none !important;
         color: white;
-    }
+    }*/
 
     /* 省略号空间 */
-    .space {
+    /* .space {
         padding: 8px 10px;
         margin: auto 2.5px;
     }
-}
+}*/

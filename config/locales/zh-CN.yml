@@ -1,0 +1,58 @@
+# To use the locales, use `I18n.t`:
+#     I18n.t 'login'
+#
+# In views, this is aliased to just `t`:
+#     <%= t('login.remember_me') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#     I18n.locale = :es
+#  
+# For paramater 
+#     user_hello: "hello %{name}"
+#     <%= t('user_hello', username: @user.name) %>
+#     
+# Support new locale to see application_controller#set_locale
+
+zh-CN:
+  lang: 中文
+  itdevicemanagement: IT设备管理系统
+  employee: 员工
+  home: 系统首页
+  device: 设备
+  settings: 系统设置
+  signout: 退出登录
+  eamil: 邮箱
+  name: 名字
+  password: 密码
+  timecardcode: 考勤号
+  department: 部门
+  devicemanagement: 设备管理
+  devicecategory: 设备分类
+  employeemanagement: 员工管理
+  divisionmanagement: 部门管理
+  submit: 提交
+  edit: 修改
+  delete: 删除
+  operation: 操作
+  devicecount: 设备数量
+  useraddtime: 用户添加时间
+  departmentmanager: 部门经理
+  departmentname: 部门名称
+  renshu: 人数
+  areyousure: 你确定要删除吗?
+  userinfo: 用户资料
+  updateinfo: 更新资料
+  userdevicelist: 用户设备列表
+  devicecode: 设备编号
+  devicename: 设备名
+  adddevice: 添加设备
+  uploadavatar: 上传头像
+  updateps: 更新密码
+  editps: 修改密码
+  devicecg: 设备类型
+  assigntime: 分配时间
+  reverttime: 归还时间
+  assigntype: 分配类型
+  devicwassign: 设备分配
+  devicedetails: 设备详情
+  deviceserviceno: 设备服务号

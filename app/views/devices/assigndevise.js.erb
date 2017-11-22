@@ -1,0 +1,7 @@
+<% if @device && @device.errors.any? %>
+  $('#error-info').html("<%= j @device.errors.full_messages[0] %>").css("display","block");
+<% end %>
+
+
+
+

@@ -10,15 +10,15 @@
       
       <form class="form-inline" role="form" action="/users/search">
         <div class="form-group">
-          <label for="name" class="control-label">名字:&nbsp;</label>
+	        <label for="name" class="control-label"><%= t("name")%>:&nbsp;</label>
           <input type="text" name="user[username]" class="form-control" id="name" placeholder="请输入名称">
         </div>
-i        <div class="form-group">
-          <label for="email" class="control-label">邮箱:&nbsp;</label>
+        <div class="form-group">
+          <label for="email" class="control-label"><%= t("email")%>:&nbsp;</label>
           <input type="text" name="user[email]" class="form-control" id="email" placeholder="请输入邮箱">
         </div>
         
-        <label for="time" class="control-label">用户添加时间:&nbsp;</label>
+        <label for="time" class="control-label"><%= t("useraddtime")%>:&nbsp;</label>
         <div class="input-group controls input-append date form_datetime col-sm-3" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
           <input type="text" class="form-control" size="16" readonly name="user[created_at]">
           <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
@@ -39,15 +39,16 @@ i        <div class="form-group">
         </script>
 
         <div class="form-group">
-          <label for="name"> 部门:</label>
+          <label for="name"> <%= t("department")%>:</label>
           <select class="form-control" name=user[department]>
+            <option value=""></option>
             <% @departments.each do |department| %>
-              <option value="<%= department.department_name %>"><%= department.department_name %></option>
+              <option value="<%= department.id %>"><%= department.department_name %></option>
             <% end %>
           </select>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-default">提交</button>
+          <button type="submit" class="btn btn-default"><%= t("submit")%></button>
         </div>
       </form>
 
@@ -55,19 +56,18 @@ i        <div class="form-group">
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
           <thead>
-              <tr><th>头像</th><th>ID</th><th>用户名</th><th>邮箱</th><th>设备数量</th><th>操作</th></tr>
+              <tr><th><%= t("name")%></th><th><%= t("email")%></th><th><%= t("department")%></th><th><%= t("devicecount") %></th><th><%= t("operation") %></th></tr>
           </thead>
           <tbody>
 
     			  <% @users.each do |user| %>
     			    <tr>
-			          <td><%= image_tag(user.avatar, alt:"milog", class: "logo", size: "30", style: "border-radius: 100%;")%></td>
-    			      <td><%= link_to user.id, edit_user_path(user) %></td>
-    			      <td><%= user.username %></td>
+    			      <td><%= link_to user.username, edit_user_path(user) %></td>
     			      <td><%= user.email %></td>
+                <td><%= link_to user.department.department_name, department_path(user.department) %></td>
                 <td><%= user.devices.count %></td>
-    			      <td><%= link_to '修改', edit_user_path(user) %></td>
-    			      <td><%= link_to '删除', user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+    			      <td><%= link_to t("edit"), edit_user_path(user) %></td>
+    			      <td><%= link_to t("delete"), user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
     			    </tr>
     			  <% end %>
           

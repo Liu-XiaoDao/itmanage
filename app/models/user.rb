@@ -6,8 +6,8 @@ class User < ApplicationRecord
   validates :username, :email, :password, presence: true   #这几个变量不能为空
   validates :username, length: { in: 6..25 }, #长度6-25
                        uniqueness: { case_sensitive: false, message: "111用户名已经被使用" }  #唯一性检测，不区分大小写
-  validates :nickname, length: { in: 6..25 } #长度6-25
-  validates :email,    length: { maximum: 255 },  #最长为255
+  validates :attendance, length: { in: 6..25 } #长度6-25
+  validates :email,    length: { in: 6..55 },  #最长为255
                        uniqueness: { case_sensitive: false, message: "11邮箱已经被使用" }  #唯一性检测，不区分大小写
   validates :password, length: { minimum: 6 },  #密码最短6位
                        allow_nil: false  #为空也不跳过

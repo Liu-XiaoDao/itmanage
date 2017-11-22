@@ -20,6 +20,11 @@ class DepartmentsController < ApplicationController
 		@users = User.all
 	end
 
+	def show
+		@department = Department.find(params[:id])
+		@departmentUsers = @department.users.paginate page: params[:page], per_page: 10
+	end
+
 	def edit
 		@department = Department.find(params[:id])
 		@users = User.all

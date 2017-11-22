@@ -30,4 +30,46 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  lang: EN
+  itdevicemanagement: IT Device Management
+  employee: Employee
   hello: "Hello world"
+  home: Home
+  device: Device
+  settings: Settings
+  signout: Sign out
+  email: Email
+  name: Name
+  password: Password
+  timecardcode: Timecard Code
+  department: Department
+  devicemanagement: Device Management
+  devicecategory: Equipment Classification
+  employeemanagement: Employee Management
+  divisionmanagement: Division Management
+  submit: SUBMIT
+  edit: EDIT
+  delete: DELETE
+  operation: Operation
+  devicecount: Count
+  useraddtime: Add Time
+  departmentmanager: Department Manager
+  departmentname: industry title
+  renshu: Count
+  areyousure: Are you sure you want to delete it?
+  userinfo: Account Profile
+  updateinfo: Update Profile
+  userdevicelist: User device list
+  devicecode: Equipment Number
+  devicename: Device Name
+  adddevice: Add Device
+  uploadavatar: Upload Avatar
+  updateps: Update Password
+  editps: Edit Password
+  devicecg: Device Category
+  assigntime: Allocated Time
+  reverttime: Revert Time
+  assigntype: Allocation Type
+  devicwassign: Device Allocation
+  devicedetails: Device Details
+  deviceserviceno: Device Service No

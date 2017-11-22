@@ -11,26 +11,26 @@
                 <!-- 用户信息设置 -->
                 <div class="col-md-8 profile-setting">
                     <div class="boxed-group">
-                        <%= content_tag :h3, "用户资料:" %>
+                        <%= content_tag :h3, t("userinfo") %>
                         <div class="boxed-group-inner">
                             <%= simple_form_for @user, url: user_path(@user), method: :patch, remote: true do |f| %>
                             <div class="form-group">
-                                <%= content_tag :span, "用户名:" %>
+                                <%= content_tag :span, t("name")+":" %>
                                 <%= f.input_field :username, class: "form-control form-input-normal" %>
                             </div>
                             <div class="form-group">
-                                <%= content_tag :span, "昵称:" %>
-                                <%= f.input_field :nickname, class: "form-control form-input-normal" %>
+                                <%= content_tag :span, t("timecardcode")+":" %>
+                                <%= f.input_field :attendance, class: "form-control form-input-normal" %>
                             </div>
                             <div class="form-group">
-                                <%= content_tag :span, "email:" %>
+                                <%= content_tag :span, t("email")+":" %>
                                 <%= f.input_field :email, disabled: true, class: "form-control form-input-normal" %>
                             </div>
 
 
 
                             <div class="form-group">
-                                <%= f.submit "更新资料", class: "btn btn-primary submit" %>
+                                <%= f.submit t("updateinfo"), class: "btn btn-primary submit" %>
                             </div>
                             <% end %>
                         </div>
@@ -43,7 +43,7 @@
                         <div class="boxed-group-inner boxed-group-round-border">
                             <%= image_tag(@user.avatar, alt:"#{@user.avatar}", class: "avatar-md") %>
                             <div class="avatar-upload">
-                                <%= content_tag :span, "上传头像", id: "upload-avatar-btn", class: "btn avatar-btn" %>
+                                <%= content_tag :span, t("uploadavatar"), id: "upload-avatar-btn", class: "btn avatar-btn" %>
                                 <%= f.input_field :avatar, as: :file, accept:  'image/jpg,image/jpeg,image/png,image/gif', class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
                             </div>
                             <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
@@ -51,18 +51,18 @@
                         <% end %>
                     </div>
                     <div class="boxed-group" id= "edit-password">
-                        <%= content_tag :h3, "修改密码" %>
+                        <%= content_tag :h3, t("editps") %>
                         <div class="boxed-group-inner boxed-group-round-border">
                             <%= simple_form_for @user, url: updatepw_user_path(@user), method: :post, remote: true do |f| %>
                             <div class="form-error-container">
                                 <%= render 'shared/form_error_messages', object: f.object %>
                             </div>
                             <div class="form-group">
-                                <%= content_tag :span, "密码" %>
+                                <%= content_tag :span, t("password")+":" %>
                                 <%= f.password_field :password, class: "form-control form-input-normal" %>
                             </div>
                             <div class="form-group">
-                                <%= f.submit "更新密码", class: "btn btn-primary submit" %>
+                                <%= f.submit t("updateps"), class: "btn btn-primary submit" %>
                             </div>
                             <% end %>
                         </div>
@@ -71,12 +71,12 @@
 
                 <div class="col-md-12 profile-setting" style="padding-top: 30px;">
                     <div class="boxed-group">
-                        <%= content_tag :h3, "用户设备列表" %>
+                        <%= content_tag :h3, t("userdevicelist") %>
                         <div class="boxed-group-inner">
                             <div class="table-responsive">
                               <table class="table table-striped">
                                   <thead>
-                                      <tr><th>ID</th><th>设备名</th><th>设备类型</th><th>分配类别</th><th>分配时间</th><th>归还时间</th><th>操作</th></tr>
+                                      <tr><th><%= t("devicecode") %></th><th><%= t("devicename") %></th><th><%= t("devicecg") %></th><th><%= t("assigntype") %></th><th><%= t("assigntime") %></th><th><%= t("reverttime") %></th><th><%= t("operation") %></th></tr>
                                   </thead>
                                   <tbody>
                                       <% @devices.each do |device| %>
@@ -87,14 +87,14 @@
                                             <td><%= device_status device.status %></td>
                                             <td><%= device.assign_time %></td>
                                             <td><%= device_timeleft device.borrow_timeleft %></td>
-                                            <td><%= link_to '修改', edit_device_path(device) %></td>
-                                            <td><%= link_to '删除', device_path(device), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                                            <td><%= link_to t('edit'), edit_device_path(device) %></td>
+                                            <td><%= link_to t('delete'), device_path(device), method: :delete, data: { confirm: t('areyousure') } %></td>
                                           </tr>
                                       <% end %>
                                   </tbody>
                               </table>
                             </div>
-                            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; ">添加设备</a>
+                            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; "><%= t('adddevice') %></a>
                         </div>
                     </div>
                 </div>
@@ -116,14 +116,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">设备分配</h4>
+        <h4 class="modal-title" id="myModalLabel"><%= t("devicwassign")%></h4>
       </div>
         <%= form_tag  assigndevise_user_path do %>
           <div class="modal-body" style="padding: 15px;">
 
               
               <div class="form-group">
-                <label for="assigntype"> 分配类型:</label>
+                <label for="assigntype"> <%= t("assigntype")%>:</label>
                 <select class="form-control" name="device[assigntype]" id="assigntype" onchange="create_borrowtime(this)">
                   <option value="0">请选择设备分配类型</option>
                   <option value="1">办公使用</option>
@@ -132,13 +132,13 @@
               </div>
               <br>
               <div class="form-group" id="borrowtime_div" style="display: none;">
-                  <label for="borrowtime"> 借用时间:</label>
+                  <label for="borrowtime"> <%= t("borrowtime")%>:</label>
                   <input type="number" name="device[borrowtime]" class="form-control" id="borrowtime" placeholder="请输入借用时间,单位:天数">
               </div>
               <br id="borrowtime_br" style="display: none;">
 
               <div class="form-group">
-                <label for="decategory"> 设备分类:</label>
+                <label for="decategory"> <%= t("devicecg")%>:</label>
                 <select class="form-control" name="device[decategory]" id="decategory" onchange="show_position(this)">
                   <option value="">请选择设备分类</option>
                   <% @decategorys.each do |decategory| %>
@@ -148,7 +148,7 @@
               </div>
               <br>
               <div class="form-group">
-                <label for="department_id"> 设备:</label>
+                <label for="department_id"> <%= t("device")%>:</label>
                 <select id="ajaxdevice" class="form-control" name="device[department_id]" id="department_id">
                   <option value="">请选择设备</option>
                 </select>

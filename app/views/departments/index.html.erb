@@ -12,17 +12,17 @@
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
           <thead>
-              <tr><th>ID</th><th>部门名称</th><th>部门经理</th><th>操作</th></tr>
+              <tr><th><%= t("departmentname")%></th><th><%= t("departmentmanager")%></th><th><%= t("renshu")%></th><th><%= t("operation")%></th></tr>
           </thead>
           <tbody>
 
     			  <% @departments.each do |department| %>
     			    <tr>
-    			      <td><%= department.id %></td>
-    			      <td><%= department.department_name %></td>
+    			      <td><%= link_to department.department_name, department_path(department) %></td>
     			      <td><%= department.manager_name %></td>
-    			      <td><%= link_to '修改', edit_department_path(department) %></td>
-    			      <td><%= link_to '删除', department_path(department), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                <td><%= department.users.count %></td>
+    			      <td><%= link_to t('edit'), edit_department_path(department) %></td>
+    			      <td><%= link_to t('delete'), department_path(department), method: :delete, data: { confirm: t('areyousure') } %></td>
     			    </tr>
     			  <% end %>
           
