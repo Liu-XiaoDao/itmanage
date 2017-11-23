@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   resources :devices do
     post 'assigndevise', on: :member
     post 'appenddevice', on: :member
+    get  'recycle', on: :member
   end
   post '/devices/editdeviceassetname' => 'devices#editdeviceassetname'
   post '/devices/editdeviceservicesn' => 'devices#editdeviceservicesn'
@@ -54,6 +55,9 @@ Rails.application.routes.draw do
   resources :otherservices do
     post 'upload_img', on: :member
   end
+
+  #耗材路由
+  resources :consumables
 
 
 

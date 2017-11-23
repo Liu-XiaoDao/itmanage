@@ -38,18 +38,7 @@
                 </div>
                 <!-- 头像与密码设置 -->
                 <div class="col-md-4 account-setting">
-                    <div class="boxed-group">
-                        <%= simple_form_for @user, url: upload_avatar_user_path(@user), method: :post, html:{ multipart: true } do |f| %>
-                        <div class="boxed-group-inner boxed-group-round-border">
-                            <%= image_tag(@user.avatar, alt:"#{@user.avatar}", class: "avatar-md") %>
-                            <div class="avatar-upload">
-                                <%= content_tag :span, t("uploadavatar"), id: "upload-avatar-btn", class: "btn avatar-btn" %>
-                                <%= f.input_field :avatar, as: :file, accept:  'image/jpg,image/jpeg,image/png,image/gif', class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
-                            </div>
-                            <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
-                        </div>
-                        <% end %>
-                    </div>
+
                     <div class="boxed-group" id= "edit-password">
                         <%= content_tag :h3, t("editps") %>
                         <div class="boxed-group-inner boxed-group-round-border">
@@ -87,8 +76,7 @@
                                             <td><%= device_status device.status %></td>
                                             <td><%= device.assign_time %></td>
                                             <td><%= device_timeleft device.borrow_timeleft %></td>
-                                            <td><%= link_to t('edit'), edit_device_path(device) %></td>
-                                            <td><%= link_to t('delete'), device_path(device), method: :delete, data: { confirm: t('areyousure') } %></td>
+                                            <td><%= link_to '收回设备', recycle_device_path(device), data: { confirm: '确定收回设备吗?' } %></td>
                                           </tr>
                                       <% end %>
                                   </tbody>
@@ -126,13 +114,13 @@
                 <label for="assigntype"> <%= t("assigntype")%>:</label>
                 <select class="form-control" name="device[assigntype]" id="assigntype" onchange="create_borrowtime(this)">
                   <option value="0">请选择设备分配类型</option>
-                  <option value="1">办公使用</option>
-                  <option value="4">借用</option>
+                  <option value="2">办公使用</option>
+                  <option value="5">借用</option>
                 </select>
               </div>
               <br>
               <div class="form-group" id="borrowtime_div" style="display: none;">
-                  <label for="borrowtime"> <%= t("borrowtime")%>:</label>
+                  <label for="borrowtime"> 借用时间:</label>
                   <input type="number" name="device[borrowtime]" class="form-control" id="borrowtime" placeholder="请输入借用时间,单位:天数">
               </div>
               <br id="borrowtime_br" style="display: none;">
@@ -148,8 +136,8 @@
               </div>
               <br>
               <div class="form-group">
-                <label for="department_id"> <%= t("device")%>:</label>
-                <select id="ajaxdevice" class="form-control" name="device[department_id]" id="department_id">
+                <label for="device_id"> <%= t("device")%>:</label>
+                <select id="ajaxdevice" class="form-control" name="device[device_id]" id="device_id">
                   <option value="">请选择设备</option>
                 </select>
               </div>
@@ -194,7 +182,7 @@
     }
 
     function create_borrowtime(ele) {
-        if ($(ele).val() == 4) {
+        if ($(ele).val() == 5) {
             $("#borrowtime_div").css("display","block");
             $("#borrowtime_br").css("display","block");
         }else{
