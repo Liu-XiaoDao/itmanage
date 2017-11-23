@@ -248,6 +248,6 @@ errorinfo = ""
     	devices = Device.where(decategory_id: decategory_id)
     	num = devices.count + 1
     	time = Time.now
-    	return 'YK' + time.month.to_s + time.day.to_s + '-' + decategorycode + num.to_s
+    	return 'YK' + time.month.to_s + time.day.to_s + '-' + decategorycode + '-' + num.to_s
     end
 end

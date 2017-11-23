@@ -5,7 +5,7 @@
 
 
       <div class="alert alert-info">
-      	系统共有 <b><%= @users.count %></b> 位用户
+      	系统共有 <b><%= @users.count %></b> 位用户<a href="<%= new_user_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加新员工</a>
       </div>
       
       <form class="form-inline" role="form" action="/users/search">

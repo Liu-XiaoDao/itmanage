@@ -18,25 +18,53 @@
 					<h4>相关图片:</h4>
 					<% @images.each do |image|%>
 						<div class="col-sm-6 col-md-3">
-					        <a href="<%= image.imgurl %>" class="thumbnail">
+					        <a href="<%= image.imgurl %>" class="thumbnail" target="black" >
 					            <img src="<%= image.imgurl %>" alt="<%= image.otherservice_id %>">
 					        </a>
 					    </div>
 					<% end %>
 					<div class="col-sm-6 col-md-3">
-				        <div class="thumbnail" style="text-align: center;padding-bottom: 15px;">
-				        	上传图片
-				            <%= image_tag "image.png" %>
-				        </div>
+				        <%= simple_form_for @otherservice, url: upload_img_otherservice_path(@otherservice), method: :post, html:{ multipart: true } do |f| %>
+							<div class="thumbnail avatar-upload" style="text-align: center;padding-bottom: 15px;">
+					            <%= image_tag "image.png" %>
+					            <%= content_tag :span, "上传图片", id: "upload-avatar-btn", class: "btn avatar-btn" %>
+						        <%= f.input_field :describe, as: :file, accept:  'image/jpg,image/jpeg,image/png,image/gif', class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
+							    <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
+					        </div>
+						<% end %>
 				    </div>
 				</div>
 	      	</div>
     	</div>
     </div>
 
-
+						
 
 
 
 
 </div>
+
+
+<script type="text/javascript">
+	$(".avatar-upload").on("click", "#upload-avatar-btn", function(){
+		$("#upload-avatar-input").click()
+	});
+	$(".avatar-upload").on("click", "img", function(){
+		$("#upload-avatar-input").click()
+	});
+</script>
+
+<script>
+    $("#upload-avatar-input").on("change", function(){
+        var size_in_megabytes = this.files[0].size/1024/1024;
+        if (size_in_megabytes > 1) {
+            <% flash.now[:warning] = t "flash.warning.avatar_too_big", size: 1 %>
+            $(".mainer").eq(0).before("<%= j render(partial: 'shared/flash_messages_inner') %>");
+            <% flash.delete :warning %>
+        } else {
+            // 提交图片
+            $("#avatar-submit").click();
+        }
+    });
+</script>

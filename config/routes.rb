@@ -46,10 +46,14 @@ Rails.application.routes.draw do
   end
 
   #设备服务路由
-  resources :deviceservices
+  resources :deviceservices do
+    post 'upload_img', on: :member
+  end
 
   #其他服务路由
-  resources :otherservices
+  resources :otherservices do
+    post 'upload_img', on: :member
+  end
 
 
 
