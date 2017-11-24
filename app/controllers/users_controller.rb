@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     end
   end
 
+  #搜索用户
   def search
     # @users = User.where(username: params[:username]).paginate page: params[:page], per_page: 10
     # return render plain: params[:user][:username] + params[:user][:email] + params[:user][:created_at] + params[:user][:department]
@@ -36,17 +37,27 @@ class UsersController < ApplicationController
     render "index"
   end
 
+  #用户详情
   def edit
     @user = User.find(params[:id])
     @decategorys = Decategory.all
     # @devices = Device.where user_id: @user.id
     @devices = @user.devices
+    @consumables = Consumable.all
+    @consumablerecords = @user.consumablerecords
+
+    # @myconsumables = @user.consumables   这个是测试用户所有耗材的
+    # render json: @myconsumables
   end
 
+
+  #这个没有使用
   def show
     @user = User.find(params[:id])
   end
 
+
+  #修改用户信息,现在能改的是考勤号和名字
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
@@ -59,12 +70,14 @@ class UsersController < ApplicationController
 #    render :edit
   end
 
-  def updatepw    #管理员修改密码
+  #管理员修改密码
+  def updatepw    
     @user = User.find(params[:id])
     @user.password = params[:user][:password]
     @user.save
   end
 
+  #用户上传头像
   def upload_avatar
     @user = User.find(params[:id])
     @user.avatar_upload(params[:user][:avatar])
@@ -73,7 +86,7 @@ class UsersController < ApplicationController
   end
 
 
-
+  #在用户详情页给用户分配设备
   def assigndevise
     #使用设备id拿到设备
     device = Device.find params[:device][:device_id]
@@ -106,12 +119,26 @@ class UsersController < ApplicationController
     redirect_to edit_user_path(params[:id])
   end
 
-
+  #删除用户,,这里还需操作.删除用户时,用户的设备处理问题
   def destroy
     @user = User.find(params[:id])
     @user.destroy
 
     redirect_to users_path
+  end
+
+  #给用户分配耗材
+  def assignconsumable
+    @user = User.find(params[:id])
+    @consumable_id = params[:consumable_id]
+
+    @consumablerecord = Consumablerecord.new
+    @consumablerecord.user_id = @user.id
+    @consumablerecord.consumable_id = @consumable_id
+    @consumablerecord.note = "分配"
+    @consumablerecord.save
+
+    redirect_to edit_user_path(@user)
   end
 
   private

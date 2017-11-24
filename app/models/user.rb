@@ -3,6 +3,9 @@ class User < ApplicationRecord
   has_many :devices
   belongs_to :department, optional: true
 
+  has_many :consumablerecords
+  has_many :consumables, through: :consumablerecords
+
   validates :username, :email, :attendance, :department_id, presence: true   #这几个变量不能为空
   validates :username, length: { in: 2..25 }, #长度6-25
                        uniqueness: { case_sensitive: false, message: "111用户名已经被使用" }  #唯一性检测，不区分大小写

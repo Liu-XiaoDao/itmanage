@@ -38,7 +38,6 @@
                 </div>
                 <!-- 头像与密码设置 -->
                 <div class="col-md-4 account-setting">
-
                     <div class="boxed-group" id= "edit-password">
                         <%= content_tag :h3, t("editps") %>
                         <div class="boxed-group-inner boxed-group-round-border">
@@ -54,6 +53,12 @@
                                 <%= f.submit t("updateps"), class: "btn btn-primary submit" %>
                             </div>
                             <% end %>
+                        </div>
+                    </div>
+                    <div class="boxed-group">
+                        <%= content_tag :h3, "分配耗材" %>
+                        <div class="boxed-group-inner boxed-group-round-border">
+                            <a href="#" data-toggle="modal" data-target="#consumableModal" class="btn btn-primary submit" style="color: #fff; background-color: #444;border: 1px solid #444;">分配</a>
                         </div>
                     </div>
                 </div>
@@ -82,7 +87,32 @@
                                   </tbody>
                               </table>
                             </div>
-                            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; "><%= t('adddevice') %></a>
+                            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; background-color: #444;border: 1px solid #444;"><%= t('adddevice') %></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 profile-setting" style="padding-top: 30px;">
+                    <div class="boxed-group">
+                        <%= content_tag :h3, "耗材分配记录" %>
+                        <div class="boxed-group-inner">
+                            <div class="table-responsive">
+                              <table class="table table-striped">
+                                  <thead>
+                                      <tr><th>耗材</th><th>备注</th><th>分配时间</th><th>操作</th></tr>
+                                  </thead>
+                                  <tbody>
+                                      <% @consumablerecords.each do |consumablerecord| %>
+                                          <tr>
+                                            <td><%= consumable_name consumablerecord.consumable_id %></td>
+                                            <td><%= consumablerecord.note %></td>
+                                            <td><%= consumablerecord.created_at %></td>
+                                            <td>操作</td>
+                                          </tr>
+                                      <% end %>
+                                  </tbody>
+                              </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -152,6 +182,39 @@
     </div>
   </div>
 </div>
+
+
+<!-- 耗材分配弹框 -->
+
+<div class="modal fade" id="consumableModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">耗材分配</h4>
+      </div>
+        <%= form_tag  assignconsumable_user_path do %>
+          <div class="modal-body" style="padding: 15px;">
+              <div class="form-group">
+                <label for="consumable"> 耗材(每次只能分配一件):</label>
+                <select class="form-control" name="consumable_id" id="consumable">
+                  <option value="">请选择耗材</option>
+                  <% @consumables.each do |consumable| %>
+                    <option value="<%= consumable.id %>"><%= consumable.name %></option>
+                  <% end %>
+                </select>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary">分配</button>
+          </div>
+        <% end %>
+    </div>
+  </div>
+</div>
+
+
 
 
 

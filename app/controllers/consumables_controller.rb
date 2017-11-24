@@ -15,6 +15,7 @@ class ConsumablesController < ApplicationController
   end
 
   def edit
+    @consumable = Consumable.find(params[:id])
   end
 
   def update
@@ -35,6 +36,25 @@ class ConsumablesController < ApplicationController
       redirect_to consumables_path
     else
       render :new
+    end
+  end
+
+  #增加库存试图
+  def addstocknew
+    @consumable = Consumable.find(params[:id])
+    render layout: false
+  end
+
+  #增加库存
+  def addstock
+    @consumable = Consumable.find(params[:id])
+    @consumable.amount +=  params[:consumable][:number].to_i
+    @consumable.surplus_amount += params[:consumable][:number].to_i
+
+    if @consumable.save
+      redirect_to consumables_path
+    else
+      render plain: 2
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171123073404) do
+ActiveRecord::Schema.define(version: 20171123153336) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(version: 20171123073404) do
     t.datetime "scrap_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "consumablerecords", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.bigint "user_id"
+    t.bigint "consumable_id"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consumable_id"], name: "index_consumablerecords_on_consumable_id"
+    t.index ["user_id"], name: "index_consumablerecords_on_user_id"
   end
 
   create_table "consumables", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -52,6 +62,16 @@ ActiveRecord::Schema.define(version: 20171123073404) do
     t.string "manager_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "devicerecords", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.bigint "user_id"
+    t.bigint "device_id"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_id"], name: "index_devicerecords_on_device_id"
+    t.index ["user_id"], name: "index_devicerecords_on_user_id"
   end
 
   create_table "devices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -131,6 +151,10 @@ ActiveRecord::Schema.define(version: 20171123073404) do
     t.index ["department_id"], name: "index_users_on_department_id"
   end
 
+  add_foreign_key "consumablerecords", "consumables"
+  add_foreign_key "consumablerecords", "users"
+  add_foreign_key "devicerecords", "devices"
+  add_foreign_key "devicerecords", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "deviceservices", "devices"
   add_foreign_key "oserviceimgs", "otherservices"

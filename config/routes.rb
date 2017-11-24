@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   	post 'upload_avatar', on: :member
   	post 'updatepw', on: :member
     post 'assigndevise', on: :member
+    post 'assignconsumable', on: :member
   end
 
   #设备服务路由
@@ -57,7 +58,10 @@ Rails.application.routes.draw do
   end
 
   #耗材路由
-  resources :consumables
+  resources :consumables do
+    get 'addstocknew', on: :member
+    post 'addstock', on: :member
+  end
 
 
 

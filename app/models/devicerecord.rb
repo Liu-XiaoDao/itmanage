@@ -1,0 +1,2 @@
+class Devicerecord < ApplicationRecord
+end
