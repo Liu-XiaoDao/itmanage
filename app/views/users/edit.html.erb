@@ -75,7 +75,7 @@
                                   <tbody>
                                       <% @devices.each do |device| %>
                                           <tr>
-                                            <td><%= device.asset_code %></td>
+                                            <td><%= device_assetno device.id %></td>
                                             <td><%= device.asset_name %></td>
                                             <td><%= device_type device.decategory_id %></td>
                                             <td><%= device_status device.status %></td>
@@ -87,7 +87,7 @@
                                   </tbody>
                               </table>
                             </div>
-                            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; background-color: #444;border: 1px solid #444;"><%= t('adddevice') %></a>
+                            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff;"><%= t('adddevice') %></a>
                         </div>
                     </div>
                 </div>
@@ -106,8 +106,33 @@
                                           <tr>
                                             <td><%= consumable_name consumablerecord.consumable_id %></td>
                                             <td><%= consumablerecord.note %></td>
-                                            <td><%= consumablerecord.created_at %></td>
+                                            <td><%= consumablerecord.created_at.try(:strftime, "%Y-%m-%d") %></td>
                                             <td>操作</td>
+                                          </tr>
+                                      <% end %>
+                                  </tbody>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 profile-setting" style="padding-top: 30px;">
+                    <div class="boxed-group">
+                        <%= content_tag :h3, "设备分配记录" %>
+                        <div class="boxed-group-inner">
+                            <div class="table-responsive">
+                              <table class="table table-striped">
+                                  <thead>
+                                      <tr><th>设备名</th><th>设备编号</th><th>备注</th><th>分配时间</th></tr>
+                                  </thead>
+                                  <tbody>
+                                      <% @devicerecords.each do |devicerecord| %>
+                                          <tr>
+                                            <td><%= device_name devicerecord.device_id %></td>
+                                            <td><%= device_assetno devicerecord.device_id %></td>
+                                            <td><%= devicerecord.note %></td>
+                                            <td><%= devicerecord.created_at.try(:strftime, "%Y-%m-%d") %></td>
                                           </tr>
                                       <% end %>
                                   </tbody>

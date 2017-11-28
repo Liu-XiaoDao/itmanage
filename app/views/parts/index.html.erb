@@ -1,0 +1,187 @@
+<% provide :c_active, "asset" %>
+
+  <div class="container" style="padding-top:70px;">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+
+
+    <div class="alert alert-info">
+    	系统共有 <b><%= @parts.count %></b> 个配件<a href="<%= new_part_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;"><%= t("adddevice")%></a><a href="<%= parts_batchadd_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">批量添加</a>
+    </div>
+    
+      <nav class="navbar navbar-default" role="navigation">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <form class="navbar-form navbar-left" role="search" action="<%= parts_search_path %>">
+        <div class="form-group">
+            <label for="name">配件分类:</label>
+            <select class="form-control" name=part[partcategory_id]>
+              <option value=""></option>
+              <% @partcategorys.each do |partcategory| %>
+                <% if  @partcategory_id.to_i == partcategory.id %>
+                        <% selected = 'selected="selected"' %>
+                      <% end %>
+                  <option value="<%= partcategory.id %>" <%= selected %> ><%= partcategory.name %></option>
+              <% end %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="name">配件状态:</label>
+            <select class="form-control" name=part[status_id]>
+              <option value=""></option>
+              <% @status.each do |zt| %>
+                <% if  @status_id == zt['id'] %>
+                        <% selected = 'selected="selected"' %>
+                      <% end %>
+                  <option value="<%= zt['id'] %>" <%= selected %> ><%= zt['name'] %></option>
+              <% end %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="name">可否分配:</label>
+            <select class="form-control" name=part[assign]>
+              <option value="" ></option>
+              <% if @assign == '0' %>
+                <% selected2 = 'selected="selected"' %>
+              <% elsif @assign == '1' %>
+                <% selected3 = 'selected="selected"' %>
+              <% end %>
+              
+              <option value="0" <%= selected2 %> >可分配</option>
+              <option value="1" <%= selected3 %> >不可分配</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-default">搜索</button>
+      </form>
+    </div>
+  </nav>
+
+  
+
+	
+
+	  <div class="table-responsive">
+	    <table class="table table-striped table-hover">
+	      <thead>
+	          <tr><th>配件编号</th><th>配件名</th><th>配件详情</th><th>类型</th><th>配件状态</th><th>从属设备</th><th>收货时间</th><th>是否可分配</th><th><%= t("operation")%></th></tr>
+	      </thead>
+	      <tbody>
+
+			<% @parts.each do |part| %>
+			    <tr>
+			      <td><%= link_to part.part_code, part_path(part) %></td>
+			      <td class="part_name" iid="<%= part.id %>"><p><%= part.part_name %></p></td>
+			      <td class="service_sn" iid="<%= part.id %>"><p><%= part.part_details %></p></td>
+			      <td class="asset_details" iid="<%= part.id %>"><p><%= part_type part.partcategory_id %></p></td>
+			      <td><%= part_status part.status %></td>
+            <td><%= device_name part.device_id %></td>
+            <td><%= part.receive_date.try(:strftime, "%Y-%m-%d") %></td>
+			      <td><%= is_assin part.is_assign %></td>
+			      <td><%= link_to '修改', edit_part_path(part) %></td>
+			      <td><%= link_to '删除', part_path(part), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+			    </tr>
+			<% end %>
+	      </tbody>
+	    </table>
+	  </div>
+	<%= will_paginate @devices, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $(".asset_name").dblclick( function () { 
+        toReplacename(this)  
+      });
+    });
+    toReplacename = function(pElement) { 
+      // 创建一个input元素 
+      var invar = $("<input type='text' class='form-control' value='' style='width: 100px;'>");
+      // 把obj里面的元素以及文本内容赋值给新建的inputElement 
+      
+      invar.val($(pElement).find("p").html());
+      $(pElement).find("p").replaceWith(invar);
+      invar.focus();
+      invar.focusout(function() {
+        var invar = $("<p></p>");
+        invar.html($(this).val());
+        $(this).replaceWith(invar);
+        $.ajax({
+            type : "POST",
+            url : "<%= devices_editdeviceassetname_path %>",
+            data : {
+                'id':$(pElement).attr('iid'),
+                'asset_name':$(this).val()
+            },
+            dataType : "JSON",
+            success : function(result){
+            }
+        });
+      });
+  } 
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $(".service_sn").dblclick( function () { 
+        toReplacesn(this)  
+      });
+    });
+    toReplacesn = function(pElement) { 
+      // 创建一个input元素 
+      var invar = $("<input type='text' class='form-control' value='' style='width: 100px;'>");
+      // 把obj里面的元素以及文本内容赋值给新建的inputElement 
+      
+      invar.val($(pElement).find("p").html());
+      $(pElement).find("p").replaceWith(invar);
+      invar.focus();
+      invar.focusout(function() {
+        var invar = $("<p></p>");
+        invar.html($(this).val());
+        $(this).replaceWith(invar);
+        $.ajax({
+            type : "POST",
+            url : "<%= devices_editdeviceservicesn_path %>",
+            data : {
+                'id':$(pElement).attr('iid'),
+                'service_sn':$(this).val()
+            },
+            dataType : "JSON",
+            success : function(result){
+            }
+        });
+      });
+  } 
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $(".asset_details").dblclick( function () { 
+        toReplacedetails(this)  
+      });
+    });
+    toReplacedetails = function(pElement) { 
+      // 创建一个input元素 
+      var invar = $("<input type='text' class='form-control' value='' style='width: 150px;'>");
+      // 把obj里面的元素以及文本内容赋值给新建的inputElement 
+      
+      invar.val($(pElement).find("p").html());
+      $(pElement).find("p").replaceWith(invar);
+      invar.focus();
+      invar.focusout(function() {
+        var invar = $("<p></p>");
+        invar.html($(this).val());
+        $(this).replaceWith(invar);
+        $.ajax({
+            type : "POST",
+            url : "<%= devices_editdeviceassetdetails_path %>",
+            data : {
+                'id':$(pElement).attr('iid'),
+                'asset_details':$(this).val()
+            },
+            dataType : "JSON",
+            success : function(result){
+            }
+        });
+      });
+  } 
+  </script>

@@ -1,0 +1,66 @@
+<% provide :c_active, "asset" %>
+<div class="container" style="padding-top:70px;">
+<div class="col-sm-12 col-md-10 center-block" style="float: none;">
+
+	<div class="panel panel-primary">
+		<div class="panel-heading"><h3 class="panel-title">添加设备</h3></div>
+		<div class="panel-body">
+			<%= form_for @part, url: parts_path, remote: true do |f| %>
+				
+				<div id="error-info" class="alert alert-danger" style="display: none;"></div>
+				<div class="form-group">
+		          	<label for="name">配件类型:</label>
+		          	<select class="form-control" name=part[partcategory_id]>
+		            	<% @partcategorys.each do |partcategory| %>
+		              		<option value="<%= partcategory.id %>"><%= partcategory.name %></option>
+		            	<% end %>
+		          	</select>
+		        </div>
+		        
+				<div class="form-group">
+					<label>配件名:</label><br>
+					<%= f.text_field :part_name, placeholder: "配件名", class: "form-control" %>
+				</div>
+				<div class="form-group">
+					<label>配件详情:</label><br>
+					<%= f.text_field :part_details, placeholder: "设备名", class: "form-control" %>
+				</div>
+				
+
+		        <div class="form-group">
+					<label for="time" class="control-label">收货日期:&nbsp;</label>
+			        <div class="input-group controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+			          <input type="text" class="form-control" size="16" readonly name="part[receive_date]">
+			          <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+			          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+			        </div>
+			        <script type="text/javascript">
+			          $('.form_datetime').datetimepicker({
+			              format: 'yyyy/mm/dd',
+			              language: 'zh-CN',
+			              weekStart: 1,
+			              todayBtn:  1,
+			              autoclose: 1,
+			              todayHighlight: 1,
+			              startView: 2,
+			              forceParse: 0,
+			              showMeridian: 1
+			          });
+			        </script>
+		        </div>
+				
+
+
+
+				<%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
+			<% end %>
+			<br/><a href="<%= devices_path %>">>>返回配件列表</a>
+		</div>
+	</div>
+
+
+</div>
+</div>
+
+
+

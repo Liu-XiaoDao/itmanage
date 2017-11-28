@@ -5,6 +5,8 @@ class UsersController < ApplicationController
   def index
   	@users = User.all.paginate page: params[:page], per_page: 10
     @departments = Department.all
+
+    # render json: params
   end
 
   def new
@@ -45,6 +47,9 @@ class UsersController < ApplicationController
     @devices = @user.devices
     @consumables = Consumable.all
     @consumablerecords = @user.consumablerecords
+
+    #用户的所有设备使用记录
+    @devicerecords = @user.devicerecords
 
     # @myconsumables = @user.consumables   这个是测试用户所有耗材的
     # render json: @myconsumables
@@ -88,35 +93,47 @@ class UsersController < ApplicationController
 
   #在用户详情页给用户分配设备
   def assigndevise
+
     #使用设备id拿到设备
-    device = Device.find params[:device][:device_id]
+    @device = Device.find params[:device][:device_id]
 
 
     #下面注释,因为报废时间根据出厂时间定,所以不用在这里计算
-    # #等于1,表示是新添加设备之前从未有人使用,第一次分配时要,设置4年的报废时间
-    # if device.status == 1
-    #   device.first_date = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
-    #   fouryear = Time.zone.now + 4.years
-    #   fouryear = fouryear.strftime("%Y-%m-%d %H:%M:%S")
-    #   device.scrap_date = fouryear
-    # end
-
-    #分配设备,设备的user_id设置为当前用户的id
-    device.user_id = params[:id]
-    #分配设备是设备的状态只有两种借用或者办公用,其他状态在设备页自己处理
-    device.status = params[:device][:assigntype]
-    #根据分配类型,设置是否有借用天数
-    if params[:device][:assigntype].to_i == 5
-      device.borrow_timeleft = params[:device][:borrowtime]   #借用时间,再这设置为借用剩余时间,最后定时任务,每天自动减1,当时间为0,提醒管理员收回电脑
-    else
-      device.borrow_timeleft = -1  #-1代表不会到期
+    # #等于1,表示是新添加设备之前从未有人使用,第一次分配时要设置第一次分配时间,四年的报废不用设置了....{,设置4年的报废时间}
+    if @device.status == 1
+      @device.first_date = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
+      # fouryear = Time.zone.now + 4.years
+      # fouryear = fouryear.strftime("%Y-%m-%d %H:%M:%S")
+      # device.scrap_date = fouryear
     end
 
-    device.assign_time = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
-    device.is_assign = 1
+    #分配设备,设备的user_id设置为当前用户的id
+    @device.user_id = params[:id]
+    #分配设备是设备的状态只有两种借用或者办公用,其他状态在设备页自己处理
+    @device.status = params[:device][:assigntype]
+    #根据分配类型,设置是否有借用天数
+    if params[:device][:assigntype].to_i == 5
+      @device.borrow_timeleft = params[:device][:borrowtime]   #借用时间,再这设置为借用剩余时间,最后定时任务,每天自动减1,当时间为0,提醒管理员收回电脑
+    else
+      @device.borrow_timeleft = -1  #-1代表不会到期
+    end
+
+    @device.assign_time = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
+    @device.is_assign = 1
     # return render json: params
-    device.save
-    redirect_to edit_user_path(params[:id])
+    
+    @devicerecord = Devicerecord.new
+    @devicerecord.user_id = @device.user_id
+    @devicerecord.device_id = @device.id
+    @devicerecord.note = device_status @device.status
+
+
+    if @device.save && @devicerecord.save
+      redirect_to edit_user_path(params[:id])
+    else
+      
+    end
+
   end
 
   #删除用户,,这里还需操作.删除用户时,用户的设备处理问题
@@ -131,6 +148,11 @@ class UsersController < ApplicationController
   def assignconsumable
     @user = User.find(params[:id])
     @consumable_id = params[:consumable_id]
+
+    @consumable = Consumable.find @consumable_id
+    @consumable.used_amount = @consumable.used_amount.to_i + 1
+    @consumable.surplus_amount = @consumable.surplus_amount.to_i - 1
+    @consumable.save
 
     @consumablerecord = Consumablerecord.new
     @consumablerecord.user_id = @user.id

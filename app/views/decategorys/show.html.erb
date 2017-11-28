@@ -16,7 +16,7 @@
 	          			<li class="list-group-item">没有子分类</li>
 	          		<% else %>
 	          			<% @childcategories.each do |category|%>
-							<li class="list-group-item">设备子分类名:<%= category.name %>&nbsp;&nbsp;设备代码:&nbsp;<%= category.decategorycode %></li>
+							<li class="list-group-item">设备子分类名:<%= category.name %>&nbsp;&nbsp;设备子分类代码:&nbsp;<%= category.decategorycode %></li>
 						<% end %>
 	          		<% end %>
 					
@@ -26,9 +26,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3 class="panel-title">添加子分类</h3></div>
 				<div class="panel-body">
-					<% if @decategory && @decategory.errors.any? %>
-						<div class="alert alert-info"><%= @decategory.errors.full_messages[0] %></div>
-					<% end %>
+					<div class="alert alert-danger" id="error-info" style="display: none;"></div>
 
 					<%= simple_form_for @decategorynew, url: decategorys_addchildcategory_path do |f| %>
 						<%= hidden_field_tag(:parent_id, @decategory.id) %>

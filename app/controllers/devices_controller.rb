@@ -8,7 +8,7 @@ class DevicesController < ApplicationController
 		@departments = Department.all
 		@decategorys = Decategory.all
 		@users = User.all
-		@status = YAML.load_file("#{Rails.root}/config/status.yml")
+		@status = YAML.load_file("#{Rails.root}/config/status.yml")['device']
 
 		# address = status['address']  
 		# render json: @status
@@ -29,7 +29,7 @@ class DevicesController < ApplicationController
 			@departments = Department.all
 			@decategorys = Decategory.all
 			@users = User.all
-			@status = YAML.load_file("#{Rails.root}/config/status.yml")
+			@status = YAML.load_file("#{Rails.root}/config/status.yml")['device']
 
 		    render "index"
 	    end    
@@ -112,6 +112,18 @@ errorinfo = ""
 	    end
   	end
 
+  	def showupdate
+
+	    @device = Device.find(params[:id])
+	    device_params = params.require(:device).permit(:asset_name, :service_sn, :decategory_id, :release_date, :scrap_date, :asset_details, :location)
+	    if @device.update(device_params)
+	      	redirect_to device_path(@device)
+	    else
+	      	render 'show'
+	    end
+  	end
+
+
   	def destroy
 	    @device = Device.find(params[:id])
 		@device.destroy
@@ -128,13 +140,17 @@ errorinfo = ""
 
   	def show
   		@device = Device.find(params[:id])  #当前设备
-  		@cdevices = @device.cdevices   #从属设备
-  		@mdevice = @device.mdevice    #属于哪个设备
+  		@parts = @device.parts   #从属设备
 
   		@user = @device.user   #设备的使用人
   		@decategorys = Decategory.all     #设备分类,拿到所有分类
 
+  		@partcategorys = Partcategory.all     #配件分类,拿到所有分类
+
   		@departments = Department.all
+
+
+  		@devicerecords = @device.devicerecords
 
   	end
 
@@ -166,18 +182,18 @@ errorinfo = ""
 		user_id = params[:device][:user_id]  #用户id
 		assign_type = params[:device][:assigntype]  #分配方式(设备状态)
 		borrow_timeleft = params[:device][:borrowtime]
-		if user_id.blank? || assign_type.blank? || ( assign_type.to_i == 4 && borrow_timeleft.blank?) 
+		if user_id.blank? || assign_type.blank? || ( assign_type.to_i == 5 && borrow_timeleft.blank?) 
 			return render js: "$('#error-info').html('信息不全').css('display','block');"
 		end
 	    #使用设备id拿到设备
 	    @device = Device.find params[:id]
 		
-	    #等于0,表示是新添加设备之前从未有人使用,第一次分配时要,设置4年的报废时间
+	    #等于1,表示是新添加设备之前从未有人使用,第一次分配时要,设置第一次分配时间,原本还要设置报废时间,但是报废时间不根据第一次分配时间设置,所以这里取消掉这个逻辑{{4年的报废时间}}
 	    if @device.status == 1
 	      @device.first_date = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
-	      fouryear = Time.zone.now + 4.years
-	      fouryear = fouryear.strftime("%Y-%m-%d %H:%M:%S")
-	      @device.scrap_date = fouryear
+	      # fouryear = Time.zone.now + 4.years
+	      # fouryear = fouryear.strftime("%Y-%m-%d %H:%M:%S")
+	      # @device.scrap_date = fouryear
 	    end
 		
 	    #分配设备,设备的user_id设置为当前用户的id
@@ -195,7 +211,13 @@ errorinfo = ""
 	    @device.is_assign = 1
 	    # return render json: params
 	    
-	    if @device.save
+	    @devicerecord = Devicerecord.new
+	    @devicerecord.user_id = user_id
+	    @devicerecord.device_id = @device.id
+	    @devicerecord.note = device_status @device.status
+
+
+	    if @device.save && @devicerecord.save
 	    	redirect_to device_path(params[:id])
 	    else
 	    	
@@ -204,34 +226,26 @@ errorinfo = ""
 	    
 	end
 
+
 	#添加从属设备
-	def appenddevice
-		append_department_id = params[:device][:department_id]   #选中设备的id
-		if append_department_id.blank?
-			return render plain: "没有选择设备"
+	def appendpart
+
+		append_part_id = params[:part][:part_id]   #选中配件的id
+
+		if append_part_id.blank?
+			return render plain: "没有选择配件"
 		end
 
+
 		@device = Device.find params[:id] #当前设备
-		@append_device = Device.find append_department_id #当前设备
-		@append_device.belong_to = @device.id   #设备属于另外哪一个设备
 
-		@append_device.is_assign = 1
-		@append_device.assign_time = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
+		@append_part = Part.find append_part_id #要添加的配件
+		@append_part.device = @device   #设备属于另外哪一个设备
+		@append_part.is_assign = 1
+		@append_part.assign_time = Time.now
+	    @append_part.status = 2 #表明配件已经被使用
 
-	    #等于0,表示是新添加设备之前从未有人使用,第一次分配时要,设置4年的报废时间
-	    if @append_device.status == 1
-	      @append_device.first_date = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
-	      fouryear = Time.zone.now + 4.years
-	      fouryear = fouryear.strftime("%Y-%m-%d %H:%M:%S")
-	      @append_device.scrap_date = fouryear
-	    end
-
-	    @append_device.status = 9 #状态为从属于别的设备,然后就忽略一些信息
-
-		# @append_device.user_id = @device.user_id
-		# @append_device.borrow_timeleft = @device.borrow_timeleft
-		# @append_device.managed_by = @device.managed_by
-		if @append_device.save
+		if @append_part.save
 	    	redirect_to device_path(params[:id])
 	    else
 	    	return render plain: "append失败"
@@ -244,24 +258,31 @@ errorinfo = ""
 	def recycle
 	    #使用设备id拿到设备
 	    @device = Device.find params[:id]
+
+        #设备分配日志
+	    @devicerecord = Devicerecord.new
+        @devicerecord.user_id = @device.user_id
+        @devicerecord.device_id = @device.id
+        @devicerecord.note = "回收设备"
 		
-	    #分配设备,设备的user_id设置为当前用户的id
+	    #回收设备,设备的user_id设置nil
 	    @device.user_id = nil
-	    #分配设备是设备的状态只有两种借用或者办公用,其他状态在设备页自己处理
+	    #回收设备,设备的状态设置为闲置
 	    @device.status = 3
 
-		@device.borrow_timeleft = -2  #-1代表不会到期
+		@device.borrow_timeleft = -2  #-2闲置状态下的值
 	    @device.assign_time = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
 	    @device.is_assign = 0
 	    # return render json: params
-	    
-	    if @device.save
+        
+        
+
+	    if @device.save && @devicerecord.save
 	    	redirect_to device_path(@device)
 	    else
 	    	
 	    end
 	end
-
 
 
 

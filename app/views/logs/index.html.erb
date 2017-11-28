@@ -1,0 +1,120 @@
+<% provide :c_active, "set" %>
+  <div class="container" style="padding-top:70px;">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+
+      <div class="alert alert-info">系统共有 <b><%= @logs.count %></b> 条日志</div>
+
+      <!-- 搜索框 -->
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <form class="navbar-form navbar-left" role="search" action="<%= logs_search_path %>">
+            <div class="form-group">
+              <label for="name">筛选:</label>
+              <select class="form-control" name=log[status]>
+                <% if  @status.blank? %>
+                  <% selected1 = 'selected="selected"' %>
+                <% elsif @status == '0' %>
+                  <% selected2 = 'selected="selected"' %>
+                <% elsif @status == '1' %>
+                  <% selected3 = 'selected="selected"' %>
+                <% end %>
+                <option value="" <%= selected1 %> ></option>
+                <option value="0" <%= selected2 %> >失败</option>
+                <option value="1" <%= selected3 %>>成功</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-default" style="margin-left: 15px;">搜索</button>
+          </form>
+        </div>
+      </nav>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+              <tr><th>IP</th><th>Controller</th><th>Action</th><th>参数</th><th>成功</th><th>begin</th><th>end</th></tr>
+          </thead>
+          <tbody>
+              <% @logs.each do |log| %>
+                  <tr>
+                    <td><%= log.ip %></td>
+                    <td><%= log.controller %></td>
+                    <td><%= log.action %></td>
+                    <td class="info1" infodata="<%= log.params %>"><%= truncate(log.params, length: 50) %></td>
+                    <td><%= log.success %></td>
+                    <td><%= log.created_at.try(:strftime, "%Y-%m-%d %H:%M:%S") %></td>
+                    <td><%= log.updated_at.try(:strftime, "%Y-%m-%d %H:%M:%S") %></td>
+                  </tr>
+              <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @logs, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+
+<pre id="result">
+
+</pre>
+
+
+    <script type="text/javascript">
+
+
+      //====================================
+      //js设置样式
+      $('.info1').on('mouseenter', function(e) {
+        var info = $(this).attr("infodata");
+console.log(info);
+        $('#result').html(syntaxHighlight('{"controller": "users","action": "index"}'));
+
+        //显示提示
+        mTips.c.x = 30;
+        mTips.c.y = 30;
+        mTips.s(info, 'default');
+      });
+
+      $('.info1').on('mouseleave', function(e) {
+        mTips.h();
+        mTips.c.x = 10;
+        mTips.c.y = 10;
+      });
+
+      
+
+    </script>
+
+
+<script type="text/javascript">
+
+  function syntaxHighlight(json) {
+    if (typeof json != 'string') {
+        json = JSON.stringify(json, undefined, 2);
+    }
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    console.log("---"+json+"---");
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'key';
+            } else {
+                cls = 'string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+
+</script>
+<style>
+    pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+    .string { color: green; }
+    .number { color: darkorange; }
+    .boolean { color: blue; }
+    .null { color: magenta; }
+    .key { color: red; }
+</style>

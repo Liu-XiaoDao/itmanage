@@ -46,8 +46,8 @@
                                  <label for="assigntype"> 分配类型:</label>
                                 <select class="form-control" name="device[assigntype]" id="assigntype" onchange="create_borrowtime(this)">
                                   <option value="">请选择设备分配类型</option>
-                                  <option value="1">办公使用</option>
-                                  <option value="4">借用</option>
+                                  <option value="2">办公使用</option>
+                                  <option value="5">借用</option>
                                 </select>
                               </div>
                               <br>
@@ -80,6 +80,33 @@
                             <% end %>
                         </div>
                     </div>
+
+                    <% if  @device.status == 2 || @device.status == 5 || @device.status == 7 %>
+                      <!-- 当设备被使用时(办公使用,借用,报废借用)不能再这设置状态 -->
+                    <% else %>
+                      <div class="boxed-group" >
+                          <%= content_tag :h3, "设备状态设置" %>
+                          <div class="boxed-group-inner boxed-group-round-border">
+                              <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+                              <%= form_tag  setstatus_device_path, remote: true do %>
+                               <div class="form-group">
+                                   <label for="assigntype"> 设备状态:</label>
+                                  <select class="form-control" name="device[status]" id="assigntype">
+                                    <option value="">请选择设备状态</option>
+                                    <option value="3">闲置</option>
+                                    <option value="4">维修</option>
+                                    <option value="6">报废</option>
+                                    <option value="8">报废清理</option>
+                                  </select>
+                                </div>
+                                <div class="form-group">
+                                  <%= submit_tag "设置", class: "btn btn-primary submit" %>
+                                </div>
+                              <% end %>
+                          </div>
+                      </div>
+                    <% end %>
+                      
                 </div>
 <script>
 
@@ -123,14 +150,14 @@
                     <div class="boxed-group">
                         <%= content_tag :h3, "设备: #{@device.asset_code} 状态: #{device_status @device.status}" %>
                         <div class="boxed-group-inner">
-                            <%= simple_form_for @device, url: edit_device_path(@device), method: :patch, remote: true do |f| %>
+                            <%= form_for @device, url: showupdate_device_path(@device), method: :post,  remote: true do |f| %>
                             <div class="form-group">
-                                <%= content_tag :span, "设备名:" %>
-                                <%= f.input_field :asset_name, class: "form-control form-input-normal" %>
+                                <label>设备名:</label><br>
+                                <%= f.text_field :asset_name, class: "form-control form-input-normal" %>
                             </div>
                             <div class="form-group">
-                                <%= content_tag :span, "设备服务号:" %>
-                                <%= f.input_field :service_sn, class: "form-control form-input-normal" %>
+                                <label>设备服务号:</label><br>
+                                <%= f.text_field :service_sn, class: "form-control form-input-normal" %>
                             </div>
                             <div class="form-group">
           					          	<label for="name">设备类型:</label>
@@ -141,9 +168,9 @@
           					          	</select>
           					        </div>
                             <div class="form-group">
-              								<label for="time" class="control-label">到货时间时间:&nbsp;</label>
+              								<label for="time" class="control-label">出厂日期:&nbsp;</label>
               						        <div class="input-group controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-              						          <input type="text" class="form-control" size="16" readonly name="device[release_date]">
+              						          <input type="text" class="form-control" size="16" readonly name="device[release_date]" value="<%= @device.release_date.try(:strftime, "%Y-%m-%d") %>">
               						          <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
               						          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
               						        </div>
@@ -162,9 +189,35 @@
               						        </script>
               					    </div>
                             <div class="form-group">
+                              <label for="time" class="control-label">维保到期:&nbsp;</label>
+                                  <div class="input-group controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                                    <input type="text" class="form-control" size="16" readonly name="device[scrap_date]" value="<%= @device.scrap_date.try(:strftime, "%Y-%m-%d") %>">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                  </div>
+                                  <script type="text/javascript">
+                                    $('.form_datetime').datetimepicker({
+                                        format: 'yyyy/mm/dd',
+                                        language: 'zh-CN',
+                                        weekStart: 1,
+                                        todayBtn:  1,
+                                        autoclose: 1,
+                                        todayHighlight: 1,
+                                        startView: 2,
+                                        forceParse: 0,
+                                        showMeridian: 1
+                                    });
+                                  </script>
+                            </div>
+                            <div class="form-group">
               								<label>设备详情:</label><br>
-              								<%= f.input_field :asset_details, placeholder: "设备详情", class: "form-control" %>
+              								<%= f.text_field :asset_details, placeholder: "设备详情", class: "form-control" %>
               							</div>
+
+                            <div class="form-group">
+                              <label>设备位置:</label><br>
+                              <%= f.text_field :location, placeholder: "设备所在位置", class: "form-control" %>
+                            </div>
 
                             <div class="form-group">
                                 <%= f.submit "更新资料", class: "btn btn-primary submit" %>
@@ -185,24 +238,48 @@
                                       <tr><th>设备编号</th><th>设备名</th><th>设备类型</th><th>分配时间</th><th>操作</th></tr>
                                   </thead>
                                   <tbody>
-                                      <% @cdevices.each do |device| %>
+                                      <% @parts.each do |part| %>
                                           <tr>
-                                            <td><%= link_to device.asset_code, device_path(device) %></td>
-                                            <td><%= device.asset_name %></td>
-                                            <td><%= device_type device.decategory_id %></td>
-                                            <td><%= device.assign_time %></td>
-                                            <td><%= link_to '修改', edit_device_path(device) %></td>
-                                            <td><%= link_to '删除', device_path(device), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                                            <td><%= link_to part.part_code, part_path(part) %></td>
+                                            <td><%= part.part_name %></td>
+                                            <td><%= part_type part.partcategory_id %></td>
+                                            <td><%= part.assign_time %></td>
+                                            <td><%= link_to '修改', edit_part_path(part) %></td>
+                                            <td><%= link_to '删除', part_path(part), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
                                           </tr>
                                       <% end %>
                                   </tbody>
                               </table>
                             </div>
-                            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; ">添加从属设备</a>
+                            <div class="form-group">
+                              <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; ">添加从属设备</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
+                <div class="col-md-12 profile-setting" style="padding-top: 30px;">
+                    <div class="boxed-group">
+                        <%= content_tag :h3, "设备分配记录" %>
+                        <div class="boxed-group-inner">
+                            <div class="table-responsive">
+                              <table class="table table-striped">
+                                  <thead>
+                                      <tr><th>用户</th><th>note</th><th>分配时间</th></tr>
+                                  </thead>
+                                  <tbody>
+                                      <% @devicerecords.each do |devicerecord| %>
+                                          <tr>
+                                            <td><%= user_name devicerecord.user_id %></td>
+                                            <td><%= devicerecord.note %></td>
+                                            <td><%= devicerecord.created_at.try(:strftime, "%Y-%m-%d") %></td>
+                                          </tr>
+                                      <% end %>
+                                  </tbody>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -220,25 +297,25 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">添加从设备</h4>
+        <h4 class="modal-title" id="myModalLabel">添加配件</h4>
       </div>
-        <%= form_tag  appenddevice_device_path do %>
+        <%= form_tag  appendpart_device_path do %>
           <div class="modal-body" style="padding: 15px;">
 
               <div class="form-group">
-                <label for="decategory"> 设备分类:</label>
-                <select class="form-control" name="device[decategory]" id="decategory" onchange="get_device(this)">
-                  <option value="">请选择设备分类</option>
-                  <% @decategorys.each do |decategory| %>
-                    <option value="<%= decategory.id %>"><%= decategory.name %></option>
+                <label for="decategory"> 配件分类:</label>
+                <select class="form-control" name="device[decategory]" id="decategory" onchange="get_part(this)">
+                  <option value="">请选择配件分类</option>
+                  <% @partcategorys.each do |partcategory| %>
+                    <option value="<%= partcategory.id %>"><%= partcategory.name %></option>
                   <% end %>
                 </select>
               </div>
               <br>
               <div class="form-group">
-                <label for="device_id"> 设备:</label>
-                <select id="ajaxdevice" class="form-control" name="device[device_id]" id="device_id">
-                  <option value="">请选择设备</option>
+                <label for="device_id"> 配件:</label>
+                <select id="ajaxdevice" class="form-control" name="part[part_id]" id="device_id">
+                  <option value="">请选择配件</option>
                 </select>
               </div>
 
@@ -253,20 +330,21 @@
   </div>
 </div>
 
+
 <script>
-    function get_device(ele) {
+    function get_part(ele) {
         $.ajax({
             type : "GET",
-            url : "<%= ajaxgetdevice_path %>",
+            url : "<%= ajaxgetpart_path %>",
             data : {
-                'decategoryid':$(ele).val()
+                'partcategoryid':$(ele).val()
             },
             dataType : "JSON",
             success : function(result){
                 if(!result.status){
-                    var str = '<option value ="">请选择设备</option>';
+                    var str = '<option value ="">请选择配件</option>';
                     $.each(result,function (i,value) {
-                      str += '<option value ="'+value.id+'">'+value.asset_code+'</option>';
+                      str += '<option value ="'+value.id+'">'+value.part_code+'----'+value.part_name+'</option>';
                     });
                     $('#ajaxdevice').html(str);
                 }else{

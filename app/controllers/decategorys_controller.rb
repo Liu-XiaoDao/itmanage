@@ -26,8 +26,7 @@ class DecategorysController < ApplicationController
     if @decategory.save
       redirect_to decategorys_path
     else
-      @decategorynew = @decategory
-      render :show
+      return render js: "$('#error-info').html('" + "#{@decategory.errors.full_messages[0]}" + "').css('display','block');"
     end
   end
 

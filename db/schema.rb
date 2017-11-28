@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171123153336) do
+ActiveRecord::Schema.define(version: 20171127080751) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -78,8 +78,6 @@ ActiveRecord::Schema.define(version: 20171123153336) do
     t.string "asset_code"
     t.string "asset_name"
     t.string "service_sn"
-    t.string "model"
-    t.string "managed_by"
     t.string "asset_details"
     t.integer "belong_to"
     t.integer "status", default: 1
@@ -93,6 +91,7 @@ ActiveRecord::Schema.define(version: 20171123153336) do
     t.datetime "assign_time"
     t.integer "borrow_timeleft"
     t.integer "is_assign", default: 0
+    t.string "location"
     t.index ["user_id"], name: "index_devices_on_user_id"
   end
 
@@ -108,6 +107,16 @@ ActiveRecord::Schema.define(version: 20171123153336) do
     t.datetime "updated_at", null: false
     t.string "describe"
     t.index ["device_id"], name: "index_deviceservices_on_device_id"
+  end
+
+  create_table "logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "ip", default: "0"
+    t.string "controller"
+    t.string "action"
+    t.text "params"
+    t.boolean "success", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "oserviceimgs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -128,6 +137,30 @@ ActiveRecord::Schema.define(version: 20171123153336) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "describe"
+  end
+
+  create_table "partcategories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name"
+    t.string "partcategorycode"
+    t.integer "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "parts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "part_code", null: false
+    t.string "part_name", null: false
+    t.string "part_details"
+    t.integer "status"
+    t.datetime "receive_date"
+    t.datetime "assign_time"
+    t.bigint "device_id"
+    t.bigint "partcategory_id"
+    t.integer "is_assign"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_id"], name: "index_parts_on_device_id"
+    t.index ["partcategory_id"], name: "index_parts_on_partcategory_id"
   end
 
   create_table "serviceimgs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -158,6 +191,8 @@ ActiveRecord::Schema.define(version: 20171123153336) do
   add_foreign_key "devices", "users"
   add_foreign_key "deviceservices", "devices"
   add_foreign_key "oserviceimgs", "otherservices"
+  add_foreign_key "parts", "decategories", column: "partcategory_id"
+  add_foreign_key "parts", "devices"
   add_foreign_key "serviceimgs", "deviceservices"
   add_foreign_key "users", "departments"
 end

@@ -1,0 +1,23 @@
+<% provide :c_active, "asset" %>
+  <div class="container" style="padding-top:70px;">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+              <tr><th>员工</th><th>耗材</th><th>备注</th><th>分配时间</th></tr>
+          </thead>
+          <tbody>
+              <% @consumablerecords.each do |consumablerecord| %>
+                  <tr>
+                    <td><%= user_name consumablerecord.user_id %></td>
+                    <td><%= consumable_name consumablerecord.consumable_id %></td>
+                    <td><%= consumablerecord.note %></td>
+                    <td><%= consumablerecord.created_at %></td>
+                  </tr>
+              <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @consumablerecords, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>

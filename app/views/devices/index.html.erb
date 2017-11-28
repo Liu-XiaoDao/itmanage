@@ -29,8 +29,8 @@
             			<option value=""></option>
             			<% @users.each do |user| %>
             				<% if  @user_id.to_i == user.id %>
-	                        	<% selected = 'selected="selected"' %>
-	                        <% end %>
+	                    <% selected = 'selected="selected"' %>
+	                  <% end %>
               				<option value="<%= user.id %>" <%= selected %> ><%= user.username %></option>
             			<% end %>
           			</select>

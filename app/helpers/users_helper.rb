@@ -4,7 +4,7 @@ module UsersHelper
 	    decategory.name
 	end
 
-	def department_name(department_id)   #返回设备的类型名
+	def department_name(department_id)   #返回部门名
 	    department = Department.find department_id
 	    department.department_name
 	end
@@ -17,7 +17,6 @@ module UsersHelper
 		else
 			'无'
 		end
-	    
 	end
 
 	def device_status(status)   #返回设备状态

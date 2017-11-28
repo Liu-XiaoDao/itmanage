@@ -66,6 +66,10 @@ class ConsumablesController < ApplicationController
     redirect_to consumables_path
   end
 
+  def records
+    @consumablerecords = Consumablerecord.all.paginate page: params[:page], per_page: 10
+  end
+
 
 
   private

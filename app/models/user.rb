@@ -3,8 +3,13 @@ class User < ApplicationRecord
   has_many :devices
   belongs_to :department, optional: true
 
+  #耗材领取记录
   has_many :consumablerecords
   has_many :consumables, through: :consumablerecords
+
+  #设备使用记录(曾经和现在用过哪些设备)
+  has_many :devicerecords, dependent: :destroy
+  has_many :oncedevices, through: :devicerecords
 
   validates :username, :email, :attendance, :department_id, presence: true   #这几个变量不能为空
   validates :username, length: { in: 2..25 }, #长度6-25

@@ -2,7 +2,6 @@ Rails.application.routes.draw do
 
 
 
-
   root 'home#index'
 
   get '/welcome/index' => 'welcome#index'
@@ -24,11 +23,16 @@ Rails.application.routes.draw do
   post '/decategorys/editdecategorycode' => 'decategorys#editdecategorycode'
   post '/decategorys/addchildcategory' => 'decategorys#addchildcategory'
 
+
+
   get '/devices/search' => 'devices#search'
+
   resources :devices do
     post 'assigndevise', on: :member
-    post 'appenddevice', on: :member
+    post 'appendpart', on: :member
     get  'recycle', on: :member
+    post 'setstatus', on: :member
+    post 'showupdate', on: :member   #在show页面的修改
   end
   post '/devices/editdeviceassetname' => 'devices#editdeviceassetname'
   post '/devices/editdeviceservicesn' => 'devices#editdeviceservicesn'
@@ -61,8 +65,26 @@ Rails.application.routes.draw do
   resources :consumables do
     get 'addstocknew', on: :member
     post 'addstock', on: :member
+    get 'records', on: :collection
   end
 
+  get 'logs/search' => 'logs#search'
+  resources :logs
+
+  #配件路由
+  get '/parts/batchadd' => 'parts#batchadd'
+  post '/parts/batchcreate' => 'parts#batchcreate'
+  get '/parts/search' => 'parts#search'
+  get '/ajaxgetpart' => 'parts#ajaxgetpart'
+  resources :parts do
+    post 'attachdevice', on: :member
+  end
+
+  #配件分类路由
+  resources :partcategorys do
+    post 'editpartcategorycode', on: :collection
+    post 'addchildcategory', on: :member
+  end
 
 
 end

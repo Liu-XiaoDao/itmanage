@@ -1,0 +1,207 @@
+<% provide :c_active, "asset" %>
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+
+
+
+<div class="mainer" style="margin-top: 0; padding-top: 70px;">
+    <div class="container-fluid">
+        <div class="col-md-10 col-lg-10 col-center-block content-wrap">
+            <div id="content">
+
+                <!-- 头像与密码设置 -->
+                <div class="col-md-4 account-setting">
+                    <div class="boxed-group" >
+                        <%= content_tag :h3, "所属设备使用员工" %>
+                        <div class="boxed-group-inner boxed-group-round-border">
+                            <% if !@user.nil? %>
+                              <h3 style="margin-top: 0px"><%= @user.username %></h3>
+                              <h5>部门:<%= department_name @user.department_id %>&nbsp;&nbsp;&nbsp;&nbsp;邮箱:<%= @user.email %>&nbsp;&nbsp;&nbsp;&nbsp;使用方式:<%= device_status @device.status %></h5>
+                            <% else %>
+                              <h3>未分配</h3>
+                            <% end %>
+                        </div>
+                    </div>
+                    <div class="boxed-group" >
+                        <%= content_tag :h3, "所属设备" %>
+                        <% if  !@device.nil? %>
+                            <div class="boxed-group-inner boxed-group-round-border">
+                                <div class="form-group">
+                                    <h3 style="margin-top: 0px"><%= link_to @device.asset_code, device_path(@device) %></h3>
+                                    <h5>设备种类:<%= device_type @device.decategory_id %>&nbsp;&nbsp;&nbsp;&nbsp;设备名:<%= @device.asset_name %>&nbsp;&nbsp;&nbsp;&nbsp;设备位置:<%= @device.location ? @device.location : "未知" %></h5>
+                                </div>
+                            </div>
+                        <% else %>
+                            <div class="boxed-group-inner boxed-group-round-border">
+                                <h3 style="margin-top: 0px">不从属其他设备</h3>
+                            </div>
+                        <% end %>
+                    </div>
+
+                    <div class="boxed-group" >
+                        <%= content_tag :h3, "添加到设备" %>
+                        <div class="boxed-group-inner boxed-group-round-border">
+                            <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+                            <%= form_tag  attachdevice_part_path(@part), remote: true do %>
+
+                              <div class="form-group">
+                                <label for="user_id"> 设备分类:</label>
+                                <select class="form-control" name=device[decategory_id]  onchange="get_device(this)">
+                                  <option value="">请选择一个分类</option>
+                                  <% @decategorys.each do |decategory| %>
+                                    <% if  @decategory_id.to_i == decategory.id %>
+                                            <% selected = 'selected="selected"' %>
+                                          <% end %>
+                                      <option value="<%= decategory.id %>" <%= selected %> ><%= decategory.name %></option>
+                                  <% end %>
+                                </select>
+                              </div>
+
+                              <div class="form-group">
+                                <label for="user_id"> 设备:</label>
+                                <select id="ajaxdevice" class="form-control" name="device[device_id]" id="user_id">
+                                  <option value="">请选择设备</option>
+                                </select>
+                              </div>
+
+                              <div class="form-group">
+                                <%= submit_tag "附加", class: "btn btn-primary submit" %>
+                              </div>
+                            <% end %>
+                        </div>
+                    </div>
+
+                    <% if  @part.status == 2 %>
+                      <!-- 当设备被使用时(办公使用,借用,报废借用)不能再这设置状态 -->
+                    <% else %>
+                      <div class="boxed-group" >
+                          <%= content_tag :h3, "设备状态设置" %>
+                          <div class="boxed-group-inner boxed-group-round-border">
+                              <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+                              <%= form_tag  setstatus_device_path, remote: true do %>
+                               <div class="form-group">
+                                   <label for="assigntype"> 设备状态:</label>
+                                  <select class="form-control" name="device[status]" id="assigntype">
+                                    <option value="">请选择设备状态</option>
+                                    <option value="3">闲置</option>
+                                    <option value="4">维修</option>
+                                    <option value="6">报废</option>
+                                    <option value="8">报废清理</option>
+                                  </select>
+                                </div>
+                                <div class="form-group">
+                                  <%= submit_tag "设置", class: "btn btn-primary submit" %>
+                                </div>
+                              <% end %>
+                          </div>
+                      </div>
+                    <% end %>
+                      
+                </div>
+<script>
+    function get_device(ele) {
+        $.ajax({
+            type : "GET",
+            url : "<%= ajaxgetdevice_path %>",
+            data : {
+                'decategoryid':$(ele).val()
+            },
+            dataType : "JSON",
+            success : function(result){
+                if(!result.status){
+                    var str = '<option value ="">请选择设备</option>';
+                    $.each(result,function (i,value) {
+                      str += '<option value ="'+value.id+'">'+value.asset_code+'</option>';
+                    });
+                    $('#ajaxdevice').html(str);
+                }else{
+                    if(result.msg){
+                        alert(result.msg);
+                    }
+                }
+            }
+        });
+    }
+</script>
+
+
+                <!-- 电脑信息设置 -->
+                <div class="col-md-8 profile-setting">
+                    <div class="boxed-group">
+                        <%= content_tag :h3, "配件: #{@part.part_code} 状态: #{part_status @part.status}" %>
+                        <div class="boxed-group-inner">
+                            <%= form_for @part, url: showupdate_device_path(@part), method: :post,  remote: true do |f| %>
+                            <div class="form-group">
+                                <label>配件名:</label><br>
+                                <%= f.text_field :part_name, class: "form-control form-input-normal" %>
+                            </div>
+                            <div class="form-group">
+                                <label>配件编号:</label><br>
+                                <%= f.text_field :part_code, class: "form-control form-input-normal" %>
+                            </div>
+                            <div class="form-group">
+          					          	<label for="name">配件类型:</label>
+          					          	<select class="form-control" name=part[partcategory_id]>
+          					            	<% @partcategorys.each do |partcategory| %>
+          					              		<option value="<%= partcategory.id %>"><%= partcategory.name %></option>
+          					            	<% end %>
+          					          	</select>
+          					        </div>
+                            <div class="form-group">
+              								<label for="time" class="control-label">收货日期:&nbsp;</label>
+              						        <div class="input-group controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+              						          <input type="text" class="form-control" size="16" readonly name="part[receive_date]" value="<%= @part.receive_date.try(:strftime, "%Y-%m-%d") %>">
+              						          <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+              						          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              						        </div>
+              						        <script type="text/javascript">
+              						          $('.form_datetime').datetimepicker({
+              						              format: 'yyyy-mm-dd',
+              						              language: 'zh-CN',
+              						              weekStart: 1,
+              						              todayBtn:  1,
+              						              autoclose: 1,
+              						              todayHighlight: 1,
+              						              startView: 2,
+              						              forceParse: 0,
+              						              showMeridian: 1
+              						          });
+              						        </script>
+              					    </div>
+
+                            <div class="form-group">
+              								<label>配件详情:</label><br>
+              								<%= f.text_field :part_details, placeholder: "设备详情", class: "form-control" %>
+              							</div>
+                            <div class="form-group">
+                                <%= f.submit "更新属性", class: "btn btn-primary submit" %>
+                            </div>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 profile-setting" style="padding-top: 30px;">
+                    <div class="boxed-group">
+                        <%= content_tag :h3, "配件分配记录" %>
+                        <div class="boxed-group-inner">
+                            <div class="table-responsive">
+                              <table class="table table-striped">
+                                  <thead>
+                                      <tr><th>用户</th><th>note</th><th>分配时间</th></tr>
+                                  </thead>
+                                  <tbody>
+
+                                  </tbody>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
