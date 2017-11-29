@@ -5,35 +5,53 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading"><h3 class="panel-title">修改设备信息</h3></div>
 		<div class="panel-body">
-			<%= simple_form_for @device, url: device_path, remote: true do |f| %>
+			<%= form_for @device, url: device_path, remote: true do |f| %>
 				<div id="error-info" class="alert alert-danger" style="display: none;"></div>
-
-				<div class="form-group">
-					<label>设备编号:</label><br>
-					<%= f.input_field :asset_code, placeholder: "设备编号", class: "form-control" %>
-				</div>
-				<div class="form-group">
-					<label>设备名:</label><br>
-					<%= f.input_field :asset_name, placeholder: "设备名", class: "form-control" %>
-				</div>
-				<div class="form-group">
-					<label>设备服务号:</label><br>
-					<%= f.input_field :service_sn, placeholder: "设备服务号", class: "form-control" %>
-				</div>
-
+				
 				<div class="form-group">
 		          	<label for="name">设备类型:</label>
-		          	<select class="form-control" name=device[decategory]>
+		          	<select class="form-control" name=device[decategory_id]>
 		            	<% @decategorys.each do |decategory| %>
 		              		<option value="<%= decategory.id %>"><%= decategory.name %></option>
 		            	<% end %>
 		          	</select>
 		        </div>
 
-		        <div class="form-group">
-					<label for="time" class="control-label">到货时间时间:&nbsp;</label>
+				<div class="form-group">
+					<label>设备名:</label><br>
+					<%= f.text_field :asset_name, placeholder: "设备名", class: "form-control" %>
+				</div>
+				<div class="form-group">
+					<label>设备服务号:</label><br>
+					<%= f.text_field :service_sn, placeholder: "设备服务号", class: "form-control" %>
+				</div>
+
+				<div class="form-group">
+					<label for="time" class="control-label">出厂日期:&nbsp;</label>
 			        <div class="input-group controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-			          <input type="text" class="form-control" size="16" readonly name="device[release_date]" value="<%= @device.release_date.strftime("%Y-%m-%d") %>">
+			          <input type="text" class="form-control" size="16" readonly name="device[release_date]" value="<%= @device.release_date.try(:strftime, "%Y-%m-%d") %>">
+			          <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+			          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+			        </div>
+			        <script type="text/javascript">
+			          $('.form_datetime').datetimepicker({
+			              format: 'yyyy/mm/dd',
+			              language: 'zh-CN',
+			              weekStart: 1,
+			              todayBtn:  1,
+			              autoclose: 1,
+			              todayHighlight: 1,
+			              startView: 2,
+			              forceParse: 0,
+			              showMeridian: 1
+			          });
+			        </script>
+		        </div>
+				
+				<div class="form-group">
+					<label for="time" class="control-label">维保到期时间:&nbsp;</label>
+			        <div class="input-group controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+			          <input type="text" class="form-control" size="16" readonly name="device[scrap_date]" value="<%= @device.scrap_date.try(:strftime, "%Y-%m-%d") %>">
 			          <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
 			          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 			        </div>
@@ -53,37 +71,16 @@
 		        </div>
 
 
+
+
 				<div class="form-group">
 					<label>设备详情:</label><br>
-					<%= f.input_field :asset_details, placeholder: "设备详情", class: "form-control" %>
+					<%= f.text_area :asset_details, placeholder: "设备详情", class: "form-control" %>
 				</div>
 				
-<!-- 				<div class="form-group">
-		          	<label for="name">设备所属:</label>
-		          	<select class="form-control" name=device[belong_to] value="<%= @device.belong_to %>">
-		          			<option value="0"></option>
-		            	<% @devices.each do |device| %>
-		              		<option value="<%= device.id %>"  <%= @device.belong_to == device.id ? 'selected = "selected"' : '' %>><%= device.asset_code %></option>
-		            	<% end %>
-		          	</select>
-		        </div> -->
-
-<!-- 				<div class="form-group">
-		          	<label for="name">设备状态:</label><%= @device.status %>
-		          	<select class="form-control" name=device[status]>
-		          		<option value="0" <%= @device.status == 0 ? 'selected = "selected"' : '' %>>未分配</option>
-		          		<option value="1" <%= @device.status == 1 ? 'selected = "selected"' : '' %>>办公使用</option>
-		            	<option value="2" <%= @device.status == 2 ? 'selected = "selected"' : '' %>>闲置</option>
-		            	<option value="3" <%= @device.status == 3 ? 'selected = "selected"' : '' %>>维修</option>
-		            	<option value="4" <%= @device.status == 4 ? 'selected = "selected"' : '' %>>借用</option>
-		            	<option value="5" <%= @device.status == 5 ? 'selected = "selected"' : '' %>>报废</option>
-		            	<option value="6" <%= @device.status == 6 ? 'selected = "selected"' : '' %>>报废清理</option>
-		            	<option value="7" <%= @device.status == 7 ? 'selected = "selected"' : '' %>>报废借用</option>
-		          	</select>
-		        </div> -->
 
 
-				<%= f.button :submit, "确定添加", class: "btn btn-primary btn-block" %>
+				<%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
 			<% end %>
 			<br/><a href="<%= devices_path %>">>>返回设备列表</a>
 		</div>

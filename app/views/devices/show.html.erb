@@ -22,64 +22,64 @@
                             <% end %>
                         </div>
                     </div>
-                    <div class="boxed-group" >
-                        <%= content_tag :h3, "属主" %>
-                        <% if  !@mdevice.nil? %>
+
+                    <% if  @device.is_assign == 1  %>
+                      <!-- 当设备被使用时(办公使用,借用,报废借用)不能再这设置状态 -->
+
+                        <div class="boxed-group" >
+                            <%= content_tag :h3, "分配设备" %>
                             <div class="boxed-group-inner boxed-group-round-border">
-                                <div class="form-group">
-                                    <h3 style="margin-top: 0px"><%= link_to @mdevice.asset_code, device_path(@mdevice) %></h3>
-                                </div>
+                                <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+                                设备正在使用,收回之后才能再次分配
                             </div>
-                        <% else %>
-                            <div class="boxed-group-inner boxed-group-round-border">
-                                <h3 style="margin-top: 0px">不从属其他设备</h3>
-                            </div>
-                        <% end %>
-                    </div>
-
-                    <div class="boxed-group" >
-                        <%= content_tag :h3, "分配设备" %>
-                        <div class="boxed-group-inner boxed-group-round-border">
-                            <div id="error-info" class="alert alert-danger" style="display: none;"></div>
-                            <%= form_tag  assigndevise_device_path, remote: true do %>
-                             <div class="form-group">
-                                 <label for="assigntype"> 分配类型:</label>
-                                <select class="form-control" name="device[assigntype]" id="assigntype" onchange="create_borrowtime(this)">
-                                  <option value="">请选择设备分配类型</option>
-                                  <option value="2">办公使用</option>
-                                  <option value="5">借用</option>
-                                </select>
-                              </div>
-                              <br>
-                              <div class="form-group" id="borrowtime_div" style="display: none;">
-                                  <label for="borrowtime"> 借用时间:</label>
-                                  <input type="number" name="device[borrowtime]" class="form-control" id="borrowtime" placeholder="请输入借用时间,单位:天数">
-                              </div>
-                              <br id="borrowtime_br" style="display: none;">
-
-                              <div class="form-group">
-                                <label for="user_department"> 员工部门:</label>
-                                <select class="form-control" name="device[user_department]" id="user_department" onchange="show_position(this)">
-                                  <option value="">请选择员工部门</option>
-                                  <% @departments.each do |department| %>
-                                    <option value="<%= department.id %>"><%= department.department_name %></option>
-                                  <% end %>
-                                </select>
-                              </div>
-                              <br>
-                              <div class="form-group">
-                                <label for="user_id"> 员工:</label>
-                                <select id="ajaxuser" class="form-control" name="device[user_id]" id="user_id">
-                                  <option value="">请选择员工</option>
-                                </select>
-                              </div>
-                              <div class="form-group">
-
-                                <%= submit_tag "分配", class: "btn btn-primary submit" %>
-                              </div>
-                            <% end %>
                         </div>
-                    </div>
+                    <% else %>
+                        <div class="boxed-group" >
+                            <%= content_tag :h3, "分配设备" %>
+                            <div class="boxed-group-inner boxed-group-round-border">
+                                <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+                                <%= form_tag  assigndevise_device_path, remote: true do %>
+                                 <div class="form-group">
+                                     <label for="assigntype"> 分配类型:</label>
+                                    <select class="form-control" name="device[assigntype]" id="assigntype" onchange="create_borrowtime(this)">
+                                      <option value="">请选择设备分配类型</option>
+                                      <option value="2">办公使用</option>
+                                      <option value="5">借用</option>
+                                    </select>
+                                  </div>
+                                  <br>
+                                  <div class="form-group" id="borrowtime_div" style="display: none;">
+                                      <label for="borrowtime"> 借用时间:</label>
+                                      <input type="number" name="device[borrowtime]" class="form-control" id="borrowtime" placeholder="请输入借用时间,单位:天数">
+                                  </div>
+                                  <br id="borrowtime_br" style="display: none;">
+
+                                  <div class="form-group">
+                                    <label for="user_department"> 员工部门:</label>
+                                    <select class="form-control" name="device[user_department]" id="user_department" onchange="show_position(this)">
+                                      <option value="">请选择员工部门</option>
+                                      <% @departments.each do |department| %>
+                                        <option value="<%= department.id %>"><%= department.department_name %></option>
+                                      <% end %>
+                                    </select>
+                                  </div>
+                                  <br>
+                                  <div class="form-group">
+                                    <label for="user_id"> 员工:</label>
+                                    <select id="ajaxuser" class="form-control" name="device[user_id]" id="user_id">
+                                      <option value="">请选择员工</option>
+                                    </select>
+                                  </div>
+                                  <div class="form-group">
+
+                                    <%= submit_tag "分配", class: "btn btn-primary submit" %>
+                                  </div>
+                                <% end %>
+                            </div>
+                        </div>
+                    <% end %>
+
+
 
                     <% if  @device.status == 2 || @device.status == 5 || @device.status == 7 %>
                       <!-- 当设备被使用时(办公使用,借用,报废借用)不能再这设置状态 -->
@@ -190,7 +190,7 @@
               					    </div>
                             <div class="form-group">
                               <label for="time" class="control-label">维保到期:&nbsp;</label>
-                                  <div class="input-group controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                                  <div class="input-group controls input-append date form_datetime" data-date="2017-12-01T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
                                     <input type="text" class="form-control" size="16" readonly name="device[scrap_date]" value="<%= @device.scrap_date.try(:strftime, "%Y-%m-%d") %>">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -221,6 +221,11 @@
 
                             <div class="form-group">
                                 <%= f.submit "更新资料", class: "btn btn-primary submit" %>
+								
+								<% if  (Time.parse(@device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
+					              	<%= link_to '续保', "/deviceservices/devicenew/#{@device.id}",class: "btn btn-primary submit", style: "color: #fff;" %>
+					            <% end %>
+                                
                             </div>
                             <% end %>
                         </div>
@@ -230,7 +235,7 @@
 
                 <div class="col-md-12 profile-setting" style="padding-top: 30px;">
                     <div class="boxed-group">
-                        <%= content_tag :h3, "从属设备列表" %>
+                        <%= content_tag :h3, "配件列表" %>
                         <div class="boxed-group-inner">
                             <div class="table-responsive">
                               <table class="table table-striped">
@@ -244,15 +249,14 @@
                                             <td><%= part.part_name %></td>
                                             <td><%= part_type part.partcategory_id %></td>
                                             <td><%= part.assign_time %></td>
-                                            <td><%= link_to '修改', edit_part_path(part) %></td>
-                                            <td><%= link_to '删除', part_path(part), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                                            <td><%= link_to '拆除', remove_part_path(part), data: { confirm: '你确定要拆除吗?' } %></td>
                                           </tr>
                                       <% end %>
                                   </tbody>
                               </table>
                             </div>
                             <div class="form-group">
-                              <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; ">添加从属设备</a>
+                              <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; ">添加配件</a>
                             </div>
                         </div>
                     </div>

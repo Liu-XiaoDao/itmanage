@@ -41,6 +41,10 @@ class PartcategorysController < ApplicationController
     @parentcategory = @partcategory.mpartcategory
     @childcategories = @partcategory.cpartcategory
     @partcategorynew = Partcategory.new
+
+
+
+    @categoryparts = Part.where(partcategory_id: params[:id]).paginate page: params[:page], per_page: 10
   end
 
   #在分类中添加子分类
@@ -63,7 +67,7 @@ class PartcategorysController < ApplicationController
 
 
   def destroy
-    @partcategory = Partcategory.new(partcategory_params)
+    @partcategory = Partcategory.find params[:id]
     @partcategory.destroy
     redirect_to partcategorys_path
   end

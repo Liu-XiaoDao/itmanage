@@ -95,6 +95,12 @@ class DeviceservicesController < ApplicationController
   def destory
   end
 
+  def devicenew
+    @device_id = params[:device_id]
+    @deviceservice = Deviceservice.new
+    @devices = Device.all
+  end
+
 
   def upload_img
     @deviceservice = Deviceservice.find params[:id]

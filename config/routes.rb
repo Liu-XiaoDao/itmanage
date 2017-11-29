@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   delete '/signout' => 'sessions#destroy'
 
   get '/ajaxgetdevice' => 'devices#ajaxgetdevice'
+  get '/ajaxgetalldevice' => 'devices#ajaxgetalldevice'
   get '/ajaxgetuser' => 'departments#departmentusers'
   get '/devices/batchadd' => 'devices#batchadd'
   post '/devices/batchcreate' => 'devices#batchcreate'
@@ -52,6 +53,7 @@ Rails.application.routes.draw do
   end
 
   #设备服务路由
+  get 'deviceservices/devicenew/:device_id', to: 'deviceservices#devicenew'
   resources :deviceservices do
     post 'upload_img', on: :member
   end
@@ -78,6 +80,8 @@ Rails.application.routes.draw do
   get '/ajaxgetpart' => 'parts#ajaxgetpart'
   resources :parts do
     post 'attachdevice', on: :member
+    post 'showupdate', on: :member
+    get 'remove', on: :member
   end
 
   #配件分类路由

@@ -16,6 +16,37 @@
 				</ul>
 	      	</div>
     	</div>
+		<div class="col-md-3">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">员工数量</h3></div>
+	          	<ul class="list-group">
+					<% @departments.each do |department|%>
+						<li class="list-group-item"><%= department.department_name %>&nbsp;<span class="badge"><%= department.users.count %></span></li>
+					<% end %>
+				</ul>
+	      	</div>
+    	</div>
 
+    	<div class="col-md-3">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">设备</h3></div>
+	          	<ul class="list-group">
+					<% @decategorys.each do |decategory|%>
+						<li class="list-group-item"><%= decategory.name %>&nbsp;<span class="badge"><%= decategory.devices.count %></span></li>
+					<% end %>
+				</ul>
+	      	</div>
+    	</div>
+		<div class="col-md-3">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">配件</h3></div>
+	          	<ul class="list-group">
+					<% @partcategorys.each do |partcategory|%>
+						<li class="list-group-item"><%= partcategory.name %>&nbsp;<span class="badge"><%= partcategory.parts.count %></span></li>
+					<% end %>
+				</ul>
+	      	</div>
+    	</div>
+    	
     </div>
 </div>

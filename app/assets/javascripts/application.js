@@ -17,3 +17,5 @@
 //= require infotip/mTips
 
 
+//首页瀑布流
+//= require pobu/pubu

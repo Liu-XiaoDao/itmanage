@@ -48,5 +48,17 @@ class ApplicationController < ActionController::Base
 	end
 
 
+	  #分类缩进
+    def GetTree(arr,pid,step,newarr,indentstr)
+	  	for item in arr
+		   if item['parent_id'] == pid
+	            indent = indentstr * step
+	            item['name'] = indent + item['name']
+	            newarr.push item
+	            GetTree(arr , item['id'] ,step+1,newarr,indentstr)
+	        end
+		end
+    end
+
 
 end

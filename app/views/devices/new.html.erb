@@ -5,7 +5,7 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading"><h3 class="panel-title">添加设备</h3></div>
 		<div class="panel-body">
-			<%= simple_form_for @device, url: devices_path, remote: true do |f| %>
+			<%= form_for @device, url: devices_path, remote: true do |f| %>
 				
 				<div id="error-info" class="alert alert-danger" style="display: none;"></div>
 				<div class="form-group">
@@ -16,22 +16,16 @@
 		            	<% end %>
 		          	</select>
 		        </div>
-		        
-				<div class="form-group">
-					<label>设备编号:</label><br>
-					<%= f.input_field :asset_code, placeholder: "设备编号", class: "form-control" %>
-				</div>
+
 				<div class="form-group">
 					<label>设备名:</label><br>
-					<%= f.input_field :asset_name, placeholder: "设备名", class: "form-control" %>
+					<%= f.text_field :asset_name, placeholder: "设备名", class: "form-control" %>
 				</div>
 				<div class="form-group">
 					<label>设备服务号:</label><br>
-					<%= f.input_field :service_sn, placeholder: "设备服务号", class: "form-control" %>
+					<%= f.text_field :service_sn, placeholder: "设备服务号", class: "form-control" %>
 				</div>
 
-
-				
 
 		        <div class="form-group">
 					<label for="time" class="control-label">出厂日期:&nbsp;</label>
@@ -42,7 +36,7 @@
 			        </div>
 			        <script type="text/javascript">
 			          $('.form_datetime').datetimepicker({
-			              format: 'yyyy/mm/dd',
+			              format: 'yyyy-mm-dd',
 			              language: 'zh-CN',
 			              weekStart: 1,
 			              todayBtn:  1,
@@ -62,38 +56,12 @@
 
 				<div class="form-group">
 					<label>设备详情:</label><br>
-					<%= f.input_field :asset_details, placeholder: "设备详情", class: "form-control" %>
+					<%= f.text_area :asset_details, placeholder: "设备详情", class: "form-control" %>
 				</div>
 
 
-<!-- 				<div class="form-group">
-		          	<label for="name">设备所属:</label>
-		          	<select class="form-control" name=device[belong_to]>
-		          			<option value="0"></option>
-		            	<% @devices.each do |device| %>
-		              		<option value="<%= device.id %>"><%= device.asset_code %></option>
-		            	<% end %>
-		          	</select>
-		        </div> -->
 
-
-<!-- 		        <div class="form-group">
-		          	<label for="name">设备状态:</label>
-		          	<select class="form-control" name=device[status]>
-		          		<option value="0">未分配</option>
-		          		<option value="1">办公使用</option>
-		            	<option value="2">闲置</option>
-		            	<option value="3">维修</option>
-		            	<option value="4">借用</option>
-		            	<option value="5">报废</option>
-		            	<option value="6">报废清理</option>
-		            	<option value="7">报废借用</option>
-		          	</select>
-		        </div> -->
-
-
-
-				<%= f.button :submit, "确定添加", class: "btn btn-primary btn-block" %>
+				<%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
 			<% end %>
 			<br/><a href="<%= devices_path %>">>>返回设备列表</a>
 		</div>

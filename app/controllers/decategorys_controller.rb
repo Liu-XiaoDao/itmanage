@@ -3,6 +3,9 @@ class DecategorysController < ApplicationController
 
   def index
     @decategorys = Decategory.all.paginate page: params[:page], per_page: 10
+    # @decategorys = Decategory.all
+    # @decategorys = GetTree(@decategorys,0,0,@tree = [],"|----")
+    # @decategorys = @tree
   end
 
   def new
@@ -36,6 +39,7 @@ class DecategorysController < ApplicationController
     @childcategories = @decategory.cdecategory
     @decategorynew = Decategory.new
 
+    @decategorydevices = Device.where(decategory_id: params[:id]).paginate page: params[:page], per_page: 10
   end
 
   def update

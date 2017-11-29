@@ -7,7 +7,7 @@ class PartsController < ApplicationController
     @status = YAML.load_file("#{Rails.root}/config/status.yml")['part']
   end
 
-    #搜索设备
+  #搜索配件
   def search
     @partcategory_id = params[:part][:partcategory_id]
     @assign = params[:part][:assign]
@@ -39,9 +39,7 @@ class PartsController < ApplicationController
       @partcategorys = Partcategory.all
       @status = YAML.load_file("#{Rails.root}/config/status.yml")['part']
       render "index"
-
     end
-
   end
 
     #添加设备试图
@@ -70,9 +68,19 @@ class PartsController < ApplicationController
 
   def update
   	@part = Part.find params[:id]
-  	@part.update part_params
-    if @part.save
+  	
+    if @part.update part_params
       redirect_to parts_path
+    else
+
+    end
+  end
+
+  def showupdate
+    @part = Part.find params[:id]
+    
+    if @part.update part_params
+      redirect_to part_path @part
     else
 
     end
@@ -116,8 +124,6 @@ class PartsController < ApplicationController
 
     @device = @part.device    #属于哪个设备
 
-
-
     @user = @device.blank? ? nil : @device.user   #设备的使用人
 
     @partcategorys = Partcategory.all     #配件分类,拿到所有分类
@@ -125,7 +131,7 @@ class PartsController < ApplicationController
     # @devicerecords = Devicerecord.where device_id: @device.id
   end
 
-
+  #配件附加到设备上
   def attachdevice
     @device = Device.find params[:device][:device_id]
     @part = Part.find params[:id]
@@ -141,13 +147,25 @@ class PartsController < ApplicationController
     end
   end
 
-
-
-
-
   def ajaxgetpart
     @parts = Part.where(partcategory_id: params[:partcategoryid], is_assign: 0)
     render json: @parts
+  end
+
+  #设备show页中的配件移除链接,调用方法
+  def remove
+    @part = Part.find params[:id]
+
+    device_id = @part.device
+
+    @part.device = nil
+    @part.status = 3
+    @part.assign_time = Time.now
+    @part.is_assign = 0
+    if @part.save
+      redirect_to device_path(device_id)
+    end
+    
   end
 
   private

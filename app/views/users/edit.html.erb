@@ -79,7 +79,7 @@
                                             <td><%= device.asset_name %></td>
                                             <td><%= device_type device.decategory_id %></td>
                                             <td><%= device_status device.status %></td>
-                                            <td><%= device.assign_time %></td>
+                                            <td><%= device.assign_time.try(:strftime, "%Y-%m-%d") %></td>
                                             <td><%= device_timeleft device.borrow_timeleft %></td>
                                             <td><%= link_to '收回设备', recycle_device_path(device), data: { confirm: '确定收回设备吗?' } %></td>
                                           </tr>
@@ -257,7 +257,7 @@
                 if(!result.status){
                     var str = '<option value ="0">请选择</option>';
                     $.each(result,function (i,value) {
-                      str += '<option value ="'+value.id+'">'+value.asset_code+'</option>';
+                      str += '<option value ="'+value.id+'">'+value.asset_code+'----'+value.asset_name+'</option>';
                     });
                     $('#ajaxdevice').html(str);
                 }else{

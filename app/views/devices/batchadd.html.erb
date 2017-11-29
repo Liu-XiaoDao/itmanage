@@ -27,7 +27,7 @@
 				        </div>
 				        <script type="text/javascript">
 				          $('.form_datetime').datetimepicker({
-				              format: 'yyyy/mm/dd',
+				              format: 'yyyy-mm-dd',
 				              language: 'zh-CN',
 				              weekStart: 1,
 				              todayBtn:  1,
@@ -39,6 +39,16 @@
 				          });
 				        </script>
 			        </div>
+
+			        <div class="form-group">
+						<label>设备维保时间:</label><br>
+						<input class="string optional form-control"  placeholder="请输入设备的维保时间,单位(月)"  type="text" name="device[guaranteed]" id="device_asset_details">
+					</div>
+
+			        <div class="form-group">
+						<label>设备详情:</label><br>
+						<textarea placeholder="设备详情" class="form-control" name="device[asset_details]" id="device_asset_details"></textarea>
+					</div>
 			        <div class="form-group">
 						<label>设备数量:</label><br>
 						<input type="number" class="form-control" name="device[count]" value="5" required>

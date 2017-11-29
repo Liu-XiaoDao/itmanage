@@ -1,9 +1,16 @@
 <% provide :c_active, "asset" %>
 <div class="container" style="padding-top:70px;">
 	<div class="row">
-		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
+		<div class="col-sm-3 col-md-3">
 			<div class="panel panel-info">
-				<div class="panel-heading"><h3 class="panel-title">配件分类详情</h3></div>
+				<div class="panel-heading"><h3 class="panel-title">分类详情</h3></div>
+				<ul class="list-group">
+	          		<li class="list-group-item">分类名:<b><%= @partcategory.name %></b></li>
+					<li class="list-group-item">分类代码:<b><%= @partcategory.partcategorycode %></b></li>
+				</ul>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading"><h3 class="panel-title">父分类详情</h3></div>
 				<div class="panel-body">
 					父分类:<%= @parentcategory.nil? ? '顶级分类' : @parentcategory.name %>
 				</div>
@@ -16,34 +23,61 @@
 	          			<li class="list-group-item">没有子分类</li>
 	          		<% else %>
 	          			<% @childcategories.each do |category|%>
-							<li class="list-group-item">配件子分类名:<%= category.name %>&nbsp;&nbsp;配件子分类代码:&nbsp;<%= category.partcategorycode %></li>
+							<li class="list-group-item">分类名:<%= category.name %><br>分类代码:<%= category.partcategorycode %></li>
 						<% end %>
 	          		<% end %>
 					
 				</ul>
 	      	</div>
 
-			<div class="panel panel-primary">
+			<div class="panel panel-info">
 				<div class="panel-heading"><h3 class="panel-title">添加子分类</h3></div>
 				<div class="panel-body">
 					<div class="alert alert-danger" id="error-info" style="display: none;"></div>
 
-					<%= form_for @partcategorynew, url: addchildcategory_partcategory_path, remote: true do |f| %>
+					<%= simple_form_for @partcategorynew, url: addchildcategory_partcategory_path do |f| %>
 						<%= hidden_field_tag(:parent_id, @partcategory.id) %>
+
 						<div class="form-group">
 							<label>配件分类名:</label><br>
-							<%= f.text_field :name, placeholder: "设备分类名", class: "form-control" %>
+							<%= f.input_field :name, placeholder: "配件分类名", class: "form-control" %>
 							<br>
 							<label>配件分类代码:</label><br>
-							<%= f.text_field :partcategorycode, placeholder: "设备分类代码", class: "form-control" %>
+							<%= f.input_field :partcategorycode, placeholder: "配件分类代码", class: "form-control" %>
 						</div>
-						<%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
+						<%= f.button :submit, "确定添加", class: "btn btn-primary btn-block" %>
 					<% end %>
-					<br/><a href="<%= partcategorys_path %>">>>返回配件分类列表</a>
 				</div>
 			</div>
+		</div>
 
+		<div class="col-sm-9 col-md-9">
+			<div class="alert alert-info">此类共有 <b><%= @categoryparts.count %></b> 个配件</div>
+		    <div class="table-responsive">
+		        <table class="table table-striped">
+		            <thead>
+		                <tr><th>配件编号</th><th>配件名</th><th>类型</th><th>配件状态</th><th>从属设备</th><th>收货时间</th></tr>
+		            </thead>
+		            <tbody>
+						<% @categoryparts.each do |part| %>
+							<tr>
+								<td><%= link_to part.part_code, part_path(part) %></td>
+								<td><p><%= part.part_name %></p></td>
+								<td><p><%= part_type part.partcategory_id %></p></td>
+								<td><%= part_status part.status %></td>
+								<td><%= device_name part.device_id %></td>
+								<td><%= part.receive_date.try(:strftime, "%Y-%m-%d") %></td>
+							</tr>
+						<% end %>
+		            </tbody>
+		        </table>
+		        <%= will_paginate @categoryparts, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+		        <br/><a href="<%= partcategorys_path %>">>>返回配件分类列表</a>
+		    </div>
 
 		</div>
+
+
 	</div>
 </div>
+

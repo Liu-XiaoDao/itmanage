@@ -4,42 +4,82 @@ class DevicesController < ApplicationController
 
 
 	def index
-		@devices = Device.all.paginate page: params[:page], per_page: 10
+		#设备列表显示is_delete为0的设备
+		@devices = Device.where(is_delete: 0).paginate page: params[:page], per_page: 10
 		@departments = Department.all
 		@decategorys = Decategory.all
 		@users = User.all
 		@status = YAML.load_file("#{Rails.root}/config/status.yml")['device']
 
-		# address = status['address']  
-		# render json: @status
+
+		@decategorys = GetTree(@decategorys,0,0,@tree = [],'--')
+		@decategorys = @tree
+
+
 	end
 
-	#搜索设备
+
+
+
+  	#搜索设备
 	def search
-	    @decategory_id = params[:device][:decategory_id]
+		@decategory_id = params[:device][:decategory_id]
 	    @user_id = params[:device][:user_id]
 	    @status_id = params[:device][:status_id]
 	    @scrap_date = params[:device][:scrap_date]
 
-	    if @decategory_id.blank? && @user_id.blank? && @status_id.blank? && @scrap_date.blank?
-	    	redirect_to devices_path
-	    else
-	    	@devices = Device.where("decategory_id = ? or user_id = ? or status = ? or scrap_date = ?",@decategory_id,@user_id,@status_id,@scrap_date).paginate page: params[:page], per_page: 10
+		if @decategory_id.blank? && @user_id.blank? && @status_id.blank? && @scrap_date.blank?
+		  redirect_to devices_path
+		else
+		  searchstr = ''
 
-			@departments = Department.all
-			@decategorys = Decategory.all
-			@users = User.all
-			@status = YAML.load_file("#{Rails.root}/config/status.yml")['device']
+		  if !@decategory_id.blank?
+		    searchstr += "decategory_id = #{@decategory_id}"
+		  end
 
-		    render "index"
-	    end    
-  	end
+		  if !@user_id.blank?
+		    andstr = searchstr.blank? ? "" : " and "
+		    searchstr = searchstr + andstr
+		    searchstr += "user_id = #{@user_id}"
+		  end
+
+		  if !@status_id.blank?
+		    andstr = searchstr.blank? ? "" : " and "
+		    searchstr = searchstr + andstr
+		    searchstr += "status = #{@status_id}"
+		  end
+
+		  if !@scrap_date.blank?
+		    andstr = searchstr.blank? ? "" : " and "
+		    
+		    begindate = Time.parse(@scrap_date) - 1.months
+		    enddate = Time.parse(@scrap_date) + 1.months
+
+		    searchstr = searchstr + andstr
+		    searchstr += "scrap_date between '#{begindate.try(:strftime, '%Y-%m-%d')}' And '#{enddate.try(:strftime, '%Y-%m-%d')}'"
+		  end
+# return render plain: searchstr
+		  @devices = Device.where(searchstr).paginate page: params[:page], per_page: 10
+
+		  @departments = Department.all
+		  @decategorys = Decategory.all
+		  @users = User.all
+		  @status = YAML.load_file("#{Rails.root}/config/status.yml")['device']
+
+	    render "index"
+
+		end
+	end
+
+
 
   	#添加设备试图
 	def new
 		@device = Device.new
 		@devices = Device.all
-		@decategorys = Decategory.all
+		@decategorys =  []
+		GetTree(Decategory.all,0,0,@decategorys,"|----")
+		
 	end
 
 	#批量添加界面
@@ -50,10 +90,10 @@ class DevicesController < ApplicationController
 
 	#添加设备
 	def create
-		# return render json: device_params
-		# @user = User.find 1
-		@device = Device.new(device_params)
 
+		@device = Device.new(device_params)
+		@device.asset_code = getassetcode(params[:device][:decategory_id])
+		@device.scrap_date = Time.parse(@device.release_date.try(:strftime, "%Y-%m-%d")) + params[:device][:guaranteed].to_i.months
 		if @device.save
 			redirect_to devices_path
 		else
@@ -69,7 +109,7 @@ class DevicesController < ApplicationController
 		if devicecount <= 0
 			devicecount = 0
 		end
-errorinfo = ""
+   
 		i = 0
 		while i < devicecount  do
 		   device = Device.new
@@ -77,18 +117,15 @@ errorinfo = ""
 		   device.asset_code = getassetcode(params[:device][:decategory_id])
 		   device.release_date = params[:device][:release_date]
 		   device.decategory_id = params[:device][:decategory_id]
+		   device.asset_details = params[:device][:asset_details]
+
+		   device.scrap_date = Time.parse(device.release_date.try(:strftime, "%Y-%m-%d")) + params[:device][:guaranteed].to_i.months
+
 		   device.save
-
-		   errorinfo += device.asset_code
-		   # if device && device.errors.any? 
-			  # errorinfo += device.errors.full_messages[0]
-		   # end 
-
-
 		   i +=1
 		end
 
-# render plain: errorinfo
+
 		redirect_to devices_path
 
 
@@ -104,8 +141,14 @@ errorinfo = ""
 
 	def update
 	    @device = Device.find(params[:id])
+	    @device.decategory_id = params[:device][:decategory_id]
+	    @device.asset_name = params[:device][:asset_name]
+	    @device.service_sn = params[:device][:service_sn]
+	    @device.release_date = params[:device][:release_date]
+	    @device.scrap_date = params[:device][:scrap_date]
+	    @device.asset_details = params[:device][:asset_details]
 
-	    if @device.update(device_params)
+	    if @device.save
 	      	redirect_to devices_path
 	    else
 	      	render 'edit'
@@ -123,17 +166,26 @@ errorinfo = ""
 	    end
   	end
 
-
+  	#删除,但是因为其他表的外键依赖,所以添加is_delete属性,删除的话此属性设置为1
   	def destroy
 	    @device = Device.find(params[:id])
-		@device.destroy
+		@device.is_delete = 1
 
-	    redirect_to devices_path
+		if @device.save
+			redirect_to devices_path
+		end
+
+	    
   	end
 
 
   	def ajaxgetdevice
   		@devices = Device.where(decategory_id: params[:decategoryid], is_assign: 0)
+	    render json: @devices
+  	end
+  	#在配件show中的附加到设备方法使用(ajax获得)
+  	def ajaxgetalldevice
+  		@devices = Device.where(decategory_id: params[:decategoryid])
 	    render json: @devices
   	end
 
@@ -287,9 +339,14 @@ errorinfo = ""
 
 
 
+
+
+
+
+
   private
     def device_params
-    	params.require(:device).permit(:asset_code, :asset_name, :service_sn, :decategory_id, :release_date, :asset_details)
+    	params.require(:device).permit(:asset_name, :service_sn, :decategory_id, :release_date, :asset_details)
     end
 
 
