@@ -1,73 +1,79 @@
 <% provide :c_active, "user" %>
 <% provide :pre_title, "员工详情" %>
-<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 
 
 
-<div class="mainer" style="margin-top: 0; padding-top: 70px;">
-    <div class="container-fluid">
-        <div class="col-md-10 col-lg-10 col-center-block content-wrap">
-            <div id="content">
+
+<div class="container" style="margin-top: 0; padding-top: 70px;">
+    <div class="row">
+        <!-- <div class="col-md-10 col-lg-10 col-center-block content-wrap"> -->
+            <!-- <div id="content"> -->
                 <!-- 用户信息设置 -->
-                <div class="col-md-8 profile-setting">
-                    <div class="boxed-group">
-                        <%= content_tag :h3, t("userinfo") %>
-                        <div class="boxed-group-inner">
-                            <%= simple_form_for @user, url: user_path(@user), method: :patch, remote: true do |f| %>
-                            <div class="form-group">
-                                <%= content_tag :span, t("name")+":" %>
-                                <%= f.input_field :username, class: "form-control form-input-normal" %>
-                            </div>
-                            <div class="form-group">
-                                <%= content_tag :span, t("timecardcode")+":" %>
-                                <%= f.input_field :attendance, class: "form-control form-input-normal" %>
-                            </div>
-                            <div class="form-group">
-                                <%= content_tag :span, t("email")+":" %>
-                                <%= f.input_field :email, disabled: true, class: "form-control form-input-normal" %>
-                            </div>
+                <div class="col-sm-9 col-md-9">
+                    <div class="panel panel-info">
+
+                            <div class="panel-heading"><h3 class="panel-title">用户资料</h3></div>
+ 							<div class="panel-body">
+                                <%= simple_form_for @user, url: user_path(@user), method: :patch, remote: true do |f| %>
+                                <div class="form-group">
+                                    <label for="name">名字:</label>
+                                    <%= f.input_field :username, class: "form-control form-input-normal" %>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">考勤号:</label>
+                                    <%= f.input_field :attendance, class: "form-control form-input-normal" %>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">邮箱:</label>
+                                    <%= f.input_field :email, disabled: true, class: "form-control form-input-normal" %>
+                                </div>
 
 
 
-                            <div class="form-group">
-                                <%= f.submit t("updateinfo"), class: "btn btn-primary submit" %>
-                            </div>
-                            <% end %>
-                        </div>
+                                <div class="form-group">
+                                    <%= f.submit t("updateinfo"), class: "btn btn-primary submit" %>
+                                </div>
+                                <% end %>
+                         	</div>
+
                     </div>
                 </div>
+
+
+
+
                 <!-- 头像与密码设置 -->
-                <div class="col-md-4 account-setting">
-                    <div class="boxed-group" id= "edit-password">
-                        <%= content_tag :h3, t("editps") %>
-                        <div class="boxed-group-inner boxed-group-round-border">
+                <div class="col-sm-3 col-md-3">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">修改密码</h3></div>
+						<div class="panel-body">
                             <%= simple_form_for @user, url: updatepw_user_path(@user), method: :post, remote: true do |f| %>
                             <div class="form-error-container">
                                 <%= render 'shared/form_error_messages', object: f.object %>
                             </div>
                             <div class="form-group">
-                                <%= content_tag :span, t("password")+":" %>
+                                <label for="name">密码:</label>
                                 <%= f.password_field :password, class: "form-control form-input-normal" %>
                             </div>
                             <div class="form-group">
                                 <%= f.submit t("updateps"), class: "btn btn-primary submit" %>
                             </div>
                             <% end %>
-                        </div>
+						</div>
                     </div>
-                    <div class="boxed-group">
-                        <%= content_tag :h3, "分配耗材" %>
-                        <div class="boxed-group-inner boxed-group-round-border">
-                            <a href="#" data-toggle="modal" data-target="#consumableModal" class="btn btn-primary submit" style="color: #fff; background-color: #444;border: 1px solid #444;">分配</a>
-                        </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">分配耗材</h3></div>
+						<div class="panel-body">
+                            <a href="#" data-toggle="modal" data-target="#consumableModal" class="btn btn-primary submit" >分配</a>
+						</div>
                     </div>
                 </div>
 
-                <div class="col-md-12 profile-setting" style="padding-top: 30px;">
-                    <div class="boxed-group">
-                        <%= content_tag :h3, t("userdevicelist") %>
-                        <div class="boxed-group-inner">
+                <div class="col-sm-12 col-md-12" style="padding-top: 30px;">
+                      <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">用户设备列表</h3></div>
+                        <div class="panel-body">
                             <div class="table-responsive">
                               <table class="table table-striped">
                                   <thead>
@@ -92,29 +98,29 @@
                                 <% if device.parts.blank? %>
                                 <% else %>
                                   <div id="collapseOne<%= device.id %>" class="panel-collapse collapse">
-                                      <div class="boxed-group">
-                                        <%= content_tag :h3, "#{device.asset_code}配件列表" %>
-                                        <div class="boxed-group-inner">
-                                        <div class="table-responsive">
-                                          <table class="table table-striped table-hover">
-                                            <thead>
-                                                <tr><th>配件编号</th><th>配件名</th><th>配件详情</th><th>类型</th><th>配件状态</th><th>收货时间</th></tr>
-                                            </thead>
-                                            <tbody>
+                                      <div class="panel panel-info">
+                                        <div class="panel-heading"><h3 class="panel-title"><%= device.asset_code %>配件列表</h3></div>
+                                        <div class="panel-body">
+	                                        <div class="table-responsive">
+	                                          <table class="table table-striped table-hover">
+	                                            <thead>
+	                                                <tr><th>配件编号</th><th>配件名</th><th>配件详情</th><th>类型</th><th>配件状态</th><th>收货时间</th></tr>
+	                                            </thead>
+	                                            <tbody>
 
-                                            <% device.parts.each do |part| %>
-                                                <tr>
-                                                  <td><%= link_to part.part_code, part_path(part) %></td>
-                                                  <td class="part_name" iid="<%= part.id %>"><p><%= part.part_name %></p></td>
-                                                  <td class="service_sn" iid="<%= part.id %>"><p><%= part.part_details %></p></td>
-                                                  <td class="asset_details" iid="<%= part.id %>"><p><%= part_type part.partcategory_id %></p></td>
-                                                  <td><%= part_status part.status %></td>
-                                                  <td><%= part.receive_date.try(:strftime, "%Y-%m-%d") %></td>
-                                                </tr>
-                                            <% end %>
-                                            </tbody>
-                                          </table>
-                                        </div>
+	                                            <% device.parts.each do |part| %>
+	                                                <tr>
+	                                                  <td><%= link_to part.part_code, part_path(part) %></td>
+	                                                  <td class="part_name" iid="<%= part.id %>"><p><%= part.part_name %></p></td>
+	                                                  <td class="service_sn" iid="<%= part.id %>"><p><%= part.part_details %></p></td>
+	                                                  <td class="asset_details" iid="<%= part.id %>"><p><%= part_type part.partcategory_id %></p></td>
+	                                                  <td><%= part_status part.status %></td>
+	                                                  <td><%= part.receive_date.try(:strftime, "%Y-%m-%d") %></td>
+	                                                </tr>
+	                                            <% end %>
+	                                            </tbody>
+	                                          </table>
+	                                        </div>
                                         </div>
                                       </div>
                                   </div>
@@ -133,9 +139,9 @@
                 </div>
 
                 <div class="col-md-12 profile-setting" style="padding-top: 30px;">
-                    <div class="boxed-group">
-                        <%= content_tag :h3, "耗材分配记录" %>
-                        <div class="boxed-group-inner">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">耗材分配记录</h3></div>
+                        <div class="panel-body">
                             <div class="table-responsive">
                               <table class="table table-striped">
                                   <thead>
@@ -157,9 +163,9 @@
                 </div>
 
                 <div class="col-md-12 profile-setting" style="padding-top: 30px;">
-                    <div class="boxed-group">
-                        <%= content_tag :h3, "设备分配记录" %>
-                        <div class="boxed-group-inner">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">耗材分配记录</h3></div>
+                        <div class="panel-body">
                             <div class="table-responsive">
                               <table class="table table-striped">
                                   <thead>
@@ -180,10 +186,8 @@
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-        </div>
+            <!-- </div> -->
+        <!-- </div> -->
     </div>
 </div>
 
@@ -191,7 +195,7 @@
 
 
 
-
+<!-- 设备分配弹框 -->
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">

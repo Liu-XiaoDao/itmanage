@@ -1,20 +1,20 @@
 <% provide :c_active, "asset" %>
 <% provide :pre_title, "设备详情" %>
-<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 
 
 
-<div class="mainer" style="margin-top: 0; padding-top: 70px;">
-    <div class="container-fluid">
-        <div class="col-md-10 col-lg-10 col-center-block content-wrap">
-            <div id="content">
+
+<div class="container" style="margin-top: 0; padding-top: 70px;">
+    <div class="row">
+      <!--   <div class="col-md-10 col-lg-10 col-center-block content-wrap">
+            <div id="content"> -->
 
                 <!-- 头像与密码设置 -->
-                <div class="col-md-4 account-setting">
-                    <div class="boxed-group" >
-                        <%= content_tag :h3, "使用员工" %>
-                        <div class="boxed-group-inner boxed-group-round-border">
+                <div class="col-sm-3 col-md-3">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">使用员工</h3></div>
+                        <div class="panel-body">
                             <% if !@user.nil? %>
                               <h3 style="margin-top: 0px"><%= @user.username %></h3>
                               <h5>部门:<%= department_name @user.department_id %>&nbsp;&nbsp;&nbsp;&nbsp;邮箱:<%= @user.email %>&nbsp;&nbsp;&nbsp;&nbsp;使用方式:<%= device_status @device.status %></h5>
@@ -27,17 +27,17 @@
                     <% if  @device.is_assign == 1  %>
                       <!-- 当设备被使用时(办公使用,借用,报废借用)不能再这设置状态 -->
 
-                        <div class="boxed-group" >
-                            <%= content_tag :h3, "分配设备" %>
-                            <div class="boxed-group-inner boxed-group-round-border">
+                        <div class="panel panel-info">
+                            <div class="panel-heading"><h3 class="panel-title">分配设备</h3></div>
+                            <div class="panel-body">
                                 <div id="error-info" class="alert alert-danger" style="display: none;"></div>
                                 设备正在使用,收回之后才能再次分配
                             </div>
                         </div>
                     <% else %>
-                        <div class="boxed-group" >
-                            <%= content_tag :h3, "分配设备" %>
-                            <div class="boxed-group-inner boxed-group-round-border">
+                        <div class="panel panel-info">
+                            <div class="panel-heading"><h3 class="panel-title">分配设备</h3></div>
+                            <div class="panel-body">
                                 <div id="error-info" class="alert alert-danger" style="display: none;"></div>
                                 <%= form_tag  assigndevise_device_path, remote: true do %>
                                  <div class="form-group">
@@ -85,9 +85,9 @@
                     <% if  @device.status == 2 || @device.status == 5 || @device.status == 7 %>
                       <!-- 当设备被使用时(办公使用,借用,报废借用)不能再这设置状态 -->
                     <% else %>
-                      <div class="boxed-group" >
-                          <%= content_tag :h3, "设备状态设置" %>
-                          <div class="boxed-group-inner boxed-group-round-border">
+                      <div class="panel panel-info">
+                          <div class="panel-heading"><h3 class="panel-title">设备状态设置</h3></div>
+                          <div class="panel-body">
                               <div id="error-info" class="alert alert-danger" style="display: none;"></div>
                               <%= form_tag  setstatus_device_path, remote: true do %>
                                <div class="form-group">
@@ -147,10 +147,11 @@
 </script> 
 
                 <!-- 电脑信息设置 -->
-                <div class="col-md-8 profile-setting">
-                    <div class="boxed-group">
-                        <%= content_tag :h3, "设备: #{@device.asset_code} 状态: #{device_status @device.status}" %>
-                        <div class="boxed-group-inner">
+                <div class="col-sm-9 col-md-9">
+                    <div class="panel panel-info">
+                        
+                    <div class="panel-heading"><h3 class="panel-title"><%= "设备: #{@device.asset_code} 状态: #{device_status @device.status}" %></h3></div>
+                        <div class="panel-body">
                             <%= form_for @device, url: showupdate_device_path(@device), method: :post,  remote: true do |f| %>
                             <div class="form-group">
                                 <label>设备名:</label><br>
@@ -234,10 +235,10 @@
                 </div>
                 
 
-                <div class="col-md-12 profile-setting" style="padding-top: 30px;">
-                    <div class="boxed-group">
-                        <%= content_tag :h3, "配件列表" %>
-                        <div class="boxed-group-inner">
+                <div class="col-sm-12 col-md-12" style="padding-top: 30px;">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">配件列表</h3></div>
+                        <div class="panel-body">
                             <div class="table-responsive">
                               <table class="table table-striped">
                                   <thead>
@@ -262,10 +263,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 profile-setting" style="padding-top: 30px;">
-                    <div class="boxed-group">
-                        <%= content_tag :h3, "设备分配记录" %>
-                        <div class="boxed-group-inner">
+                <div class="col-sm-12 col-md-12" style="padding-top: 30px;">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">设备分配记录</h3></div>
+                        <div class="panel-body">
                             <div class="table-responsive">
                               <table class="table table-striped">
                                   <thead>
@@ -286,8 +287,8 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
+          <!--   </div>
+        </div> -->
     </div>
 </div>
 
@@ -362,20 +363,3 @@
     }
 </script>
 
-
-
-<%= javascript_include_tag 'uploader' %>
-
-<script>
-    $("#upload-avatar-input").on("change", function(){
-        var size_in_megabytes = this.files[0].size/1024/1024;
-        if (size_in_megabytes > 1) {
-            <% flash.now[:warning] = t "flash.warning.avatar_too_big", size: 1 %>
-            $(".mainer").eq(0).before("<%= j render(partial: 'shared/flash_messages_inner') %>");
-            <% flash.delete :warning %>
-        } else {
-            // 提交图片
-            $("#avatar-submit").click();
-        }
-    });
-</script>

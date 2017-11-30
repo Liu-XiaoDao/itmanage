@@ -1,20 +1,17 @@
 <% provide :c_active, "asset" %>
 <% provide :pre_title, "配件详情" %>
-<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 
-
-
-<div class="mainer" style="margin-top: 0; padding-top: 70px;">
-    <div class="container-fluid">
-        <div class="col-md-10 col-lg-10 col-center-block content-wrap">
-            <div id="content">
+<div class="container" style="margin-top: 0; padding-top: 70px;">
+    <div class="row">
+    <!--     <div class="col-md-10 col-lg-10 col-center-block content-wrap">
+            <div id="content"> -->
 
                 <!-- 头像与密码设置 -->
-                <div class="col-md-4 account-setting">
-                    <div class="boxed-group" >
-                        <%= content_tag :h3, "所属设备使用员工" %>
-                        <div class="boxed-group-inner boxed-group-round-border">
+                <div class="col-sm-3 col-md-3">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">所属设备使用员工</h3></div>
+                        <div class="panel-body">
                             <% if !@user.nil? %>
                               <h3 style="margin-top: 0px"><%= @user.username %></h3>
                               <h5>部门:<%= department_name @user.department_id %>&nbsp;&nbsp;&nbsp;&nbsp;邮箱:<%= @user.email %>&nbsp;&nbsp;&nbsp;&nbsp;使用方式:<%= device_status @device.status %></h5>
@@ -23,25 +20,25 @@
                             <% end %>
                         </div>
                     </div>
-                    <div class="boxed-group" >
-                        <%= content_tag :h3, "所属设备" %>
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">所属设备</h3></div>
                         <% if  !@device.nil? %>
-                            <div class="boxed-group-inner boxed-group-round-border">
+                            <div class="panel-body">
                                 <div class="form-group">
                                     <h3 style="margin-top: 0px"><%= link_to @device.asset_code, device_path(@device) %></h3>
                                     <h5>设备种类:<%= device_type @device.decategory_id %>&nbsp;&nbsp;&nbsp;&nbsp;设备名:<%= @device.asset_name %>&nbsp;&nbsp;&nbsp;&nbsp;设备位置:<%= @device.location ? @device.location : "未知" %></h5>
                                 </div>
                             </div>
                         <% else %>
-                            <div class="boxed-group-inner boxed-group-round-border">
+                            <div class="panel-body">
                                 <h3 style="margin-top: 0px">不从属其他设备</h3>
                             </div>
                         <% end %>
                     </div>
 
-                    <div class="boxed-group" >
-                        <%= content_tag :h3, "添加到设备" %>
-                        <div class="boxed-group-inner boxed-group-round-border">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">添加到设备</h3></div>
+                        <div class="panel-body">
                             <div id="error-info" class="alert alert-danger" style="display: none;"></div>
                             <%= form_tag  attachdevice_part_path(@part), remote: true do %>
 
@@ -75,9 +72,9 @@
                     <% if  @part.status == 2 %>
                       <!-- 当设备被使用时(办公使用,借用,报废借用)不能再这设置状态 -->
                     <% else %>
-                      <div class="boxed-group" >
-                          <%= content_tag :h3, "设备状态设置" %>
-                          <div class="boxed-group-inner boxed-group-round-border">
+                      <div class="panel panel-info">
+                          <div class="panel-heading"><h3 class="panel-title">设备状态设置</h3></div>
+                          <div class="panel-body">
                               <div id="error-info" class="alert alert-danger" style="display: none;"></div>
                               <%= form_tag  setstatus_device_path, remote: true do %>
                                <div class="form-group">
@@ -127,10 +124,11 @@
 
 
                 <!-- 电脑信息设置 -->
-                <div class="col-md-8 profile-setting">
-                    <div class="boxed-group">
-                        <%= content_tag :h3, "配件: #{@part.part_code} 状态: #{part_status @part.status}" %>
-                        <div class="boxed-group-inner">
+                <div class="col-sm-9 col-md-9">
+                    <div class="panel panel-info">
+                        
+                        <div class="panel-heading"><h3 class="panel-title"><%= "配件: #{@part.part_code} 状态: #{part_status @part.status}" %></h3></div>
+                        <div class="panel-body">
                             <%= form_for @part, url: showupdate_part_path(@part), method: :post,  remote: true do |f| %>
                             <div class="form-group">
                                 <label>配件名:</label><br>
@@ -181,10 +179,10 @@
 
 
 
-                <div class="col-md-12 profile-setting" style="padding-top: 30px;">
-                    <div class="boxed-group">
-                        <%= content_tag :h3, "配件分配记录" %>
-                        <div class="boxed-group-inner">
+                <div class="col-sm-12 col-md-12" style="padding-top: 30px;">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3 class="panel-title">配件分配记录</h3></div>
+                        <div class="panel-body">
                             <div class="table-responsive">
                               <table class="table table-striped">
                                   <thead>
@@ -207,8 +205,8 @@
 
 
 
-            </div>
-        </div>
+ <!--            </div>
+        </div> -->
     </div>
 </div>
 
