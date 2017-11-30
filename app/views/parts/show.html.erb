@@ -1,4 +1,5 @@
 <% provide :c_active, "asset" %>
+<% provide :pre_title, "配件详情" %>
 <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 
@@ -178,6 +179,8 @@
                     </div>
                 </div>
 
+
+
                 <div class="col-md-12 profile-setting" style="padding-top: 30px;">
                     <div class="boxed-group">
                         <%= content_tag :h3, "配件分配记录" %>
@@ -185,16 +188,24 @@
                             <div class="table-responsive">
                               <table class="table table-striped">
                                   <thead>
-                                      <tr><th>用户</th><th>note</th><th>分配时间</th></tr>
+                                      <tr><th>设备</th><th>备注</th><th>分配时间</th></tr>
                                   </thead>
                                   <tbody>
-
+                                      <% @partrecords.each do |partrecord| %>
+                                          <tr>
+                                            <td><%= partrecord.device_id %></td>
+                                            <td><%= partrecord.note %></td>
+                                            <td><%= partrecord.created_at.try(:strftime, "%Y-%m-%d") %></td>
+                                          </tr>
+                                      <% end %>
                                   </tbody>
                               </table>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
 
             </div>
         </div>

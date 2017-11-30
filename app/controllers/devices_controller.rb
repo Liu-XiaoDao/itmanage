@@ -297,7 +297,13 @@ class DevicesController < ApplicationController
 		@append_part.assign_time = Time.now
 	    @append_part.status = 2 #表明配件已经被使用
 
-		if @append_part.save
+	    #配件安装记录
+	    @partrecord = Partrecord.new
+	    @partrecord.part_id = append_part_id
+	    @partrecord.device_id = @device.id
+	    @partrecord.note = "安装配件"
+
+		if @append_part.save && @partrecord.save 
 	    	redirect_to device_path(params[:id])
 	    else
 	    	return render plain: "append失败"

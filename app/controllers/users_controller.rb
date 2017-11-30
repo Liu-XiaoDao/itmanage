@@ -25,18 +25,54 @@ class UsersController < ApplicationController
     end
   end
 
-  #搜索用户
+
+
+  #搜索设备
   def search
-    # @users = User.where(username: params[:username]).paginate page: params[:page], per_page: 10
-    # return render plain: params[:user][:username] + params[:user][:email] + params[:user][:created_at] + params[:user][:department]
+
+
     @username = params[:user][:username]
     @email = params[:user][:email]
     @created_at = params[:user][:created_at]
-    @department = params[:user][:department]
+    @department_id = params[:user][:department_id]
 
-    @users = User.where("username = ? or email = ? or created_at = ? or department_id = ?",@username,@email,@created_at,@department).paginate page: params[:page], per_page: 10
-    @departments = Department.all
-    render "index"
+    if @username.blank? && @email.blank? && @created_at.blank? && @department_id.blank?
+      redirect_to users_path
+    else
+      searchstr = ''
+
+      if !@username.blank?
+        searchstr += "username like '%#{@username}%'"
+      end
+
+      if !@email.blank?
+        andstr = searchstr.blank? ? "" : " and "
+        searchstr = searchstr + andstr
+        searchstr += "email like '%#{@email}%'"
+      end
+
+      if !@department_id.blank?
+        andstr = searchstr.blank? ? "" : " and "
+        searchstr = searchstr + andstr
+        searchstr += "department_id = #{@department_id}"
+      end
+
+      if !@created_at.blank?
+        andstr = searchstr.blank? ? "" : " and "
+        
+        begindate = Time.parse(@created_at) - 1.months
+        enddate = Time.parse(@created_at) + 1.months
+
+        searchstr = searchstr + andstr
+        searchstr += "created_at between '#{begindate.try(:strftime, '%Y-%m-%d')}' And '#{enddate.try(:strftime, '%Y-%m-%d')}'"
+      end
+      @users = User.where(searchstr).paginate page: params[:page], per_page: 10
+
+      @departments = Department.all
+# return render plain: searchstr
+      render "index"
+
+    end
   end
 
   #用户详情

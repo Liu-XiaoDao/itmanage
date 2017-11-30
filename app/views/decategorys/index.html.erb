@@ -1,5 +1,5 @@
 <% provide :c_active, "asset" %>
-
+<% provide :pre_title, "设备分类" %>
 <div class="container" style="padding-top:70px;">
   <div class="col-sm-12 col-md-12 center-block" style="float: none;">
 
@@ -24,7 +24,7 @@
   			      <td><%= decategory.devices.count %></td>
               <td><%= decategory.mdecategory.nil? ? '无' : decategory.mdecategory.name %></td>
   			      <td><%= link_to '修改', edit_decategory_path(decategory) %></td>
-  			      <td><%= link_to '删除', decategory_path(decategory), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+  			      <td><%#= link_to '删除', decategory_path(decategory), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
   			    </tr>
   			  <% end %>
         

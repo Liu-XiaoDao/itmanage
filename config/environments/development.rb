@@ -63,7 +63,7 @@ Rails.application.configure do
   :email => {
     :email_prefix => "[IT] ",
     :sender_address => %{<liu_xiaodao@163.com>},
-    :exception_recipients => %w{}
+    :exception_recipients => %w{957419420@qq.com}
   }
   ###############################
 end

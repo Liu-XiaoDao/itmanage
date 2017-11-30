@@ -17,12 +17,12 @@
           </li>
 
           
-          
+        
           <li class="<%= check_if_active 'user',yield(:c_active) %>">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= t("employee") %><b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><%= link_to  content_tag(:span, '', class: "glyphicon glyphicon-user")+" "+t("employeemanagement"),users_path %></li>
-              <li><%= link_to  content_tag(:span, '', class: "glyphicon glyphicon-calendar")+" "+t("divisionmanagement"),departments_path %></li>
+              <li><%= link_to  t("employeemanagement"),users_path %></li>
+              <li><%= link_to  t("divisionmanagement"),departments_path %></li>
             </ul>
           </li>
 
@@ -60,6 +60,7 @@
             <ul class="dropdown-menu">
               <li><a href="">网站信息配置</a></li>
               <li><a href="">网站提示设置</a><li>
+              <li><%= link_to  " 系统设置",site_path %></li>
               <li><%= link_to  " 系统日志",logs_path %></li>
             </ul>
           </li>

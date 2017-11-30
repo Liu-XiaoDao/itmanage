@@ -10,5 +10,8 @@ class HomeController < ApplicationController
   		@decategorys = Decategory.all
 
   		@partcategorys = Partcategory.all
+
+  		# ExceptionMailer.exception_nitofy.deliver_now!
+
 	end
 end

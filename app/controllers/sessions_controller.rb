@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
 
         if @user && @user.compare(session_param(:password))
             sign_in @user     #用户名加入session
-            redirect_to root_path
+            redirect_back_or root_path
         elsif @user
           # 密码错误
           @user.errors.add :password, "密码错误"

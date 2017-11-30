@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>IT设备管理</title>
+    <title><%= title yield(:pre_title) %></title>
     <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -11,6 +11,16 @@
     <%= csrf_meta_tags %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag    'dateselect', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <!-- 百度统计代码 -->
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?43060cf1fb94932cac6cab9b9d77e72d";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
 
   </head>
   <body>

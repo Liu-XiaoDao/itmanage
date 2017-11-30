@@ -1,5 +1,5 @@
 <% provide :c_active, "asset" %>
-
+<% provide :pre_title, "设备" %>
   <div class="container" style="padding-top:70px;">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
 
@@ -79,9 +79,11 @@
 	      <tbody>
 
 			<% @devices.each do |device| %>
-          <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
-            <% danger = 'class= danger' %>
-          <% end %>
+                <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
+                    <% danger = 'class= danger' %>
+                <% elsif (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
+                    <% danger = 'class= warning' %>
+                <% end %>
 			    <tr <%= danger %> >
 			      <td><%= link_to device.asset_code, device_path(device) %></td>
 			      <td class="asset_name" iid="<%= device.id %>"><p><%= device.asset_name %></p></td>
@@ -91,10 +93,10 @@
 			      <td><%= device_status device.status %></td>
 			      <td><%= device.scrap_date.try(:strftime, "%Y-%m-%d") %></td>
 			      <td><%= link_to '修改', edit_device_path(device) %></td>
-            <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
+            <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
               <td><%= link_to '续保', "deviceservices/devicenew/#{device.id}" %></td>
             <% end %>
-			      <td><%= link_to '删除', device_path(device), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+			      <td><%#= link_to '删除', device_path(device), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
 			    </tr>
 			<% end %>
 	      </tbody>

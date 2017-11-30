@@ -1,5 +1,5 @@
 <% provide :c_active, "service" %>
-
+<% provide :pre_title, "设备服务" %>
   <div class="container" style="padding-top:70px;">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
 
@@ -27,7 +27,7 @@
 					<td><%= deviceservice.price %> 元</td>
 					<td><%= deviceservice.describe %></td>
 					<td><%= link_to '修改', edit_deviceservice_path(deviceservice) %></td>
-					<td><%= link_to '删除', deviceservice_path(deviceservice), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+					<td><%#= link_to '删除', deviceservice_path(deviceservice), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
 			    </tr>
 			<% end %>
 	      </tbody>

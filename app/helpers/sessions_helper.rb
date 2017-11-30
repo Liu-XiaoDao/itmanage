@@ -30,4 +30,15 @@ module SessionsHelper
   end
 
 
+    # 存储原始请求地址
+  def store_location   #保存请求地址，应该是为了返回上一个请求，不过只保存get操作
+    session[:forwarding_url] = request.original_url if request.get?
+  end
+
+  def redirect_back_or(default)   #应用场景应该为做完某些操作后，需要返回上一页。就是用这个方法，然后在删除这个url
+    redirect_to ( session[:forwarding_url] || default )
+    session.delete :forwarding_url
+  end
+
+
 end

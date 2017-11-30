@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
 	def check_signed_in
 	    unless signed_in?
 	      	flash[:warning] = "您还没有登录请先登录!"
+	      	store_location    #如果没登录会跳转到登录页,在这保存原本想要访问的页面,登陆后返回
 	      	redirect_to signin_path
 	    end
 	end 

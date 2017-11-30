@@ -128,7 +128,8 @@ class PartsController < ApplicationController
 
     @partcategorys = Partcategory.all     #配件分类,拿到所有分类
     @decategorys = Decategory.all     #设备分类,拿到所有分类
-    # @devicerecords = Devicerecord.where device_id: @device.id
+    
+    @partrecords = Partrecord.where part_id: @part.id
   end
 
   #配件附加到设备上
@@ -140,7 +141,17 @@ class PartsController < ApplicationController
     @part.assign_time = Time.now
     @part.is_assign = 1
 
-    if @part.save
+
+
+    #配件安装记录
+    @partrecord = Partrecord.new
+    @partrecord.part_id = @part.id
+    @partrecord.device_id = @device.id
+    @partrecord.note = "安装配件"
+
+
+
+    if @part.save && @partrecord.save 
       redirect_to part_path(params[:id])
     else
 

@@ -1,0 +1,2 @@
+class Siteinfo < ApplicationRecord
+end

@@ -1,4 +1,5 @@
 <% provide :c_active, "asset" %>
+<% provide :pre_title, "设备详情" %>
 <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 
@@ -222,7 +223,7 @@
                             <div class="form-group">
                                 <%= f.submit "更新资料", class: "btn btn-primary submit" %>
 								
-								<% if  (Time.parse(@device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
+								<% if  (Time.parse(@device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
 					              	<%= link_to '续保', "/deviceservices/devicenew/#{@device.id}",class: "btn btn-primary submit", style: "color: #fff;" %>
 					            <% end %>
                                 

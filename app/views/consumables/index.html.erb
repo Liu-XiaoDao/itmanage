@@ -1,5 +1,5 @@
 <% provide :c_active, "asset" %>
-
+<% provide :pre_title, "耗材" %>
   <div class="container" style="padding-top:70px;">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
 
@@ -25,7 +25,7 @@
 				    <td><%= consumable.location %></td>
 			      <td><%= link_to '修改', edit_consumable_path(consumable) %></td>
             <td><a href="<%= addstocknew_consumable_path(consumable) %>" data-toggle="modal" data-target="#myModal">入库</a></td>
-			      <td><%= link_to '删除', consumable_path(consumable), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+			      <td><%#= link_to '删除', consumable_path(consumable), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
 			    </tr>
 			<% end %>
 	      </tbody>

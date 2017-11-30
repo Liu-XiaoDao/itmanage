@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
 
 
-
   root 'home#index'
 
   get '/welcome/index' => 'welcome#index'
@@ -89,6 +88,9 @@ Rails.application.routes.draw do
     post 'editpartcategorycode', on: :collection
     post 'addchildcategory', on: :member
   end
+
+  #系统设置
+  resource :site
 
 
 end

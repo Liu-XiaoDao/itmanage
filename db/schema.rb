@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128153054) do
+ActiveRecord::Schema.define(version: 20171130083756) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 20171128153054) do
     t.integer "is_assign", default: 0
     t.string "location"
     t.integer "is_delete", default: 0
+    t.integer "is_scrap", default: 0
     t.index ["user_id"], name: "index_devices_on_user_id"
   end
 
@@ -147,6 +148,16 @@ ActiveRecord::Schema.define(version: 20171128153054) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "partrecords", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.bigint "part_id"
+    t.bigint "device_id"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_id"], name: "index_partrecords_on_device_id"
+    t.index ["part_id"], name: "index_partrecords_on_part_id"
+  end
+
   create_table "parts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "part_code", null: false
     t.string "part_name", null: false
@@ -171,6 +182,13 @@ ActiveRecord::Schema.define(version: 20171128153054) do
     t.index ["deviceservice_id"], name: "index_serviceimgs_on_deviceservice_id"
   end
 
+  create_table "siteinfos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "title"
+    t.string "emailrecive"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", null: false
     t.string "email", null: false
@@ -191,6 +209,8 @@ ActiveRecord::Schema.define(version: 20171128153054) do
   add_foreign_key "devices", "users"
   add_foreign_key "deviceservices", "devices"
   add_foreign_key "oserviceimgs", "otherservices"
+  add_foreign_key "partrecords", "devices"
+  add_foreign_key "partrecords", "parts"
   add_foreign_key "parts", "decategories", column: "partcategory_id"
   add_foreign_key "parts", "devices"
   add_foreign_key "serviceimgs", "deviceservices"
