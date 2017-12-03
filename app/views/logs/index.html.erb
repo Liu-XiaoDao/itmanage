@@ -1,10 +1,17 @@
 <% provide :c_active, "set" %>
 <% provide :pre_title, "系统日志" %>
-  <div class="container" style="padding-top:70px;">
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li> <a href="/">主页</a></li>
+        <li class="active">系统日志</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
-
       <div class="alert alert-info">系统共有 <b><%= @logs.count %></b> 条日志</div>
-
       <!-- 搜索框 -->
       <nav class="navbar navbar-default" role="navigation">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -28,7 +35,6 @@
           </form>
         </div>
       </nav>
-
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead>
@@ -52,6 +58,7 @@
       <%= will_paginate @logs, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
     </div>
   </div>
+</div>
 
 <pre id="result">
 
@@ -84,38 +91,36 @@ console.log(info);
 
     </script>
 
-
-<script type="text/javascript">
-
-  function syntaxHighlight(json) {
-    if (typeof json != 'string') {
-        json = JSON.stringify(json, undefined, 2);
-    }
-    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    console.log("---"+json+"---");
-    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
-        var cls = 'number';
-        if (/^"/.test(match)) {
-            if (/:$/.test(match)) {
-                cls = 'key';
-            } else {
-                cls = 'string';
-            }
-        } else if (/true|false/.test(match)) {
-            cls = 'boolean';
-        } else if (/null/.test(match)) {
-            cls = 'null';
+    <script type="text/javascript">
+      function syntaxHighlight(json) {
+        if (typeof json != 'string') {
+            json = JSON.stringify(json, undefined, 2);
         }
-        return '<span class="' + cls + '">' + match + '</span>';
-    });
-}
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        console.log("---"+json+"---");
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+            var cls = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'key';
+                } else {
+                    cls = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'boolean';
+            } else if (/null/.test(match)) {
+                cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+        });
+    }
 
-</script>
-<style>
-    pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
-    .string { color: green; }
-    .number { color: darkorange; }
-    .boolean { color: blue; }
-    .null { color: magenta; }
-    .key { color: red; }
-</style>
+    </script>
+    <style>
+        pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+        .string { color: green; }
+        .number { color: darkorange; }
+        .boolean { color: blue; }
+        .null { color: magenta; }
+        .key { color: red; }
+    </style>

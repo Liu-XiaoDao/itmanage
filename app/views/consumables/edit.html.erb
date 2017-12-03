@@ -1,39 +1,47 @@
 <% provide :c_active, "asset" %>
 <% provide :pre_title, "耗材修改" %>
 <div class="container" style="padding-top:70px;">
-	<div class="col-sm-12 col-md-10 center-block" style="float: none;">
-		<% if @consumable && @consumable.errors.any? %>
-			<div id="error-info" class="alert alert-danger">
-				<div class="form-error">
-					<span class="form-error-field"><%= @consumable.errors.full_messages[0] %></span>
-					<span class="glyphicon glyphicon-info-sign icon"></span>
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb">
+				<li><a href="/">主页</a></li>
+				<li><a href="<%= consumables_path %>">耗材</a></li>
+				<li class="active">耗材修改</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
+			<% if @consumable && @consumable.errors.any? %>
+				<div id="error-info" class="alert alert-danger">
+					<div class="form-error">
+						<span class="form-error-field"><%= @consumable.errors.full_messages[0] %></span>
+						<span class="glyphicon glyphicon-info-sign icon"></span>
+					</div>
+				</div>
+			<% end %>
+			<div class="panel panel-primary">
+				<div class="panel-heading"><h3 class="panel-title">修改耗材信息</h3></div>
+				<div class="panel-body">
+					<%= form_for @consumable, url: consumables_path do |c| %>
+						<div class="form-group">
+							<label>耗材:</label><br>
+							<%= c.text_field  :name, placeholder: "耗材", class: "form-control" %>
+						</div>
+						<div class="form-group">
+							<label>单位:</label><br>
+							<%= c.text_field  :unit, placeholder: "计量单位", class: "form-control" %>
+						</div>
+						<div class="form-group">
+							<label>位置:</label><br>
+							<%= c.text_field :location, placeholder: "耗材存放位置", class: "form-control" %>
+						</div>
+						<%= c.submit  "确定添加", class: "btn btn-primary btn-block" %>
+					<% end %>
+					<br/><a href="<%= consumables_path %>">>>返回耗材列表</a>
 				</div>
 			</div>
-		<% end %>
-
-		<div class="panel panel-primary">
-			<div class="panel-heading"><h3 class="panel-title">修改耗材信息</h3></div>
-			<div class="panel-body">
-				<%= form_for @consumable, url: consumables_path do |c| %>
-					<div class="form-group">
-						<label>耗材:</label><br>
-						<%= c.text_field  :name, placeholder: "耗材", class: "form-control" %>
-					</div>
-					<div class="form-group">
-						<label>单位:</label><br>
-						<%= c.text_field  :unit, placeholder: "计量单位", class: "form-control" %>
-					</div>
-					<div class="form-group">
-						<label>位置:</label><br>
-						<%= c.text_field :location, placeholder: "耗材存放位置", class: "form-control" %>
-					</div>
-					<%= c.submit  "确定添加", class: "btn btn-primary btn-block" %>
-				<% end %>
-				<br/><a href="<%= consumables_path %>">>>返回耗材列表</a>
-			</div>
 		</div>
-
-
 	</div>
 </div>
 

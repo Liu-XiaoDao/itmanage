@@ -1,26 +1,36 @@
 <% provide :c_active, "user" %>
 <% provide :pre_title, "部门详情" %>
-
 <div class="container" style="padding-top:70px;">
-    <div class="alert alert-info">部门共有 <b><%= @departmentUsers.count %></b> 个员工</div>
-    <div class="table-responsive" style="padding-top: 20px;">
-        <table class="table table-striped">
-            <thead>
-                <tr><th><%= t("name")%></th><th><%= t("email")%></th><th><%= t("devicecount")%></th><th><%= t("operation")%></th></tr>
-            </thead>
-            <tbody>
-                <% @departmentUsers.each do |user| %>
-                    <tr>
-                        <td><%= link_to user.username, edit_user_path(user) %></td>
-                        <td><%= user.email %></td>
-                        <td><%= user.devices.count %></td>
-                        <td><%= link_to t("edit"), edit_user_path(user) %></td>
-                        <td><%#= link_to t("delete"), user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
-        <%= will_paginate @departmentUsers, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
-        <br/><a href="<%= departments_path %>">>>返回部门列表</a>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="breadcrumb">
+                <li><a href="/">主页</a></li>
+                <li><a href="<%= departments_path %>">部门</a></li>
+                <li class="active">部门详情</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="alert alert-info">部门共有 <b><%= @departmentUsers.count %></b> 个员工</div>
+        <div class="table-responsive" style="padding-top: 20px;">
+            <table class="table table-striped">
+                <thead>
+                    <tr><th><%= t("name")%></th><th><%= t("email")%></th><th><%= t("devicecount")%></th><th><%= t("operation")%></th></tr>
+                </thead>
+                <tbody>
+                    <% @departmentUsers.each do |user| %>
+                        <tr>
+                            <td><%= link_to user.username, edit_user_path(user) %></td>
+                            <td><%= user.email %></td>
+                            <td><%= user.devices.count %></td>
+                            <td><%= link_to t("edit"), edit_user_path(user) %></td>
+                            <td><%#= link_to t("delete"), user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+            <%= will_paginate @departmentUsers, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+            <br/><a href="<%= departments_path %>">>>返回部门列表</a>
+        </div>
     </div>
 </div>

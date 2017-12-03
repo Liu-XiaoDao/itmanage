@@ -3,50 +3,189 @@
 
 
 
+<div class="container" style="padding-top:70px;">
 
-<div class="container" style="padding-top:70px;" >
-    <div class="row">
-    	<div class="col-md-3">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb">
+				<li> <a href="#">Home</a></li>
+				<li><a href="#">Library</a></li>
+				<li class="active">Data</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 四个圆形统计图使用的样式 -->
+	<style type="text/css">
+		.easyPieChart {
+		    margin: 0px auto;
+		}
+		.easyPieChart {
+		    position: relative;
+		    text-align: center;
+		}
+		*, *:before, *:after {
+		    -webkit-box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    box-sizing: border-box;
+		}
+
+		audio, canvas, progress, video {
+		    display: inline-block;
+		}
+		.easyPieChart canvas {
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		}
+		.chart-bottom-heading {
+		    margin-top: 5px;
+		    text-align: center;
+		}
+	</style>
+	<!-- 四个圆形统计图使用的样式 -->
+
+
+
+	<div class="row">
+		<div class="col-md-12">
+		    <div class="panel panel-primary">
+				<div class="panel-heading"><h3 class="panel-title">设备数量</h3></div>
+		        <div class="panel-body">
+		            <div class="col-md-3">
+		                <div class="easyPieChart" data-percent="73" style="width: 110px; height: 110px; line-height: 110px;">73%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+		                <div class="chart-bottom-heading"><span class="label label-info">访问量</span></div>
+		            </div>
+		            <div class="col-md-3">
+		                <div class="easyPieChart" data-percent="53" style="width: 110px; height: 110px; line-height: 110px;">53%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+		                <div class="chart-bottom-heading"><span class="label label-info">页面浏览量</span></div>
+		            </div>
+		            <div class="col-md-3">
+		                <div class="easyPieChart" data-percent="83" style="width: 110px; height: 110px; line-height: 110px;">83%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+		                <div class="chart-bottom-heading"><span class="label label-info">用户</span></div>
+		            </div>
+		            <div class="col-md-3">
+		                <div class="easyPieChart" data-percent="13" style="width: 110px; height: 110px; line-height: 110px;">13%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+		                <div class="chart-bottom-heading"><span class="label label-info">订单</span></div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	
+
+
+    <!-- <div > -->
+	<div class="row">
+		<div class="col-md-4">
 	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">设备数量</h3></div>
-	          	<ul class="list-group">
-					<% @devicesstatus.each do |dstatus|%>
-						<li class="list-group-item"><%= device_status dstatus.status %>设备:&nbsp;<span class="badge"><%= dstatus.count %></span></li>
-					<% end %>
-				</ul>
-	      	</div>
-    	</div>
-		<div class="col-md-3">
-	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">员工数量</h3></div>
-	          	<ul class="list-group">
-					<% @departments.each do |department|%>
-						<li class="list-group-item"><%= department.department_name %>&nbsp;<span class="badge"><%= department.users.count %></span></li>
-					<% end %>
-				</ul>
+	        	<div class="panel-heading"><h3 class="panel-title">员工数量</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="#">查看更多</a></span></div>
+				<div class="panel-body">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr><th>部门</th><th>部门经理</th><th>人数</th></tr>
+						</thead>
+						<tbody>
+							<% @departments.each do |department| %>
+								<tr>
+									<td><%= link_to department.department_name, department_path(department) %></td>
+									<td><%= department.manager_name %></td>
+									<td><%= department.users.count %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
 	      	</div>
     	</div>
 
-    	<div class="col-md-3">
+    	<div class="col-md-4">
 	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">设备</h3></div>
-	          	<ul class="list-group">
-					<% @decategorys.each do |decategory|%>
-						<li class="list-group-item"><%= decategory.name %>&nbsp;<span class="badge"><%= decategory.devices.count %></span></li>
-					<% end %>
-				</ul>
+	        	<div class="panel-heading"><h3 class="panel-title">设备</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="#">查看更多</a></span></div>
+	          	<div class="panel-body">
+					<table class="table table-striped">
+						<thead>
+							<tr><th>ID</th><th>设备类型</th><th>设备类型代码</th><th>设备数量</th></tr>
+						</thead>
+						<tbody>
+							<% @decategorys.each do |decategory| %>
+								<tr>
+									<td><%= decategory.id %></td>
+									<td><%= link_to decategory.name, decategory_path(decategory) %></td>
+									<td class="decategorycode" iid="<%= decategory.id %>"><p><%= decategory.decategorycode %></p></td>
+									<td><%= decategory.devices.count %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
 	      	</div>
     	</div>
-		<div class="col-md-3">
+		<div class="col-md-4">
 	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">配件</h3></div>
-	          	<ul class="list-group">
-					<% @partcategorys.each do |partcategory|%>
-						<li class="list-group-item"><%= partcategory.name %>&nbsp;<span class="badge"><%= partcategory.parts.count %></span></li>
-					<% end %>
-				</ul>
+	        	<div class="panel-heading"><h3 class="panel-title">配件</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="#">查看更多</a></span></div>
+	          	<div class="panel-body">
+					<table class="table table-striped">
+						<thead>
+							<tr><th>ID</th><th>配件类型</th><th>配件类型代码</th><th>配件数量</th></tr>
+						</thead>
+						<tbody>
+							<% @partcategorys.each do |partcategory| %>
+								<tr>
+									<td><%= partcategory.id %></td>
+									<td><%= link_to partcategory.name, partcategory_path(partcategory) %></td>
+									<td class="partcategorycode" iid="<%= partcategory.id %>"><p><%= partcategory.partcategorycode %></p></td>
+									<td><%= partcategory.parts.count %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
 	      	</div>
     	</div>
-    	
+	</div>
+	<div class="row">
+    	<div class="col-md-5">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">耗材</h3></div>
+	          	<div class="panel-body">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr><th>耗材</th><th>可用数量</th><th>已用数量</th><th>位置</th></tr>
+						</thead>
+						<tbody>
+							<% @consumables.each do |consumable| %>
+								<tr>
+									<td><%= link_to consumable.name, consumable_path(consumable) %></td>
+									<td><%= consumable.surplus_amount %></td>
+									<td><%= consumable.used_amount %></td>
+									<td><%= consumable.location %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+
+				</div>
+	      	</div>
+    	</div>
     </div>
+
+
+
+
+    	
+    <!-- </div> -->
 </div>
+
+
+
+
+
+<!-- 圆形统计图使用的js-一定注意js的加载顺序!!! -->
+<script type="text/javascript" src="http://www.jq22.com/demo/bootstrap3-150408231025/vendors/easypiechart/jquery.easy-pie-chart.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('.easyPieChart').easyPieChart({animate: 1000});
+    });
+</script>
+<!-- 圆形统计图使用的js -->

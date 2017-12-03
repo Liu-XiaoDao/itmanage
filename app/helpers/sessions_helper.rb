@@ -14,12 +14,24 @@ module SessionsHelper
     elsif username = cookies.signed[:username]
       user = User.find_by username: username
       return nil unless user
-      if user.authenticated? :remember, cookies.signed[:remember_token]
+      if 'kdkdlslgseger24thGEg234rhbN' == cookies.signed[:remember_token]
          sign_in user
          @current_user = user
       end
     end
     @current_user
+  end
+
+  #记住密码
+  def remember_me(user)    
+    cookies.permanent.signed[:remember_token] = 'kdkdlslgseger24thGEg234rhbN'    #这个地方应该生成一个随机的token,和数据库比较(数据库加字段保存token)
+    cookies.permanent.signed[:username] = user.username
+  end
+
+  #忘记密码
+  def forget_me(user)   #这是忘记用户名密码
+    cookies.delete :remember_token
+    cookies.delete :username
   end
 
 

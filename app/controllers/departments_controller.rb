@@ -1,7 +1,8 @@
 class DepartmentsController < ApplicationController
 	layout 'home'
+
 	def index
-		@departments = Department.all.paginate page: params[:page], per_page: 10
+		@departments = Department.all.paginate page: params[:page], per_page: 20
 	end
 
 	def update

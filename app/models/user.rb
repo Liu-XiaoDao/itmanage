@@ -14,7 +14,7 @@ class User < ApplicationRecord
   validates :username, :email, :attendance, :department_id, presence: true   #这几个变量不能为空
   validates :username, length: { in: 2..25 }, #长度6-25
                        uniqueness: { case_sensitive: false, message: "111用户名已经被使用" }  #唯一性检测，不区分大小写
-  validates :attendance, length: { in: 2..25 } #长度6-25
+  validates :attendance, length: { in: 1..25 } #长度6-25
   validates :email,    length: { in: 6..55 },  #最长为255
                        uniqueness: { case_sensitive: false, message: "11邮箱已经被使用" }  #唯一性检测，不区分大小写
   # validates :password, length: { minimum: 6 },  #密码最短6位
@@ -54,6 +54,9 @@ class User < ApplicationRecord
       File.delete(file_path)
     end
   end
+
+
+
 
 
 end

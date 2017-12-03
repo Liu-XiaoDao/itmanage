@@ -54,25 +54,25 @@ function checkWillLoad() {
 }
 
 
-if (checkWillLoad()) {
-	var data = {
-		'dataImg':[{'img':'/images/avatar/201711/dd3232a74724638d72c1d4cfc0e484ff14.jpg'}]
-	};
+// if (checkWillLoad()) {
+// 	var data = {
+// 		'dataImg':[{'img':'/images/avatar/201711/dd3232a74724638d72c1d4cfc0e484ff14.jpg'}]
+// 	};
 
-	for (var i = 0; i < data.dataImg.length; i++) {
-		var newBox = document.createElement('div');
-		newBox.className = 'box';
-		$get_byid('main').appendChild(newBox);
+// 	for (var i = 0; i < data.dataImg.length; i++) {
+// 		var newBox = document.createElement('div');
+// 		newBox.className = 'box';
+// 		$get_byid('main').appendChild(newBox);
 
-		var newPic = document.createElement('div');
-		newPic.className = 'pic';
-		newBox.appendChild(newPic);
+// 		var newPic = document.createElement('div');
+// 		newPic.className = 'pic';
+// 		newBox.appendChild(newPic);
 
-		var newImg = document.createElement('img');
-		newImg.src = 'images/' + data.dataImg[i].img;
-		newPic.appendChild(newImg);
-	}
+// 		var newImg = document.createElement('img');
+// 		newImg.src = 'images/' + data.dataImg[i].img;
+// 		newPic.appendChild(newImg);
+// 	}
 
-	waterFall('main','box');
-}
-waterFall('main','box');
+// 	waterFall('main','box');
+// }
+// waterFall('main','box');

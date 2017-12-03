@@ -13,8 +13,8 @@ class ExceptionMailer < ApplicationMailer
 
     emailarr = Siteinfo.first.blank? ?  ["957419420@qq.com"] : Siteinfo.first.emailrecive.split(",")
 
-    emailarr.each{|email| mail to: email, subject: "设备到期提醒" }
-
+    # emailarr.each{|email| mail to: email, subject: "设备到期提醒" }
+    mail to: emailarr, subject: "设备到期提醒"
   end
 
 end

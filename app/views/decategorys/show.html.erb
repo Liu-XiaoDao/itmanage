@@ -1,9 +1,15 @@
 <% provide :c_active, "asset" %>
 <% provide :pre_title, "设备分类详情" %>
 <div class="container" style="padding-top:70px;">
-
-		
-
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb">
+				<li><a href="/">主页</a></li>
+				<li><a href="<%= decategorys_path %>">设备分类</a></li>
+				<li class="active">设备分类详情</li>
+			</ul>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-sm-3 col-md-3">
 			<div class="panel panel-info">
@@ -19,7 +25,6 @@
 					父分类:<%= @parentcategory.nil? ? '顶级分类' : @parentcategory.name %>
 				</div>
 			</div>
-			
 			<div class="panel panel-info">
 	        	<div class="panel-heading"><h3 class="panel-title">设备子分类</h3></div>
 	          	<ul class="list-group">
@@ -33,7 +38,6 @@
 					
 				</ul>
 	      	</div>
-
 			<div class="panel panel-info">
 				<div class="panel-heading"><h3 class="panel-title">添加子分类</h3></div>
 				<div class="panel-body">
@@ -54,7 +58,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="col-sm-9 col-md-9">
 			<div class="alert alert-info">此类共有 <b><%= @decategorydevices.count %></b> 个设备</div>
 		    <div class="table-responsive">
@@ -81,10 +84,7 @@
 		        <%= will_paginate @decategorydevices, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
 		        <br/><a href="<%= decategorys_path %>">>>返回设备分类列表</a>
 		    </div>
-
 		</div>
-
-
 	</div>
 </div>
 

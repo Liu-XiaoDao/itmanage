@@ -16,8 +16,6 @@
             <%= link_to  content_tag(:span, '', class: "glyphicon glyphicon-home")+" "+t("home"),root_path %>
           </li>
 
-          
-        
           <li class="<%= check_if_active 'user',yield(:c_active) %>">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= t("employee") %><b class="caret"></b></a>
             <ul class="dropdown-menu">

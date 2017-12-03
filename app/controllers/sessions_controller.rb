@@ -18,6 +18,7 @@ class SessionsController < ApplicationController
 
         if @user && @user.compare(session_param(:password))
             sign_in @user     #用户名加入session
+            session_param(:remember_me) == "1" ? remember_me(@user) : forget_me(@user)
             redirect_back_or root_path
         elsif @user
           # 密码错误

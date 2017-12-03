@@ -1,6 +1,15 @@
 <% provide :c_active, "service" %>
 <% provide :pre_title, "其他服务详情" %>
 <div class="container" style="padding-top:70px;" >
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb">
+				<li><a href="/">主页</a></li>
+				<li><a href="<%= otherservices_path %>">其他服务</a></li>
+				<li class="active">服务详情</li>
+			</ul>
+		</div>
+	</div>
     <div class="row">
     	<div class="col-sm-12 col-md-12 center-block">
 	        <div class="panel panel-primary">
@@ -13,7 +22,6 @@
 				<br/>
 				<br/>
 				<br/>
-
 				<div class="row" style="margin: 0 15px; ">
 					<h4>相关图片:</h4>
 					<% @images.each do |image|%>
@@ -36,13 +44,7 @@
 				</div>
 	      	</div>
     	</div>
-    </div>
-
-						
-
-
-
-
+    </div>					
 </div>
 
 

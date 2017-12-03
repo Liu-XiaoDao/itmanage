@@ -5,12 +5,13 @@ class HomeController < ApplicationController
   		@devicesstatus = Device.select("status,count(status) as count").group(:status)
   		@recyclingDevices = Device.where(borrow_timeleft: 0)
 
-  		@departments = Department.all
+  		@departments = Department.first(5)
 
-  		@decategorys = Decategory.all
+  		@decategorys = Decategory.first(5)
 
-  		@partcategorys = Partcategory.all
+  		@partcategorys = Partcategory.first(5)
 
+      @consumables = Consumable.first(5)
   		# ExceptionMailer.exception_nitofy.deliver_now!
 
 	end

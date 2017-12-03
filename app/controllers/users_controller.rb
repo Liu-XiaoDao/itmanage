@@ -6,7 +6,10 @@ class UsersController < ApplicationController
   	@users = User.all.paginate page: params[:page], per_page: 10
     @departments = Department.all
 
-    # render json: params
+    #导出Excel的.一会在研究
+    if params[:format]
+      export_csv(User)
+    end
   end
 
   def new
@@ -198,6 +201,30 @@ class UsersController < ApplicationController
 
     redirect_to edit_user_path(@user)
   end
+
+
+
+
+  def upload
+    
+
+    @users = params[:users].split("\r\n")
+    count = 0
+    @users.each do |user|
+      userarr = user.split(",")
+      department = Department.find_by department_name: userarr[3]
+      useritem = User.new
+      useritem.username = userarr[0]
+      useritem.email = userarr[1]
+      useritem.attendance = userarr[2]
+      useritem.department_id = department.blank? ? 0 : department.id
+      useritem.save!
+    end
+
+    render plain: count
+  end
+
+
 
   private
     def user_params

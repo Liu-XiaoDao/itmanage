@@ -61,5 +61,14 @@ class ApplicationController < ActionController::Base
 		end
     end
 
+    #导出报表
+    def export_csv(model)
+      respond_to { |format|
+        format.html 
+        format.csv { send_data model.to_csv }
+      }
+    	
+    end
+
 
 end

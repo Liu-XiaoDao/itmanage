@@ -1,75 +1,81 @@
 <% provide :c_active, "service" %>
 <% provide :pre_title, "添加设备服务" %>
 <div class="container" style="padding-top:70px;">
-<div class="col-sm-12 col-md-10 center-block" style="float: none;">
-
-	<div class="panel panel-primary">
-		<div class="panel-heading"><h3 class="panel-title">添加服务信息</h3></div>
-		<div class="panel-body">
-			<%= form_for @deviceservice, url: deviceservices_path do |f| %>
-				
-				<div id="error-info" class="alert alert-danger" style="display: none;"></div>
-				<div class="form-group">
-		          	<label for="name">添加服务的设备:</label>
-		          	<select class="form-control" name="deviceservice[device_id]">
-		            	<% @devices.each do |device| %>
-		            		<% if  @device_id.to_i == device.id %>
-                                <% selected = 'selected="selected"' %>
-                            <% end %>
-		              		<option value="<%= device.id %>" <%= selected %> ><%= device.asset_code %></option>
-		            	<% end %>
-		          	</select>
-		        </div>
-				<div class="form-group">
-					<label>服务名:</label><br>
-					<%= f.text_field  :servicename, placeholder: "服务名", class: "form-control" %>
-				</div>
-				<div class="form-group">
-					<label>服务提供商:</label><br>
-					<%= f.text_field :serviceprovider, placeholder: "服务提供商", class: "form-control" %>
-				</div>
-				<div class="form-group">
-					<label>价格:</label><br>
-					<%= f.text_field :price, placeholder: "服务价格", class: "form-control" %>
-				</div>
-
-		        <div class="form-group">
-					<label for="time" class="control-label">开始日期:&nbsp;</label>
-			        <div class="input-group controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-			          <input type="text" class="form-control" size="16" readonly name="deviceservice[begin_date]">
-			          <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
-			          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-			        </div>
-			        <script type="text/javascript">
-			          $('.form_datetime').datetimepicker({
-			              format: 'yyyy-mm-dd',
-			              language: 'zh-CN',
-			              weekStart: 1,
-			              todayBtn:  1,
-			              autoclose: 1,
-			              todayHighlight: 1,
-			              startView: 2,
-			              forceParse: 0,
-			              showMeridian: 1
-			          });
-			        </script>
-		        </div>
-				<div class="form-group">
-					<label>服务时长(单位:月):</label><br>
-					<%= f.number_field :months, placeholder: "请输入设备的服务时间,单位(月)", class: "form-control", min: 1%>
-				</div>
-				<div class="form-group">
-					<label>详细内容:</label><br>
-					<%= f.text_area :describe, placeholder: "请输入详细内容", class: "form-control" %>
-				</div>
-				<%= f.submit  "确定添加", class: "btn btn-primary btn-block" %>
-			<% end %>
-			<br/><a href="<%= deviceservices_path %>">>>返回设备服务列表</a>
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb">
+				<li><a href="/">主页</a></li>
+				<li><a href="<%= deviceservices_path %>">设备维保</a></li>
+				<li class="active">添加服务信息</li>
+			</ul>
 		</div>
 	</div>
-
-
-</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
+			<div class="panel panel-primary">
+				<div class="panel-heading"><h3 class="panel-title">添加服务信息</h3></div>
+				<div class="panel-body">
+					<%= form_for @deviceservice, url: deviceservices_path do |f| %>
+						<div id="error-info" class="alert alert-danger" style="display: none;"></div>
+						<div class="form-group">
+				          	<label for="name">添加服务的设备:</label>
+				          	<select class="form-control" name="deviceservice[device_id]">
+				            	<% @devices.each do |device| %>
+				            		<% if  @device_id.to_i == device.id %>
+		                                <% selected = 'selected="selected"' %>
+		                            <% end %>
+				              		<option value="<%= device.id %>" <%= selected %> ><%= device.asset_code %></option>
+				            	<% end %>
+				          	</select>
+				        </div>
+						<div class="form-group">
+							<label>服务名:</label><br>
+							<%= f.text_field  :servicename, placeholder: "服务名", class: "form-control" %>
+						</div>
+						<div class="form-group">
+							<label>服务提供商:</label><br>
+							<%= f.text_field :serviceprovider, placeholder: "服务提供商", class: "form-control" %>
+						</div>
+						<div class="form-group">
+							<label>价格:</label><br>
+							<%= f.text_field :price, placeholder: "服务价格", class: "form-control" %>
+						</div>
+				        <div class="form-group">
+							<label for="time" class="control-label">开始日期:&nbsp;</label>
+					        <div class="input-group controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+					          <input type="text" class="form-control" size="16" readonly name="deviceservice[begin_date]">
+					          <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+					          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+					        </div>
+					        <script type="text/javascript">
+					          $('.form_datetime').datetimepicker({
+					              format: 'yyyy-mm-dd',
+					              language: 'zh-CN',
+					              weekStart: 1,
+					              todayBtn:  1,
+					              autoclose: 1,
+					              todayHighlight: 1,
+					              startView: 2,
+					              forceParse: 0,
+					              showMeridian: 1
+					          });
+					        </script>
+				        </div>
+						<div class="form-group">
+							<label>服务时长(单位:月):</label><br>
+							<%= f.number_field :months, placeholder: "请输入设备的服务时间,单位(月)", class: "form-control", min: 1%>
+						</div>
+						<div class="form-group">
+							<label>详细内容:</label><br>
+							<%= f.text_area :describe, placeholder: "请输入详细内容", class: "form-control" %>
+						</div>
+						<%= f.submit  "确定添加", class: "btn btn-primary btn-block" %>
+					<% end %>
+					<br/><a href="<%= deviceservices_path %>">>>返回设备服务列表</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 

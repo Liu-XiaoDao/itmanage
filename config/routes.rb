@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
   resources :departments
 
-
+  post "users/upload" => 'users#upload'
   get 'users/search' => 'users#search'
   resources :users do
   	post 'upload_avatar', on: :member
