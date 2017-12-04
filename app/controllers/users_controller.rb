@@ -62,7 +62,7 @@ class UsersController < ApplicationController
 
       if !@created_at.blank?
         andstr = searchstr.blank? ? "" : " and "
-        
+
         begindate = Time.parse(@created_at) - 1.months
         enddate = Time.parse(@created_at) + 1.months
 
@@ -110,7 +110,7 @@ class UsersController < ApplicationController
   end
 
   #管理员修改密码
-  def updatepw    
+  def updatepw
     @user = User.find(params[:id])
     @user.password = params[:user][:password]
     @user.save
@@ -152,7 +152,7 @@ class UsersController < ApplicationController
     @device.assign_time = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
     @device.is_assign = 1
     # return render json: params
-    
+
     @devicerecord = Devicerecord.new
     @devicerecord.user_id = @device.user_id
     @devicerecord.device_id = @device.id
@@ -160,9 +160,9 @@ class UsersController < ApplicationController
 
 
     if @device.save && @devicerecord.save
-      redirect_to edit_user_path(params[:id])
+      redirect_to user_path(params[:id])
     else
-      
+
     end
 
   end
@@ -191,7 +191,7 @@ class UsersController < ApplicationController
     @consumablerecord.note = "分配"
     @consumablerecord.save
 
-    redirect_to edit_user_path(@user)
+    redirect_to user_path(@user)
   end
 
 

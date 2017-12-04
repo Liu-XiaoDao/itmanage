@@ -12,8 +12,8 @@ module UsersHelper
 	def user_name(user_id)   #根据用户id返回用户名
 		if user_id
 			user = User.find user_id
-	    	
-	    	link_to user.username, edit_user_path(user)
+
+	    	link_to user.username, user_path(user)
 		else
 			'无'
 		end

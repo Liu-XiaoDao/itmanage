@@ -71,17 +71,17 @@ http://www.bootcss.com/p/bootstrap-datetimepicker/
 	<form class="form-inline" role="form">
 		<div class="form-group">
 			<label for="name" class="control-label">名字:&nbsp;</label>
-			<input type="text" class="form-control" id="name" 
+			<input type="text" class="form-control" id="name"
 				   placeholder="请输入名称">
 		</div>
 		<div class="form-group">
 			<label for="name" class="control-label">名字:&nbsp;</label>
-			<input type="text" class="form-control" id="name" 
+			<input type="text" class="form-control" id="name"
 				   placeholder="请输入名称">
 		</div>
 		<div class="form-group">
 			<label for="name" class="control-label">名字:&nbsp;</label>
-			<input type="text" class="form-control" id="name" 
+			<input type="text" class="form-control" id="name"
 				   placeholder="请输入名称">
 		</div>
 
@@ -138,21 +138,21 @@ $('.div1').click(function(){
 <script type="text/javascript">
 if (window.Notification) {
     var button = document.getElementById('button'), text = document.getElementById('text');
-    
+
     var popNotice = function() {
         if (Notification.permission == "granted") {
             var notification = new Notification("Hi，帅哥：", {
                 body: '可以加你为好友吗？',
                 icon: 'http://image.zhangxinxu.com/image/study/s/s128/mm1.jpg'
             });
-            
+
             notification.onclick = function() {
                 text.innerHTML = '张小姐已于' + new Date().toTimeString().split(' ')[0] + '加你为好友！';
-                notification.close();    
+                notification.close();
             };
-        }    
+        }
     };
-    
+
     button.onclick = function() {
         if (Notification.permission == "granted") {
             popNotice();
@@ -163,7 +163,7 @@ if (window.Notification) {
         }
     };
 } else {
-    alert('浏览器不支持Notification');    
+    alert('浏览器不支持Notification');
 }
 </script>
 
