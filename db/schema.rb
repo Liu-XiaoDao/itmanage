@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171130083756) do
+ActiveRecord::Schema.define(version: 20171204081104) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -211,8 +211,8 @@ ActiveRecord::Schema.define(version: 20171130083756) do
   add_foreign_key "oserviceimgs", "otherservices"
   add_foreign_key "partrecords", "devices"
   add_foreign_key "partrecords", "parts"
-  add_foreign_key "parts", "decategories", column: "partcategory_id"
   add_foreign_key "parts", "devices"
+  add_foreign_key "parts", "partcategories"
   add_foreign_key "serviceimgs", "deviceservices"
   add_foreign_key "users", "departments"
 end

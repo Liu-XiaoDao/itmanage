@@ -77,8 +77,8 @@ class DevicesController < ApplicationController
 	def new
 		@device = Device.new
 		@devices = Device.all
-		@decategorys =  []
-		GetTree(Decategory.all,0,0,@decategorys,"|----")
+		@decategorys = Decategory.all
+		# GetTree(Decategory.all,0,0,@decategorys,"|----")
 		
 	end
 

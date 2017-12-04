@@ -8,9 +8,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<ul class="breadcrumb">
-				<li> <a href="#">Home</a></li>
-				<li><a href="#">Library</a></li>
-				<li class="active">Data</li>
+				<li class="active">主页</li>
 			</ul>
 		</div>
 	</div>
@@ -53,20 +51,20 @@
 				<div class="panel-heading"><h3 class="panel-title">设备数量</h3></div>
 		        <div class="panel-body">
 		            <div class="col-md-3">
-		                <div class="easyPieChart" data-percent="73" style="width: 110px; height: 110px; line-height: 110px;">73%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
-		                <div class="chart-bottom-heading"><span class="label label-info">访问量</span></div>
+		                <div class="easyPieChart" data-percent="<%= @devicepercent %>" style="width: 110px; height: 110px; line-height: 110px;"><%= @devicepercent %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+		                <div class="chart-bottom-heading"><span class="label label-info">设备剩余量</span></div>
 		            </div>
 		            <div class="col-md-3">
-		                <div class="easyPieChart" data-percent="53" style="width: 110px; height: 110px; line-height: 110px;">53%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
-		                <div class="chart-bottom-heading"><span class="label label-info">页面浏览量</span></div>
+		                <div class="easyPieChart" data-percent="<%= @partpercent %>" style="width: 110px; height: 110px; line-height: 110px;"><%= @partpercent %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+		                <div class="chart-bottom-heading"><span class="label label-info">配件剩余量</span></div>
 		            </div>
 		            <div class="col-md-3">
-		                <div class="easyPieChart" data-percent="83" style="width: 110px; height: 110px; line-height: 110px;">83%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
-		                <div class="chart-bottom-heading"><span class="label label-info">用户</span></div>
+		                <div class="easyPieChart" data-percent="<%= @consumablepercent %>" style="width: 110px; height: 110px; line-height: 110px;"><%= @consumablepercent %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+		                <div class="chart-bottom-heading"><span class="label label-info">耗材剩余量</span></div>
 		            </div>
 		            <div class="col-md-3">
-		                <div class="easyPieChart" data-percent="13" style="width: 110px; height: 110px; line-height: 110px;">13%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
-		                <div class="chart-bottom-heading"><span class="label label-info">订单</span></div>
+		                <div class="easyPieChart" data-percent="<%= @userpercent %>" style="width: 110px; height: 110px; line-height: 110px;"><%= @userpercent %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+		                <div class="chart-bottom-heading"><span class="label label-info">新员工</span></div>
 		            </div>
 		        </div>
 		    </div>
@@ -76,10 +74,63 @@
 
 
     <!-- <div > -->
+
 	<div class="row">
+
+    	<div class="col-md-6">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">员工</h3></div>
+	          	<div class="panel-body">
+					<table class="table table-striped">
+						<thead>
+							<tr><th><%= t("name")%></th><th><%= t("email")%></th><th>考勤号</th><th><%= t("devicecount") %></th></th></tr>
+						</thead>
+						<tbody>
+							<% @users.each do |user| %>
+								<tr>
+									<td><%= link_to user.username, edit_user_path(user) %></td>
+									<td><%= user.email %></td>
+									<td><%= user.attendance %></td>
+									<td><%= user.devices.count %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+	      	</div>
+    	</div>
+    	<div class="col-md-6">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">设备</h3></div>
+	          	<div class="panel-body">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr><th><%= t("devicecode")%></th><th><%= t("devicename")%></th><th><%= t("deviceserviceno")%></th><th>状态</th></tr>
+						</thead>
+						<tbody>
+							<% @devices.each do |device| %>
+								<% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
+									<% danger = 'class= danger' %>
+								<% elsif (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
+									<% danger = 'class= warning' %>
+								<% end %>
+								<tr <%= danger %> >
+									<td><%= link_to device.asset_code, device_path(device) %></td>
+									<td class="asset_name" iid="<%= device.id %>"><p><%= device.asset_name %></p></td>
+									<td class="service_sn" iid="<%= device.id %>"><p><%= device.service_sn %></p></td>
+									<td><%= device_status device.status %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+	      	</div>
+    	</div>
+    </div>
+    <div class="row">
 		<div class="col-md-4">
 	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">员工数量</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="#">查看更多</a></span></div>
+	        	<div class="panel-heading"><h3 class="panel-title">部门</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="#">查看更多</a></span></div>
 				<div class="panel-body">
 					<table class="table table-striped table-hover">
 						<thead>
@@ -101,7 +152,7 @@
 
     	<div class="col-md-4">
 	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">设备</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="#">查看更多</a></span></div>
+	        	<div class="panel-heading"><h3 class="panel-title">设备分类</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="#">查看更多</a></span></div>
 	          	<div class="panel-body">
 					<table class="table table-striped">
 						<thead>
@@ -123,7 +174,7 @@
     	</div>
 		<div class="col-md-4">
 	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">配件</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="#">查看更多</a></span></div>
+	        	<div class="panel-heading"><h3 class="panel-title">配件分类</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="#">查看更多</a></span></div>
 	          	<div class="panel-body">
 					<table class="table table-striped">
 						<thead>
@@ -144,8 +195,8 @@
 	      	</div>
     	</div>
 	</div>
-	<div class="row">
-    	<div class="col-md-5">
+    <div class="row">
+    	<div class="col-md-3">
 	        <div class="panel panel-primary">
 	        	<div class="panel-heading"><h3 class="panel-title">耗材</h3></div>
 	          	<div class="panel-body">
@@ -168,8 +219,71 @@
 				</div>
 	      	</div>
     	</div>
-    </div>
 
+    	<div class="col-md-3">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">配件</h3></div>
+	          	<div class="panel-body">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr><th>配件编号</th><th>配件名</th><th>从属设备</th></tr>
+						</thead>
+						<tbody>
+							<% @parts.each do |part| %>
+								<tr>
+									<td><%= link_to part.part_code, part_path(part) %></td>
+									<td class="part_name" iid="<%= part.id %>"><p><%= part.part_name %></p></td>
+									<td><%= device_name part.device_id %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+	      	</div>
+    	</div>
+    	<div class="col-md-3">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">设备服务</h3></div>
+	          	<div class="panel-body">
+					<table class="table table-striped table-hover">
+						<thead>
+						<tr><th>设备</th><th>服务名</th><th>到期时间</th></tr>
+						</thead>
+						<tbody>
+							<% @deviceservices.each do |deviceservice| %>
+								<tr>
+									<td><%= device_name deviceservice.device_id %></td>
+									<td><%= link_to deviceservice.servicename, deviceservice_path(deviceservice) %></td>
+									<td><%= deviceservice.end_date.try(:strftime, "%Y-%m-%d") %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+	      	</div>
+    	</div>
+    	<div class="col-md-3">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">其他服务</h3></div>
+	          	<div class="panel-body">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr><th>服务名</th><th>开始时间</th><th>到期时间</th></tr>
+						</thead>
+						<tbody>
+							<% @otherservices.each do |otherservice| %>
+								<tr>
+									<td><%= link_to otherservice.servicename, otherservice_path(otherservice) %></td>
+									<td><%= otherservice.begin_date.try(:strftime, "%Y-%m-%d") %></td>
+									<td><%= otherservice.end_date.try(:strftime, "%Y-%m-%d") %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+	      	</div>
+    	</div>
+    </div>
 
 
 

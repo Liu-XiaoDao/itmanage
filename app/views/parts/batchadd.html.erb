@@ -20,6 +20,7 @@
 						<div class="form-group">
 							<label for="name">配件类型:</label>
 							<select class="form-control" name=part[partcategory_id]>
+								<option value=""></option>
 								<% @partcategorys.each do |partcategory| %>
 								<option value="<%= partcategory.id %>"><%= partcategory.name %></option>
 								<% end %>

@@ -23,7 +23,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3 class="panel-title">修改耗材信息</h3></div>
 				<div class="panel-body">
-					<%= form_for @consumable, url: consumables_path do |c| %>
+					<%= form_for @consumable, url: consumable_path do |c| %>
 						<div class="form-group">
 							<label>耗材:</label><br>
 							<%= c.text_field  :name, placeholder: "耗材", class: "form-control" %>
@@ -36,7 +36,7 @@
 							<label>位置:</label><br>
 							<%= c.text_field :location, placeholder: "耗材存放位置", class: "form-control" %>
 						</div>
-						<%= c.submit  "确定添加", class: "btn btn-primary btn-block" %>
+						<%= c.submit  "确定修改", class: "btn btn-primary btn-block" %>
 					<% end %>
 					<br/><a href="<%= consumables_path %>">>>返回耗材列表</a>
 				</div>

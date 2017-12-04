@@ -24,7 +24,7 @@
                     <div class="panel panel-info">
 
                             <div class="panel-heading"><h3 class="panel-title">用户资料</h3></div>
- 							<div class="panel-body">
+                            <div class="panel-body">
                                 <%= simple_form_for @user, url: user_path(@user), method: :patch, remote: true do |f| %>
                                 <div class="form-group">
                                     <label for="name">名字:</label>
@@ -45,7 +45,7 @@
                                     <%= f.submit t("updateinfo"), class: "btn btn-primary submit" %>
                                 </div>
                                 <% end %>
-                         	</div>
+                            </div>
 
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                 <div class="col-sm-3 col-md-3">
                     <div class="panel panel-info">
                         <div class="panel-heading"><h3 class="panel-title">修改密码</h3></div>
-						<div class="panel-body">
+                        <div class="panel-body">
                             <%= simple_form_for @user, url: updatepw_user_path(@user), method: :post, remote: true do |f| %>
                             <div class="form-error-container">
                                 <%= render 'shared/form_error_messages', object: f.object %>
@@ -70,13 +70,13 @@
                                 <%= f.submit t("updateps"), class: "btn btn-primary submit" %>
                             </div>
                             <% end %>
-						</div>
+                        </div>
                     </div>
                     <div class="panel panel-info">
                         <div class="panel-heading"><h3 class="panel-title">分配耗材</h3></div>
-						<div class="panel-body">
+                        <div class="panel-body">
                             <a href="#" data-toggle="modal" data-target="#consumableModal" class="btn btn-primary submit" >分配</a>
-						</div>
+                        </div>
                     </div>
                 </div>
 
@@ -111,26 +111,26 @@
                                       <div class="panel panel-info">
                                         <div class="panel-heading"><h3 class="panel-title"><%= device.asset_code %>配件列表</h3></div>
                                         <div class="panel-body">
-	                                        <div class="table-responsive">
-	                                          <table class="table table-striped table-hover">
-	                                            <thead>
-	                                                <tr><th>配件编号</th><th>配件名</th><th>配件详情</th><th>类型</th><th>配件状态</th><th>收货时间</th></tr>
-	                                            </thead>
-	                                            <tbody>
+                                            <div class="table-responsive">
+                                              <table class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr><th>配件编号</th><th>配件名</th><th>配件详情</th><th>类型</th><th>配件状态</th><th>收货时间</th></tr>
+                                                </thead>
+                                                <tbody>
 
-	                                            <% device.parts.each do |part| %>
-	                                                <tr>
-	                                                  <td><%= link_to part.part_code, part_path(part) %></td>
-	                                                  <td class="part_name" iid="<%= part.id %>"><p><%= part.part_name %></p></td>
-	                                                  <td class="service_sn" iid="<%= part.id %>"><p><%= part.part_details %></p></td>
-	                                                  <td class="asset_details" iid="<%= part.id %>"><p><%= part_type part.partcategory_id %></p></td>
-	                                                  <td><%= part_status part.status %></td>
-	                                                  <td><%= part.receive_date.try(:strftime, "%Y-%m-%d") %></td>
-	                                                </tr>
-	                                            <% end %>
-	                                            </tbody>
-	                                          </table>
-	                                        </div>
+                                                <% device.parts.each do |part| %>
+                                                    <tr>
+                                                      <td><%= link_to part.part_code, part_path(part) %></td>
+                                                      <td class="part_name" iid="<%= part.id %>"><p><%= part.part_name %></p></td>
+                                                      <td class="service_sn" iid="<%= part.id %>"><p><%= part.part_details %></p></td>
+                                                      <td class="asset_details" iid="<%= part.id %>"><p><%= part_type part.partcategory_id %></p></td>
+                                                      <td><%= part_status part.status %></td>
+                                                      <td><%= part.receive_date.try(:strftime, "%Y-%m-%d") %></td>
+                                                    </tr>
+                                                <% end %>
+                                                </tbody>
+                                              </table>
+                                            </div>
                                         </div>
                                       </div>
                                   </div>

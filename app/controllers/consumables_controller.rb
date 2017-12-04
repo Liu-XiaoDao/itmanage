@@ -19,6 +19,18 @@ class ConsumablesController < ApplicationController
   end
 
   def update
+    #修改一个耗材
+    @consumable = Consumable.find(params[:id])
+    
+    @consumable.name = params[:consumable][:name]
+    @consumable.unit = params[:consumable][:unit]
+    @consumable.location = params[:consumable][:location]
+
+    if @consumable.save
+      redirect_to consumables_path
+    else
+      render :new
+    end
   end
 
   def show
