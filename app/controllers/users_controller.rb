@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   layout 'home'
 
   def index
-  	@users = User.all.paginate page: params[:page], per_page: 10
+    @users = User.all.paginate page: params[:page], per_page: 10
     @departments = Department.all
 
     #导出Excel的.一会在研究
@@ -81,23 +81,19 @@ class UsersController < ApplicationController
   #用户详情
   def edit
     @user = User.find(params[:id])
-    @decategorys = Decategory.all
-    # @devices = Device.where user_id: @user.id
-    @devices = @user.devices
-    @consumables = Consumable.all
-    @consumablerecords = @user.consumablerecords
-
-    #用户的所有设备使用记录
-    @devicerecords = @user.devicerecords
-
-    # @myconsumables = @user.consumables   这个是测试用户所有耗材的
-    # render json: @myconsumables
+    @departments = Department.all
   end
 
 
   #这个没有使用
   def show
     @user = User.find(params[:id])
+    @decategorys = Decategory.all
+    @devices = @user.devices
+    @consumables = Consumable.all
+    @consumablerecords = @user.consumablerecords
+    #用户的所有设备使用记录
+    @devicerecords = @user.devicerecords
   end
 
 
@@ -105,13 +101,12 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      render json: user_params
+      redirect_to user_path(@user)
     else
       @user.errors.full_messages.each do |msg|
         render plain: msg
       end
     end
-#    render :edit
   end
 
   #管理员修改密码
@@ -126,7 +121,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.avatar_upload(params[:user][:avatar])
 
-    redirect_to edit_user_path(@user)
+    redirect_to user_path(@user)
   end
 
 
@@ -141,9 +136,6 @@ class UsersController < ApplicationController
     # #等于1,表示是新添加设备之前从未有人使用,第一次分配时要设置第一次分配时间,四年的报废不用设置了....{,设置4年的报废时间}
     if @device.status == 1
       @device.first_date = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
-      # fouryear = Time.zone.now + 4.years
-      # fouryear = fouryear.strftime("%Y-%m-%d %H:%M:%S")
-      # device.scrap_date = fouryear
     end
 
     #分配设备,设备的user_id设置为当前用户的id
@@ -206,8 +198,6 @@ class UsersController < ApplicationController
 
 
   def upload
-    
-
     @users = params[:users].split("\r\n")
     count = 0
     @users.each do |user|
@@ -220,7 +210,6 @@ class UsersController < ApplicationController
       useritem.department_id = department.blank? ? 0 : department.id
       useritem.save!
     end
-
     render plain: count
   end
 
@@ -231,3 +220,26 @@ class UsersController < ApplicationController
       params.require(:user).permit(:username, :attendance, :email, :department_id)
     end
 end
+
+
+
+
+
+
+
+
+#去除\ufeff方法,注意使用我的作为基准,所以刘青新,刘小龙,会多去点一个字符原因未知
+
+  # def index
+  #   @seconduser = User.second
+  #   tsstr = @seconduser.username[0]
+  #   @users = User.all
+  #   strprenext = ''
+  #   @users.each do |user|
+  #       strprenext = strprenext + user.username + "----"
+  #       user.username = user.username.delete(tsstr)
+  #       user.save
+  #       strprenext = strprenext + user.username + '\n'
+  #   end
+  #   render plain: strprenext.inspect
+  # end
