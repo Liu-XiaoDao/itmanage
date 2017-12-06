@@ -1,5 +1,5 @@
 class ExceptionMailer < ApplicationMailer
-  
+
   default from: 'liu_xiaodao@163.com'
 
   def exception_nitofy
@@ -12,9 +12,15 @@ class ExceptionMailer < ApplicationMailer
     @devices = devices
 
     emailarr = Siteinfo.first.blank? ?  ["957419420@qq.com"] : Siteinfo.first.emailrecive.split(",")
-
-    # emailarr.each{|email| mail to: email, subject: "设备到期提醒" }
     mail to: emailarr, subject: "设备到期提醒"
+  end
+
+
+  def service_nitofy(services)
+    @services = services
+
+    emailarr = Siteinfo.first.blank? ?  ["957419420@qq.com"] : Siteinfo.first.emailrecive.split(",")
+    mail to: emailarr, subject: "服务到期提醒"
   end
 
 end

@@ -1,0 +1,35 @@
+<fieldset style="margin-top: 20px;border-color: #e6e6e6;margin: 10px 0 20px;border-width: 1px 0 0;border-style: solid;padding: 0;display: block;-webkit-margin-start: 2px;-webkit-margin-end: 2px;-webkit-padding-before: 0.35em;-webkit-padding-start: 0.75em;-webkit-padding-end: 0.75em;-webkit-padding-after: 0.625em;min-width: -webkit-min-content;border-image: initial;">
+  <legend style="margin-left: 20px;padding: 0 10px;font-size: 20px;font-weight: 300;display: block;-webkit-padding-start: 2px;-webkit-padding-end: 2px;border-width: initial;border-style: none;border-color: initial;border-image: initial;">服务到期提醒-下列服务即将到期请及时处理</legend>
+</fieldset>
+
+<div style="margin: 0;padding: 0;-webkit-tap-highlight-color: rgba(0,0,0,0);display: block;line-height: 24px;">
+  <table class="layui-table" style="width: 100%;background-color: #fff;color: #666;margin: 10px 0;border-collapse: collapse;border-spacing: 0;display: table; border-color: grey;">
+    <colgroup style="display: table-column-group;">
+      <col width="150" style="display: table-column;">
+      <col width="150" style="display: table-column;">
+      <col width="300" style="display: table-column;">
+      <col width="200" style="display: table-column;">
+      <col width="100" style="display: table-column;">
+    </colgroup>
+    <thead style="display: table-header-group;vertical-align: middle;border-color: inherit;  ">
+      <tr style="background-color: #f8f8f8;-webkit-transition: all .3s;display: table-row;vertical-align: inherit;border-color: inherit;  ">
+        <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">服务名</th>
+        <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">服务提供商</th>
+        <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">服务开始时间</th>
+        <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">服务到期时间</th>
+        <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">描述</th>
+      </tr> 
+    </thead>
+    <tbody style="display: table-row-group;vertical-align: middle;border-color: inherit; ">
+      <% @services.each do |service| %>
+	    <tr style="-webkit-transition: all .3s;display: table-row;vertical-align: inherit;border-color: inherit; ">
+	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.servicename %></td>
+	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.serviceprovider %></td>
+          <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.begin_date.try(:strftime, "%Y-%m-%d") %></td>
+	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.end_date.try(:strftime, "%Y-%m-%d") %></td>
+          <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.describe %></td>
+	    </tr>
+	  <% end %>
+    </tbody>
+  </table>
+</div>

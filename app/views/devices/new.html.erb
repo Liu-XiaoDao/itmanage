@@ -12,10 +12,18 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
+			<% if @device && @device.errors.any? %>
+				<div id="error-info" class="alert alert-danger">
+					<div class="form-error">
+						<span class="form-error-field"><%= @device.errors.full_messages[0] %></span>
+						<span class="glyphicon glyphicon-info-sign icon"></span>
+					</div>
+				</div>
+			<% end %>
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3 class="panel-title">添加设备</h3></div>
 				<div class="panel-body">
-					<%= form_for @device, url: devices_path, remote: true do |f| %>
+					<%= form_for @device, url: devices_path do |f| %>
 						<div id="error-info" class="alert alert-danger" style="display: none;"></div>
 						<div class="form-group">
 				          	<label for="name">设备类型:</label>

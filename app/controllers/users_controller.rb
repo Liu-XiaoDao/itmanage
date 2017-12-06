@@ -5,21 +5,20 @@ class UsersController < ApplicationController
   def index
     @users = User.all.paginate page: params[:page], per_page: 10
     @departments = Department.all
-
     #导出Excel的.一会在研究
     if params[:format]
       export_csv(User)
     end
   end
-
+  #添加新员工页面
   def new
     @user = User.new
     @departments = Department.all
   end
 
+  #保存新员工
   def create
     @user = User.new(user_params)
-
     if @user.save
       redirect_to users_path
     else
@@ -28,12 +27,8 @@ class UsersController < ApplicationController
     end
   end
 
-
-
-  #搜索设备
+  #搜索员工
   def search
-
-
     @username = params[:user][:username]
     @email = params[:user][:email]
     @created_at = params[:user][:created_at]
@@ -70,11 +65,9 @@ class UsersController < ApplicationController
         searchstr += "created_at between '#{begindate.try(:strftime, '%Y-%m-%d')}' And '#{enddate.try(:strftime, '%Y-%m-%d')}'"
       end
       @users = User.where(searchstr).paginate page: params[:page], per_page: 10
-
       @departments = Department.all
-# return render plain: searchstr
-      render "index"
 
+      render "index"
     end
   end
 
@@ -85,7 +78,7 @@ class UsersController < ApplicationController
   end
 
 
-  #这个没有使用
+  #员工详情页面
   def show
     @user = User.find(params[:id])
     @decategorys = Decategory.all
@@ -116,21 +109,29 @@ class UsersController < ApplicationController
     @user.save
   end
 
-  #用户上传头像
-  def upload_avatar
-    @user = User.find(params[:id])
-    @user.avatar_upload(params[:user][:avatar])
-
-    redirect_to user_path(@user)
-  end
+  #用户上传头像   上传头像功能取消
+  # def upload_avatar
+  #   @user = User.find(params[:id])
+  #   @user.avatar_upload(params[:user][:avatar])
+  #   redirect_to user_path(@user)
+  # end
 
 
   #在用户详情页给用户分配设备
   def assigndevise
 
-    #使用设备id拿到设备
-    @device = Device.find params[:device][:device_id]
+    assign_type = params[:device][:assigntype]  #分配方式(设备状态)
+    borrow_timeleft = params[:device][:borrowtime]
+    device_id = params[:device][:device_id]
 
+    if device_id.blank? || assign_type.blank? || ( assign_type.to_i == 5 && borrow_timeleft.blank?) || ( assign_type.to_i == 7 && borrow_timeleft.blank?)  
+      flash[:warning] = "设备分配失败,信息不全"
+      return redirect_to user_path(params[:id])
+    end
+
+
+    #使用设备id拿到设备
+    @device = Device.find device_id
 
     #下面注释,因为报废时间根据出厂时间定,所以不用在这里计算
     # #等于1,表示是新添加设备之前从未有人使用,第一次分配时要设置第一次分配时间,四年的报废不用设置了....{,设置4年的报废时间}
@@ -143,7 +144,7 @@ class UsersController < ApplicationController
     #分配设备是设备的状态只有两种借用或者办公用,其他状态在设备页自己处理
     @device.status = params[:device][:assigntype]
     #根据分配类型,设置是否有借用天数
-    if params[:device][:assigntype].to_i == 5
+    if params[:device][:assigntype].to_i == 5 || params[:device][:assigntype].to_i == 7
       @device.borrow_timeleft = params[:device][:borrowtime]   #借用时间,再这设置为借用剩余时间,最后定时任务,每天自动减1,当时间为0,提醒管理员收回电脑
     else
       @device.borrow_timeleft = -1  #-1代表不会到期
@@ -158,11 +159,12 @@ class UsersController < ApplicationController
     @devicerecord.device_id = @device.id
     @devicerecord.note = device_status @device.status
 
-
     if @device.save && @devicerecord.save
-      redirect_to user_path(params[:id])
+      flash[:warning] = "设备分配成功"
+      return redirect_to user_path(params[:id])
     else
-
+      flash[:warning] = "设备分配失败"
+      return redirect_to user_path(params[:id])
     end
 
   end
@@ -171,7 +173,6 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-
     redirect_to users_path
   end
 
@@ -196,7 +197,7 @@ class UsersController < ApplicationController
 
 
 
-
+  #倒入用户方法
   def upload
     @users = params[:users].split("\r\n")
     count = 0

@@ -41,6 +41,8 @@ Rails.application.routes.draw do
 
 
   resources :departments
+  post '/departments/addlowerdepartment' => 'departments#addlowerdepartment'
+
 
   post "users/upload" => 'users#upload'
   get 'users/search' => 'users#search'
@@ -60,6 +62,7 @@ Rails.application.routes.draw do
   #其他服务路由
   resources :otherservices do
     post 'upload_img', on: :member
+    get 'set_remind', on: :member
   end
 
   #耗材路由

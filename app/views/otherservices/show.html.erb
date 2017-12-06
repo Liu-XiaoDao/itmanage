@@ -1,5 +1,8 @@
 <% provide :c_active, "service" %>
 <% provide :pre_title, "其他服务详情" %>
+
+<%= stylesheet_link_tag    'iosbtn', media: 'all', 'data-turbolinks-track': 'reload' %>
+
 <div class="container" style="padding-top:70px;" >
 	<div class="row">
 		<div class="col-md-12">
@@ -18,6 +21,13 @@
 					<% @otherservice.attributes.dup.each do |key,value|%>
 						<li class="list-group-item"><span style="width: 29%;height: 100%;display: block;float: left;"><%= key %></span>:<span style="width: 69%;height: 100%;display: block;float: right;"><%= value %></span></li>
 					<% end %>
+
+					<% if @otherservice.closeremind == 1 %>
+						<% cl = "switch-on" %>
+					<% else %>
+						<% cl = "switch-off" %>
+					<% end %>
+					<li class="list-group-item"><span style="width: 29%;height: 100%;display: block;float: left;">关闭邮件提醒</span>:<span style="width: 69%;height: 100%;display: block;float: right;"><div class="cell-right"><span class="<%= cl %>" id="remind"></span></div></span></li>
 				</ul>
 				<br/>
 				<br/>
@@ -70,3 +80,40 @@
         }
     });
 </script>
+
+	<script>
+		//honeySwitch.themeColor="lightblue";
+		$(function(){
+			switchEvent("#remind",function(){
+				set_remind(1);
+			},function(){
+				set_remind(0);
+			});
+		});
+
+		function set_remind(tag) {
+	        $.ajax({
+	            type : "GET",
+	            url : "<%= set_remind_otherservice_path(@otherservice) %>",
+	            data : {
+	                'tag':tag
+	            },
+	            dataType : "JSON",
+	            success : function(result){
+	                if(!result.status){
+	                    var str = '<option value ="">请选择员工</option>';
+	                    $.each(result,function (i,value) {
+	                      str += '<option value ="'+value.id+'">'+value.username+'</option>';
+	                    });
+	                    $('#ajaxuser').html(str);
+	                }else{
+	                    if(result.msg){
+	                        alert(result.msg);
+	                    }
+	                }
+	            }
+	        });
+	    }
+
+
+	</script>

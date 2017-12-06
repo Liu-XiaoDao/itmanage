@@ -16,9 +16,9 @@ class ApplicationController < ActionController::Base
 	end 
 
 
-	# 设置时区
+	# 设置时区   ,这个地方注释,有点问题,新的解决方法在,application.rb中
 	def set_time_zone
-	   Time.zone = 'Beijing'
+	   # Time.zone = 'Beijing'
 	end
 
 

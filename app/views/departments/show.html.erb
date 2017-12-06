@@ -11,26 +11,88 @@
         </div>
     </div>
     <div class="row">
-        <div class="alert alert-info">部门共有 <b><%= @departmentUsers.count %></b> 个员工</div>
-        <div class="table-responsive" style="padding-top: 20px;">
-            <table class="table table-striped">
-                <thead>
-                    <tr><th><%= t("name")%></th><th><%= t("email")%></th><th><%= t("devicecount")%></th><th><%= t("operation")%></th></tr>
-                </thead>
-                <tbody>
-                    <% @departmentUsers.each do |user| %>
-                        <tr>
-                            <td><%= link_to user.username, user_path(user) %></td>
-                            <td><%= user.email %></td>
-                            <td><%= user.devices.count %></td>
-                            <td><%= link_to t("edit"), edit_user_path(user) %></td>
-                            <td><%#= link_to t("delete"), user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
-                        </tr>
-                    <% end %>
-                </tbody>
-            </table>
-            <%= will_paginate @departmentUsers, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
-            <br/><a href="<%= departments_path %>">>>返回部门列表</a>
+        <div class="col-sm-12 col-md-12">
+            <% flash.each do |name, msg| %>
+                <div  class="alert alert-danger"><%= msg %></div>
+            <% end %>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-3 col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title">部门详情</h3></div>
+                <ul class="list-group">
+                    <li class="list-group-item">部门名:<b><%= @department.department_name %></b></li>
+                    <li class="list-group-item">部门人数:<b><%= @departmentUsers.count %></b></li>
+                </ul>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title">设备分类详情</h3></div>
+                <div class="panel-body">
+                    上级部门:<%= @higherdepartment.blank? ? '没有上级部门' : @higherdepartment.department_name %>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title">下级部门</h3></div>
+                <ul class="list-group">
+                    <% if @lowerdepartments.blank? %>
+                        <li class="list-group-item">没有下级部门</li>
+                    <% else %>
+                        <% @lowerdepartments.each do |lowerdepartment|%>
+                            <li class="list-group-item">部门名称:<%= lowerdepartment.department_name %><br>部门人数:<%= lowerdepartment.users.count %></li>
+                        <% end %>
+                    <% end %>
+                    
+                </ul>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title">添加下级部门</h3></div>
+                <div class="panel-body">
+                    <div class="alert alert-danger" id="error-info" style="display: none;"></div>
+
+                    <%= form_for @departmentnew, url: departments_addlowerdepartment_path do |f| %>
+                        <%= hidden_field_tag(:parent_id, @department.id) %>
+                        <div class="form-group">
+                            <label>部门名称:</label><br>
+                            <%= f.text_field :department_name, placeholder: "设备分类名", class: "form-control" %>
+                            <br>
+                            <label>选择部门经理:</label><br>
+                            <select class="form-control" name="department[manager_name]">
+                                <option value="没有选择">请选择一个manager</option>
+                                <option value=""></option>
+                                <% @users.each do |user| %>
+                                    <option value="<%= user.username %>"><%= user.username %></option>
+                                <% end %>
+                            </select>
+                        </div>
+                        <%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9 col-md-9">
+            <div class="alert alert-info">部门共有 <b><%= @departmentUsers.count %></b> 个员工</div>
+            <div class="table-responsive" style="padding-top: 20px;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr><th><%= t("name")%></th><th><%= t("email")%></th><th><%= t("devicecount")%></th><th><%= t("operation")%></th></tr>
+                    </thead>
+                    <tbody>
+                        <% @departmentUsers.each do |user| %>
+                            <tr>
+                                <td><%= link_to user.username, user_path(user) %></td>
+                                <td><%= user.email %></td>
+                                <td><%= user.devices.count %></td>
+                                <td><%= link_to t("edit"), edit_user_path(user) %></td>
+                                <td><%#= link_to t("delete"), user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+                <%= will_paginate @departmentUsers, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+                <br/><a href="<%= departments_path %>">>>返回部门列表</a>
+            </div>
+        </div>
+    </div>
+
 </div>

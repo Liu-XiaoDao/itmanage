@@ -15,13 +15,19 @@ class DeviceservicesController < ApplicationController
 
   #数据库中插入新的维保
   def create
+    #新建一条记录
     @deviceservice = Deviceservice.new(deviceservice_params)
+    #用这个服务的开始时间和周期,计算出这个维保的到期时间
     @deviceservice.end_date = (Time.parse(@deviceservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:deviceservice][:months].to_i.month).strftime("%Y-%m-%d")
-
+    #拿到添加服务的设备
     @device = Device.find params[:deviceservice][:device_id]
+
+    @deviceservice.devicescraptime = @device.scrap_date
+
     @device.scrap_date = @deviceservice.end_date
     @device.is_scrap = 0
     
+
     if @deviceservice.save && @device.save
       redirect_to deviceservices_path
     else
@@ -38,8 +44,16 @@ class DeviceservicesController < ApplicationController
 
   #返回修改一条维保记录的页面
   def edit
-    @deviceservice = Deviceservice.find params[:id]
+    #检测如果一个设备有多条维保记录,只有最后一条能修改
+    @deviceservice = Deviceservice.find params[:id]    #要修改的记录
     @devices = Device.all
+
+    @newdeviceservice = Deviceservice.where(device_id: @deviceservice.device_id).order(id: :desc).last
+
+    if @deviceservice.id == @newdeviceservice.id
+        flash[:warning] = "这条维保记录中的设备,在这条记录之后添加了其他维保,不能修改"
+        return redirect_to deviceservices_path
+    end
   end
 
   #修改一条维保
@@ -47,12 +61,8 @@ class DeviceservicesController < ApplicationController
     @deviceservice = Deviceservice.find params[:id]
 
     if @deviceservice.device_id.to_i == params[:deviceservice][:device_id].to_i
-      @deviceservice.servicename = params[:deviceservice][:servicename]
-      @deviceservice.serviceprovider = params[:deviceservice][:serviceprovider]
-      @deviceservice.price = params[:deviceservice][:price]
-      @deviceservice.begin_date = params[:deviceservice][:begin_date]
-      @deviceservice.months = params[:deviceservice][:months]
-      @deviceservice.describe = params[:deviceservice][:describe]
+      #更改属性
+      @deviceservice.update edit_params
 
       @deviceservice.end_date = (Time.parse(@deviceservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:deviceservice][:months].to_i.month).strftime("%Y-%m-%d")
 
@@ -69,28 +79,25 @@ class DeviceservicesController < ApplicationController
     else
       #如果设备改变,先恢复对之前设备的修改
       @olddevice = Device.find @deviceservice.device_id
-      @olddevice.scrap_date = (Time.parse(@olddevice.scrap_date.try(:strftime, "%Y-%m-%d")) - @deviceservice.months.month).strftime("%Y-%m-%d")
+      @olddevice.scrap_date = @deviceservice.devicescraptime
       #旧设备根据原始设备维保到期时间修改,是否到期状态
       if (@olddevice.scrap_date - Time.now) < 0
       	@olddevice.is_scrap = 0
       else
       	@olddevice.is_scrap = 1
       end
-
       @olddevice.save
 
 
       @deviceservice.device_id = params[:deviceservice][:device_id]
-      @deviceservice.servicename = params[:deviceservice][:servicename]
-      @deviceservice.serviceprovider = params[:deviceservice][:serviceprovider]
-      @deviceservice.price = params[:deviceservice][:price]
-      @deviceservice.begin_date = params[:deviceservice][:begin_date]
-      @deviceservice.months = params[:deviceservice][:months]
-      @deviceservice.describe = params[:deviceservice][:describe]
+
+      #更改属性
+      @deviceservice.update edit_params
 
       @deviceservice.end_date = (Time.parse(@deviceservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:deviceservice][:months].to_i.month).strftime("%Y-%m-%d")
 
       @device = Device.find params[:deviceservice][:device_id]
+      @deviceservice.devicescraptime = @device.scrap_date
       @device.scrap_date = @deviceservice.end_date
       @device.is_scrap = 0
       if @deviceservice.save && @device.save
@@ -132,7 +139,7 @@ class DeviceservicesController < ApplicationController
       
     end
   end
-
+  #保存图片
   def save_img(file)
     root_path = "#{Rails.root}/public"
     dir_path = "/images/service/#{Time.now.strftime('%Y%m')}"
@@ -149,11 +156,14 @@ class DeviceservicesController < ApplicationController
   end
 
 
-
-
   private
     def deviceservice_params
       params.require(:deviceservice).permit(:device_id, :servicename, :serviceprovider, :price, :begin_date, :months, :describe)
     end
+
+    def edit_params
+      params.require(:deviceservice).permit(:servicename, :serviceprovider, :price, :begin_date, :months, :describe)
+    end
+
 
 end

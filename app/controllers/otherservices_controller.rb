@@ -11,10 +11,11 @@ class OtherservicesController < ApplicationController
   end
 
   def create
+
     @otherservice = Otherservice.new(otherservice_params)
     @otherservice.end_date = (Time.parse(@otherservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:otherservice][:months].to_i.month).strftime("%Y-%m-%d")
-
-    
+    @otherservice.remindtime = (Time.parse(@otherservice.end_date.try(:strftime, "%Y-%m-%d")) - 2.month).strftime("%Y-%m-%d")
+        # return render json: @otherservice
     if @otherservice.save
       redirect_to otherservices_path
     else
@@ -33,9 +34,9 @@ class OtherservicesController < ApplicationController
     @otherservice = Otherservice.find params[:id]
   end
 
+  #修改
   def update
     @otherservice = Otherservice.find params[:id]
-
 
     @otherservice.servicename = params[:otherservice][:servicename]
     @otherservice.serviceprovider = params[:otherservice][:serviceprovider]
@@ -45,29 +46,19 @@ class OtherservicesController < ApplicationController
     @otherservice.describe = params[:otherservice][:describe]
 
     @otherservice.end_date = (Time.parse(@otherservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:otherservice][:months].to_i.month).strftime("%Y-%m-%d")
-
+    @otherservice.remindtime = (Time.parse(@otherservice.end_date.try(:strftime, "%Y-%m-%d")) - 2.month).strftime("%Y-%m-%d")
     
     if @otherservice.save
       redirect_to otherservices_path
     else
       render :edit
     end
-
-
-
   end
-
-
-
 
   def destory
   end
 
-
-
-
-
-
+  #上传图片
   def upload_img
     @otherservice = Otherservice.find params[:id]
     imgurl = save_img(params[:otherservice][:describe])
@@ -82,7 +73,7 @@ class OtherservicesController < ApplicationController
       
     end
   end
-
+  #保存图片
   def save_img(file)
     root_path = "#{Rails.root}/public"
     dir_path = "/images/service/#{Time.now.strftime('%Y%m')}"
@@ -98,8 +89,15 @@ class OtherservicesController < ApplicationController
     "#{dir_path}/#{file_rename}"
   end
 
-
-
+  def set_remind
+    @otherservice = Otherservice.find params[:id]
+    @otherservice.closeremind = params[:tag]
+    if @otherservice.save
+      redirect_to otherservice_path(@otherservice)
+    else
+      
+    end
+  end
 
   private
     def otherservice_params

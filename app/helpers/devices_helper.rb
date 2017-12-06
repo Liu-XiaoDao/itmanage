@@ -16,4 +16,15 @@ module DevicesHelper
 		end
 	end
 
+	def isscrap(is_scrap)   #返回设备状态
+	    case is_scrap
+		    when 0
+		    	"维保期,可正常使用"
+			when 1
+			   	"已超过维保,请回收报废或续保"
+			else
+			   "状态不详"
+			end
+		end
+
 end
