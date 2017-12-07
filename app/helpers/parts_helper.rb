@@ -8,8 +8,7 @@ module PartsHelper
 	    
 	    if device_id
 			device = Device.find device_id
-	    	device.asset_code
-	    	link_to device.asset_code, device_path(device)
+	    	link_to device.asset_name, device_path(device)
 		else
 			'无'
 		end

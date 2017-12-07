@@ -17,18 +17,18 @@
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
           <thead>
-              <tr><th>ID</th><th>设备类型</th><th>设备类型代码</th><th>设备数量</th><th>父分类</th><th>操作</th></tr>
+              <tr><th>类型代码</th><th>设备类型</th><th>设备类型代码</th><th>设备数量</th><th>父分类</th><th>操作</th></tr>
           </thead>
           <tbody>
     			  <% @decategorys.each do |decategory| %>
     			    <tr>
-    			      <td><%= decategory.id %></td>
+    			      <td><%= decategory.pgcode %></td>
     			      <td><%= link_to decategory.name, decategory_path(decategory) %></td>
                 <td class="decategorycode" iid="<%= decategory.id %>"><p><%= decategory.decategorycode %></p></td>
     			      <td><%= decategory.devices.count %></td>
                 <td><%= decategory.mdecategory.nil? ? '无' : decategory.mdecategory.name %></td>
     			      <td><%= link_to '修改', edit_decategory_path(decategory) %></td>
-    			      <td><%#= link_to '删除', decategory_path(decategory), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+    			      <td><%= link_to '删除', decategory_path(decategory), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
     			    </tr>
     			  <% end %>
           </tbody>

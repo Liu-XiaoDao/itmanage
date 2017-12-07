@@ -14,7 +14,17 @@ class DecategorysController < ApplicationController
 
   #添加分类
   def create
+  	@decategorycount = Decategory.where(parent_id: 0).count
+
     @decategory = Decategory.new(decategory_params)
+    @decategory.parent_id = 0
+
+    if @decategorycount < 9
+      @decategory.pgcode = "0" + (@decategorycount + 1).to_s
+    else
+      @decategory.pgcode = @decategorycount + 1
+    end
+
     if @decategory.save
       redirect_to decategorys_path
     else
@@ -24,8 +34,17 @@ class DecategorysController < ApplicationController
 
   #在分类中添加子分类
   def addchildcategory
+    @parentdecategory = Decategory.find(params[:parent_id])
+    @decategorycount = Decategory.where(parent_id: @parentdecategory.id).count
     @decategory = Decategory.new(decategory_params)
-    @decategory.parent_id = params[:parent_id]
+    @decategory.parent_id = @parentdecategory.id
+
+    if @decategorycount < 9
+      @decategory.pgcode = @parentdecategory.pgcode.to_s + "0" + (@decategorycount + 1).to_s
+    else
+      @decategory.pgcode = @parentdecategory.pgcode.to_s + (@decategorycount + 1).to_s
+    end
+
     if @decategory.save
       redirect_to decategorys_path
     else
@@ -40,6 +59,7 @@ class DecategorysController < ApplicationController
     @decategorynew = Decategory.new
 
     @decategorydevices = Device.where(decategory_id: params[:id]).paginate page: params[:page], per_page: 10
+    @categoryparts = Device.joins("INNER JOIN decategories ON devices.decategory_id = decategories.id AND decategories.pgcode like '#{@decategory.pgcode}%'").paginate page: params[:page], per_page: 20
   end
 
   def update

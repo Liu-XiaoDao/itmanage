@@ -1,12 +1,12 @@
 module DevicesHelper
-	def device_name(device_id)   #返回设备名
-	    device = Device.find device_id
-	    device.asset_name
-	end
+	# def device_name(device_id)   #返回设备名
+	#     device = Device.find device_id
+	#     device.asset_name
+	# end
 
-	def device_assetno(device_id)   #返回设备名
-	    device = Device.find device_id
-	    device.asset_code
+	def device_assetno(device_id)   #返回设备编号
+	    # device = Device.find device_id
+	    # device.asset_code
 
 	    if device_id
 			device = Device.find device_id

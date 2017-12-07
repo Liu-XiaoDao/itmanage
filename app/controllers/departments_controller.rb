@@ -24,10 +24,8 @@ class DepartmentsController < ApplicationController
 	def show
 		#部门
 		@department = Department.find(params[:id])
-
 		#本部门及下级部门所有员工
 		@departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{@department.pgcode}%'").paginate page: params[:page], per_page: 20
-
 		@higherdepartment = @department.higher
 	    @lowerdepartments = @department.lowers
 	    @departmentnew = Department.new
@@ -41,13 +39,14 @@ class DepartmentsController < ApplicationController
 	end
 
 	def create
-
 		@departmentcount = Department.where(parent_id: 0).count
-
 		@department = Department.new(device_params)
-		@department.pgcode = @departmentcount + 1
 		@department.parent_id = 0
-
+		if @departmentcount < 9
+			@department.pgcode = "0" + (@departmentcount + 1).to_s
+		else
+			@department.pgcode = @departmentcount + 1
+		end
 		if @department.save
 			redirect_to departments_path
 		else
@@ -56,15 +55,13 @@ class DepartmentsController < ApplicationController
 		end
 	end
 
-	#
 	def departmentusers  #返回指定部门中所有员工
 		@department = Department.find(params[:id])
 		@departmentusers = @department.users
 		render json: @departmentusers
-		# @devices = User.where(decategory_id: params[:decategoryid], is_assign: 0)
-	 #    render json: @devices
-	
 	end
+	
+
 
 	#在部门中中添加下级部门
 	def addlowerdepartment
@@ -84,7 +81,6 @@ class DepartmentsController < ApplicationController
 			@department.pgcode = @highdepartment.pgcode.to_s + (@departmentcount + 1).to_s
 		end
 		
-
 		if @department.save
 			flash[:success] = "添加下级部门成功"
 			redirect_to department_path(@highdepartment)

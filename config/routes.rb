@@ -19,6 +19,15 @@ Rails.application.routes.draw do
   get '/devices/batchadd' => 'devices#batchadd'
   post '/devices/batchcreate' => 'devices#batchcreate'
 
+  #设备导入临时使用  -----
+  get '/devices/importd' => 'devices#importd'
+  post '/devices/importcreate' => 'devices#importcreate'
+  post '/devices/importassign' => 'devices#importassign'
+  post '/devices/batchassign' => 'devices#batchassign'
+  #--------------------------
+  
+  
+
   resources :decategorys
   post '/decategorys/editdecategorycode' => 'decategorys#editdecategorycode'
   post '/decategorys/addchildcategory' => 'decategorys#addchildcategory'
@@ -39,7 +48,7 @@ Rails.application.routes.draw do
   post '/devices/editdeviceassetdetails' => 'devices#editdeviceassetdetails'
   
 
-
+  get '/ajaxgetlowerdepartments' => 'departments#lowerdepartments'
   resources :departments
   post '/departments/addlowerdepartment' => 'departments#addlowerdepartment'
 

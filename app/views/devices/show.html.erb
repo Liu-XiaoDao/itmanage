@@ -188,7 +188,10 @@
 							<label for="name">设备类型:</label>
 							<select class="form-control" name=device[decategory_id]>
 								<% @decategorys.each do |decategory| %>
-									<option value="<%= decategory.id %>"><%= decategory.name %></option>
+                  <% if  @device.decategory_id == decategory.id %>
+                    <% selected = 'selected="selected"' %>
+                  <% end %>
+									<option value="<%= decategory.id %>" <%= selected %> ><%= decategory.name %></option>
 								<% end %>
 							</select>
 						</div>

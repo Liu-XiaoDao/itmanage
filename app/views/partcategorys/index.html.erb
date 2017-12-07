@@ -17,12 +17,12 @@
     	<div class="table-responsive" style="padding-top: 20px;">
     		<table class="table table-striped">
     			<thead>
-    				<tr><th>ID</th><th>配件类型</th><th>配件类型代码</th><th>配件数量</th><th>父分类</th><th>操作</th></tr>
+    				<tr><th>类型代码</th><th>配件类型</th><th>配件类型代码</th><th>配件数量</th><th>父分类</th><th>操作</th></tr>
     			</thead>
     			<tbody>
     				<% @partcategorys.each do |partcategory| %>
     					<tr>
-    						<td><%= partcategory.id %></td>
+    						<td><%= partcategory.pgcode %></td>
     						<td><%= link_to partcategory.name, partcategory_path(partcategory) %></td>
     						<td class="partcategorycode" iid="<%= partcategory.id %>"><p><%= partcategory.partcategorycode %></p></td>
     						<td><%= partcategory.parts.count %></td>
