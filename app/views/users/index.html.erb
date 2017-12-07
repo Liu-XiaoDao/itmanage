@@ -38,7 +38,7 @@
               </select>
             </div>
             <label for="time" class="control-label">入职时间:&nbsp;</label>
-            <div class="input-group controls input-append date form_datetime col-sm-3" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+            <div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
             <input type="text" class="form-control" size="16" readonly name="user[created_at]" value="<%= @rz %>" placeholder="搜索范围:前后一个月" value="<%=  @created_at %>" style="width: 180px;">
             <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -46,6 +46,7 @@
             <script type="text/javascript">
               $('.form_datetime').datetimepicker({
                   format: 'yyyy-mm-dd',
+                  minView: "month",
                   language: 'zh-CN',
                   weekStart: 1,
                   todayBtn:  1,

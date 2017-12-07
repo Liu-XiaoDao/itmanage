@@ -62,7 +62,7 @@
               			</select>
             		</div>
     				<label for="time" class="control-label">服务到期时间:&nbsp;</label>
-            		<div class="input-group controls input-append date form_datetime col-sm-3" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+            		<div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
               			<input type="text" class="form-control" size="16" readonly name="device[scrap_date]" value="<%= @scrap_date %>" placeholder="搜索范围:前后一个月" >
               			<span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
               			<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -70,6 +70,7 @@
     		        <script type="text/javascript">
     		          $('.form_datetime').datetimepicker({
     		              format: 'yyyy-mm-dd',
+                      minView: "month",
     		              language: 'zh-CN',
     		              weekStart: 1,
     		              todayBtn:  1,
@@ -126,15 +127,15 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-      $(".asset_name").dblclick( function () { 
-        toReplacename(this)  
+      $(".asset_name").dblclick( function () {
+        toReplacename(this)
       });
     });
-    toReplacename = function(pElement) { 
-      // 创建一个input元素 
+    toReplacename = function(pElement) {
+      // 创建一个input元素
       var invar = $("<input type='text' class='form-control' value='' style='width: 100px;'>");
-      // 把obj里面的元素以及文本内容赋值给新建的inputElement 
-      
+      // 把obj里面的元素以及文本内容赋值给新建的inputElement
+
       invar.val($(pElement).find("p").html());
       $(pElement).find("p").replaceWith(invar);
       invar.focus();
@@ -154,20 +155,20 @@
             }
         });
       });
-  } 
+  }
   </script>
 
   <script type="text/javascript">
     $(document).ready(function(){
-      $(".service_sn").dblclick( function () { 
-        toReplacesn(this)  
+      $(".service_sn").dblclick( function () {
+        toReplacesn(this)
       });
     });
-    toReplacesn = function(pElement) { 
-      // 创建一个input元素 
+    toReplacesn = function(pElement) {
+      // 创建一个input元素
       var invar = $("<input type='text' class='form-control' value='' style='width: 100px;'>");
-      // 把obj里面的元素以及文本内容赋值给新建的inputElement 
-      
+      // 把obj里面的元素以及文本内容赋值给新建的inputElement
+
       invar.val($(pElement).find("p").html());
       $(pElement).find("p").replaceWith(invar);
       invar.focus();
@@ -187,22 +188,22 @@
             }
         });
       });
-  } 
+  }
   </script>
 
   <script type="text/javascript">
     $(document).ready(function(){
-      $(".asset_details").dblclick( function () { 
-        toReplacedetails(this)  
+      $(".asset_details").dblclick( function () {
+        toReplacedetails(this)
       });
     });
-    toReplacedetails = function(pElement) { 
-      // 创建一个input元素 
+    toReplacedetails = function(pElement) {
+      // 创建一个input元素
       // var invar = $("<input type='text' class='form-control' value='' style='width: 300px;'>");
 
       var invar = $("<textarea class='form-control' rows='3'></textarea>");
-      // 把obj里面的元素以及文本内容赋值给新建的inputElement 
-      
+      // 把obj里面的元素以及文本内容赋值给新建的inputElement
+
       invar.val($(pElement).find("p").html());
       $(pElement).find("p").replaceWith(invar);
       invar.focus();
@@ -222,5 +223,5 @@
             }
         });
       });
-  } 
+  }
   </script>
