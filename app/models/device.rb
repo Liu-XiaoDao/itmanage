@@ -10,14 +10,9 @@ class Device < ApplicationRecord
     has_many :devicerecords, dependent: :destroy
     has_many :onceusers, through: :devicerecords
 
-	
-	# validates :asset_code,  :asset_name,  :service_sn, :decategory_id, :release_date, :asset_details,  presence: true   #这几个变量不能为空
-	# validates :asset_code,  :asset_name,  :service_sn,  :asset_details,   length: { in: 6..25 } #长度6-25
-	validates :asset_name,  :decategory_id, :release_date,  presence: true
-  	validates :asset_name,  length: { in: 2..25 } #长度6-25
+	validates :asset_name,  :decategory_id, :release_date,  presence: true  #这几个不能为空
+  	validates :asset_name,  length: { in: 2..25 } #设备名长度6-25
 
-
+	validates :asset_code,  uniqueness: { case_sensitive: false }#设备编码要唯一
 end
 
-
-# uniqueness: { case_sensitive: false }  #唯一性检测，不区分大小写

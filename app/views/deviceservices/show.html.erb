@@ -10,6 +10,13 @@
 			</ul>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<% flash.each do |name, msg| %>
+				<div  class="alert alert-<%= name %>"><%= msg %></div>
+			<% end %>
+		</div>
+	</div>
     <div class="row">
     	<div class="col-sm-12 col-md-12 center-block">
 	        <div class="panel panel-primary">
@@ -47,7 +54,7 @@
     </div>		
 </div>
 
-
+<!-- 上传服务图片的js方法 -->
 <script type="text/javascript">
 	$(".avatar-upload").on("click", "#upload-avatar-btn", function(){
 		$("#upload-avatar-input").click()

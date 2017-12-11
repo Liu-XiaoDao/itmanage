@@ -12,6 +12,13 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
+			<% if @part && @part.errors.any? %>
+				<div id="error-info" class="alert alert-danger">
+					<div class="form-error">
+						<span class="form-error-field"><%= @part.errors.full_messages[0] %></span>
+					</div>
+				</div>
+			<% end %>
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3 class="panel-title">添加配件</h3></div>
 				<div class="panel-body">
@@ -43,6 +50,7 @@
 					        <script type="text/javascript">
 					          $('.form_datetime').datetimepicker({
 					              format: 'yyyy/mm/dd',
+					              minView: "month",
 					              language: 'zh-CN',
 					              weekStart: 1,
 					              todayBtn:  1,

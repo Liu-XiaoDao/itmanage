@@ -18,15 +18,15 @@
 					<% if @decategory && @decategory.errors.any? %>
 						<div class="alert alert-info"><%= @decategory.errors.full_messages[0] %></div>
 					<% end %>
-					<%= simple_form_for @decategory, url: decategory_path do |f| %>
+					<%= form_for @decategory, url: decategory_path do |f| %>
 						<div class="form-group">
 							<label>设备分类名:</label><br>
-							<%= f.input_field :name, placeholder: "设备分类名", class: "form-control" %>
+							<%= f.text_field :name, placeholder: "设备分类名", class: "form-control" %>
 							<br>
 							<label>设备分类代码:</label><br>
-							<%= f.input_field :decategorycode, placeholder: "设备分类代码", class: "form-control" %>
+							<%= f.text_field :decategorycode, placeholder: "设备分类代码", class: "form-control" %>
 						</div>
-						<%= f.button :submit, "确定修改", class: "btn btn-primary btn-block" %>
+						<%= f.submit "确定修改", class: "btn btn-primary btn-block" %>
 					<% end %>
 					<br/><a href="<%= decategorys_path %>">>>返回设备分类列表</a>
 				</div>

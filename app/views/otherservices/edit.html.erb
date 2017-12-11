@@ -12,6 +12,13 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
+			<% if @otherservice && @otherservice.errors.any? %>
+				<div id="error-info" class="alert alert-danger">
+					<div class="form-error">
+						<span class="form-error-field"><%= @otherservice.errors.full_messages[0] %></span>
+					</div>
+				</div>
+			<% end %>
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3 class="panel-title">修改服务信息</h3></div>
 				<div class="panel-body">

@@ -30,10 +30,9 @@ class ApplicationController < ActionController::Base
 		end
 		I18n.locale = cookies[:locale] || I18n.default_locale
 	end
-
-
+	
+	#使用中置方法记录一个请求是否成功
 	def writinglog
-
 		@log = Log.new
 		@log.ip = request.remote_ip
 		@log.controller = params[:controller]
@@ -54,12 +53,13 @@ class ApplicationController < ActionController::Base
 	  	for item in arr
 		   if item['parent_id'] == pid
 	            indent = indentstr * step
-	            item['name'] = indent + item['name']
+	            item['department_name'] = indent + item['department_name']
 	            newarr.push item
 	            GetTree(arr , item['id'] ,step+1,newarr,indentstr)
 	        end
 		end
     end
+
 
     #导出报表
     def export_csv(model)
@@ -67,8 +67,5 @@ class ApplicationController < ActionController::Base
         format.html 
         format.csv { send_data model.to_csv }
       }
-    	
     end
-
-
 end

@@ -13,6 +13,15 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+        <% flash.each do |name, msg| %>
+            <div  class="alert alert-<%= name %>"><%= msg %></div>
+        <% end %>
+        <div id="error-infoassign" class="alert alert-danger" style="display: none;"></div>
+    </div>
+  </div>
+
     <div class="row">
     <!--     <div class="col-md-10 col-lg-10 col-center-block content-wrap">
             <div id="content"> -->
@@ -49,9 +58,7 @@
                     <div class="panel panel-info">
                         <div class="panel-heading"><h3 class="panel-title">添加到设备</h3></div>
                         <div class="panel-body">
-                            <div id="error-info" class="alert alert-danger" style="display: none;"></div>
                             <%= form_tag  attachdevice_part_path(@part), remote: true do %>
-
                               <div class="form-group">
                                 <label for="user_id"> 设备分类:</label>
                                 <select class="form-control" name=device[decategory_id]  onchange="get_device(this)">
@@ -64,46 +71,18 @@
                                   <% end %>
                                 </select>
                               </div>
-
                               <div class="form-group">
                                 <label for="user_id"> 设备:</label>
                                 <select id="ajaxdevice" class="form-control" name="device[device_id]" id="user_id">
                                   <option value="">请选择设备</option>
                                 </select>
                               </div>
-
                               <div class="form-group">
-                                <%= submit_tag "附加", class: "btn btn-primary submit" %>
+                                <%= submit_tag "添加", class: "btn btn-primary submit" %>
                               </div>
                             <% end %>
                         </div>
                     </div>
-
-                    <% if  @part.status == 2 %>
-                      <!-- 当设备被使用时(办公使用,借用,报废借用)不能再这设置状态 -->
-                    <% else %>
-                      <div class="panel panel-info">
-                          <div class="panel-heading"><h3 class="panel-title">设备状态设置</h3></div>
-                          <div class="panel-body">
-                              <div id="error-info" class="alert alert-danger" style="display: none;"></div>
-                              <%= form_tag  setstatus_device_path, remote: true do %>
-                               <div class="form-group">
-                                   <label for="assigntype"> 设备状态:</label>
-                                  <select class="form-control" name="device[status]" id="assigntype">
-                                    <option value="">请选择设备状态</option>
-                                    <option value="3">闲置</option>
-                                    <option value="4">维修</option>
-                                    <option value="6">报废</option>
-                                    <option value="8">报废清理</option>
-                                  </select>
-                                </div>
-                                <div class="form-group">
-                                  <%= submit_tag "设置", class: "btn btn-primary submit" %>
-                                </div>
-                              <% end %>
-                          </div>
-                      </div>
-                    <% end %>
 
                 </div>
 <script>
@@ -133,7 +112,7 @@
 </script>
 
 
-                <!-- 电脑信息设置 -->
+                <!-- 配件信息设置 -->
                 <div class="col-sm-9 col-md-9">
                     <div class="panel panel-info">
 
@@ -149,7 +128,10 @@
           					          	<label for="name">配件类型:</label>
           					          	<select class="form-control" name=part[partcategory_id]>
           					            	<% @partcategorys.each do |partcategory| %>
-          					              		<option value="<%= partcategory.id %>"><%= partcategory.name %></option>
+                                      <% if  @part.partcategory_id == partcategory.id %>
+                                          <% selected = 'selected="selected"' %>
+                                      <% end %>
+          					              		<option value="<%= partcategory.id %>" <%= selected %> ><%= partcategory.name %></option>
           					            	<% end %>
           					          	</select>
           					        </div>

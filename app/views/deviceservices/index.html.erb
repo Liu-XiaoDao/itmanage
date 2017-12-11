@@ -12,7 +12,7 @@
 	<div class="row">
 		<div class="col-sm-12 col-md-12">
 			<% flash.each do |name, msg| %>
-				<div  class="alert alert-danger"><%= msg %></div>
+				<div  class="alert alert-<%= name %>"><%= msg %></div>
 			<% end %>
 		</div>
 	</div>

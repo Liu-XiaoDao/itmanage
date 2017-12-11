@@ -11,6 +11,11 @@
 		</div>
 	</div>
 	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<div class="alert alert-danger" id="error-info" style="display: none;"></div>
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-sm-3 col-md-3">
 			<div class="panel panel-info">
 				<div class="panel-heading"><h3 class="panel-title">分类详情</h3></div>
@@ -41,19 +46,16 @@
 			<div class="panel panel-info">
 				<div class="panel-heading"><h3 class="panel-title">添加子分类</h3></div>
 				<div class="panel-body">
-					<div class="alert alert-danger" id="error-info" style="display: none;"></div>
-
-					<%= simple_form_for @decategorynew, url: decategorys_addchildcategory_path do |f| %>
+					<%= form_for @decategorynew, url: decategorys_addchildcategory_path, remote: true do |f| %>
 						<%= hidden_field_tag(:parent_id, @decategory.id) %>
-
 						<div class="form-group">
 							<label>设备分类名:</label><br>
-							<%= f.input_field :name, placeholder: "设备分类名", class: "form-control" %>
+							<%= f.text_field :name, placeholder: "设备分类名", class: "form-control" %>
 							<br>
 							<label>设备分类代码:</label><br>
-							<%= f.input_field :decategorycode, placeholder: "设备分类代码", class: "form-control" %>
+							<%= f.text_field :decategorycode, placeholder: "设备分类代码", class: "form-control" %>
 						</div>
-						<%= f.button :submit, "确定添加", class: "btn btn-primary btn-block" %>
+						<%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
 					<% end %>
 				</div>
 			</div>

@@ -101,15 +101,9 @@
 	            dataType : "JSON",
 	            success : function(result){
 	                if(!result.status){
-	                    var str = '<option value ="">请选择员工</option>';
-	                    $.each(result,function (i,value) {
-	                      str += '<option value ="'+value.id+'">'+value.username+'</option>';
-	                    });
-	                    $('#ajaxuser').html(str);
+	                	alert('设置成功');
 	                }else{
-	                    if(result.msg){
-	                        alert(result.msg);
-	                    }
+	                	alert('设置失败')
 	                }
 	            }
 	        });

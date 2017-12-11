@@ -21,12 +21,12 @@ class HomeController < ApplicationController
 
 		#设备使用率
 		@devicescount = Device.all.blank? ? 1 : Device.all.count
-		@useddevicescount = Device.where(is_assign: 0).blank? ? 0 : Device.where(is_assign: 0).count
-		@devicepercent = @useddevicescount / @devicescount * 100
+		@useddevicescount = Device.where(is_assign: 1).blank? ? 0 : Device.where(is_assign: 1).count
+		@devicepercent = @useddevicescount.to_f / @devicescount * 100
 		#配件使用率
 		@partscount = Part.all.blank? ? 1 : Part.all.count
-		@usedpartscount = Part.where(is_assign: 0).blank? ? 0 : Part.where(is_assign: 0).count
-		@partpercent = @useddevicescount / @devicescount * 100
+		@usedpartscount = Part.where(is_assign: 1).blank? ? 0 : Part.where(is_assign: 1).count
+		@partpercent = @usedpartscount.to_f / @devicescount * 100
 		#耗材剩余率
 		@consumables = Consumable.all
 		@consumablescount = 0
@@ -35,12 +35,13 @@ class HomeController < ApplicationController
 			@consumablescount = @consumablescount + consumable.amount
 			@usedconsumablescount = @usedconsumablescount + consumable.surplus_amount
 		end
-		@consumablepercent = @usedconsumablescount / @consumablescount * 100
+		@consumablescount = @consumablescount == 0 ? 1 : @consumablescount
+		@consumablepercent = @usedconsumablescount.to_f / @consumablescount * 100
 		#员工
 		nowtime = Time.zone.now
         searchstr = "created_at between '#{nowtime.try(:strftime, '%Y-%m-%d')}' And '#{nowtime.try(:strftime, '%Y-%m-%d')}'"
 		@userscount = User.where(searchstr).blank? ? 0 : User.where(searchstr).count
 		@allusercount = User.all.blank? ? 1 : User.all.count
-		@userpercent = @userscount / @allusercount * 100
+		@userpercent = @userscount.to_f / @allusercount * 100
 	end
 end

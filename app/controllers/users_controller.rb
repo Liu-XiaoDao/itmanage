@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   layout 'home'
 
   def index
-    @users = User.all.paginate page: params[:page], per_page: 10
+    @users = User.all.paginate page: params[:page], per_page: 15
     @departments = Department.all
     #导出Excel的.一会在研究
     if params[:format]
@@ -13,13 +13,13 @@ class UsersController < ApplicationController
   #添加新员工页面
   def new
     @user = User.new
-    @departments = Department.all
+    @departments = Department.where(parent_id: 0)
   end
-
   #保存新员工
   def create
     @user = User.new(user_params)
     if @user.save
+      flash[:success] = "新员工创建成功"
       redirect_to users_path
     else
       @departments = Department.all
@@ -57,10 +57,8 @@ class UsersController < ApplicationController
 
       if !@created_at.blank?
         andstr = searchstr.blank? ? "" : " and "
-
         begindate = Time.parse(@created_at) - 1.months
         enddate = Time.parse(@created_at) + 1.months
-
         searchstr = searchstr + andstr
         searchstr += "created_at between '#{begindate.try(:strftime, '%Y-%m-%d')}' And '#{enddate.try(:strftime, '%Y-%m-%d')}'"
       end
@@ -94,19 +92,24 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to user_path(@user)
+      flash[:success] = "员工修改成功"
+      redirect_to users_path
     else
-      @user.errors.full_messages.each do |msg|
-        render plain: msg
-      end
-    end
+      @departments = Department.all
+      render :edit
+    end 
   end
 
   #管理员修改密码
   def updatepw
     @user = User.find(params[:id])
     @user.password = params[:user][:password]
-    @user.save
+    if @user.save
+        flash[:success] = "密码修改成功"
+        return render js: "location.reload();"#保存成功使用js刷新页面
+    else
+        return render js: "$('#error-infoassign').html('密码修改失败').css('display','block');"
+    end
   end
 
   #用户上传头像   上传头像功能取消
@@ -119,20 +122,16 @@ class UsersController < ApplicationController
 
   #在用户详情页给用户分配设备
   def assigndevise
-
     assign_type = params[:device][:assigntype]  #分配方式(设备状态)
     borrow_timeleft = params[:device][:borrowtime]
     device_id = params[:device][:device_id]
 
     if device_id.blank? || assign_type.blank? || ( assign_type.to_i == 5 && borrow_timeleft.blank?) || ( assign_type.to_i == 7 && borrow_timeleft.blank?)  
-      flash[:warning] = "设备分配失败,信息不全"
+      flash[:danger] = "设备分配失败,信息不全"
       return redirect_to user_path(params[:id])
     end
-
-
     #使用设备id拿到设备
     @device = Device.find device_id
-
     #下面注释,因为报废时间根据出厂时间定,所以不用在这里计算
     # #等于1,表示是新添加设备之前从未有人使用,第一次分配时要设置第一次分配时间,四年的报废不用设置了....{,设置4年的报废时间}
     if @device.status == 1
@@ -152,7 +151,6 @@ class UsersController < ApplicationController
 
     @device.assign_time = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
     @device.is_assign = 1
-    # return render json: params
 
     @devicerecord = Devicerecord.new
     @devicerecord.user_id = @device.user_id
@@ -160,13 +158,12 @@ class UsersController < ApplicationController
     @devicerecord.note = device_status @device.status
 
     if @device.save && @devicerecord.save
-      flash[:warning] = "设备分配成功"
+      flash[:success] = "设备分配成功"
       return redirect_to user_path(params[:id])
     else
-      flash[:warning] = "设备分配失败"
+      flash[:danger] = "设备分配失败"
       return redirect_to user_path(params[:id])
     end
-
   end
 
   #删除用户,,这里还需操作.删除用户时,用户的设备处理问题
@@ -178,24 +175,32 @@ class UsersController < ApplicationController
 
   #给用户分配耗材
   def assignconsumable
+    if params[:id].blank? || params[:consumable_id].blank?
+      flash[:danger] = "设备分配失败,信息不全"
+      return redirect_to request.referrer || users_path
+    end
+
     @user = User.find(params[:id])
     @consumable_id = params[:consumable_id]
 
     @consumable = Consumable.find @consumable_id
     @consumable.used_amount = @consumable.used_amount.to_i + 1
     @consumable.surplus_amount = @consumable.surplus_amount.to_i - 1
-    @consumable.save
+    
 
     @consumablerecord = Consumablerecord.new
     @consumablerecord.user_id = @user.id
     @consumablerecord.consumable_id = @consumable_id
     @consumablerecord.note = "分配"
-    @consumablerecord.save
 
-    redirect_to user_path(@user)
+    if @consumable.save && @consumablerecord.save
+      flash[:success] = "耗材分配成功"
+      return redirect_to user_path(@user)
+    else
+      flash[:danger] = "耗材分配失败"
+      return redirect_to user_path(@user)
+    end
   end
-
-
 
   #倒入用户方法
   def upload
@@ -214,20 +219,11 @@ class UsersController < ApplicationController
     render plain: count
   end
 
-
-
   private
     def user_params
       params.require(:user).permit(:username, :attendance, :email, :department_id)
     end
 end
-
-
-
-
-
-
-
 
 #去除\ufeff方法,注意使用我的作为基准,所以刘青新,刘小龙,会多去点一个字符原因未知
 

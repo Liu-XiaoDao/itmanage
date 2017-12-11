@@ -5,19 +5,22 @@
       <div class="col-md-12">
         <ul class="breadcrumb">
           <li><a href="/">主页</a></li>
-          <li><a href="<%= parts_path %>">配件管理</a></li>
-          <li class="active">修改配件信息</li>
+          <li class="active">配件</li>
         </ul>
       </div>
     </div>
     <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <% flash.each do |name, msg| %>
+          <div  class="alert alert-<%= name %>"><%= msg %></div>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-sm-12 col-md-12 center-block" style="float: none;">
-
-
       <div class="alert alert-info">
       	系统共有 <b><%= @parts.count %></b> 个配件<a href="<%= new_part_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加配件</a><a href="<%= parts_batchadd_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">批量添加</a>
       </div>
-      
         <nav class="navbar navbar-default" role="navigation">
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <form class="navbar-form navbar-left" role="search" action="<%= parts_search_path %>">
@@ -63,11 +66,6 @@
         </form>
       </div>
     </nav>
-
-    
-
-  	
-
   	  <div class="table-responsive">
   	    <table class="table table-striped table-hover">
   	      <thead>

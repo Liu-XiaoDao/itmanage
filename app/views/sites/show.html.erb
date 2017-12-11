@@ -10,17 +10,22 @@
 		</div>
 	</div>
 	<div class="row">
+    	<div class="col-sm-12 col-md-12">
+    	    <% flash.each do |name, msg| %>
+				      <div  class="alert alert-<%= name %>"><%= msg %></div>
+			    <% end %>
+          <div id="error-infoassign" class="alert alert-danger" style="display: none;"></div>
+    	</div>
+    </div>
+	<div class="row">
 		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3 class="panel-title">系统设置</h3></div>
 				<div class="panel-body">
-
 					<%= form_for @siteinfo, url: site_path do |f| %>
-						
 						<% if @siteinfo && @siteinfo.errors.any? %>
 							<div class="alert error-info"><%= @siteinfo.errors.full_messages[0] %></div>
 						<% end %>
-
 						<div class="form-group">
 							<label>网站标题:</label><br>
 							<%= f.text_field  :title, placeholder: "网站标题", class: "form-control" %>
@@ -29,11 +34,8 @@
 							<label>邮件接收列表:</label><br>
 							<%= f.text_field :emailrecive, placeholder: "填入想接收邮件的邮箱", class: "form-control" %>
 						</div>
-
 						<%= f.submit  "确定修改", class: "btn btn-primary btn-block" %>
 					<% end %>
-
-
 				</div>
 			</div>
 		</div>

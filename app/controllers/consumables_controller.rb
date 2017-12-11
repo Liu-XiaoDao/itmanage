@@ -6,8 +6,6 @@ class ConsumablesController < ApplicationController
     @consumables = Consumable.all.paginate page: params[:page], per_page: 10
     @consumableamount = 0
     @consumables.each { |consumable| @consumableamount += consumable.amount }
-
-    # render plain: @consumableamount
   end
 
   def new
@@ -27,14 +25,15 @@ class ConsumablesController < ApplicationController
     @consumable.location = params[:consumable][:location]
 
     if @consumable.save
+      flash[:success] = "修改成功"
       redirect_to consumables_path
     else
-      render :new
+      render :edit
     end
   end
 
   def show
-    @consumablerecords = Consumablerecord.where(consumable_id: params[:id]).paginate page: params[:page], per_page: 10
+    @consumablerecords = Consumablerecord.where(consumable_id: params[:id]).paginate page: params[:page], per_page: 20
   end
 
   def create
@@ -46,6 +45,7 @@ class ConsumablesController < ApplicationController
     @consumable.amount = @consumable.surplus_amount
 
     if @consumable.save
+      flash[:success] = "增加成功"
       redirect_to consumables_path
     else
       render :new
@@ -65,9 +65,11 @@ class ConsumablesController < ApplicationController
     @consumable.surplus_amount += params[:consumable][:number].to_i
 
     if @consumable.save
+      flash[:success] = "库存增加成功"
       redirect_to consumables_path
     else
-      render plain: 2
+      flash[:danger] = "库存增加失败"
+      redirect_to consumables_path
     end
   end
 

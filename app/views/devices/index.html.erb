@@ -12,8 +12,8 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
         <% flash.each do |name, msg| %>
-      <div  class="alert alert-danger"><%= msg %></div>
-    <% end %>
+          <div  class="alert alert-<%= name %>"><%= msg %></div>
+        <% end %>
     </div>
   </div>
   <div class="row">
@@ -21,11 +21,10 @@
       <div class="alert alert-info">
       	系统共有 <b><%= @devices.count %></b> 台设备<a href="<%= new_device_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;"><%= t("adddevice")%></a><a href="<%= devices_batchadd_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">批量添加</a><a href="<%= devices_importd_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">导入</a>
       </div>
-
     	<nav class="navbar navbar-default" role="navigation">
     		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     			<form class="navbar-form navbar-left" role="search" action="<%= devices_search_path %>">
-    				<div class="form-group">
+    				    <div class="form-group">
               			<label for="name">设备分类:</label>
               			<select class="form-control" name=device[decategory_id]>
                 			<option value=""></option>
@@ -49,7 +48,7 @@
                 			<% end %>
               			</select>
             		</div>
-    				<div class="form-group">
+                <div class="form-group">
               			<label for="name">设备状态:</label>
               			<select class="form-control" name=device[status_id]>
                 			<option value=""></option>
@@ -61,7 +60,7 @@
                 			<% end %>
               			</select>
             		</div>
-    				<label for="time" class="control-label">服务到期时间:&nbsp;</label>
+    				    <label for="time" class="control-label">服务到期时间:&nbsp;</label>
             		<div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
               			<input type="text" class="form-control" size="16" readonly name="device[scrap_date]" value="<%= @scrap_date %>" placeholder="搜索范围:前后一个月" >
               			<span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
@@ -92,29 +91,28 @@
 	          <tr><th><%= t("devicecode")%></th><th><%= t("devicename")%></th><th>类型</th><th><%= t("deviceserviceno")%></th><th><%= t("devicedetails")%></th><th>使用者</th><th>设备状态</th><th>服务到期时间</th><th><%= t("operation")%></th></tr>
 	      </thead>
 	      <tbody>
-
-			<% @devices.each do |device| %>
-                <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
-                    <% danger = 'class= danger' %>
-                <% elsif (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
-                    <% danger = 'class= warning' %>
-                <% end %>
-			    <tr <%= danger %> >
-			      <td><%= link_to device.asset_code, device_path(device) %></td>
-			      <td class="asset_name" iid="<%= device.id %>"><p><%= device.asset_name %></p></td>
-            <td><p><%= device_type device.decategory_id %></p></td>
-			      <td class="service_sn" iid="<%= device.id %>"><p><%= device.service_sn %></p></td>
-			      <td class="asset_details" iid="<%= device.id %>" style="word-wrap:break-word;width: 300px;"><p><%= device.asset_details %></p></td>
-			      <td><%= user_name device.user_id %></td>
-			      <td><%= device_status device.status %></td>
-			      <td><%= device.scrap_date.try(:strftime, "%Y-%m-%d") %></td>
-			      <td><%= link_to '修改', edit_device_path(device) %></td>
-            <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
-              <td><%= link_to '续保', "deviceservices/devicenew/#{device.id}" %></td>
+          <% @devices.each do |device| %>
+            <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
+              <% danger = 'class= danger' %>
+            <% elsif (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
+              <% danger = 'class= warning' %>
             <% end %>
-			      <td><%#= link_to '删除', device_path(device), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
-			    </tr>
-			<% end %>
+            <tr <%= danger %> >
+              <td><%= link_to device.asset_code, device_path(device) %></td>
+              <td class="asset_name" iid="<%= device.id %>"><p><%= device.asset_name %></p></td>
+              <td><p><%= device_type device.decategory_id %></p></td>
+              <td class="service_sn" iid="<%= device.id %>"><p><%= device.service_sn %></p></td>
+              <td class="asset_details" iid="<%= device.id %>" style="word-wrap:break-word;width: 300px;"><p><%= device.asset_details %></p></td>
+              <td><%= user_name device.user_id %></td>
+              <td><%= device_status device.status %></td>
+              <td><%= device.scrap_date.try(:strftime, "%Y-%m-%d") %></td>
+              <td><%= link_to '修改', edit_device_path(device) %></td>
+              <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
+                <td><%= link_to '续保', "deviceservices/devicenew/#{device.id}" %></td>
+              <% end %>
+              <td><%#= link_to '删除', device_path(device), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+            </tr>
+          <% end %>
 	      </tbody>
 	    </table>
 	  </div>
@@ -124,7 +122,7 @@
   </div>
 </div>
 
-
+<!-- 下面三个js是在设备列表页时使用ajax修改设备的设备名,服务号,设备详情使用的 -->
 <script type="text/javascript">
     $(document).ready(function(){
       $(".asset_name").dblclick( function () {
