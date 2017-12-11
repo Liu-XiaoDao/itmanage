@@ -51,6 +51,13 @@ class DecategorysController < ApplicationController
     end
     #保存
     if @decategory.save
+
+      #当一个叶子设备分类添加子分类后,如果之前这个叶子设备分类有设备,那么设备会放到新子类下
+      Device.where(decategory_id: @parentdecategory.id).each do |device|
+        device.decategory_id = @decategory.id
+        device.save
+      end
+
       return render js: "$('#error-info').html('添加子类成功').css('display','block');"
     else
       return render js: "$('#error-info').html('" + "#{@decategory.errors.full_messages[0]}" + "').css('display','block');"

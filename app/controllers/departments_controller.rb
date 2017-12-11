@@ -99,7 +99,13 @@ class DepartmentsController < ApplicationController
 		end
 		#保存
 		if @department.save
-			flash[:success] = "添加下级部门成功"
+			#当一个叶子部门添加下级部门后,如果之前这个叶子部门有员工,那么员工会放到新部门下
+			users = User.where(department_id: @highdepartment.id).each do |user|
+				user.department_id = @department.id
+				user.save
+			end
+
+			flash[:success] = "添加下级部门成功;"
 			redirect_to department_path(@highdepartment)
 		else 
 			flash[:danger] = "添加下级部门失败   " + (@department.errors.any? ? @department.errors.full_messages[0] : "")

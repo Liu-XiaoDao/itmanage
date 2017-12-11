@@ -77,6 +77,13 @@ class PartcategorysController < ApplicationController
     end
     #保存
     if @partcategory.save
+
+      #当一个叶子配件分类添加子分类后,如果之前这个叶子配件分类有配件,那么配件会放到新子类下
+      Part.where(partcategory_id: @parentpartcategory.id).each do |part|
+        part.partcategory_id = @partcategory.id
+        part.save
+      end
+
       return render js: "$('#error-danger').html('添加子类成功').css('display','block');"
     else
       return render js: "$('#error-danger').html('" + "#{@partcategory.errors.full_messages[0]}" + "').css('display','block');"
