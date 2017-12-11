@@ -6,7 +6,7 @@ class DevicesController < ApplicationController
 		#设备列表显示is_delete为0的设备
 		@devices = Device.where(is_delete: 0).paginate page: params[:page], per_page: 20
 		#搜索使用部门
-		@departments = Department.all
+		@departments = Department.alltree
 		#搜索使用设备分类
 		@decategorys = Decategory.all
 		#搜索使用员工
@@ -59,7 +59,7 @@ class DevicesController < ApplicationController
 			#查询,并且一页显示20条
 			@devices = Device.where(searchstr).paginate page: params[:page], per_page: 20
 			#首页列表中查询使用的那几个实例变量
-			@departments = Department.all
+			@departments = Department.alltree
 			@decategorys = Decategory.all
 			@users = User.all
 			@status = YAML.load_file("#{Rails.root}/config/status.yml")['device']
@@ -216,7 +216,7 @@ class DevicesController < ApplicationController
 
   		@decategorys = Decategory.all     #设备分类,拿到所有分类
   		@partcategorys = Partcategory.all     #配件分类,拿到所有分类
-  		@departments = Department.all #所有部门,详情页中分配设备时会用到
+  		@departments = Department.alltree #所有部门,详情页中分配设备时会用到
 
   		@devicerecords = @device.devicerecords   #当前设备的分配记录
   	end
@@ -225,7 +225,7 @@ class DevicesController < ApplicationController
   	def editdeviceassetname
   		device = Device.find params[:id]  #当前设备
 	    device.asset_name = params[:asset_name]
-	    device.save 
+	    device.save
   	end
 
   	#ajax修改设备服务号
@@ -249,7 +249,7 @@ class DevicesController < ApplicationController
 		user_id = params[:device][:user_id]  #用户id
 		assign_type = params[:device][:assigntype]  #分配方式(设备状态)
 		borrow_timeleft = params[:device][:borrowtime]
-		if user_id.blank? || assign_type.blank? || ( assign_type.to_i == 5 && borrow_timeleft.blank?) || ( assign_type.to_i == 7 && borrow_timeleft.blank?)  
+		if user_id.blank? || assign_type.blank? || ( assign_type.to_i == 5 && borrow_timeleft.blank?) || ( assign_type.to_i == 7 && borrow_timeleft.blank?)
 			return render js: "$('#error-infoassign').html('信息不全,请重新分配,注意信息完整').css('display','block');"
 		end
 	    #使用设备id拿到设备
@@ -284,7 +284,7 @@ class DevicesController < ApplicationController
 	    else
 	    	return render js: "$('#error-infoassign').html('没有分配成功').css('display','block');"
 	    end
-	    
+
 	end
 
 
@@ -312,7 +312,7 @@ class DevicesController < ApplicationController
 	    @partrecord.note = "安装配件"
 	    #如果配件和配件分配记录都能保存成功,就算成功,其实这里应该用事物来保证
 		if @append_part.save && @partrecord.save
-			flash[:success] = "配件添加成功" 
+			flash[:success] = "配件添加成功"
 	    	redirect_to device_path(@device)
 	    else
 	    	flash[:danger] = "配件添加失败"
@@ -398,7 +398,7 @@ class DevicesController < ApplicationController
 		@users = User.all
 		@devices = Device.all
 	end
-	
+
 	#批量添加设备
 	def importcreate
 		@importdevices = params[:devices].split(";")
@@ -413,7 +413,7 @@ class DevicesController < ApplicationController
 			newdevice.location = device[4]
 			newdevice.asset_code = device[0]
 			newdevice.scrap_date = Time.parse(newdevice.release_date.try(:strftime, "%Y-%m-%d")) + 48.months
-			
+
 			unless newdevice.save
 				flash[:success] = "设备" + newdevice.asset_code + "导入失败" + newdevice.errors.full_messages[0]
 				return redirect_to devices_path
@@ -437,7 +437,7 @@ class DevicesController < ApplicationController
 	#导入设备快速分配
 	def batchassignuser(user_id,device_id)
 
-		if user_id.blank? || device_id.blank?  
+		if user_id.blank? || device_id.blank?
 			return render js: "$('#error-infoassign').html('信息不全').css('display','block');"
 		end
 	    #使用设备id拿到设备
@@ -453,10 +453,10 @@ class DevicesController < ApplicationController
 
 	    @device.borrow_timeleft = -1  #-1代表不会到期
 
-		
+
 	    @device.assign_time = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
 	    @device.is_assign = 1
-	    
+
 	    @devicerecord = Devicerecord.new
 	    @devicerecord.user_id = user_id
 	    @devicerecord.device_id = @device.id
@@ -478,7 +478,7 @@ class DevicesController < ApplicationController
 		assign_type = params[:assigntype]  #分配方式(设备状态)
 		borrow_timeleft = params[:borrowtime]
 		device_id = params[:device_id]
-		if user_id.blank? || assign_type.blank? || ( assign_type.to_i == 5 && borrow_timeleft.blank?) || ( assign_type.to_i == 7 && borrow_timeleft.blank?)  
+		if user_id.blank? || assign_type.blank? || ( assign_type.to_i == 5 && borrow_timeleft.blank?) || ( assign_type.to_i == 7 && borrow_timeleft.blank?)
 			return render js: "$('#error-infoassign').html('信息不全').css('display','block');"
 		end
 	    #使用设备id拿到设备
@@ -497,10 +497,10 @@ class DevicesController < ApplicationController
 	    else
 	      @device.borrow_timeleft = -1  #-1代表不会到期
 	    end
-		
+
 	    @device.assign_time = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
 	    @device.is_assign = 1
-	    
+
 	    @devicerecord = Devicerecord.new
 	    @devicerecord.user_id = user_id
 	    @devicerecord.device_id = @device.id
