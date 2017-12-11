@@ -48,17 +48,28 @@ class ApplicationController < ActionController::Base
 	end
 
 
-	  #分类缩进
-    def GetTree(arr,pid,step,newarr,indentstr)
-	  	for item in arr
-		   if item['parent_id'] == pid
-	            indent = indentstr * step
-	            item['department_name'] = indent + item['department_name']
-	            newarr.push item
-	            GetTree(arr , item['id'] ,step+1,newarr,indentstr)
-	        end
-		end
-    end
+	# #部门分类缩进
+ #    def GetTree(arr,pid,step,newarr,indentstr)
+	#   	for item in arr
+	# 	   if item['parent_id'] == pid
+	#             indent = indentstr * step
+	#             item['department_name'] = indent + item['department_name']
+	#             newarr.push item
+	#             GetTree(arr , item['id'] ,step+1,newarr,indentstr)
+	#         end
+	# 	end
+ #    end
+	# #设备分类缩进
+ #    def GetDeviceTree(arr,pid,step,newarr,indentstr)
+	#   	for item in arr
+	# 	   if item['parent_id'] == pid
+	#             indent = indentstr * step
+	#             item['name'] = indent + item['name']
+	#             newarr.push item
+	#             GetTree(arr , item['id'] ,step+1,newarr,indentstr)
+	#         end
+	# 	end
+ #    end
 
 
     #导出报表

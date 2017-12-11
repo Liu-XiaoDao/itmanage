@@ -14,4 +14,26 @@ class Decategory < ApplicationRecord
   validates :decategorycode,  length: { in: 2..10 },
                   			  presence: true
 
+
+  def self.alltree
+    @decategoryss = Decategory.all
+    @decategorys = []
+    GetTree(@decategoryss,0,0,@decategorys,'----')
+    return @decategorys
+  end
+
+  #部门分类缩进
+  def self.GetTree(arr,pid,step,newarr,indentstr)
+    for item in arr
+      if item['parent_id'] == pid
+        indent = indentstr * step
+        item['name'] = indent + item['name']
+        newarr.push item
+        GetTree(arr , item['id'] ,step+1,newarr,indentstr)
+      end
+    end
+  end
+
+
+
 end

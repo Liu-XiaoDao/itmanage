@@ -107,14 +107,14 @@ class DepartmentsController < ApplicationController
 		end
 	end
 
-	def lowerdepartments
-		lowerdepartments = Department.where(parent_id: params[:parent_id])
-		result = {'status':0,'lowerdepartments':lowerdepartments}
-		if lowerdepartments.blank?
-			result = {'status':1,'msg':'当前部门没有下级部门'}
-		end
-		render json: result
-	end
+	# def lowerdepartments
+	# 	lowerdepartments = Department.where(parent_id: params[:parent_id])
+	# 	result = {'status':0,'lowerdepartments':lowerdepartments}
+	# 	if lowerdepartments.blank?
+	# 		result = {'status':1,'msg':'当前部门没有下级部门'}
+	# 	end
+	# 	render json: result
+	# end
 
 	def destroy
     	@department = Department.find(params[:id])

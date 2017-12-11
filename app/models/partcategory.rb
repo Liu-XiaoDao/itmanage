@@ -14,4 +14,25 @@ class Partcategory < ApplicationRecord
                   			length: { in: 2..10 },
                   			presence: true
 
+
+  def self.alltree
+    @partcategoryss = Partcategory.all
+    @partcategorys = []
+    GetTree(@partcategoryss,0,0,@partcategorys,'----')
+    return @partcategorys
+  end
+
+  #部门分类缩进
+  def self.GetTree(arr,pid,step,newarr,indentstr)
+    for item in arr
+      if item['parent_id'] == pid
+        indent = indentstr * step
+        item['name'] = indent + item['name']
+        newarr.push item
+        GetTree(arr , item['id'] ,step+1,newarr,indentstr)
+      end
+    end
+  end
+
+
 end

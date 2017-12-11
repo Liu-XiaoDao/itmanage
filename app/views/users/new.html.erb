@@ -27,7 +27,7 @@
 						<div id="error-info" class="alert alert-danger" style="display: none;"></div>
 						<div class="form-group">
 				          	<label for="name">员工部门:</label>
-				          	<select class="form-control" name="user[department_id]"  onchange="show_position(this)">
+				          	<select class="form-control" name="user[department_id]">
 				          		<option value="">请选择部门</option>
 				            	<% @departments.each do |department| %>
 				              		<option value="<%= department.id %>"><%= department.department_name %></option>
@@ -58,7 +58,7 @@
 
 
 <!-- 设备分配Ajax获得设备 -->
-<script>
+<!-- <script>
     function show_position(ele) {
     	var selfsele = $(ele);
         $.ajax({
@@ -70,7 +70,7 @@
             dataType : "JSON",
             success : function(result){
                 if(!result.status){
-                    var str = '<option value ="">请选择部门</option>';
+                    var str = '';
                     $.each(result.lowerdepartments,function (i,value) {
                       str += '<option value ="'+value.id+'">'+value.department_name+'</option>';
                     });
@@ -85,4 +85,4 @@
             }
         });
     }
-</script>
+</script> -->

@@ -8,6 +8,17 @@ module UsersHelper
 	    department = Department.find department_id
 	    department.department_name
 	end
+	#包含上级部门的部门名
+	def parentdepartment_name(department_id)   #返回部门名
+	    department = Department.find department_id
+	    departmentname = department.department_name
+	    while !department.higher.blank?
+	    	department = department.higher
+	    	departmentname = department.department_name + ' --> ' + departmentname
+	    end
+	    departmentname
+	end
+
 
 	def user_name(user_id)   #根据用户id返回用户名
 		if user_id

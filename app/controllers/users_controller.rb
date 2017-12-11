@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all.paginate page: params[:page], per_page: 15
-    @departments = Department.all
+    @departments = Department.alltree
     #导出Excel的.一会在研究
     if params[:format]
       export_csv(User)
@@ -13,8 +13,9 @@ class UsersController < ApplicationController
   #添加新员工页面
   def new
     @user = User.new
-    @departments = Department.where(parent_id: 0)
+    @departments = Department.alltree
   end
+
   #保存新员工
   def create
     @user = User.new(user_params)
@@ -22,7 +23,7 @@ class UsersController < ApplicationController
       flash[:success] = "新员工创建成功"
       redirect_to users_path
     else
-      @departments = Department.all
+      @departments = Department.alltree
       render :new
     end
   end
@@ -63,7 +64,7 @@ class UsersController < ApplicationController
         searchstr += "created_at between '#{begindate.try(:strftime, '%Y-%m-%d')}' And '#{enddate.try(:strftime, '%Y-%m-%d')}'"
       end
       @users = User.where(searchstr).paginate page: params[:page], per_page: 10
-      @departments = Department.all
+      @departments = Department.alltree
 
       render "index"
     end
@@ -72,14 +73,14 @@ class UsersController < ApplicationController
   #用户详情
   def edit
     @user = User.find(params[:id])
-    @departments = Department.all
+    @departments = Department.alltree
   end
 
 
   #员工详情页面
   def show
     @user = User.find(params[:id])
-    @decategorys = Decategory.all
+    @decategorys = Decategory.alltree
     @devices = @user.devices
     @consumables = Consumable.all
     @consumablerecords = @user.consumablerecords
@@ -95,7 +96,7 @@ class UsersController < ApplicationController
       flash[:success] = "员工修改成功"
       redirect_to users_path
     else
-      @departments = Department.all
+      @departments = Department.alltree
       render :edit
     end 
   end
