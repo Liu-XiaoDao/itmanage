@@ -57,7 +57,7 @@
                 <% elsif @assign == '1' %>
                   <% selected3 = 'selected="selected"' %>
                 <% end %>
-                
+
                 <option value="0" <%= selected2 %> >可分配</option>
                 <option value="1" <%= selected3 %> >不可分配</option>
               </select>
@@ -94,103 +94,9 @@
       </div>
       </div>
   </div>
-
-
-<script type="text/javascript">
-    $(document).ready(function(){
-      $(".asset_name").dblclick( function () { 
-        toReplacename(this)  
-      });
+  <!-- 搜索配件的三个下拉框 -->
+  <script>
+    $(function(){
+      $('select').searchableSelect();
     });
-    toReplacename = function(pElement) { 
-      // 创建一个input元素 
-      var invar = $("<input type='text' class='form-control' value='' style='width: 100px;'>");
-      // 把obj里面的元素以及文本内容赋值给新建的inputElement 
-      
-      invar.val($(pElement).find("p").html());
-      $(pElement).find("p").replaceWith(invar);
-      invar.focus();
-      invar.focusout(function() {
-        var invar = $("<p></p>");
-        invar.html($(this).val());
-        $(this).replaceWith(invar);
-        $.ajax({
-            type : "POST",
-            url : "<%= devices_editdeviceassetname_path %>",
-            data : {
-                'id':$(pElement).attr('iid'),
-                'asset_name':$(this).val()
-            },
-            dataType : "JSON",
-            success : function(result){
-            }
-        });
-      });
-  } 
-  </script>
-
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $(".service_sn").dblclick( function () { 
-        toReplacesn(this)  
-      });
-    });
-    toReplacesn = function(pElement) { 
-      // 创建一个input元素 
-      var invar = $("<input type='text' class='form-control' value='' style='width: 100px;'>");
-      // 把obj里面的元素以及文本内容赋值给新建的inputElement 
-      
-      invar.val($(pElement).find("p").html());
-      $(pElement).find("p").replaceWith(invar);
-      invar.focus();
-      invar.focusout(function() {
-        var invar = $("<p></p>");
-        invar.html($(this).val());
-        $(this).replaceWith(invar);
-        $.ajax({
-            type : "POST",
-            url : "<%= devices_editdeviceservicesn_path %>",
-            data : {
-                'id':$(pElement).attr('iid'),
-                'service_sn':$(this).val()
-            },
-            dataType : "JSON",
-            success : function(result){
-            }
-        });
-      });
-  } 
-  </script>
-
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $(".asset_details").dblclick( function () { 
-        toReplacedetails(this)  
-      });
-    });
-    toReplacedetails = function(pElement) { 
-      // 创建一个input元素 
-      var invar = $("<input type='text' class='form-control' value='' style='width: 150px;'>");
-      // 把obj里面的元素以及文本内容赋值给新建的inputElement 
-      
-      invar.val($(pElement).find("p").html());
-      $(pElement).find("p").replaceWith(invar);
-      invar.focus();
-      invar.focusout(function() {
-        var invar = $("<p></p>");
-        invar.html($(this).val());
-        $(this).replaceWith(invar);
-        $.ajax({
-            type : "POST",
-            url : "<%= devices_editdeviceassetdetails_path %>",
-            data : {
-                'id':$(pElement).attr('iid'),
-                'asset_details':$(this).val()
-            },
-            dataType : "JSON",
-            success : function(result){
-            }
-        });
-      });
-  } 
   </script>

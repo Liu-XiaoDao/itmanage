@@ -18,8 +18,8 @@
 					<%= form_for @deviceservice, url: deviceservices_path do |f| %>
 						<div id="error-info" class="alert alert-danger" style="display: none;"></div>
 						<div class="form-group">
-				          	<label for="name">添加服务的设备:</label>
-				          	<select class="form-control" name="deviceservice[device_id]">
+				          	<label for="device_id">添加服务的设备:</label>
+				          	<select class="form-control" name="deviceservice[device_id]" id="device_id">
 				            	<% @devices.each do |device| %>
 				            		<% if  @device_id.to_i == device.id %>
 		                                <% selected = 'selected="selected"' %>
@@ -78,3 +78,8 @@
 		</div>
 	</div>
 </div>
+<script>
+  $(function(){
+    $('#device_id').searchableSelect();
+  });
+</script>
