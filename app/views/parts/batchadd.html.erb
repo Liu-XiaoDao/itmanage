@@ -18,8 +18,8 @@
 					<%= form_tag  parts_batchcreate_path do %>
 						<div id="error-info" class="alert alert-danger" style="display: none;"></div>
 						<div class="form-group">
-							<label for="name">配件类型:</label>
-							<select class="form-control" name=part[partcategory_id]>
+							<label for="partcategory_id">配件类型:</label>
+							<select class="form-control" name=part[partcategory_id] id="partcategory_id">
 								<option value=""></option>
 								<% @partcategorys.each do |partcategory| %>
 								<option value="<%= partcategory.id %>"><%= partcategory.name %></option>
@@ -69,3 +69,8 @@
 		</div>
 	</div>
 </div>
+<script>
+  $(function(){
+    $('#partcategory_id').searchableSelect();
+  });
+</script>
