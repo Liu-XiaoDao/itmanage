@@ -68,6 +68,7 @@ Rails.application.routes.draw do
   	post 'updatepw', on: :member
     post 'assigndevise', on: :member
     post 'assignconsumable', on: :member
+    post 'showupdate', on: :member   #在show页面的修改
   end
 
 

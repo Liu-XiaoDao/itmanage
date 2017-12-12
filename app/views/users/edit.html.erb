@@ -49,6 +49,10 @@
                             <label>编号:</label><br>
                             <%= u.text_field :attendance, placeholder: "员工编号", class: "form-control" %>
                         </div>
+                        <div class="form-group">
+                            <label>职位:</label><br>
+                            <%= u.text_field :position, placeholder: "员工职位", class: "form-control" %>
+                        </div>
                         <%= u.submit  "确定修改", class: "btn btn-primary btn-block" %>
                     <% end %>
                     <br/><a href="<%= users_path %>">>>返回用户列表</a>

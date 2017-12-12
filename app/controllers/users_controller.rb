@@ -86,6 +86,20 @@ class UsersController < ApplicationController
     @consumablerecords = @user.consumablerecords
     #用户的所有设备使用记录
     @devicerecords = @user.devicerecords
+
+    @departments = Department.all
+  end
+
+  #show页面修改用户信息
+  def showupdate
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      flash[:success] = "员工修改成功"
+      redirect_to user_path(@user)
+    else
+      flash[:danger] = "员工修改失败"
+      redirect_to user_path(@user)
+    end 
   end
 
 
@@ -162,7 +176,7 @@ class UsersController < ApplicationController
       flash[:success] = "设备分配成功"
       return redirect_to user_path(params[:id])
     else
-      flash[:danger] = "设备分配失败"
+      flash[:danger] = "设备分配失败" + (@device.errors.any? ? @device.errors.full_messages[0] : "11")
       return redirect_to user_path(params[:id])
     end
   end
@@ -222,7 +236,7 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:username, :attendance, :email, :department_id)
+      params.require(:user).permit(:username, :attendance, :email, :department_id, :position)
     end
 end
 

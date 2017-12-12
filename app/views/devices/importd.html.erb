@@ -29,8 +29,8 @@
                       </div>
 
                       <div class="form-group" id="borrowtime_div" >
-                          <label for="borrowtime"> 借用时间:</label>
-                          <input type="number" name="borrowtime" style="width: 100px;" class="form-control" id="borrowtime" placeholder="请输入借用时间,单位:天数">
+                          <label for="borrowtime"> 借用时间:</label><br/>
+                          <input type="number" name="borrowtime"  class="form-control" id="borrowtime" placeholder="请输入借用时间,单位:天数">
                       </div>
 
 
@@ -55,6 +55,7 @@
                         </select>
                       </div>
                       <div class="form-group">
+                      <label for="user_department"> 提交:</label><br/>
                         <%= submit_tag "分配", class: "btn btn-primary submit  btn-block" %>
                       </div>
                     <% end %>

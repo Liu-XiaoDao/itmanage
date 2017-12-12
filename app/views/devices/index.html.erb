@@ -61,7 +61,7 @@
               			</select>
             		</div>
     				    <label for="time" class="control-label">服务到期时间:&nbsp;</label>
-            		<div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+            		<div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1" style="width: 180px;">
               			<input type="text" class="form-control" size="16" readonly name="device[scrap_date]" value="<%= @scrap_date %>" placeholder="搜索范围:前后一个月" >
               			<span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
               			<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -124,102 +124,108 @@
 
 <!-- 下面三个js是在设备列表页时使用ajax修改设备的设备名,服务号,设备详情使用的 -->
 <script type="text/javascript">
-    $(document).ready(function(){
-      $(".asset_name").dblclick( function () {
-        toReplacename(this)
+  $(document).ready(function(){
+    $(".asset_name").dblclick( function () {
+      toReplacename(this)
+    });
+  });
+  toReplacename = function(pElement) {
+    // 创建一个input元素
+    var invar = $("<input type='text' class='form-control' value='' style='width: 100px;'>");
+    // 把obj里面的元素以及文本内容赋值给新建的inputElement
+
+    invar.val($(pElement).find("p").html());
+    $(pElement).find("p").replaceWith(invar);
+    invar.focus();
+    invar.focusout(function() {
+      var invar = $("<p></p>");
+      invar.html($(this).val());
+      $(this).replaceWith(invar);
+      $.ajax({
+          type : "POST",
+          url : "<%= devices_editdeviceassetname_path %>",
+          data : {
+              'id':$(pElement).attr('iid'),
+              'asset_name':$(this).val()
+          },
+          dataType : "JSON",
+          success : function(result){
+          }
       });
     });
-    toReplacename = function(pElement) {
-      // 创建一个input元素
-      var invar = $("<input type='text' class='form-control' value='' style='width: 100px;'>");
-      // 把obj里面的元素以及文本内容赋值给新建的inputElement
+}
+</script>
 
-      invar.val($(pElement).find("p").html());
-      $(pElement).find("p").replaceWith(invar);
-      invar.focus();
-      invar.focusout(function() {
-        var invar = $("<p></p>");
-        invar.html($(this).val());
-        $(this).replaceWith(invar);
-        $.ajax({
-            type : "POST",
-            url : "<%= devices_editdeviceassetname_path %>",
-            data : {
-                'id':$(pElement).attr('iid'),
-                'asset_name':$(this).val()
-            },
-            dataType : "JSON",
-            success : function(result){
-            }
-        });
-      });
-  }
-  </script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".service_sn").dblclick( function () {
+      toReplacesn(this)
+    });
+  });
+  toReplacesn = function(pElement) {
+    // 创建一个input元素
+    var invar = $("<input type='text' class='form-control' value='' style='width: 100px;'>");
+    // 把obj里面的元素以及文本内容赋值给新建的inputElement
 
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $(".service_sn").dblclick( function () {
-        toReplacesn(this)
+    invar.val($(pElement).find("p").html());
+    $(pElement).find("p").replaceWith(invar);
+    invar.focus();
+    invar.focusout(function() {
+      var invar = $("<p></p>");
+      invar.html($(this).val());
+      $(this).replaceWith(invar);
+      $.ajax({
+          type : "POST",
+          url : "<%= devices_editdeviceservicesn_path %>",
+          data : {
+              'id':$(pElement).attr('iid'),
+              'service_sn':$(this).val()
+          },
+          dataType : "JSON",
+          success : function(result){
+          }
       });
     });
-    toReplacesn = function(pElement) {
-      // 创建一个input元素
-      var invar = $("<input type='text' class='form-control' value='' style='width: 100px;'>");
-      // 把obj里面的元素以及文本内容赋值给新建的inputElement
+}
+</script>
 
-      invar.val($(pElement).find("p").html());
-      $(pElement).find("p").replaceWith(invar);
-      invar.focus();
-      invar.focusout(function() {
-        var invar = $("<p></p>");
-        invar.html($(this).val());
-        $(this).replaceWith(invar);
-        $.ajax({
-            type : "POST",
-            url : "<%= devices_editdeviceservicesn_path %>",
-            data : {
-                'id':$(pElement).attr('iid'),
-                'service_sn':$(this).val()
-            },
-            dataType : "JSON",
-            success : function(result){
-            }
-        });
-      });
-  }
-  </script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".asset_details").dblclick( function () {
+      toReplacedetails(this)
+    });
+  });
+  toReplacedetails = function(pElement) {
+    // 创建一个input元素
+    // var invar = $("<input type='text' class='form-control' value='' style='width: 300px;'>");
 
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $(".asset_details").dblclick( function () {
-        toReplacedetails(this)
+    var invar = $("<textarea class='form-control' rows='3'></textarea>");
+    // 把obj里面的元素以及文本内容赋值给新建的inputElement
+
+    invar.val($(pElement).find("p").html());
+    $(pElement).find("p").replaceWith(invar);
+    invar.focus();
+    invar.focusout(function() {
+      var invar = $("<p></p>");
+      invar.html($(this).val());
+      $(this).replaceWith(invar);
+      $.ajax({
+          type : "POST",
+          url : "<%= devices_editdeviceassetdetails_path %>",
+          data : {
+              'id':$(pElement).attr('iid'),
+              'asset_details':$(this).val()
+          },
+          dataType : "JSON",
+          success : function(result){
+          }
       });
     });
-    toReplacedetails = function(pElement) {
-      // 创建一个input元素
-      // var invar = $("<input type='text' class='form-control' value='' style='width: 300px;'>");
-
-      var invar = $("<textarea class='form-control' rows='3'></textarea>");
-      // 把obj里面的元素以及文本内容赋值给新建的inputElement
-
-      invar.val($(pElement).find("p").html());
-      $(pElement).find("p").replaceWith(invar);
-      invar.focus();
-      invar.focusout(function() {
-        var invar = $("<p></p>");
-        invar.html($(this).val());
-        $(this).replaceWith(invar);
-        $.ajax({
-            type : "POST",
-            url : "<%= devices_editdeviceassetdetails_path %>",
-            data : {
-                'id':$(pElement).attr('iid'),
-                'asset_details':$(this).val()
-            },
-            dataType : "JSON",
-            success : function(result){
-            }
-        });
-      });
-  }
-  </script>
+}
+</script>
+<!-- 搜索设备的三个下拉框 -->
+<script>
+  $(function(){
+    $('select').searchableSelect();
+  });
+</script>

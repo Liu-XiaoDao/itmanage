@@ -55,9 +55,8 @@
                             <%= f.text_field :department_name, placeholder: "设备分类名", class: "form-control" %>
                             <br>
                             <label>选择部门经理:</label><br>
-                            <select class="form-control" name="department[manager_name]">
+                            <select class="form-control" name="department[manager_name]" id="departmentmanager">
                                 <option value="没有选择">请选择一个manager</option>
-                                <option value=""></option>
                                 <% @users.each do |user| %>
                                     <option value="<%= user.username %>"><%= user.username %></option>
                                 <% end %>
@@ -92,5 +91,10 @@
             </div>
         </div>
     </div>
-
 </div>
+<!-- 添加下级部门时,选择部门经理下拉框 -->
+<script>
+  $(function(){
+    $('#departmentmanager').searchableSelect();
+  });
+</script>

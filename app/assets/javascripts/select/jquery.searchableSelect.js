@@ -64,7 +64,7 @@
     init: function(){
       var _this = this;
       this.element.hide();
-
+      this.element.next().remove();
       this.searchableElement = $('<div tabindex="0" class="searchable-select"></div>');
       this.holder = $('<div class="searchable-select-holder"></div>');
       this.dropdown = $('<div class="searchable-select-dropdown searchable-select-hide"></div>');
@@ -222,7 +222,7 @@
       var value = item.data('value');
       this.holder.data('value', value);
       this.element.val(value);
-
+      this.element.change();
       if(this.options.afterSelectItem){
         this.options.afterSelectItem.apply(this);
       }

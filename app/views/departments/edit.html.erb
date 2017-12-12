@@ -25,11 +25,13 @@
                         </div>
                         <div class="form-group">
                             <label>部门经理:</label><br>
-                            <select class="form-control" name="department[manager_name]">
+                            <select class="form-control" name="department[manager_name]" id="departmentmanager">
                                 <option value="没有选择">请选择一个manager</option>
-                                <option value=""></option>
                                 <% @users.each do |user| %>
-                                <option value="<%= user.username %>"><%= user.username %></option>
+                                    <% if user.username == @department.manager_name %>
+                                        <% selected = 'selected="selected"' %>
+                                    <% end %>
+                                    <option value="<%= user.username %>" <%= selected %> ><%= user.username %></option>
                                 <% end %>
                             </select>
                         </div>
@@ -41,6 +43,9 @@
         </div>
     </div>
 </div>
-
-
-
+<!-- 修改部门时,选择部门经理下拉框 -->
+<script>
+  $(function(){
+    $('#departmentmanager').searchableSelect();
+  });
+</script>

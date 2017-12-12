@@ -77,13 +77,12 @@
                           </div>
                           <br>
                           <div class="form-group">
-                            <label for="user_id"> 员工:</label>
-                            <select id="ajaxuser" class="form-control" name="device[user_id]" id="user_id">
+                            <label for="ajaxuser"> 员工:</label>
+                            <select id="ajaxuser" class="form-control" name="device[user_id]">
                               <option value="">请选择员工</option>
                             </select>
                           </div>
                           <div class="form-group">
-
                             <%= submit_tag "分配", class: "btn btn-primary submit" %>
                           </div>
                         <% end %>
@@ -105,14 +104,14 @@
                   <div class="panel-body">
                       <%= form_tag  setstatus_device_path, remote: true do %>
                        <div class="form-group">
-                           <label for="assigntype"> 设备状态:</label>
-                          <select class="form-control" name="device[status]" id="assigntype">
+                           <label for="devicestatus"> 设备状态:</label>
+                          <select class="form-control" name="device[status]" id="devicestatus">
                             <option value="">请选择设备状态</option>
                             <% if  @device.is_scrap == 0 %>
                                 <option value="3">闲置</option>
                                 <option value="4">维修</option>
                             <% else %>
-                            	<option value="6">报废</option>
+                            	  <option value="6">报废</option>
                                 <option value="8">报废清理</option>
                             <% end %>
                           </select>
@@ -144,6 +143,7 @@
 		                      str += '<option value ="'+value.id+'">'+value.username+'</option>';
 		                    });
 		                    $('#ajaxuser').html(str);
+                        $('#ajaxuser').searchableSelect();
 		                }else{
 		                    if(result.msg){
 		                        alert(result.msg);
@@ -183,8 +183,8 @@
 							<%= f.text_field :service_sn, class: "form-control form-input-normal" %>
 						</div>
 						<div class="form-group">
-							<label for="name">设备类型:</label>
-							<select class="form-control" name=device[decategory_id]>
+							<label for="devicetype">设备类型:</label>
+							<select class="form-control" name=device[decategory_id] id="devicetype">
 								<% @decategorys.each do |decategory| %>
                   <% if  @device.decategory_id == decategory.id %>
                     <% selected = 'selected="selected"' %>
@@ -268,8 +268,6 @@
 </div>
 
 
-
-
 <!-- 添加配件方法 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -281,8 +279,8 @@
 			<%= form_tag  appendpart_device_path do %>
 				<div class="modal-body" style="padding: 15px;">
 					<div class="form-group">
-						<label for="decategory"> 配件分类:</label>
-						<select class="form-control" name="device[decategory]" id="decategory" onchange="get_part(this)">
+						<label for="parttype"> 配件分类:</label>
+						<select class="form-control" name="device[decategory]" id="parttype" onchange="get_part(this)">
 							<option value="">请选择配件分类</option>
 							<% @partcategorys.each do |partcategory| %>
 								<option value="<%= partcategory.id %>"><%= partcategory.name %></option>
@@ -291,8 +289,8 @@
 					</div>
 					<br>
 					<div class="form-group">
-						<label for="device_id"> 配件:</label>
-						<select id="ajaxdevice" class="form-control" name="part[part_id]" id="device_id">
+						<label for="part_id"> 配件:</label>
+						<select id="part_id" class="form-control" name="part[part_id]">
 							<option value="">请选择配件</option>
 						</select>
 					</div>
@@ -321,7 +319,8 @@
                     $.each(result,function (i,value) {
                       str += '<option value ="'+value.id+'">'+value.part_code+'----'+value.part_name+'</option>';
                     });
-                    $('#ajaxdevice').html(str);
+                    $('#part_id').html(str);
+                    $('#part_id').searchableSelect();
                 }else{
                     if(result.msg){
                         alert(result.msg);
@@ -331,4 +330,12 @@
         });
     }
 </script>
-
+<!-- 搜索设备的三个下拉框 -->
+<script>
+  $(function(){
+    $('#user_department').searchableSelect();
+    $('#devicestatus').searchableSelect();
+    $('#devicetype').searchableSelect();
+    $('#parttype').searchableSelect();
+  });
+</script>

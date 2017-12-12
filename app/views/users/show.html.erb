@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <% flash.each do |name, msg| %>
-          <div  class="alert alert-danger"><%= msg %></div>
+          <div  class="alert alert-<%= name %>"><%= msg %></div>
         <% end %>
         <div id="error-infoassign" class="alert alert-danger" style="display: none;"></div>
       </div>
@@ -25,7 +25,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading"><h3 class="panel-title">用户资料</h3></div>
                 <div class="panel-body">
-                    <%= form_for @user, url: user_path(@user), method: :patch, remote: true do |f| %>
+                    <%= form_for @user, url: showupdate_user_path(@user), method: :post, remote: true do |f| %>
                     <div class="form-group">
                         <label for="name">名字:</label>
                         <%= f.text_field :username, class: "form-control form-input-normal" %>
@@ -35,13 +35,26 @@
                         <%= f.text_field :attendance, class: "form-control form-input-normal" %>
                     </div>
                     <div class="form-group">
+                        <label for="name">职位:</label>
+                        <%= f.text_field :position, class: "form-control form-input-normal" %>
+                    </div>
+                    <div class="form-group">
                         <label for="name">邮箱:</label>
                         <%= f.text_field :email, disabled: true, class: "form-control form-input-normal" %>
                     </div>
                     <div class="form-group">
                         <label for="name">部门:</label>
-                        <input disabled="disabled" class="form-control form-input-normal" type="text" value="<%= parentdepartment_name @user.department_id %>" name="user[department_id]" id="user_department_id">
+                        <select disabled="disabled" class="form-control" name="user[department_id]">
+                            <% @departments.each do |department| %>
+                                <% if  @user.department_id == department.id %>
+                                  <% selected = 'selected="selected"' %>
+                                <% end %>
+                            <option value="<%= department.id %>" <%= selected %> ><%= department.department_name %></option>
+                            <% end %>
+                        </select>
                     </div>
+
+
                     <div class="form-group">
                         <%= f.submit t("updateinfo"), class: "btn btn-primary submit" %>
                     </div>
@@ -288,6 +301,7 @@
                       str += '<option value ="'+value.id+'">'+value.asset_code+'----'+value.asset_name+'</option>';
                     });
                     $('#ajaxdevice').html(str);
+                    $('#ajaxdevice').searchableSelect();
                 }else{
                     if(result.msg){
                         alert(result.msg);
@@ -296,7 +310,6 @@
             }
         });
     }
-
     function create_borrowtime(ele) {
         if ($(ele).val() == 5 || $(ele).val() == 7) {
             $("#borrowtime_div").css("display","block");
@@ -305,9 +318,8 @@
             $("#borrowtime_div").css("display","none");
             $("#borrowtime_br").css("display","none");
         }
-
-        $('#decategory').val('');
-        $('#ajaxdevice').val('');
+        // $('#decategory').val('');
+        // $('#ajaxdevice').val('');
     }
 </script>
 
@@ -326,5 +338,11 @@
     });
 </script>
 
-
+<!-- 耗材分配弹框中的下拉框.....和.....分配设备的下拉框 -->
+<script>
+  $(function(){
+    $('#consumable').searchableSelect();
+    $('#decategory').searchableSelect();
+  });
+</script>
 

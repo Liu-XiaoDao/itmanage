@@ -3,6 +3,10 @@ Author: David Qin
 E-mail: david@hereapp.cn
 Date: 2014-11-05
 */
+/*搜索框中的select的样式*/
+.navbar-form .searchable-select {
+    width: auto;
+}
 
 .searchable-select-hide {
   display: none;
@@ -10,7 +14,8 @@ Date: 2014-11-05
 
 .searchable-select {
   display: inline-block;
-  min-width: 200px;
+  width: 100%;
+  min-width: 150px;
   font-size: 14px;
   line-height: 1.428571429;
   color: #555;
