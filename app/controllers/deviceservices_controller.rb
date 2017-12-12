@@ -55,7 +55,7 @@ class DeviceservicesController < ApplicationController
     #拿到这个设备的所有的维保服务中的最后一条,检查要修改的这条是否就是最后一条,只允许修改最后一条
     @newdeviceservice = Deviceservice.where(device_id: @deviceservice.device_id).order(id: :desc).last
     #如过要修改的这条不是最后一条就不让修改,不显示修改页面,直接再跳回列表页
-    if @deviceservice.id == @newdeviceservice.id
+    if @deviceservice.id != @newdeviceservice.id
         flash[:danger] = "这条维保记录中的设备,在这条记录之后添加了其他维保,不能修改"
         return redirect_to deviceservices_path
     end
