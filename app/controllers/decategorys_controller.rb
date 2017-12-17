@@ -111,8 +111,16 @@ class DecategorysController < ApplicationController
 
   def destroy
     @decategory = Decategory.find params[:id]
-    @decategory.destroy
-    redirect_to decategorys_path
+
+    if @decategory.cdecategory.blank? && @decategory.devices.blank?
+      @decategory.destroy
+      flash[:success] = "设备分类删除成功"
+      redirect_to decategorys_path
+    else
+      flash[:danger] = "设备分类有子类或者分类下有设备,不允许删除"
+      redirect_to decategorys_path
+    end
+      
   end
 
   private 

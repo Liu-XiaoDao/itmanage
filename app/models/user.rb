@@ -11,6 +11,11 @@ class User < ApplicationRecord
   has_many :devicerecords, dependent: :destroy
   has_many :oncedevices, through: :devicerecords
 
+  #授权分配记录
+  has_many :authorization_user_devices
+  has_many :authorizations, through: :authorization_user_devices
+
+
   validates :username, :email, :attendance, :department_id, presence: true   #这几个变量不能为空
   validates :username, length: { in: 2..25 }, #长度6-25
                        uniqueness: { case_sensitive: false, message: "用户名已经被使用" }  #唯一性检测，不区分大小写

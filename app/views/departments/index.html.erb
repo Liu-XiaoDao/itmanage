@@ -35,7 +35,7 @@
                 <td><%= department.higher.blank? ? '无' : department.higher.department_name %></td>
                 <td><%= department.users.count %></td>
     			      <td><%= link_to t('edit'), edit_department_path(department) %></td>
-    			      <td><%#= link_to t('delete'), department_path(department), method: :delete, data: { confirm: t('areyousure') } %></td>
+    			      <td><%= link_to t('delete'), department_path(department), method: :delete, data: { confirm: t('areyousure') } %></td>
     			    </tr>
     			  <% end %>
           </tbody>

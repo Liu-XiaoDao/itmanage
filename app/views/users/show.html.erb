@@ -150,6 +150,32 @@
                 </div>
             </div>
         </div>
+
+        <!-- 用户拥有授权列表 -->
+        <div class="col-md-12 profile-setting" style="padding-top: 30px;">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title">用户拥有授权列表</h3></div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                          <thead>
+                              <tr><th>授权名</th><th>授权到期时间</th><th>分配时间</th></tr>
+                          </thead>
+                          <tbody>
+                              <% @authorizations.each do |authorization| %>
+                                  <tr>
+                                    <td><%= link_to authorization.name, authorization_path(authorization) %></td>
+                                    <td><%= authorization.end_date.try(:strftime, "%Y-%m-%d") %></td>
+                                    <td><%= authorization.created_at.try(:strftime, "%Y-%m-%d") %></td>
+                                  </tr>
+                              <% end %>
+                          </tbody>
+                      </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 耗材分配记录table -->
         <div class="col-md-12 profile-setting" style="padding-top: 30px;">
             <div class="panel panel-info">

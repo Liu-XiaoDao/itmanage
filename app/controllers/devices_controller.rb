@@ -4,7 +4,7 @@ class DevicesController < ApplicationController
 	#设备列表
 	def index
 		#设备列表显示is_delete为0的设备
-		@devices = Device.where(is_delete: 0).paginate page: params[:page], per_page: 20
+		@devices = Device.all.paginate page: params[:page], per_page: 20
 		#搜索使用部门
 		@departments = Department.alltree
 		#搜索使用设备分类
@@ -185,10 +185,15 @@ class DevicesController < ApplicationController
   	#删除,但是因为其他表的外键依赖,所以添加is_delete属性,删除的话此属性设置为1
   	def destroy
 	    @device = Device.find(params[:id])
-		@device.is_delete = 1
-		if @device.save
-			redirect_to devices_path
-		end
+
+	    if @device.parts.blank? && @device.deviceservices.blank? && @device.devicerecords.blank? && @device.authorization_user_devices.blank?
+	    	@device.destroy
+	    	flash[:success] = "设备删除成功"
+	    	redirect_to devices_path
+	    else
+	    	flash[:danger] = "设备有过操作记录不能删除"
+	    	redirect_to devices_path
+	    end
   	end
 
 	#用户详情页中分配设备是ajax获得设备的方法
@@ -219,6 +224,8 @@ class DevicesController < ApplicationController
   		@departments = Department.alltree #所有部门,详情页中分配设备时会用到
 
   		@devicerecords = @device.devicerecords   #当前设备的分配记录
+  		#设备拥有的所有权限
+  		@authorizations = @device.authorizations
   	end
 
   	#ajax修改设备名

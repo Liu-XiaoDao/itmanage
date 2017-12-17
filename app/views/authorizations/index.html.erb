@@ -1,0 +1,80 @@
+<% provide :c_active, "authorization" %>
+<% provide :pre_title, "授权" %>
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li class="active">授权</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-sm-12 col-md-12">
+          <% flash.each do |name, msg| %>
+              <div  class="alert alert-<%= name %>"><%= msg %></div>
+          <% end %>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <div class="alert alert-info">
+      	系统共有 <b><%= @authorizations.count %></b> 种设备<a href="<%= new_authorization_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加授权</a>
+      </div>
+      <div class="table-responsive" style="padding-top: 20px;">
+        <table class="table table-striped">
+          <thead>
+              <tr><th>授权名</th><th>厂商</th><th>结束时间</th><th>授权数量</th><th>可用数量</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+    			  <% @authorizations.each do |authorization| %>
+    			    <tr>
+                <td><%= link_to authorization.name, authorization_path(authorization) %></td>
+    			      <td><%= authorization.manufacturer %></td>
+                <td><%= authorization.end_date %></td>
+    			      <td><%= authorization.amount %></td>
+                <td><%= authorization.available_quantity %></td>
+    			      <td><%= link_to '修改', edit_authorization_path(authorization) %></td>
+    			      <td><%= link_to '删除', authorization_path(authorization), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+    			    </tr>
+    			  <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @authorizations, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+</div>
+
+
+<!-- <script type="text/javascript">
+    $(document).ready(function(){
+      $(".decategorycode").dblclick( function () { 
+        toReplace(this)  
+      });
+    });
+    toReplace = function(pElement) { 
+      // 创建一个input元素 
+      var invar = $("<input type='text' class='form-control' name=price' value='' style='width: 100px;'>");
+      // 把obj里面的元素以及文本内容赋值给新建的inputElement 
+      invar.val($(pElement).find("p").html());
+      $(pElement).find("p").replaceWith(invar);
+      invar.focus();
+      invar.focusout(function() {
+        var invar = $("<p></p>");
+        invar.html($(this).val());
+        $(this).replaceWith(invar);
+        $.ajax({
+            type : "POST",
+            url : "<%= decategorys_editdecategorycode_path %>",
+            data : {
+                'id':$(pElement).attr('iid'),
+                'decategorycode':$(this).val()
+            },
+            dataType : "JSON",
+            success : function(result){
+            }
+        });
+      });
+  } 
+  </script> -->

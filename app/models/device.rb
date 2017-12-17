@@ -10,6 +10,10 @@ class Device < ApplicationRecord
     has_many :devicerecords, dependent: :destroy
     has_many :onceusers, through: :devicerecords
 
+	#授权分配记录
+	has_many :authorization_user_devices
+	has_many :authorizations, through: :authorization_user_devices
+
 	validates :asset_name,  :decategory_id, :release_date,  presence: true  #这几个不能为空
   	validates :asset_name,  length: { in: 2..25 } #设备名长度6-25
 

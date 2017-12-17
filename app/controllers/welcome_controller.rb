@@ -33,8 +33,16 @@ class WelcomeController < ApplicationController
 
   	end
 #    ExceptionMailer.exception_nitofy.deliver_now!
+	#   SELECT distinct a.id from departments as a,departments as b where a.id = b.parent_id
+	#   SELECT a.* FROM departments as a INNER JOIN departments as b ON a.id = b.parent_id
+	@decategorydevices = Department.joins("INNER JOIN departments as b ON departments.id = b.parent_id ").select('id').distinct
 
-	
+	render json: Department.where.not(id: @decategorydevices.collect{|decategorydevice| decategorydevice.id }).select('id,department_name').order('pgcode').collect{|department| parentdepartment_name department.id }
+
+
+
+
+
   end
 
 

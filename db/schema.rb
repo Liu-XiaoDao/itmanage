@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171206152808) do
+ActiveRecord::Schema.define(version: 20171214061739) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -24,6 +24,33 @@ ActiveRecord::Schema.define(version: 20171206152808) do
     t.datetime "receive_date"
     t.datetime "first_date"
     t.datetime "scrap_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "authorization_user_devices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.bigint "user_id"
+    t.bigint "device_id"
+    t.bigint "authorization_id"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["authorization_id"], name: "index_authorization_user_devices_on_authorization_id"
+    t.index ["device_id"], name: "index_authorization_user_devices_on_device_id"
+    t.index ["user_id"], name: "index_authorization_user_devices_on_user_id"
+  end
+
+  create_table "authorizations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name"
+    t.string "serial_number"
+    t.string "key"
+    t.datetime "begin_date"
+    t.datetime "end_date"
+    t.integer "available_quantity"
+    t.integer "amount"
+    t.float "price", limit: 24
+    t.string "contact_information"
+    t.string "manufacturer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -132,18 +159,30 @@ ActiveRecord::Schema.define(version: 20171206152808) do
     t.index ["otherservice_id"], name: "index_oserviceimgs_on_otherservice_id"
   end
 
+  create_table "oslengthens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.bigint "otherservice_id"
+    t.datetime "serviceenddate"
+    t.datetime "bagindate"
+    t.datetime "enddate"
+    t.string "note"
+    t.float "price", limit: 24
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["otherservice_id"], name: "index_oslengthens_on_otherservice_id"
+  end
+
   create_table "otherservices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "servicename", null: false
     t.string "serviceprovider"
     t.float "price", limit: 24
     t.datetime "begin_date"
-    t.integer "months"
     t.datetime "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "describe"
-    t.datetime "remindtime"
     t.integer "closeremind", default: 0
+    t.datetime "remindtime"
+    t.integer "months"
   end
 
   create_table "partcategories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

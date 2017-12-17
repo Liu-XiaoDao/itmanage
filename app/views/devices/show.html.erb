@@ -27,7 +27,7 @@
                 <div class="panel-body">
                     <% if !@user.nil? %>
                       <h3 style="margin-top: 0px"><%= @user.username %></h3>
-                      <h5>部门:<%= department_name @user.department_id %>&nbsp;&nbsp;&nbsp;&nbsp;邮箱:<%= @user.email %>&nbsp;&nbsp;&nbsp;&nbsp;使用方式:<%= device_status @device.status %></h5>
+                      <h5>部门:&nbsp;&nbsp;<%= department_name @user.department_id %><br/>邮箱:&nbsp;&nbsp;<%= @user.email %><br/>使用方式:&nbsp;&nbsp;<%= device_status @device.status %></h5>
                     <% else %>
                       <h3>未分配</h3>
                     <% end %>
@@ -241,6 +241,32 @@
                 </div>
             </div>
         </div>
+
+        <!-- 设备拥有授权列表 -->
+        <div class="col-md-12 profile-setting" style="padding-top: 30px;">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title">设备拥有授权列表</h3></div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                          <thead>
+                              <tr><th>授权名</th><th>授权到期时间</th><th>分配时间</th></tr>
+                          </thead>
+                          <tbody>
+                              <% @authorizations.each do |authorization| %>
+                                  <tr>
+                                    <td><%= link_to authorization.name, authorization_path(authorization) %></td>
+                                    <td><%= authorization.end_date.try(:strftime, "%Y-%m-%d") %></td>
+                                    <td><%= authorization.created_at.try(:strftime, "%Y-%m-%d") %></td>
+                                  </tr>
+                              <% end %>
+                          </tbody>
+                      </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-sm-12 col-md-12" style="padding-top: 30px;">
             <div class="panel panel-info">
                 <div class="panel-heading"><h3 class="panel-title">设备分配记录</h3></div>

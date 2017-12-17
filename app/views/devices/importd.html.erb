@@ -19,7 +19,7 @@
                 <div class="panel-body">
                     <%= form_tag  devices_importassign_path, remote: true, class: "form-inline" do %>
                      <div class="form-group">
-                        <label for="assigntype"> 分配类型:</label>
+                        <label for="assigntype"> 分配类型:</label><br/>
                         <select class="form-control" name="assigntype" id="assigntype" onchange="create_borrowtime(this)">
                             <option value="">请选择设备分配类型</option>
                                 <option value="2" selected="selected">办公使用</option>
@@ -35,7 +35,7 @@
 
 
                       <div class="form-group">
-                        <label for="user_department"> 员工:</label>
+                        <label for="user_id"> 员工:</label>
                         <select class="form-control" name="user_id" id="user_id">
                           <option value="">请选择员工</option>
                           <% @users.each do |user| %>
@@ -46,7 +46,7 @@
 
 
                       <div class="form-group">
-                        <label for="user_department"> 设备:</label>
+                        <label for="device_id"> 设备:</label>
                         <select class="form-control" name="device_id" id="device_id">
                           <option value="">请选择设备</option>
                           <% @devices.each do |device| %>
@@ -98,7 +98,8 @@
 </div>
     <script>
 		$(function(){
-			$('select').searchableSelect();
+			$('#user_id').searchableSelect();
+			$('#device_id').searchableSelect();
 		});
     </script>
 

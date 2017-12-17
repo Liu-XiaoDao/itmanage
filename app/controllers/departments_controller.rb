@@ -124,8 +124,16 @@ class DepartmentsController < ApplicationController
 
 	def destroy
     	@department = Department.find(params[:id])
-    	@department.destroy
-    	redirect_to departments_path
+
+    	if @department.users.blank? && @department.lowers.blank?
+    	    @department.destroy
+    	    flash[:success] = "删除部门成功;"
+    		redirect_to departments_path
+    	else
+    		flash[:danger] = "该部门有下级部门或者部门有员工,不能删除;"
+    		redirect_to departments_path
+    	end
+
   	end
 
 	private 

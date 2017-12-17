@@ -35,7 +35,7 @@
     						<td><%= partcategory.parts.count %></td>
     						<td><%= partcategory.mpartcategory.nil? ? '无' : partcategory.mpartcategory.name %></td>
     						<td><%= link_to '修改', edit_partcategory_path(partcategory) %></td>
-    						<td><%#= link_to '删除', partcategory_path(partcategory), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+    						<td><%= link_to '删除', partcategory_path(partcategory), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
     					</tr>
     				<% end %>
     			</tbody>

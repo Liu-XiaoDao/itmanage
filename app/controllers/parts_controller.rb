@@ -189,6 +189,19 @@ class PartsController < ApplicationController
     end
 
   end
+
+  def destroy
+    @part = Part.find params[:id]
+
+    if @part.device.blank?
+      @part.destroy
+      flash[:success] = "删除成功" 
+      redirect_to parts_path
+    else
+      flash[:danger] = "删除失败" 
+      redirect_to parts_path 
+    end
+  end
   private
     def part_params
       params.require(:part).permit(:partcategory_id, :part_name, :part_details, :receive_date)

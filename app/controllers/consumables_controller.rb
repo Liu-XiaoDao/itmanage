@@ -76,9 +76,15 @@ class ConsumablesController < ApplicationController
 
   def destroy
     @consumable = Consumable.find(params[:id])
-    @consumable.destroy
 
-    redirect_to consumables_path
+    if @consumable.consumablerecords.blank?
+      @consumable.destroy
+      flash[:success] = "耗材删除成功"
+      redirect_to consumables_path
+    else
+      flash[:danger] = "耗材删除失败"
+      redirect_to consumables_path
+    end 
   end
 
   def records

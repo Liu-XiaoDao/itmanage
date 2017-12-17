@@ -82,7 +82,7 @@
                 <td><%= link_to user.department.department_name, department_path(user.department) %></td>
                 <td><%= user.devices.count %></td>
     			      <td><%= link_to t("edit"), edit_user_path(user) %></td>
-    			      <td><%#= link_to t("delete"), user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+    			      <td><%= link_to t("delete"), user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
     			    </tr>
     			  <% end %>
           </tbody>

@@ -32,6 +32,10 @@ class OtherservicesController < ApplicationController
     @otherservice = Otherservice.find params[:id]
     #这条服务下的所有图片
     @images = @otherservice.oserviceimgs
+
+    @oslengthens = Oslengthen.where(otherservice_id: @otherservice.id).order(id: :desc)
+    #延长服务的new对象
+    @oslengthen = Oslengthen.new
   end
   #修改其他服务
   def edit
@@ -58,6 +62,41 @@ class OtherservicesController < ApplicationController
     else
       render :edit
     end
+  end
+
+  #延长服务时间,服务到期续约
+  def lengthen
+    @otherservice = Otherservice.find params[:id]
+
+    @oslengthen = Oslengthen.new
+    @oslengthen.otherservice_id = @otherservice.id
+    @oslengthen.serviceenddate = @otherservice.end_date
+    @oslengthen.bagindate = params[:oslengthen][:bagindate]
+    @oslengthen.enddate = params[:oslengthen][:enddate]
+    @oslengthen.note = params[:oslengthen][:note]
+    @oslengthen.price = params[:oslengthen][:price]
+
+    @otherservice.end_date = @oslengthen.enddate
+
+    if @otherservice.save && @oslengthen.save
+      flash[:success] = "服务延长时间成功"
+      redirect_to otherservice_path(@otherservice)
+    else
+      flash[:danger] = "服务延长时间失败"
+      redirect_to otherservice_path(@otherservice)
+    end
+  end
+
+  def lengthendestory
+    # return render json: params
+    @oslengthen = Oslengthen.find params[:leid]
+
+    @otherservice = Otherservice.find params[:id]
+
+    @otherservice.end_date = @oslengthen.serviceenddate
+
+    @oslengthen.destroy
+    redirect_to request.referer
   end
 
   def destory

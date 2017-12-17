@@ -85,7 +85,9 @@ Rails.application.routes.draw do
   resources :otherservices do
     post 'upload_img', on: :member
     get 'set_remind', on: :member
+    post 'lengthen', on: :member
   end
+  delete '/otherservices/lengthendestory/:id/:leid', to: 'otherservices#lengthendestory'
 
 
 
@@ -123,5 +125,9 @@ Rails.application.routes.draw do
 
   #系统设置
   resource :site
+  #授权路由
+  resources :authorizations do
+    post 'award', on: :member
+  end
 
 end

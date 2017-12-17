@@ -100,8 +100,16 @@ class PartcategorysController < ApplicationController
 
   def destroy
     @partcategory = Partcategory.find params[:id]
-    @partcategory.destroy
-    redirect_to partcategorys_path
+
+    if @partcategory.parts.blank? && @partcategory.cpartcategory.blank?
+      @partcategory.destroy
+      flash[:success] = "配件分类删除成功"
+      redirect_to partcategorys_path
+    else
+      flash[:danger] = "配件分类删除失败"
+      redirect_to partcategorys_path
+    end
+      
   end
 
   private 

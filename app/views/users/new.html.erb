@@ -30,7 +30,7 @@
 				          	<select class="form-control" name="user[department_id]" id="department_id">
 				          		<option value="">请选择部门</option>
 				            	<% @departments.each do |department| %>
-				              		<option value="<%= department.id %>" <%= dis %> ><%= department.department_name %></option>
+				              		<option value="<%= department.id %>"><%= department.department_name %></option>
 				            	<% end %>
 				          	</select>
 				        </div>

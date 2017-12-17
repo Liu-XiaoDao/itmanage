@@ -84,7 +84,7 @@
               <td><%= part.receive_date.try(:strftime, "%Y-%m-%d") %></td>
   			      <td><%= is_assin part.is_assign %></td>
   			      <td><%= link_to '修改', edit_part_path(part) %></td>
-  			      <td><%#= link_to '删除', part_path(part), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+  			      <td><%= link_to '删除', part_path(part), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
   			    </tr>
   			<% end %>
   	      </tbody>

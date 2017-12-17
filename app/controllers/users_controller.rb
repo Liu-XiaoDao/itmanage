@@ -87,6 +87,9 @@ class UsersController < ApplicationController
     #用户的所有设备使用记录
     @devicerecords = @user.devicerecords
 
+    #用户所拥有的所有授权
+    @authorizations = @user.authorizations
+
     @departments = Department.all
   end
 
@@ -184,8 +187,16 @@ class UsersController < ApplicationController
   #删除用户,,这里还需操作.删除用户时,用户的设备处理问题
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
-    redirect_to users_path
+
+    if @user.devices.blank? && @user.consumablerecords.blank? && @user.devicerecords.blank? && @user.authorization_user_devices.blank?
+      @user.destroy
+      flash[:success] = "用户删除成功"
+      redirect_to users_path
+    else
+      flash[:danger] = "用户用过操作记录不能删除"
+      redirect_to users_path      
+    end
+      
   end
 
   #给用户分配耗材
