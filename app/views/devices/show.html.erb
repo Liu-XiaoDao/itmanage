@@ -40,6 +40,7 @@
                     <div class="panel-heading"><h3 class="panel-title">分配设备</h3></div>
                     <div class="panel-body">
                         设备正在使用,收回之后才能再次分配
+                        <td><%= link_to '收回设备', recycle_device_path(@device), data: { confirm: '确定收回设备吗?' } %></td>
                     </div>
                 </div>
             <% else %>

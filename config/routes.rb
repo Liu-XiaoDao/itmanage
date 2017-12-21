@@ -129,5 +129,6 @@ Rails.application.routes.draw do
   resources :authorizations do
     post 'award', on: :member
   end
-
+  post '/authorizations/recycledevice/:id/:did', to: 'authorizations#recycledevice'
+  post '/authorizations/recycleuser/:id/:uid', to: 'authorizations#recycleuser'
 end

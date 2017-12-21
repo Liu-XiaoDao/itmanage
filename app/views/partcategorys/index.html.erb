@@ -24,7 +24,7 @@
     	<div class="table-responsive" style="padding-top: 20px;">
     		<table class="table table-striped">
     			<thead>
-    				<tr><th>类型代码</th><th>配件类型</th><th>配件类型代码</th><th>配件数量</th><th>父分类</th><th>操作</th></tr>
+    				<tr><th>类型代码</th><th>配件类型</th><th>配件类型代码</th><th>配件数量</th><th>可用数量</th><th>父分类</th><th>操作</th></tr>
     			</thead>
     			<tbody>
     				<% @partcategorys.each do |partcategory| %>
@@ -32,7 +32,14 @@
     						<td><%= partcategory.pgcode %></td>
     						<td><%= link_to partcategory.name, partcategory_path(partcategory) %></td>
     						<td class="partcategorycode" iid="<%= partcategory.id %>"><p><%= partcategory.partcategorycode %></p></td>
-    						<td><%= partcategory.parts.count %></td>
+
+
+                <% partcategoryparts = Part.joins("INNER JOIN partcategories ON parts.partcategory_id = partcategories.id AND partcategories.pgcode like '#{partcategory.pgcode}%'") %>
+                <td><%= partcategoryparts.count %></td>
+                <% restpartcount = 0 %>
+                <% partcategoryparts.each{ |part| restpartcount = restpartcount + 1  if part.is_assign == 0 } %>
+                <td><%= restpartcount %></td>
+
     						<td><%= partcategory.mpartcategory.nil? ? '无' : partcategory.mpartcategory.name %></td>
     						<td><%= link_to '修改', edit_partcategory_path(partcategory) %></td>
     						<td><%= link_to '删除', partcategory_path(partcategory), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>

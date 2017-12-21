@@ -8,12 +8,7 @@ class HomeController < ApplicationController
 		@decategorys = Decategory.first(5)
 		@partcategorys = Partcategory.first(5)
 		@consumables = Consumable.first(5)
-		@devices = Device.first(5)
-		@users = User.first(5)
-
-		@devices = Device.first(5)
-		@parts = Part.first(5)
-		@deviceservices = Deviceservice.first(5)
+		@devices = Device.where(is_scrap: 1).order(scrap_date: :asc).first(5)
 		@otherservices = Otherservice.first(5)
 
 

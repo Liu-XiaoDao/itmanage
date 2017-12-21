@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   layout 'home'
 
   def index
-    @users = User.all.paginate page: params[:page], per_page: 15
+    @users = User.all.order(id: :desc).paginate page: params[:page], per_page: 15
     @departments = Department.alltree
     #导出Excel的.一会在研究
     if params[:format]
@@ -13,7 +13,11 @@ class UsersController < ApplicationController
   #添加新员工页面
   def new
     @user = User.new
-    @departments = Department.alltree
+    # @departments = Department.alltree
+
+    @decategorydevices = Department.joins("INNER JOIN departments as b ON departments.id = b.parent_id ").select('id').distinct
+
+    @departments = Department.where.not(id: @decategorydevices.collect{|decategorydevice| decategorydevice.id }).order('pgcode')
   end
 
   #保存新员工

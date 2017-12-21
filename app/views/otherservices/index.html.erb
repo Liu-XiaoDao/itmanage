@@ -28,7 +28,12 @@
 					</thead>
 					<tbody>
 						<% @otherservices.each do |otherservice| %>
-							<tr>
+							<% if  (Time.parse(otherservice.end_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
+								<% danger = 'class= danger' %>
+							<% elsif (Time.parse(otherservice.end_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
+								<% danger = 'class= warning' %>
+							<% end %>
+							<tr <%= danger %> >
 								<td><%= link_to otherservice.servicename, otherservice_path(otherservice) %></td>
 								<td><%= otherservice.begin_date.try(:strftime, "%Y-%m-%d") %></td>
 								<td><%= otherservice.end_date.try(:strftime, "%Y-%m-%d") %></td>

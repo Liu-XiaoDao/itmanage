@@ -141,6 +141,7 @@ class DeviceservicesController < ApplicationController
     #生成一个保存服务图片的路径的对象
     serviceimg = Serviceimg.new
     serviceimg.imgurl = imgurl
+    serviceimg.original = params[:deviceservice][:describe].original_filename
     serviceimg.deviceservice = @deviceservice
     #保存
     if serviceimg.save

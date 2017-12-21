@@ -59,7 +59,7 @@
 								</div>
 								<div class="form-group">
 									<label>服务描述:</label><br>
-									<%= f.text_field :describe, placeholder: "服务描述", class: "form-control" %>
+									<%= f.text_area :describe, placeholder: "服务描述", class: "form-control", rows: "4" %>
 								</div>
 								<div class="form-group">
 									<label>服务提醒时间:</label><br>
@@ -102,24 +102,23 @@
 					</div>
 				</div>
 				<div class="row" style="margin: 0 15px; ">
-					<h4>相关图片:</h4>
+					<h4>相关附件:</h4>
 					<% @images.each do |image|%>
-						<div class="col-sm-6 col-md-3">
-					        <a href="<%= image.imgurl %>" class="thumbnail" target="black" >
-					            <img src="<%= image.imgurl %>" alt="<%= image.otherservice_id %>">
-					        </a>
-					    </div>
+						
+				        <a href="<%= image.imgurl %>" class="thumbnail" target="black" >
+				            <!-- <img src="<%#= image.imgurl %>" alt="<%#= image.otherservice_id %>"> -->
+				            <%= image.original %>
+				        </a>
+						
 					<% end %>
-					<div class="col-sm-6 col-md-3">
 				        <%= simple_form_for @otherservice, url: upload_img_otherservice_path(@otherservice), method: :post, html:{ multipart: true } do |f| %>
-							<div class="thumbnail avatar-upload" style="text-align: center;padding-bottom: 15px;">
-					            <%= image_tag "image.png" %>
-					            <%= content_tag :span, "上传图片", id: "upload-avatar-btn", class: "btn avatar-btn" %>
-						        <%= f.input_field :describe, as: :file, accept:  'image/jpg,image/jpeg,image/png,image/gif', class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
+							<div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
+					            <%= content_tag :span, "上传文件", id: "upload-avatar-btn", class: "btn avatar-btn", style: "color: red;" %>
+
+						        <%= f.input_field :describe, as: :file,  class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
 							    <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
 					        </div>
 						<% end %>
-				    </div>
 				</div>
 	      	</div>
     	</div>
@@ -127,9 +126,6 @@
 </div>
 <script type="text/javascript">
 	$(".avatar-upload").on("click", "#upload-avatar-btn", function(){
-		$("#upload-avatar-input").click()
-	});
-	$(".avatar-upload").on("click", "img", function(){
 		$("#upload-avatar-input").click()
 	});
 </script>

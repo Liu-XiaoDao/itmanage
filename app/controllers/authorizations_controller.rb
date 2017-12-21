@@ -65,6 +65,37 @@ class AuthorizationsController < ApplicationController
 			return render js: "$('#error-info').html('授权失败: #{errorinfo}').css('display','block');"
 		end
 	end
+	#从设备上回收授权
+	def recycledevice
+		@authorizationuserdevice = AuthorizationUserDevice.where(authorization_id: params[:id],device_id: params[:did]).first
+# return render json: @authorizationuserdevice
+		@authorization = Authorization.find params[:id]
+		@authorization.available_quantity = @authorization.available_quantity + 1
+
+		if @authorization.save && @authorizationuserdevice.destroy
+			flash[:success] = "授权回收成功"
+			redirect_to authorization_path(@authorization)
+		else
+			flash[:danger] = "授权回收失败"
+			redirect_to authorization_path(@authorization)
+		end
+	end
+	#从用户上回收授权
+	def recycleuser
+		@authorizationuserdevice = AuthorizationUserDevice.where(authorization_id: params[:id],user_id: params[:uid]).first
+# return render json: @authorizationuserdevice
+		@authorization = Authorization.find params[:id]
+		@authorization.available_quantity = @authorization.available_quantity + 1
+
+		if @authorization.save && @authorizationuserdevice.destroy
+			flash[:success] = "授权回收成功"
+			redirect_to authorization_path(@authorization)
+		else
+			flash[:danger] = "授权回收失败"
+			redirect_to authorization_path(@authorization)
+		end
+		
+	end
 
 	def destroy
 		@authorization = Authorization.find params[:id]

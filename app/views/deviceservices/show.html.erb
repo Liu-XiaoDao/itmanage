@@ -30,20 +30,17 @@
 				<br/>
 				<br/>
 				<div class="row" style="margin: 0 15px; ">
-					<h4>相关图片:</h4>
+					<h4>相关附件:</h4>
 					<% @images.each do |image|%>
-						<div class="col-sm-6 col-md-3">
-					        <a href="<%= image.imgurl %>" class="thumbnail" target="black" >
-					            <img src="<%= image.imgurl %>" alt="<%= image.deviceservice_id %>">
-					        </a>
-					    </div>
+				        <a href="<%= image.imgurl %>" class="thumbnail" target="black" >
+				            <%= image.original %>
+				        </a>
 					<% end %>
 					<div class="col-sm-6 col-md-3">
 						<%= simple_form_for @deviceservice, url: upload_img_deviceservice_path(@deviceservice), method: :post, html:{ multipart: true } do |f| %>
-							<div class="thumbnail avatar-upload" style="text-align: center;padding-bottom: 15px;">
-					            <%= image_tag "image.png" %>
-					            <%= content_tag :span, "上传图片", id: "upload-avatar-btn", class: "btn avatar-btn" %>
-						        <%= f.input_field :describe, as: :file, accept:  'image/jpg,image/jpeg,image/png,image/gif', class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
+							<div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
+					            <%= content_tag :span, "上传文件", id: "upload-avatar-btn", class: "btn avatar-btn" %>
+						        <%= f.input_field :describe, as: :file, class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
 							    <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
 					        </div>
 						<% end %>
@@ -57,9 +54,6 @@
 <!-- 上传服务图片的js方法 -->
 <script type="text/javascript">
 	$(".avatar-upload").on("click", "#upload-avatar-btn", function(){
-		$("#upload-avatar-input").click()
-	});
-	$(".avatar-upload").on("click", "img", function(){
 		$("#upload-avatar-input").click()
 	});
 </script>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171214061739) do
+ActiveRecord::Schema.define(version: 20171221071708) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 20171214061739) do
     t.bigint "otherservice_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "original"
     t.index ["otherservice_id"], name: "index_oserviceimgs_on_otherservice_id"
   end
 
@@ -179,7 +180,7 @@ ActiveRecord::Schema.define(version: 20171214061739) do
     t.datetime "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "describe"
+    t.text "describe"
     t.integer "closeremind", default: 0
     t.datetime "remindtime"
     t.integer "months"
@@ -225,6 +226,7 @@ ActiveRecord::Schema.define(version: 20171214061739) do
     t.bigint "deviceservice_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "original"
     t.index ["deviceservice_id"], name: "index_serviceimgs_on_deviceservice_id"
   end
 

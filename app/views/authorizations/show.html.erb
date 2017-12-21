@@ -32,7 +32,7 @@
                 <div class="panel-heading"><h3 class="panel-title">授权</h3></div>
                 <div class="panel-body">
                     <h5 style="color: #A53D3A;">授权给员工或者设备,选择一个即可</h5>
-                    <%= form_tag  award_authorization_path, remote: true do %>
+                    <%= form_tag  award_authorization_path(@authorization), remote: true do %>
                       <div class="form-group">
                         <label for="user_department"> 授权给员工:</label>
                         <select class="form-control" name="authorization[user_id]" id="user_department">
@@ -155,7 +155,7 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                               <thead>
-                                  <tr><th><%= t("devicecode")%></th><th><%= t("devicename")%></th><th>类型</th><th><%= t("deviceserviceno")%></th><th><%= t("devicedetails")%></th><th>使用者</th><th>设备状态</th><th>服务到期时间</th></tr>
+                                  <tr><th><%= t("devicecode")%></th><th><%= t("devicename")%></th><th>类型</th><th><%= t("deviceserviceno")%></th><th><%= t("devicedetails")%></th><th>使用者</th><th>设备状态</th><th>服务到期时间</th><th>操作</th></tr>
                               </thead>
                               <tbody>
                                 <% @authorizationdevices.each do |device| %>
@@ -173,13 +173,12 @@
                                     <td><%= user_name device.user_id %></td>
                                     <td><%= device_status device.status %></td>
                                     <td><%= device.scrap_date.try(:strftime, "%Y-%m-%d") %></td>
+                                    <td>收回授权</td>
+                                    <td><%= link_to '收回授权', "/authorizations/recycledevice/#{@authorization.id}/#{device.id}", method: :post, data: { confirm: '你确定要收回授权吗?' } %></td>
                                   </tr>
                                 <% end %>
                               </tbody>
                             </table>
-                        </div>
-                        <div class="form-group">
-                          <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; ">添加配件</a>
                         </div>
                     </div>
                 </div>
@@ -194,7 +193,7 @@
                         <div class="table-responsive">
                             <table class="table table-striped">
                               <thead>
-                                  <tr><th><%= t("name")%></th><th><%= t("email")%></th><th>考勤号</th><th><%= t("department")%></th><th><%= t("devicecount") %></th></tr>
+                                  <tr><th><%= t("name")%></th><th><%= t("email")%></th><th>考勤号</th><th><%= t("department")%></th><th><%= t("devicecount") %></th><th>操作</th></tr>
                               </thead>
                               <tbody>
                                 <% @authorizationusers.each do |user| %>
@@ -204,6 +203,8 @@
                                     <td><%= user.attendance %></td>
                                     <td><%= link_to user.department.department_name, department_path(user.department) %></td>
                                     <td><%= user.devices.count %></td>
+                                    <td>收回授权</td>
+                                    <td><%= link_to '收回授权', "/authorizations/recycleuser/#{@authorization.id}/#{user.id}", method: :post, data: { confirm: '你确定要收回授权吗?' } %></td>
                                   </tr>
                                 <% end %>
                               </tbody>

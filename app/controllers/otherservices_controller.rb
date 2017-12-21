@@ -95,8 +95,9 @@ class OtherservicesController < ApplicationController
 
     @otherservice.end_date = @oslengthen.serviceenddate
 
-    @oslengthen.destroy
-    redirect_to request.referer
+    if @otherservice.save && @oslengthen.destroy
+      redirect_to request.referer
+    end
   end
 
   def destory
@@ -109,6 +110,7 @@ class OtherservicesController < ApplicationController
 
     oserviceimg = Oserviceimg.new
     oserviceimg.imgurl = imgurl
+    oserviceimg.original = params[:otherservice][:describe].original_filename
     oserviceimg.otherservice = @otherservice
 
     if oserviceimg.save

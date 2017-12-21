@@ -175,17 +175,25 @@ class PartsController < ApplicationController
     #找到配件
     @part = Part.find params[:id]
     #拿到设备,操作后返回
-    device_id = @part.device
+    device = @part.device
     @part.device = nil
     @part.status = 3
     @part.assign_time = Time.now
     @part.is_assign = 0
-    if @part.save
+
+    #配件移除记录
+    @partrecord = Partrecord.new
+    @partrecord.part_id = @part.id
+    @partrecord.device_id = device.id
+    @partrecord.note = "移除配件"
+
+
+    if @part.save && @partrecord.save
       flash[:success] = "配件移除成功"
-      redirect_to device_path(device_id)
+      redirect_to request.referer
     else
       flash[:success] = "配件移除失败"
-      redirect_to device_path(device_id)
+      redirect_to request.referer
     end
 
   end

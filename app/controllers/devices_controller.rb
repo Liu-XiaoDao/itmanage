@@ -1,10 +1,9 @@
 class DevicesController < ApplicationController
-
 	layout 'home'
 	#设备列表
 	def index
 		#设备列表显示is_delete为0的设备
-		@devices = Device.all.paginate page: params[:page], per_page: 20
+		@devices = Device.all.order(id: :desc).paginate page: params[:page], per_page: 20
 		#搜索使用部门
 		@departments = Department.alltree
 		#搜索使用设备分类
@@ -14,10 +13,6 @@ class DevicesController < ApplicationController
 		#从yml文件中拿到设备的所有状态
 		@status = YAML.load_file("#{Rails.root}/config/status.yml")['device']
 	end
-
-
-
-
   	#搜索设备
 	def search
 		#拿到搜索选项
@@ -359,10 +354,10 @@ class DevicesController < ApplicationController
 		#如果设备回收和设备回收记录都能保存成功,就算成功,其实这里应该用事物来保证
 		if @device.save && @devicerecord.save
 			flash[:success] = "设备回收成功"
-			redirect_to user_path(user)
+			redirect_to request.referer
 		else
 			flash[:danger] = "设备回收失败"
-	    	redirect_to user_path(user)
+	    	redirect_to request.referer
 		end
 	end
 
