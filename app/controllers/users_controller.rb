@@ -77,7 +77,10 @@ class UsersController < ApplicationController
   #用户详情
   def edit
     @user = User.find(params[:id])
-    @departments = Department.alltree
+    # @departments = Department.alltree
+
+    @decategorydevices = Department.joins("INNER JOIN departments as b ON departments.id = b.parent_id ").select('id').distinct
+    @departments = Department.where.not(id: @decategorydevices.collect{|decategorydevice| decategorydevice.id }).order('pgcode')
   end
 
 

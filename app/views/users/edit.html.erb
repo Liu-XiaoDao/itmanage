@@ -33,7 +33,7 @@
                                     <% if  @user.department_id == department.id %>
                                       <% selected = 'selected="selected"' %>
                                     <% end %>
-                                <option value="<%= department.id %>" <%= selected %> ><%= department.department_name %></option>
+                                <option value="<%= department.id %>" <%= selected %> ><%= parentdepartment_name department.id %></option>
                                 <% end %>
                             </select>
                         </div>

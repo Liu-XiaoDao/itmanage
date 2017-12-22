@@ -105,7 +105,7 @@
 					<h4>相关附件:</h4>
 					<% @images.each do |image|%>
 						
-				        <a href="<%= image.imgurl %>" class="thumbnail" target="black" >
+				        <a href="<%= image.imgurl %>" class="thumbnail" target="black" onclick="window.open(this.href,'popup','width=500,height=500,top=0,left=800');return false">
 				            <!-- <img src="<%#= image.imgurl %>" alt="<%#= image.otherservice_id %>"> -->
 				            <%= image.original %>
 				        </a>
