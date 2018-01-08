@@ -19,6 +19,28 @@ module UsersHelper
 	    departmentname
 	end
 
+	#包含上级分类的设备分类名--Decategory
+	def parentdecategory_name(decategory_id)   #返回设备分类名
+	    decategory = Decategory.find decategory_id
+	    decategoryname = decategory.name
+	    while !decategory.mdecategory.blank?
+	    	decategory = decategory.mdecategory
+	    	decategoryname = decategory.name + ' --> ' + decategoryname
+	    end
+	    decategoryname
+	end
+
+	#包含上级分类的配件分类名
+	def parentpartcategory_name(partcategory_id)   #返回配件分类名
+	    partcategory = Partcategory.find partcategory_id
+	    partcategoryname = partcategory.name
+	    while !partcategory.mpartcategory.blank?
+	    	partcategory = partcategory.mpartcategory
+	    	dpartcategoryname = partcategory.name + ' --> ' + partcategoryname
+	    end
+	    partcategoryname
+	end
+
 
 	def user_name(user_id)   #根据用户id返回用户名
 		if user_id
