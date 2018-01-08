@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all.order(id: :desc).paginate page: params[:page], per_page: 15
-    @departments = Department.alltree
+    @departments = Department.leafdepartment
     #导出Excel的.一会在研究
     if params[:format]
       export_csv(User)
@@ -13,11 +13,8 @@ class UsersController < ApplicationController
   #添加新员工页面
   def new
     @user = User.new
-    # @departments = Department.alltree
 
-    @decategorydevices = Department.joins("INNER JOIN departments as b ON departments.id = b.parent_id ").select('id').distinct
-
-    @departments = Department.where.not(id: @decategorydevices.collect{|decategorydevice| decategorydevice.id }).order('pgcode')
+    @departments = Department.leafdepartment
   end
 
   #保存新员工

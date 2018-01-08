@@ -76,7 +76,8 @@ class DevicesController < ApplicationController
 		#新建设备 device_params内容包括:asset_name, :service_sn, :decategory_id, :release_date, :asset_details
 		@device = Device.new(device_params)
 		#设备编号
-		@device.asset_code = params[:device][:asset_code]
+		# @device.asset_code = params[:device][:asset_code]
+		@device.asset_code = getassetcode(params[:device][:decategory_id])
 		#设备维保到期时间
 		@device.scrap_date = Time.parse(@device.release_date.try(:strftime, "%Y-%m-%d")) + params[:device][:guaranteed].to_i.months
 		#保存

@@ -3,7 +3,7 @@ class OtherservicesController < ApplicationController
   layout 'home'
   #其他服务列表
   def index
-    @otherservices = Otherservice.all.paginate page: params[:page], per_page: 15
+    @otherservices = Otherservice.all.order(id: :desc).paginate page: params[:page], per_page: 15
   end
   #其他服务新建页面
   def new

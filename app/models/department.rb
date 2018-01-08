@@ -26,6 +26,12 @@ class Department < ApplicationRecord
 	            newarr.push item
 	            GetTree(arr , item['id'] ,step+1,newarr,indentstr)
 	        end
-		end
+		  end
+    end
+
+
+    def self.leafdepartment
+      havelowerdepartments = Department.joins("INNER JOIN departments as b ON departments.id = b.parent_id ").select('id').distinct
+      departments = Department.where.not(id: havelowerdepartments.collect{|department| department.id }).order('pgcode')
     end
 end

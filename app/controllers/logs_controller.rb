@@ -1,6 +1,6 @@
 class LogsController < ApplicationController
   #查看日志的时候,不用再记录日志
-  skip_around_action :writinglog, only: [:index, :search]
+  # skip_around_action :writinglog, only: [:index, :search]
 
   layout 'home'
 

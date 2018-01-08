@@ -3,7 +3,7 @@ class PartsController < ApplicationController
   #显示所有配件
   def index
     #所有配件
-    @parts = Part.all.paginate page: params[:page], per_page: 15
+    @parts = Part.all.order(id: :desc).paginate page: params[:page], per_page: 15
     #所有配件分类
     @partcategorys = Partcategory.alltree
     #从配置文件中拿出所有配件状态
