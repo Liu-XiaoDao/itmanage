@@ -5,7 +5,7 @@ class PartsController < ApplicationController
     #所有配件
     @parts = Part.all.order(id: :desc).paginate page: params[:page], per_page: 15
     #所有配件分类
-    @partcategorys = Partcategory.alltree
+    @partcategorys = Partcategory.leafpartcategory
     #从配置文件中拿出所有配件状态
     @status = YAML.load_file("#{Rails.root}/config/status.yml")['part']
   end
@@ -38,7 +38,7 @@ class PartsController < ApplicationController
       end
       @parts = Part.where(searchstr).paginate page: params[:page], per_page: 15
       #下面是列表页要用的
-      @partcategorys = Partcategory.alltree
+      @partcategorys = Partcategory.leafpartcategory
       @status = YAML.load_file("#{Rails.root}/config/status.yml")['part']
       render "index"
     end
@@ -48,7 +48,7 @@ class PartsController < ApplicationController
     #空实例
     @part = Part.new
     #所有配件分类
-    @partcategorys = Partcategory.alltree
+    @partcategorys = Partcategory.leafpartcategory
   end
 	#添加设备
   def create
@@ -65,14 +65,14 @@ class PartsController < ApplicationController
       redirect_to parts_path
     else
       #所有配件分类
-      @partcategorys = Partcategory.alltree
+      @partcategorys = Partcategory.leafpartcategory
       render :new
     end
   end
   #修改配件
   def edit
     @part = Part.find params[:id]
-    @partcategorys = Partcategory.alltree
+    @partcategorys = Partcategory.leafpartcategory
   end
   #修改
   def update
@@ -82,7 +82,7 @@ class PartsController < ApplicationController
       redirect_to parts_path
     else
       #所有配件分类
-      @partcategorys = Partcategory.alltree
+      @partcategorys = Partcategory.leafpartcategory
       render :edit
     end
   end
@@ -101,7 +101,7 @@ class PartsController < ApplicationController
   #批量添加界面
   def batchadd
     @part = Part.new
-    @partcategorys = Partcategory.alltree
+    @partcategorys = Partcategory.leafpartcategory
   end
 
   #批量添加设备
@@ -137,8 +137,8 @@ class PartsController < ApplicationController
     @part = Part.find params[:id]
     @device = @part.device    #属于哪个设备
     @user = @device.blank? ? nil : @device.user   #设备的使用人
-    @partcategorys = Partcategory.alltree     #配件分类,拿到所有分类
-    @decategorys = Decategory.alltree     #设备分类,拿到所有分类
+    @partcategorys = Partcategory.leafpartcategory     #配件分类,拿到所有分类
+    @decategorys = Decategory.leafdecategory     #设备分类,拿到所有分类
     @partrecords = Partrecord.where part_id: @part.id
   end
 
@@ -203,11 +203,11 @@ class PartsController < ApplicationController
 
     if @part.device.blank?
       @part.destroy
-      flash[:success] = "删除成功" 
+      flash[:success] = "删除成功"
       redirect_to parts_path
     else
-      flash[:danger] = "删除失败" 
-      redirect_to parts_path 
+      flash[:danger] = "删除失败"
+      redirect_to parts_path
     end
   end
   private

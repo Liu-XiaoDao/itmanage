@@ -24,7 +24,7 @@ class UsersController < ApplicationController
       flash[:success] = "新员工创建成功"
       redirect_to users_path
     else
-      @departments = Department.alltree
+      @departments = Department.leafdepartment
       render :new
     end
   end
@@ -65,7 +65,7 @@ class UsersController < ApplicationController
         searchstr += "created_at between '#{begindate.try(:strftime, '%Y-%m-%d')}' And '#{enddate.try(:strftime, '%Y-%m-%d')}'"
       end
       @users = User.where(searchstr).paginate page: params[:page], per_page: 10
-      @departments = Department.alltree
+      @departments = Department.leafdepartment
 
       render "index"
     end
@@ -84,7 +84,7 @@ class UsersController < ApplicationController
   #员工详情页面
   def show
     @user = User.find(params[:id])
-    @decategorys = Decategory.alltree
+    @decategorys = Decategory.leafdecategory
     @devices = @user.devices
     @consumables = Consumable.all
     @consumablerecords = @user.consumablerecords
@@ -106,7 +106,7 @@ class UsersController < ApplicationController
     else
       flash[:danger] = "员工修改失败"
       redirect_to user_path(@user)
-    end 
+    end
   end
 
 
@@ -117,9 +117,9 @@ class UsersController < ApplicationController
       flash[:success] = "员工修改成功"
       redirect_to users_path
     else
-      @departments = Department.alltree
+      @departments = Department.leafdepartment
       render :edit
-    end 
+    end
   end
 
   #管理员修改密码
@@ -148,7 +148,7 @@ class UsersController < ApplicationController
     borrow_timeleft = params[:device][:borrowtime]
     device_id = params[:device][:device_id]
 
-    if device_id.blank? || assign_type.blank? || ( assign_type.to_i == 5 && borrow_timeleft.blank?) || ( assign_type.to_i == 7 && borrow_timeleft.blank?)  
+    if device_id.blank? || assign_type.blank? || ( assign_type.to_i == 5 && borrow_timeleft.blank?) || ( assign_type.to_i == 7 && borrow_timeleft.blank?)
       flash[:danger] = "设备分配失败,信息不全"
       return redirect_to user_path(params[:id])
     end
@@ -198,9 +198,9 @@ class UsersController < ApplicationController
       redirect_to users_path
     else
       flash[:danger] = "用户用过操作记录不能删除"
-      redirect_to users_path      
+      redirect_to users_path
     end
-      
+
   end
 
   #给用户分配耗材
@@ -216,7 +216,7 @@ class UsersController < ApplicationController
     @consumable = Consumable.find @consumable_id
     @consumable.used_amount = @consumable.used_amount.to_i + 1
     @consumable.surplus_amount = @consumable.surplus_amount.to_i - 1
-    
+
 
     @consumablerecord = Consumablerecord.new
     @consumablerecord.user_id = @user.id

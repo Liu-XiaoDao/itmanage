@@ -5,7 +5,7 @@ class DevicesController < ApplicationController
 		#设备列表显示is_delete为0的设备
 		@devices = Device.all.order(id: :desc).paginate page: params[:page], per_page: 20
 		#搜索使用部门
-		@departments = Department.alltree
+		@departments = Department.leafdepartment
 		#搜索使用设备分类
 		@decategorys = Decategory.leafdecategory
 		#搜索使用员工
@@ -54,8 +54,8 @@ class DevicesController < ApplicationController
 			#查询,并且一页显示20条
 			@devices = Device.where(searchstr).paginate page: params[:page], per_page: 20
 			#首页列表中查询使用的那几个实例变量
-			@departments = Department.alltree
-			@decategorys = Decategory.alltree
+			@departments = Department.leafdepartment
+			@decategorys = Decategory.leafdecategory
 			@users = User.all
 			@status = YAML.load_file("#{Rails.root}/config/status.yml")['device']
 			#渲染列表页
@@ -68,7 +68,7 @@ class DevicesController < ApplicationController
   	#添加设备试图
 	def new
 		@device = Device.new
-		@decategorys = Decategory.alltree
+		@decategorys = Decategory.leafdecategory
 	end
 
 	#添加设备
@@ -85,7 +85,7 @@ class DevicesController < ApplicationController
 			flash[:success] = "设备增加成功"
 			redirect_to devices_path
 		else
-			@decategorys = Decategory.alltree
+			@decategorys = Decategory.leafdecategory
 			render :new
 		end
 	end
@@ -93,7 +93,7 @@ class DevicesController < ApplicationController
 	#批量添加界面
 	def batchadd
 		@device = Device.new
-		@decategorys = Decategory.alltree
+		@decategorys = Decategory.leafdecategory
 	end
 
 	#批量添加设备
@@ -131,7 +131,7 @@ class DevicesController < ApplicationController
 		#拿到设备
 		@device = Device.find params[:id]
 		#拿到所有设备
-		@decategorys = Decategory.alltree
+		@decategorys = Decategory.leafdecategory
 	end
 
 
@@ -158,7 +158,7 @@ class DevicesController < ApplicationController
 			redirect_to devices_path
 		else
 			#拿到所有设备
-			@decategorys = Decategory.alltree
+			@decategorys = Decategory.leafdecategory
 			render 'edit'
 		end
 	end
@@ -215,9 +215,9 @@ class DevicesController < ApplicationController
   		@parts = @device.parts   #当前设备的所有配件
   		@user = @device.user   #当前设备的使用人
 
-  		@decategorys = Decategory.alltree     #设备分类,拿到所有分类
-  		@partcategorys = Partcategory.alltree     #配件分类,拿到所有分类
-  		@departments = Department.alltree #所有部门,详情页中分配设备时会用到
+  		@decategorys = Decategory.leafdecategory     #设备分类,拿到所有分类
+  		@partcategorys = Partcategory.leafpartcategory     #配件分类,拿到所有分类
+  		@departments = Department.leafdepartment #所有部门,详情页中分配设备时会用到
 
   		@devicerecords = @device.devicerecords   #当前设备的分配记录
   		#设备拥有的所有权限
