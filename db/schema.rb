@@ -177,13 +177,13 @@ ActiveRecord::Schema.define(version: 20171221071708) do
     t.string "serviceprovider"
     t.float "price", limit: 24
     t.datetime "begin_date"
+    t.integer "months"
     t.datetime "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "describe"
-    t.integer "closeremind", default: 0
     t.datetime "remindtime"
-    t.integer "months"
+    t.integer "closeremind", default: 0
   end
 
   create_table "partcategories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

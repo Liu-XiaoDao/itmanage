@@ -34,6 +34,10 @@ class Decategory < ApplicationRecord
     end
   end
 
+  def self.leafdecategory
+    havelowerdecategorys = Decategory.joins("INNER JOIN decategories as b ON decategories.id = b.parent_id ").select('id').distinct
+    decategorys = Decategory.where.not(id: havelowerdecategorys.collect{|decategory| decategory.id }).order('pgcode')
+  end
 
 
 end

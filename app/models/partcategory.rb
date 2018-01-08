@@ -1,5 +1,5 @@
 class Partcategory < ApplicationRecord
- 
+
   has_many :parts
 
   has_many :cpartcategory, class_name: 'Partcategory', foreign_key: 'parent_id'
@@ -32,6 +32,11 @@ class Partcategory < ApplicationRecord
         GetTree(arr , item['id'] ,step+1,newarr,indentstr)
       end
     end
+  end
+
+  def self.leafpartcategory
+    havelowerpartcategorys = Partcategory.joins("INNER JOIN partcategorys as b ON partcategorys.id = b.parent_id ").select('id').distinct
+    partcategorys = Partcategory.where.not(id: havelowerpartcategorys.collect{|partcategory| partcategory.id }).order('pgcode')
   end
 
 

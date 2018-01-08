@@ -7,7 +7,7 @@ class DevicesController < ApplicationController
 		#搜索使用部门
 		@departments = Department.alltree
 		#搜索使用设备分类
-		@decategorys = Decategory.alltree
+		@decategorys = Decategory.leafdecategory
 		#搜索使用员工
 		@users = User.all
 		#从yml文件中拿到设备的所有状态
