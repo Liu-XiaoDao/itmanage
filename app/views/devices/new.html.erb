@@ -28,7 +28,7 @@
 							<label for="decategory_id">设备类型:</label>
 				          	<select class="form-control" name=device[decategory_id] id="decategory_id">
 				            	<% @decategorys.each do |decategory| %>
-				              		<option value="<%= decategory.id %>"><%= decategory.name %></option>
+				              		<option value="<%= decategory.id %>"><%= parentdecategory_name decategory.id %></option>
 				            	<% end %>
 				          	</select>
 				        </div>
