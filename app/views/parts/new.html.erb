@@ -28,7 +28,7 @@
 				          	<label for="partcategory_id">配件类型:</label>
 				          	<select class="form-control" name=part[partcategory_id] id="partcategory_id">
 				            	<% @partcategorys.each do |partcategory| %>
-				              		<option value="<%= partcategory.id %>"><%= partcategory.name %></option>
+				              		<option value="<%= partcategory.id %>"><%= parentpartcategory_name partcategory.id %></option>
 				            	<% end %>
 				          	</select>
 				        </div>

@@ -31,7 +31,7 @@
 													<% if partcategory.id == @part.partcategory_id %>
 														 <% selected = 'selected="selected"' %>
 													<% end %>
-				              		<option value="<%= partcategory.id %>" <%= selected %> ><%= partcategory.name %></option>
+				              		<option value="<%= partcategory.id %>" <%= selected %> ><%= parentpartcategory_name partcategory.id %></option>
 				            	<% end %>
 				          	</select>
 				        </div>

@@ -31,7 +31,7 @@
 													<% if decategory.id == @device.decategory_id %>
 															<% selected = 'selected="selected"' %>
 													<% end %>
-				              		<option value="<%= decategory.id %>" <%= selected %> ><%= decategory.name %></option>
+				              		<option value="<%= decategory.id %>" <%= selected %> ><%= parentdecategory_name decategory.id %></option>
 				            	<% end %>
 				          	</select>
 				        </div>

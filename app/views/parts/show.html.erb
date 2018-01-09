@@ -73,7 +73,7 @@
                                         <% if  @decategory_id.to_i == decategory.id %>
                                                 <% selected = 'selected="selected"' %>
                                               <% end %>
-                                          <option value="<%= decategory.id %>" <%= selected %> ><%= decategory.name %></option>
+                                          <option value="<%= decategory.id %>" <%= selected %> ><%= parentdecategory_name decategory.id %></option>
                                       <% end %>
                                     </select>
                                   </div>
@@ -138,7 +138,7 @@
                                       <% if  @part.partcategory_id == partcategory.id %>
                                           <% selected = 'selected="selected"' %>
                                       <% end %>
-          					              		<option value="<%= partcategory.id %>" <%= selected %> ><%= partcategory.name %></option>
+          					              		<option value="<%= partcategory.id %>" <%= selected %> ><%= parentpartcategory_name partcategory.id %></option>
           					            	<% end %>
           					          	</select>
           					        </div>

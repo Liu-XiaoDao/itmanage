@@ -258,7 +258,7 @@
                 <select class="form-control" name="device[decategory]" id="decategory" onchange="show_position(this)">
                   <option value="">请选择设备分类</option>
                   <% @decategorys.each do |decategory| %>
-                    <option value="<%= decategory.id %>"><%= decategory.name %></option>
+                    <option value="<%= decategory.id %>"><%= parentdecategory_name decategory.id %></option>
                   <% end %>
                 </select>
               </div>
@@ -371,4 +371,3 @@
     $('#decategory').searchableSelect();
   });
 </script>
-

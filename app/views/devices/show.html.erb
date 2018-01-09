@@ -72,7 +72,7 @@
                             <select class="form-control" name="device[user_department]" id="user_department" onchange="show_position(this)">
                               <option value="">请选择员工部门</option>
                               <% @departments.each do |department| %>
-                                <option value="<%= department.id %>"><%= department.department_name %></option>
+                                <option value="<%= department.id %>"><%= parentdepartment_name department.id %></option>
                               <% end %>
                             </select>
                           </div>
@@ -124,7 +124,7 @@
                   </div>
               </div>
             <% end %>
-              
+
         </div>
 
 		<script>
@@ -163,7 +163,7 @@
 		            $("#borrowtime_br").css("display","none");
 		        }
 		    }
-		</script> 
+		</script>
 
 		<!-- 设备信息设置 -->
 		<div class="col-sm-9 col-md-9">
@@ -190,7 +190,7 @@
                   <% if  @device.decategory_id == decategory.id %>
                     <% selected = 'selected="selected"' %>
                   <% end %>
-									<option value="<%= decategory.id %>" <%= selected %> ><%= decategory.name %></option>
+									<option value="<%= decategory.id %>" <%= selected %> ><%= parentdecategory_name decategory.id %></option>
 								<% end %>
 							</select>
 						</div>
@@ -212,7 +212,7 @@
 				</div>
 			</div>
 		</div>
-        
+
 
         <div class="col-sm-12 col-md-12" style="padding-top: 30px;">
             <div class="panel panel-info">
@@ -310,7 +310,7 @@
 						<select class="form-control" name="device[decategory]" id="parttype" onchange="get_part(this)">
 							<option value="">请选择配件分类</option>
 							<% @partcategorys.each do |partcategory| %>
-								<option value="<%= partcategory.id %>"><%= partcategory.name %></option>
+								<option value="<%= partcategory.id %>"><%= parentpartcategory_name partcategory.id %></option>
 							<% end %>
 						</select>
 					</div>
