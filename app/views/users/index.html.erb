@@ -75,7 +75,7 @@
           </thead>
           <tbody>
     			  <% @users.each do |user| %>
-    			    <tr>
+    			    <tr class="<%=  user.is_quit == 1 ? 'danger' : '' %>">
     			      <td><%= link_to user.username, user_path(user) %></td>
     			      <td><%= user.email %></td>
                 <td><%= user.attendance %></td>

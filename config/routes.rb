@@ -69,6 +69,7 @@ Rails.application.routes.draw do
     post 'assigndevise', on: :member
     post 'assignconsumable', on: :member
     post 'showupdate', on: :member   #在show页面的修改
+    get 'quit', on: :member  #员工离职
   end
 
 

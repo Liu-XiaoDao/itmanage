@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171221071708) do
+ActiveRecord::Schema.define(version: 20180111120212) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -177,13 +177,13 @@ ActiveRecord::Schema.define(version: 20171221071708) do
     t.string "serviceprovider"
     t.float "price", limit: 24
     t.datetime "begin_date"
-    t.integer "months"
     t.datetime "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "describe"
-    t.datetime "remindtime"
     t.integer "closeremind", default: 0
+    t.datetime "remindtime"
+    t.integer "months"
   end
 
   create_table "partcategories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -248,6 +248,7 @@ ActiveRecord::Schema.define(version: 20171221071708) do
     t.datetime "updated_at", null: false
     t.bigint "department_id"
     t.string "position"
+    t.integer "is_quit", default: 0
     t.index ["department_id"], name: "index_users_on_department_id"
   end
 

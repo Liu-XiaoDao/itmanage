@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   layout 'home'
 
   def index
-    @users = User.all.order(id: :desc).paginate page: params[:page], per_page: 15
+    @users = User.all.order(is_quit: :asc,id: :desc).paginate page: params[:page], per_page: 15
     @departments = Department.leafdepartment
     #导出Excel的.一会在研究
     if params[:format]
@@ -186,6 +186,25 @@ class UsersController < ApplicationController
       flash[:danger] = "设备分配失败" + (@device.errors.any? ? @device.errors.full_messages[0] : "11")
       return redirect_to user_path(params[:id])
     end
+  end
+
+  def quit#离职
+    @user = User.find(params[:id])
+
+    if @user.devices.blank? && @user.consumablerecords.blank? && @user.devicerecords.blank? && @user.authorization_user_devices.blank?
+      @user.is_quit = 1
+      if @user.save
+        flash[:success] = "用户成功离职"
+        redirect_to @user
+      else
+        flash[:danger] = "用户离职失败"
+        redirect_to @user
+      end
+    else
+      flash[:danger] = "用户还有未回收设备,不能离职"
+      redirect_to @user
+    end
+
   end
 
   #删除用户,,这里还需操作.删除用户时,用户的设备处理问题
