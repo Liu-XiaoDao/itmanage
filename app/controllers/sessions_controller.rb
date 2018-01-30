@@ -20,9 +20,8 @@ class SessionsController < ApplicationController
           # 密码错误
           @user.errors.add :password, "密码错误"
         else
-          @user = User.new
-          flash.now[:warning] = "没有此用户"
-          render :new
+          flash[:warning] = "没有此用户"
+          redirect_to signin_path
         end
     else
         @user = User.from_omniauth(request.env["omniauth.auth"])      #这是通过ldap认证后,返回邮箱,再用邮箱找到用户,在返回用户
