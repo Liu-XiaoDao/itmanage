@@ -1,5 +1,5 @@
 class OtherservicesController < ApplicationController
-  
+
   layout 'home'
   #其他服务列表
   def index
@@ -55,7 +55,7 @@ class OtherservicesController < ApplicationController
     #计算时间
     @otherservice.end_date = (Time.parse(@otherservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:otherservice][:months].to_i.month).strftime("%Y-%m-%d")
     @otherservice.remindtime = (Time.parse(@otherservice.end_date.try(:strftime, "%Y-%m-%d")) - 2.month).strftime("%Y-%m-%d")
-    
+
     if @otherservice.save
       flash[:success] = "其他服务修改成功"
       redirect_to otherservices_path
@@ -116,7 +116,7 @@ class OtherservicesController < ApplicationController
     if oserviceimg.save
       redirect_to otherservice_path(@otherservice)
     else
-      
+
     end
   end
   #保存图片
@@ -140,10 +140,12 @@ class OtherservicesController < ApplicationController
     @otherservice.closeremind = params[:tag]
     if @otherservice.save
       #设置成功
-      render json: {status: 0}
+      flash[:success] = "服务关闭成功"
+      redirect_to otherservice_path(@otherservice)
     else
       #设置失败
-      render json: {status: 1}
+      flash[:success] = "服务关闭失败"
+      redirect_to otherservice_path(@otherservice)
     end
   end
 
