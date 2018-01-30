@@ -70,6 +70,7 @@
 						<div class="row">
 							<div class="col-sm-12 col-md-12">
 								<div class="form-group">
+									<a href="<%= set_remind_otherservice_path(@otherservice) %>"  class="btn btn-primary submit" style="color: #fff; ">关闭此服务</a>
 									<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; ">延长服务周期</a>
 								</div>
 							</div>
@@ -104,12 +105,12 @@
 				<div class="row" style="margin: 0 15px; ">
 					<h4>相关附件:</h4>
 					<% @images.each do |image|%>
-						
+
 				        <a href="<%= image.imgurl %>" class="thumbnail" target="black" onclick="window.open(this.href,'popup','width=500,height=500,top=0,left=800');return false">
 				            <!-- <img src="<%#= image.imgurl %>" alt="<%#= image.otherservice_id %>"> -->
 				            <%= image.original %>
 				        </a>
-						
+
 					<% end %>
 				        <%= simple_form_for @otherservice, url: upload_img_otherservice_path(@otherservice), method: :post, html:{ multipart: true } do |f| %>
 							<div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
@@ -122,7 +123,7 @@
 				</div>
 	      	</div>
     	</div>
-    </div>					
+    </div>
 </div>
 <script type="text/javascript">
 	$(".avatar-upload").on("click", "#upload-avatar-btn", function(){
@@ -150,7 +151,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">添加配件</h4>
+				<h4 class="modal-title" id="myModalLabel">延长服务周期</h4>
 			</div>
 			<%= form_for @oslengthen, url: lengthen_otherservice_path(@otherservice) do |f| %>
 				<div class="modal-body" style="padding: 15px;">

@@ -35,7 +35,7 @@ class Partcategory < ApplicationRecord
   end
 
   def self.leafpartcategory
-    havelowerpartcategorys = Partcategory.joins("INNER JOIN partcategorys as b ON partcategorys.id = b.parent_id ").select('id').distinct
+    havelowerpartcategorys = Partcategory.joins("INNER JOIN partcategories as b ON partcategories.id = b.parent_id ").select('id').distinct
     partcategorys = Partcategory.where.not(id: havelowerpartcategorys.collect{|partcategory| partcategory.id }).order('pgcode')
   end
 
