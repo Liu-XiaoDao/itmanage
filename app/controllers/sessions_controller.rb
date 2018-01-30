@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
           @user.errors.add :password, "密码错误"
         else
           @user = User.new
-          flash[:warning] = "没有此用户"
+          flash.now[:warning] = "没有此用户"
           render :new
         end
     else
