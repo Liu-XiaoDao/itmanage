@@ -20,6 +20,7 @@ class SessionsController < ApplicationController
           # 密码错误
           @user.errors.add :password, "密码错误"
         else
+          @user = User.new
           flash[:warning] = "没有此用户"
           render :new
         end
@@ -34,7 +35,7 @@ class SessionsController < ApplicationController
     redirect_to signin_path
   end
 
-  private 
+  private
     def session_param(attribute)
       params[:session][attribute]
     end
