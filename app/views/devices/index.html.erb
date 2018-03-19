@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
       <div class="alert alert-info">
-      	系统共有 <b><%= @devices.count %></b> 台设备<a href="<%= new_device_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;"><%= t("adddevice")%></a><a href="<%= devices_batchadd_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">批量添加</a><a href="<%= devices_importd_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">导入</a>
+      	系统共有 <b><%= @devices.count %></b> 台设备<a href="<%= new_device_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;"><%= t("adddevice")%></a><a href="<%= devices_batchadd_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">批量添加</a><!-- <a href="<%#= devices_importd_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">导入</a> -->
       </div>
     	<nav class="navbar navbar-default" role="navigation">
     		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -119,7 +119,7 @@
 	    </table>
 	  </div>
 	  <%= will_paginate @devices, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
-    <ul class="pagination" style="float: right;"><li><%= link_to "导出", devices_path(format: "csv") %></li></ul>
+    <!-- <ul class="pagination" style="float: right;"><li><%#= link_to "导出", devices_path(format: "csv") %></li></ul> -->
     </div>
   </div>
 </div>

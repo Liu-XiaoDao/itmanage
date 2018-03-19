@@ -88,7 +88,7 @@
           </tbody>
         </table>
       </div>
-      <ul class="pagination" style="float: right;"><li><%= link_to "导出", users_path(format: "csv") %></li></ul>
+      <!-- <ul class="pagination" style="float: right;"><li><%#= link_to "导出", users_path(format: "csv") %></li></ul> -->
       <%= will_paginate @users, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
     </div>
   </div>
@@ -96,7 +96,7 @@
 
 
 
-<%= form_tag  users_upload_path, method: :post,  multipart: true  do %>
+<!-- <%#= form_tag  users_upload_path, method: :post,  multipart: true  do %>
 
 
     <div class="form-group">
@@ -105,9 +105,9 @@
     </div>
 
     <div class="form-group">
-        <%= submit_tag "上传", class: "btn btn-primary submit" %>
+        <%#= submit_tag "上传", class: "btn btn-primary submit" %>
     </div>
-<% end %>
+<%# end %> -->
 <script>
 	$(function(){
 	  $('select').searchableSelect();
