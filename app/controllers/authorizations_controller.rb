@@ -113,6 +113,6 @@ class AuthorizationsController < ApplicationController
 
 	private
 		def authorization_params
-			params.require(:authorization).permit(:name, :serial_number, :key, :begin_date, :end_date, :amount, :price, :manufacturer, :contact_information)
+			params.require(:authorization).permit(:name, :serial_number, :key, :begin_date, :end_date, :amount, :price, :manufacturer, :contact_information, :note)
 		end
 end

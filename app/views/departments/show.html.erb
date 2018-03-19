@@ -91,6 +91,31 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="table-responsive" style="padding-top: 20px;padding-bottom: 50px;">
+                <table class="table table-striped">
+                  <thead>
+                      <tr><th><%= t("devicecode") %></th><th><%= t("devicename") %></th><th><%= t("devicecg") %></th><th><%= t("assigntype") %></th><th><%= t("assigntime") %></th><th><%= t("devicedetails")%></th></tr>
+                  </thead>
+                  <tbody>
+                        <% @departmentUsers.each do |user| %>
+                          <% user.devices.each do |device| %>
+                              <tr>
+                                <td><%= device_assetno device.id %></td>
+                                <td><%= device.asset_name %></td>
+                                <td><%= device_type device.decategory_id %></td>
+                                <td><%= device_status device.status %></td>
+                                <td><%= device.assign_time.try(:strftime, "%Y-%m-%d") %></td>
+                                <td><%= device.asset_details %></td>
+                              </tr>
+                          <% end %>
+                        <% end %>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- 添加下级部门时,选择部门经理下拉框 -->
 <script>

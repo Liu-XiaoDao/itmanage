@@ -410,9 +410,9 @@ class DevicesController < ApplicationController
 			newdevice = Device.new
 			newdevice.asset_name = device[1]
 			newdevice.service_sn = device[3]
-			newdevice.decategory_id = device[2]
+			newdevice.decategory_id = Decategory.find_by_name(device[2]).id
 			newdevice.release_date = '20' + device[0][2] + device[0][3] + '-' + device[0][4] + device[0][5] + '-01'
-			newdevice.asset_details = "导入"
+			newdevice.asset_details = device[4]
 			newdevice.location = device[4]
 			newdevice.asset_code = device[0]
 			newdevice.scrap_date = Time.parse(newdevice.release_date.try(:strftime, "%Y-%m-%d")) + 48.months
@@ -428,13 +428,15 @@ class DevicesController < ApplicationController
 
 	def batchassign
 		@deviceusers = params[:deviceusers].split(";")
+		count = 0
 		@deviceusers.each do |deviceuserstr|
 			deviceuser = deviceuserstr.split(",")
 			user_id = User.find_by(username: deviceuser[0]).id
 			device_id = Device.find_by(asset_code: deviceuser[1]).id
 			batchassignuser(user_id,device_id)
+			count = count + 1
 	    end
-		return render js: "$('#error-infoassign').html('设备导入成功').css('display','block');"
+		return render js: "$('#error-infoassign').html('设备导入成功#{count}').css('display','block');"
 	end
 
 	#导入设备快速分配

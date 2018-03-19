@@ -256,14 +256,23 @@ class UsersController < ApplicationController
     @users = params[:users].split("\r\n")
     count = 0
     @users.each do |user|
-      userarr = user.split(",")
-      department = Department.find_by department_name: userarr[3]
-      useritem = User.new
-      useritem.username = userarr[0]
-      useritem.email = userarr[1]
-      useritem.attendance = userarr[2]
-      useritem.department_id = department.blank? ? 0 : department.id
-      useritem.save!
+      userarr = user.strip.split("\t")
+      #department = Department.where("department_name = '#{userarr[2]}' and parent_id != 0").last
+      #useritem = User.new
+      #useritem.username = userarr[0]
+      #useritem.email = "#{rand(99999999)}@abcam.com"
+      #useritem.attendance = userarr[1]
+      #useritem.position = userarr[3]
+      #useritem.department_id = department.blank? ? 0 : department.id
+      #useritem.save!
+      
+      ruser = User.find_by username: userarr[0]
+      #return render json: userarr[0].strip
+      if ruser.present?
+        ruser.email = userarr[1]
+        ruser.save!
+        count = count + 1
+      end
     end
     render plain: count
   end

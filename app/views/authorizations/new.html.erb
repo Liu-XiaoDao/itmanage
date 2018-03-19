@@ -96,6 +96,10 @@
 							<label>联系方式:</label><br>
 							<%= f.text_area :contact_information, placeholder: "联系方式", class: "form-control" %>
 						</div>
+						<div class="form-group">
+							<label>备注</label><br>
+							<%= f.text_area :note, placeholder: "备注", class: "form-control" %>
+					        </div>
 						<%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
 					<% end %>
 					<br/><a href="<%= authorizations_path %>">>>返回授权列表</a>

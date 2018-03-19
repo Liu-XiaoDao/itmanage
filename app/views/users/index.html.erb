@@ -96,18 +96,18 @@
 
 
 
-<%#= form_tag  users_upload_path, method: :post,  multipart: true  do %>
+<%= form_tag  users_upload_path, method: :post,  multipart: true  do %>
 
 
-<!--     <div class="form-group">
-      <label>设备详情:</label><br>
-      <textarea placeholder="设备详情" class="form-control" name="users" id="device_asset_details"></textarea>
+    <div class="form-group">
+      <label>用户批量上传:</label><br>
+      <textarea placeholder="用户" class="form-control" name="users" id="device_asset_details"></textarea>
     </div>
 
     <div class="form-group">
-        <%#= submit_tag "上传", class: "btn btn-primary submit" %>
-    </div> -->
-<%# end %>
+        <%= submit_tag "上传", class: "btn btn-primary submit" %>
+    </div>
+<% end %>
 <script>
 	$(function(){
 	  $('select').searchableSelect();
