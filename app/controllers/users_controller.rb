@@ -10,6 +10,13 @@ class UsersController < ApplicationController
       export_csv(User)
     end
   end
+  #导出报表
+  def export_csv(model)
+    respond_to { |format|
+      format.html
+      format.xlsx { send_data model.to_xlsx(model.all).stream.string, filename: "test_requests.xlsx", disposition: 'attachment' }
+    }
+  end
   #添加新员工页面
   def new
     @user = User.new
@@ -265,7 +272,7 @@ class UsersController < ApplicationController
       #useritem.position = userarr[3]
       #useritem.department_id = department.blank? ? 0 : department.id
       #useritem.save!
-      
+
       ruser = User.find_by username: userarr[0]
       #return render json: userarr[0].strip
       if ruser.present?

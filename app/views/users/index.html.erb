@@ -89,6 +89,7 @@
         </table>
       </div>
       <!-- <ul class="pagination" style="float: right;"><li><%#= link_to "导出", users_path(format: "csv") %></li></ul> -->
+      <%= link_to t(:export), users_path(format: :xlsx), class: "btn btn-info" %>
       <%= will_paginate @users, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
     </div>
   </div>

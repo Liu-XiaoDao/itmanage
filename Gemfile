@@ -26,6 +26,9 @@ gem 'rails-i18n'   #多语言
 # gem 'pry'   #调试工具
 # gem 'pry-remote'
 # gem 'pry-rails'   #这三个是关于调试的
+
+gem "rubyXL"
+gem "spreadsheet"
 ##############################y
 
 # Use sqlite3 as the database for Active Record

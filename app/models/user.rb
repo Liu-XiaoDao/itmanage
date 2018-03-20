@@ -24,7 +24,7 @@ class User < ApplicationRecord
                        uniqueness: { case_sensitive: false, message: "邮箱已经被使用" }  #唯一性检测，不区分大小写
   # validates :password, length: { minimum: 6 },  #密码最短6位
   #                      allow_nil: false  #为空也不跳过
- 
+
 
    #ldap登录
   def self.from_omniauth(auth)
@@ -59,9 +59,17 @@ class User < ApplicationRecord
       File.delete(file_path)
     end
   end
-
-
-
+require "spreadsheet"; require "rubyXL"
+  def self.to_xlsx(records)
+    export_fields = User.export_fields
+    SpreadsheetService.new.generate(export_fields, records)
+  end
+  def self.export_fields
+      [
+        "id",
+        "username"
+      ]
+    end
 
 
 end
