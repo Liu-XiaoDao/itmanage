@@ -1,0 +1,52 @@
+<% provide :c_active, "set" %>
+<% provide :pre_title, "统计" %>
+<div class="container" style="padding-top:70px;">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="breadcrumb">
+                <li><a href="/">主页</a></li>
+                <li><a href="<%= departments_path %>">统计</a></li>
+                <li class="active">部门设备统计</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <% flash.each do |name, msg| %>
+                <div  class="alert alert-<%= name %>"><%= msg %></div>
+            <% end %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="alert alert-info">部门共有 <b><%= @departmentUsers.count %></b> 个员工</div>
+            <div class="table-responsive" style="padding-top: 20px;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr><th><%= t("name")%></th><th><%= t("email")%></th><th><%= t("devicecount")%></th><th>设备列表</th></tr>
+                    </thead>
+                    <tbody>
+                        <% @departmentUsers.each do |user| %>
+                            <tr>
+                                <td><%= link_to user.username, user_path(user) %></td>
+                                <td><%= user.email %></td>
+                                <td><%= user.devices.count %></td>
+                                <td>
+                                    <% user.devices.each do |device| %>
+                                       <%= device_assetno device.id %>
+                                    <% end %>
+                                </td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加下级部门时,选择部门经理下拉框 -->
+<script>
+  $(function(){
+    $('#departmentmanager').searchableSelect();
+  });
+</script>

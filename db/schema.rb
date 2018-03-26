@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180319032743) do
+ActiveRecord::Schema.define(version: 20180325150359) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -178,13 +178,13 @@ ActiveRecord::Schema.define(version: 20180319032743) do
     t.string "serviceprovider"
     t.float "price", limit: 24
     t.datetime "begin_date"
-    t.integer "months"
     t.datetime "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "describe"
-    t.datetime "remindtime"
     t.integer "closeremind", default: 0
+    t.datetime "remindtime"
+    t.integer "months"
   end
 
   create_table "partcategories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -234,6 +234,16 @@ ActiveRecord::Schema.define(version: 20180319032743) do
   create_table "siteinfos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "title"
     t.string "emailrecive"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "suppliers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "product_name"
+    t.string "supplier_name"
+    t.string "contact"
+    t.string "contact_information"
+    t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

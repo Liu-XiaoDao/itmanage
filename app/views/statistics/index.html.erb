@@ -1,0 +1,44 @@
+<% provide :c_active, "statistics" %>
+<% provide :pre_title, "统计" %>
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li class="active">部门设备统计</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <% flash.each do |name, msg| %>
+        <div  class="alert alert-<%= name %>"><%= msg %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <div class="table-responsive" style="padding-top: 20px;">
+        <table class="table table-striped">
+          <thead>
+              <tr><th><%= t("departmentname")%></th><th><%= t("renshu")%></th><th>设备数量</th></tr>
+          </thead>
+          <tbody>
+            <% @departments.each do |department| %>
+              <tr>
+                <td><%= link_to parentdepartment_name(department.id), statistic_path(department) %></td>
+                <% departmentdevicecount = 0 %>
+                <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'") %>
+                <td><%= departmentUsers.count %></td>
+                <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.devices.count } %>
+                <td><%= departmentdevicecount  %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @departments, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+</div>

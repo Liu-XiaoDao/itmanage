@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+
+
   #首页
   root 'home#index'
   #刚开始想做首页的现在没用了
@@ -103,6 +105,8 @@ Rails.application.routes.draw do
   get 'logs/search' => 'logs#search'
   resources :logs
 
+  resources :suppliers
+  resources :statistics
 
 
   #配件路由
