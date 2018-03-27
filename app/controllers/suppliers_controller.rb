@@ -1,7 +1,7 @@
 class SuppliersController < ApplicationController
   layout 'home'
   def index
-    @suppliers = Supplier.all.paginate page: params[:page], per_page: 15
+    @suppliers = Supplier.all.paginate page: params[:page], per_page: 20
   end
 
   def new

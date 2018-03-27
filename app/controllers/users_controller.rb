@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   def export_csv(model)
     respond_to { |format|
       format.html
-      format.xlsx { send_data model.to_xlsx(model.all).stream.string, filename: "test_requests.xlsx", disposition: 'attachment' }
+      format.xlsx { send_data model.to_xlsx(model.all).stream.string, filename: "users.xlsx", disposition: 'attachment' }
     }
   end
   #添加新员工页面

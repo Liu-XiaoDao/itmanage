@@ -12,6 +12,11 @@ class DevicesController < ApplicationController
 		@users = User.all
 		#从yml文件中拿到设备的所有状态
 		@status = YAML.load_file("#{Rails.root}/config/status.yml")['device']
+
+		respond_to { |format|
+	      format.html
+	      format.xlsx { send_data Device.to_xlsx(Device.all).stream.string, filename: "devices.xlsx", disposition: 'attachment' }
+	    }
 	end
   	#搜索设备
 	def search

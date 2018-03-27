@@ -18,5 +18,10 @@ class Device < ApplicationRecord
   	validates :asset_name,  length: { in: 2..25 } #设备名长度6-25
 
 	validates :asset_code,  uniqueness: { case_sensitive: false }#设备编码要唯一
+
+    def self.to_xlsx(records)
+      export_fields = ["id", "asset_code", "asset_name", "service_sn", "asset_details", "status", "user_id", "location"]
+      SpreadsheetService.new.generate(export_fields, records)
+    end
 end
 

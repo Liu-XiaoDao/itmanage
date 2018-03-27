@@ -24,7 +24,7 @@
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
           <thead>
-              <tr><th>类别代码</th><th><%= t("departmentname")%></th><th><%= t("departmentmanager")%></th><th>上级部门</th><th><%= t("renshu")%></th><th>设备数量</th><th><%= t("operation")%></th></tr>
+              <tr><th>类别代码</th><th><%= t("departmentname")%></th><th><%= t("departmentmanager")%></th><th>上级部门</th><th><%= t("renshu")%></th><th><%= t("operation")%></th></tr>
           </thead>
           <tbody>
     			  <% @departments.each do |department| %>
@@ -33,15 +33,9 @@
     			      <td><%= link_to parentdepartment_name(department.id), department_path(department) %></td>
     			      <td><%= department.manager_name %></td>
                 <td><%= department.higher.blank? ? '无' : department.higher.department_name %></td>
-
-
                 <% departmentdevicecount = 0 %>
                 <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'") %>
                 <td><%= departmentUsers.count %></td>
-                <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.devices.count } %>
-                <td><%= departmentdevicecount  %></td>
-
-
     			      <td><%= link_to t('edit'), edit_department_path(department) %></td>
     			      <td><%= link_to t('delete'), department_path(department), method: :delete, data: { confirm: t('areyousure') } %></td>
     			    </tr>

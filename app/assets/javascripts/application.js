@@ -19,3 +19,13 @@
 
 //首页瀑布流
 //= require pobu/pubu
+
+
+
+//统计里面的饼图
+
+//= require jquery_bzt/corechart
+//= require jquery_bzt/jquery.gvChart-1.0.1.min
+//= require jquery_bzt/jquery.ba-resize.min
+
+

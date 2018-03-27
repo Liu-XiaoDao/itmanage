@@ -59,17 +59,12 @@ class User < ApplicationRecord
       File.delete(file_path)
     end
   end
-require "spreadsheet"; require "rubyXL"
+
   def self.to_xlsx(records)
-    export_fields = User.export_fields
+    export_fields = ["id", "username", "email", "attendance", "department", "position"]
     SpreadsheetService.new.generate(export_fields, records)
   end
-  def self.export_fields
-      [
-        "id",
-        "username"
-      ]
-    end
+
 
 
 end

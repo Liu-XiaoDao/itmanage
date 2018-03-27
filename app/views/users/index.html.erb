@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
       <div class="alert alert-info">
-      	系统共有 <b><%= @users.count %></b> 位用户<a href="<%= new_user_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加新员工</a>
+      	系统共有 <b><%= @users.count %></b> 位用户<a href="<%= new_user_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加新员工</a><a href="<%= users_path(format: :xlsx) %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">导出</a>
       </div>
       <nav class="navbar navbar-default" role="navigation">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -89,7 +89,6 @@
         </table>
       </div>
       <!-- <ul class="pagination" style="float: right;"><li><%#= link_to "导出", users_path(format: "csv") %></li></ul> -->
-      <%= link_to t(:export), users_path(format: :xlsx), class: "btn btn-info" %>
       <%= will_paginate @users, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
     </div>
   </div>
