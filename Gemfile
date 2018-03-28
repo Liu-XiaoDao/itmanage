@@ -31,6 +31,8 @@ gem "rubyXL"
 gem "spreadsheet"
 
 gem "capistrano", "~> 3.10"
+gem 'capistrano-rails', '~> 1.1'
+gem 'capistrano-rvm',   '~> 0.1'
 ##############################y
 
 # Use sqlite3 as the database for Active Record

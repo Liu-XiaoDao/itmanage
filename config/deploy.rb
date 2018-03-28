@@ -1,5 +1,5 @@
 # config valid for current version and patch releases of Capistrano
-# lock "~> 3.10.1"
+lock "~> 3.10.1"
 #
 # set :application, "my_app_name"
 # set :repo_url, "git@example.com:me/my_repo.git"
@@ -44,6 +44,9 @@ set :stages, %w(production staging)
 set :default_stage, 'staging'
 
 set :application, "it_asset"
+
+set :deploy_user, 'myuser'
+
 set :repo_url, 'git@github.com:Liu-XiaoDao/itmanage.git'
 
 set :branch, 'master'
@@ -53,4 +56,40 @@ set :user, 'clliu'
 set :password, 'clliu'
 set :use_sudo, true
 
+# Default value for :scm is :git
+set :scm, :git
+
 set :keep_releases, 10
+
+
+
+set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+set :linked_dirs, fetch(:linked_dirs) + %w{public/uploads}
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
+
+set :config_dirs, %W{config config/environments/#{fetch(:stage)} public/system public/uploads}
+set :config_files, %w{config/database.yml config/secrets.yml}
+
+
+# precompile assets - locations that we will look for changed assets to determine whether to precompile
+set :assets_dependencies, %w(app/assets lib/assets vendor/assets Gemfile config/routes.rb)
+
+
+namespace :deploy do
+  namespace :assets do
+    desc "Precompile assets if changed"
+    task :precompile do
+      on roles(:app) do
+        invoke 'deploy:assets:precompile_changed'
+        #Rake::Task["deploy:assets:precompile_changed"].invoke
+      end
+    end
+  end
+end
+
+
+
+#
+before "deploy", "deploy:web:disable"
+after "deploy", "deploy:web:enable"
+

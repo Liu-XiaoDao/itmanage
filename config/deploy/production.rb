@@ -4,16 +4,24 @@ set :application, 'it_asset'
 
 set :deploy_to, "/usr/rubyWeb/#{fetch(:application)}"
 set :rails_env, 'production'
-
+set :branch, "master"
+server "10.8.1.36", user: "clliu", roles: %w{app db web}, my_property: :my_value
 # set :user, 'clliu'
 # set :password, 'clliu'
 set :use_sudo, true
+set :ssh_options, {
+    forward_agent: true,
+    #auth_methods: %w(password),
+    #password: 'pass',
+    user: 'myuser',
+}
+
+
 
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
-server "10.8.1.36", user: "clliu", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
