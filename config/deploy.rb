@@ -52,12 +52,8 @@ set :repo_url, 'git@github.com:Liu-XiaoDao/itmanage.git'
 set :branch, 'master'
 # set :scm_verbose, true
 
-set :user, 'clliu'
-set :password, 'clliu'
-set :use_sudo, true
 
-# Default value for :scm is :git
-set :scm, :git
+
 
 set :keep_releases, 10
 
@@ -90,6 +86,6 @@ end
 
 
 #
-before "deploy", "deploy:web:disable"
+# before "deploy", "deploy:web:disable"
 after "deploy", "deploy:web:enable"
 
