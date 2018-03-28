@@ -29,6 +29,8 @@ gem 'rails-i18n'   #多语言
 
 gem "rubyXL"
 gem "spreadsheet"
+
+gem "capistrano", "~> 3.10"
 ##############################y
 
 # Use sqlite3 as the database for Active Record
