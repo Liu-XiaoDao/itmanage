@@ -1,11 +1,12 @@
 set :application, 'it_asset'
 
-server '10.8.1.36', roles: [:app, :web, :db], primary: true
+server '116.196.118.148', roles: [:app, :web, :db], primary: true
 
-set :deploy_to, "/usr/rubyWeb/#{fetch(:application)}"
+set :deploy_to, "/home/blog/test/#{fetch(:application)}"
 set :rails_env, 'production'
 
-
+set :user, 'clliu'
+set :password, 'clliu'
 set :use_sudo, true
 
 # server-based syntax
