@@ -1,0 +1,16 @@
+development:
+  address: "smtp.163.com"
+  port: 25
+  domain: "www.163.com"
+  authentication: "login"
+  user_name: "liu_xiaodao@163.com"
+  password: "7721628lcl"
+  enable_starttls_auto: true
+production:
+  address: "smtp.163.com"
+  port: 25
+  domain: "www.163.com"
+  authentication: "login"
+  user_name: "liu_xiaodao@163.com"
+  password: "7721628lcl"
+  enable_starttls_auto: false

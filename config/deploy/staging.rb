@@ -1,19 +1,20 @@
 set :application, 'it_asset_test'
 
-server '10.8.1.36', roles: [:app, :web, :db], primary: true
+# server '10.8.1.36', roles: [:app, :web, :db], primary: true
 
 set :branch, 'staging'
 
 set :deploy_to, "/usr/rubyWeb/#{fetch(:application)}"
 set :rails_env, 'staging'
-
+# set :user, 'clliu'
+# set :password, 'clliu'
 
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-# server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
+server "10.8.1.36", user: "clliu", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
