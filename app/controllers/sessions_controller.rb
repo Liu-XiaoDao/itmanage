@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    if params.has_key?(:session)
+    if params.has_key?(:user_form)
         @user = User.find_by email: session_param(:email)
         if @user && @user.compare(session_param(:password))
             sign_in @user     #用户名加入session
@@ -26,6 +26,8 @@ class SessionsController < ApplicationController
     else
         @user = User.from_omniauth(request.env["omniauth.auth"])      #这是通过ldap认证后,返回邮箱,再用邮箱找到用户,在返回用户
         sign_in @user
+        session_param(:remember_me) == "1" ? remember_me(@user) : forget_me(@user)
+        redirect_back_or root_path
     end
   end
 

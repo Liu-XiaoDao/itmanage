@@ -23,7 +23,7 @@ module SessionsHelper
   end
 
   #记住密码
-  def remember_me(user)    
+  def remember_me(user)
     cookies.permanent.signed[:remember_token] = 'kdkdlslgseger24thGEg234rhbN'    #这个地方应该生成一个随机的token,和数据库比较(数据库加字段保存token)
     cookies.permanent.signed[:username] = user.username
   end
