@@ -64,7 +64,7 @@ set :linked_dirs, fetch(:linked_dirs) + %w{public/uploads}
 set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 
 set :config_dirs, %W{config config/environments/#{fetch(:stage)} public/system public/uploads}
-set :config_files, %w{config/database.yml config/secrets.yml}
+set :config_files, %w{config/database.yml config/secrets.yml  config/email.yml}
 
 
 # precompile assets - locations that we will look for changed assets to determine whether to precompile
@@ -87,5 +87,4 @@ end
 
 #
 # before "deploy", "deploy:web:disable"
-after "deploy", "deploy:web:enable"
-
+# after "deploy", "deploy:web:enable"
