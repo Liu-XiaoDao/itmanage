@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   delete '/signout' => 'sessions#destroy'
 
 
-  
+
   #设备分类
   resources :decategorys
   post '/decategorys/editdecategorycode' => 'decategorys#editdecategorycode'
@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   post '/devices/editdeviceassetname' => 'devices#editdeviceassetname'
   post '/devices/editdeviceservicesn' => 'devices#editdeviceservicesn'
   post '/devices/editdeviceassetdetails' => 'devices#editdeviceassetdetails'
-  
+
 
 
 
@@ -107,6 +107,7 @@ Rails.application.routes.draw do
 
   resources :suppliers
   resources :statistics
+  resources :user_model_configs
 
 
   #配件路由

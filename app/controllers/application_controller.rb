@@ -12,8 +12,10 @@ class ApplicationController < ActionController::Base
 	      	flash[:warning] = "您还没有登录请先登录!"
 	      	store_location    #如果没登录会跳转到登录页,在这保存原本想要访问的页面,登陆后返回
 	      	redirect_to signin_path
+			else
+				User.current_user = current_user
 	    end
-	end 
+	end
 
 
 	# 设置时区   ,这个地方注释,有点问题,新的解决方法在,application.rb中
@@ -30,7 +32,7 @@ class ApplicationController < ActionController::Base
 		end
 		I18n.locale = cookies[:locale] || I18n.default_locale
 	end
-	
+
 	#使用中置方法记录一个请求是否成功
 	def writinglog
 		@log = Log.new
@@ -75,7 +77,7 @@ class ApplicationController < ActionController::Base
     #导出报表
     def export_csv(model)
       respond_to { |format|
-        format.html 
+        format.html
         format.csv { send_data model.to_csv }
       }
     end

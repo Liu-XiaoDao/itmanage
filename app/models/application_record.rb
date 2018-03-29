@@ -12,7 +12,7 @@ class ApplicationRecord < ActiveRecord::Base
       end
     end
   end
-  
+
   # #这里是导入的
   def self.import(file)
     spreadsheet = open_spreadsheet(file)

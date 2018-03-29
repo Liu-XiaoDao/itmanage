@@ -2,15 +2,16 @@ class StatisticsController < ApplicationController
   layout 'home'
 
   def index
-    @departments = Department.where(parent_id: 0).paginate page: params[:page], per_page: 20
+    @departments = Department.where(parent_id: 0).paginate page: params[:page], per_page: 50
 
     respond_to { |format|
       format.html
-      format.xlsx { send_data to_xlsx(Device.all).stream.string, filename: "devices.xlsx", disposition: 'attachment' }
+      format.xlsx { send_data to_xlsx(@departments).stream.string, filename: "devices.xlsx", disposition: 'attachment' }
     }
   end
 
   def to_xlsx(records)
+
     export_fields = ["id", "asset_code", "asset_name", "service_sn", "asset_details", "status", "user_id", "location"]
     SpreadsheetService.new.generate(export_fields, records)
   end

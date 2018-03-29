@@ -15,6 +15,9 @@ class User < ApplicationRecord
   has_many :authorization_user_devices
   has_many :authorizations, through: :authorization_user_devices
 
+  has_many :user_model_configs
+
+  cattr_accessor :current_user
 
   validates :username, :email, :attendance, :department_id, presence: true   #这几个变量不能为空
   validates :username, length: { in: 2..25 }, #长度6-25
@@ -58,6 +61,14 @@ class User < ApplicationRecord
     if File.exist?(file_path)
       File.delete(file_path)
     end
+  end
+
+
+
+  def statistic_devices(fields)
+    # fields = current_user.user_model_configs.where(model: "custom_statistics").first.present? ? current_user.user_model_configs.where(model: "custom_statistics").first.fields : []
+    fields.present? ? devices.where(decategory_id: fields) : devices
+
   end
 
   def self.to_xlsx(records)
