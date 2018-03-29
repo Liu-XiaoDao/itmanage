@@ -40,12 +40,12 @@ lock "~> 3.10.1"
 
 
 
-set :stages, %w(production staging)
+set :stages, %w(production staging staging_jing)
 set :default_stage, 'staging'
 
 set :application, "it_asset"
 
-set :deploy_user, 'myuser'
+set :deploy_user, 'xiaodao'
 
 set :repo_url, 'git@github.com:Liu-XiaoDao/itmanage.git'
 
