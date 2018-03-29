@@ -6,6 +6,18 @@ set :branch, 'staging'
 
 set :deploy_to, "/usr/rubyWeb/#{fetch(:application)}"
 set :rails_env, 'staging'
+server "10.8.1.36", user: "clliu", roles: %w{app db web}, my_property: :my_value
+
+
+set :use_sudo, true
+set :ssh_options, {
+    forward_agent: true,
+    #auth_methods: %w(password),
+    # password: 'clliu',
+    user: 'myuser',
+}
+
+
 # set :user, 'clliu'
 # set :password, 'clliu'
 
@@ -14,7 +26,7 @@ set :rails_env, 'staging'
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server "10.8.1.36", user: "clliu", roles: %w{app db web}, my_property: :my_value
+
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
