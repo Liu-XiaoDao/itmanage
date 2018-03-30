@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
 	include SessionsHelper, UsersHelper
 
-  	protect_from_forgery      #防止csrf的一会在研究
-
+  	# protect_from_forgery      #防止csrf的一会在研究
+    protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
+		
   	before_action :check_signed_in, :set_time_zone, :set_locale
   	around_action :writinglog
 
