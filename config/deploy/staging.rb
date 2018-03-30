@@ -6,7 +6,7 @@ set :branch, 'staging'
 
 set :deploy_to, "/usr/rubyWeb/#{fetch(:application)}"
 set :rails_env, 'staging'
-server "10.8.1.36", user: "clliu", roles: %w{app db web}, my_property: :my_value
+server "116.196.118.148", user: "blog", roles: %w{app db web}, my_property: :my_value
 
 
 set :use_sudo, true
