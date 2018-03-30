@@ -10,11 +10,48 @@ class StatisticsController < ApplicationController
     }
   end
 
-  def to_xlsx(records)
 
-    export_fields = ["id", "asset_code", "asset_name", "service_sn", "asset_details", "status", "user_id", "location"]
-    SpreadsheetService.new.generate(export_fields, records)
+  def to_xlsx(departments)
+    user_model_configs = current_user.user_model_configs.where(model: "custom_statistics").first
+    select_fields = user_model_configs.present? ? user_model_configs.fields : []
+
+    fields = ["部门名称", "人数", "设备总数"] + select_fields.collect{|field| Decategory.find(field).name}
+
+    workbook = RubyXL::Workbook.new
+    worksheet = workbook[0]
+
+    fields.each_with_index do |field, col|
+      worksheet.add_cell(0, col, field)
+      worksheet.sheet_data[0][col].change_font_bold(true)
+      worksheet.change_column_width(col, 15)
+    end
+
+    worksheet.change_row_height(0, 18)
+
+    departments.each_with_index do |department, row|
+
+      worksheet.add_cell(row+1, 0, parentdepartment_name(department.id))
+
+      departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'")
+      worksheet.add_cell(row+1, 1, departmentUsers.count)
+
+      departmentdevicecount = 0
+      departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.statistic_devices(select_fields).count }
+      worksheet.add_cell(row+1, 2, departmentdevicecount)
+
+      select_fields.each_with_index do |field, col|
+        tempdecategorydevicecount = 0
+        departmentUsers.each{ |user| tempdecategorydevicecount = tempdecategorydevicecount + user.statistic_devices(field).count }
+        worksheet.add_cell(row+1, col+3, tempdecategorydevicecount)
+      end
+      
+      worksheet.change_row_height(row+1, 18)
+    end
+    workbook
   end
+
+
+
 
   def show
     #拿到要显示的部门
