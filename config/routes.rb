@@ -17,8 +17,9 @@ Rails.application.routes.draw do
   post '/signin' => 'sessions#create'
   delete '/signout' => 'sessions#destroy'
 
+  post "/auth/:provider/callback" => "sessions#create"
+  get "/auth/failure" => "sessions#new"
 
-  
   #设备分类
   resources :decategorys
   post '/decategorys/editdecategorycode' => 'decategorys#editdecategorycode'
@@ -49,7 +50,7 @@ Rails.application.routes.draw do
   post '/devices/editdeviceassetname' => 'devices#editdeviceassetname'
   post '/devices/editdeviceservicesn' => 'devices#editdeviceservicesn'
   post '/devices/editdeviceassetdetails' => 'devices#editdeviceassetdetails'
-  
+
 
 
 
