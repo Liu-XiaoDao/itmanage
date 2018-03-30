@@ -1,8 +1,8 @@
 
-//= require_tree .
+//= require jquery.min.js
 //= require rails-ujs
 //= require turbolinks
-
+//= require_tree .
 
 
 
