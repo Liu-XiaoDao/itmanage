@@ -58,10 +58,10 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
 
-  ###########异常通知############ 
+  ###########异常通知############
   Rails.application.config.middleware.use ExceptionNotification::Rack,
   :email => {
-    :email_prefix => "[IT] ",
+    :email_prefix => "[IT_Asset #{Rails.env} Error Notifier] ",
     :sender_address => %{<liu_xiaodao@163.com>},
     :exception_recipients => %w{957419420@qq.com}
   }
