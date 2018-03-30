@@ -40,7 +40,7 @@ lock "~> 3.10.1"
 
 
 
-set :stages, %w(production staging staging_jing)
+set :stages, %w(production staging)
 set :default_stage, 'staging'
 
 set :application, "it_asset"
