@@ -20,6 +20,10 @@ Rails.application.routes.draw do
   post "/auth/:provider/callback" => "sessions#create"
   get "/auth/failure" => "sessions#new"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> custom_statistics
   #设备分类
   resources :decategorys
   post '/decategorys/editdecategorycode' => 'decategorys#editdecategorycode'
@@ -108,6 +112,7 @@ Rails.application.routes.draw do
 
   resources :suppliers
   resources :statistics
+  resources :user_model_configs
 
 
   #配件路由

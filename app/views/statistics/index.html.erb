@@ -1,5 +1,8 @@
 <% provide :c_active, "statistics" %>
 <% provide :pre_title, "统计" %>
+
+<%= render "user_model_config" %>
+
 <div class="container" style="padding-top:70px;">
   <div class="row">
     <div class="col-md-12">
@@ -21,21 +24,37 @@
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
       <div class="alert alert-info">
         &nbsp;<a href="<%= statistics_path(format: :xlsx) %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">导出</a>
+        <a href="#" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;" data-toggle="modal" data-target="#consumableModal" >自定义统计</a>
       </div>
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
           <thead>
-              <tr><th><%= t("departmentname")%></th><th><%= t("renshu")%></th><th>设备数量</th></tr>
+              <tr>
+                <th><%= t("departmentname")%></th>
+                <th style="color: red;"><%= t("renshu")%></th>
+                <th style="color: red;">设备总数</th>
+                <% @user_model_config_index.fields.each do |decategory_id| %>
+                  <th><%= @decategory = Decategory.find(decategory_id).name %></th>
+                <% end %>
+              </tr>
           </thead>
           <tbody>
             <% @departments.each do |department| %>
               <tr>
                 <td><%= link_to parentdepartment_name(department.id), statistic_path(department) %></td>
-                <% departmentdevicecount = 0 %>
+
                 <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'") %>
-                <td><%= departmentUsers.count %></td>
-                <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.devices.count } %>
-                <td><%= departmentdevicecount  %></td>
+                <td style="color: red;"><%= departmentUsers.count %></td>
+
+                <% departmentdevicecount = 0 %>
+                <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.statistic_devices(@user_model_config_index.fields).count } %>
+                <td style="color: red;"><%= departmentdevicecount  %></td>
+
+                <% @user_model_config_index.fields.each do |decategory_id| %>
+                  <% tempdecategorydevicecount = 0 %>
+                  <% departmentUsers.each{ |user| tempdecategorydevicecount = tempdecategorydevicecount + user.statistic_devices(decategory_id).count } %>
+                  <td><%= tempdecategorydevicecount  %></td>
+                <% end %>
               </tr>
             <% end %>
           </tbody>

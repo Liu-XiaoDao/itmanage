@@ -12,12 +12,12 @@ class Department < ApplicationRecord
         
   end
 
-	def self.alltree
-		@departmentss = Department.all
-  	@departments = []
-  	GetTree(@departmentss,0,0,@departments,'----')
-  	return @departments
-	end
+  def self.alltree
+    @departmentss = Department.all
+    @departments = []
+    GetTree(@departmentss,0,0,@departments,'----')
+    return @departments
+  end
 
 		#部门分类缩进
   def self.GetTree(arr,pid,step,newarr,indentstr)
@@ -36,4 +36,6 @@ class Department < ApplicationRecord
     havelowerdepartments = Department.joins("INNER JOIN departments as b ON departments.id = b.parent_id ").select('id').distinct
     departments = Department.where.not(id: havelowerdepartments.collect{|department| department.id }).order('pgcode')
   end
+
+
 end
