@@ -58,12 +58,12 @@
 	        <div id="signin-box" <%= show_or_hidden_login_div 'signin', yield(:login) %> >
             <div class="login-body">
                 <!-- 登录表单 -->
-                <%= simple_form_for :session, url: signin_path, remote: true do |f| %>
+                <%= form_for :session, url: signin_path do |f| %>
                 <div class="form-error-container">
                   <%= render "shared/form_error_messages", object: @user %>
                 </div>
                 <div class="form-group form-group-icon">
-                  <%= f.email_field :email, placeholder: "邮箱", class: "form-input email" %>
+                  <%= f.text_field :email, placeholder: "邮箱", class: "form-input email" %>
                   <span class="glyphicon glyphicon-envelope icon"></span>
                 </div>
                 <div class="form-group form-group-icon">
@@ -71,12 +71,12 @@
                   <span class="glyphicon glyphicon-lock icon"></span>
                 </div>
                 <div class="form-group">
-                  <%= f.button :submit, "登录", class: "btn btn-primary btn-block submit", id: "signin" %>
+                  <%= f.submit  "登录", class: "btn btn-primary btn-block submit", id: "signin" %>
                 </div>
                 <div class="login-setting">
                   <div class="checkbox">
                     <input name="user_form" type="hidden" value="1">
-                    <span class="remember-me"><%= f.input_field :remember_me, as: :boolean, boolean_style: :inline %>记住密码</span>
+                    <span class="remember-me"><%#= f.input_field :remember_me, as: :boolean, boolean_style: :inline %>记住密码</span>
                   </div>
                   <%= link_to "忘记密码", "accounts_passwords_forgot_path", class: "forget-me" %>
                 </div>
@@ -92,6 +92,7 @@
             <div class="login-body">
                 <!-- ldap登录表单 -->
                 <form method="post" action="/auth/ldap/callback" data-remote="true">
+                <%= form_for :session, url: "/auth/ldap/callback" do |f| %>
                   <div class="form-error-container">
                     <%= render "shared/form_error_messages", object: @user %>
                   </div>
@@ -112,7 +113,7 @@
                     </div>
                     <a class="forget-me" href="accounts_passwords_forgot_path">忘记密码</a>
                   </div>
-              </form>
+              <% end %>
             </div>
           </div>
 
