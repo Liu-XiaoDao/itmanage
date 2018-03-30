@@ -1,13 +1,13 @@
 
-//= require_tree .
+//= require jquery.min.js
 //= require rails-ujs
 //= require turbolinks
-
+//= require_tree .
 
 
 
 //这里不导入也是一样的
-//= require dateselect/bootstrap-datetimepicker   
+//= require dateselect/bootstrap-datetimepicker
 //= require dateselect/bootstrap-datetimepicker.zh-CN
 //
 
@@ -27,5 +27,3 @@
 //= require jquery_bzt/corechart
 //= require jquery_bzt/jquery.gvChart-1.0.1.min
 //= require jquery_bzt/jquery.ba-resize.min
-
-
