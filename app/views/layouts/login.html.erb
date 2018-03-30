@@ -13,9 +13,9 @@
 	       <div class="logo">
             <h1>IT设备管理</h1>
            </div>
-          
+
           <h6></h6>
-          
+
           <!-- 标签 -->
           <ul class="tab">
             <%= content_tag :li, link_to("LDAP", "#"), class: "ldap" %>
@@ -75,6 +75,7 @@
                 </div>
                 <div class="login-setting">
                   <div class="checkbox">
+                    <input name="user_form" type="hidden" value="1">
                     <span class="remember-me"><%= f.input_field :remember_me, as: :boolean, boolean_style: :inline %>记住密码</span>
                   </div>
                   <%= link_to "忘记密码", "accounts_passwords_forgot_path", class: "forget-me" %>
@@ -90,7 +91,7 @@
           <div id="ldap-box" <%= show_or_hidden_login_div 'ldap', yield(:login) %> >
             <div class="login-body">
                 <!-- ldap登录表单 -->
-                <form method="post" action="<%= signin_path %>" novalidate="noValidate">
+                <form method="post" action="/auth/ldap/callback" data-remote="true">
                   <div class="form-error-container">
                     <%= render "shared/form_error_messages", object: @user %>
                   </div>
@@ -105,6 +106,12 @@
                   <div class="form-group">
                     <input class="btn btn-primary btn-block submit" name="commit" type="submit" value="LDAP登录">
                   </div>
+                  <div class="login-setting">
+                    <div class="checkbox">
+                      <span class="remember-me"><input name="session[remember_me]" type="hidden" value="0"><input class="boolean optional" type="checkbox" value="1" name="session[remember_me]" id="session_remember_me">记住密码</span>
+                    </div>
+                    <a class="forget-me" href="accounts_passwords_forgot_path">忘记密码</a>
+                  </div>
               </form>
             </div>
           </div>
@@ -116,7 +123,7 @@
 
       </div>
     </div>
-    
+
     <%- debug(params) if Rails.env.development? %>
     <%= javascript_include_tag 'login' %>
   </body>

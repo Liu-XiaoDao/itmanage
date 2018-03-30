@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   post '/signin' => 'sessions#create'
   delete '/signout' => 'sessions#destroy'
 
+  post "/auth/:provider/callback" => "sessions#create"
+  get "/auth/failure" => "sessions#new"
 
 
   #设备分类
