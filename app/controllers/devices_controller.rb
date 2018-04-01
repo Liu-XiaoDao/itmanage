@@ -304,28 +304,28 @@ class DevicesController < ApplicationController
 		#如果没有选择配件
 		if append_part_id.blank?
 			flash[:danger] = "添加配件失败,没有选择配件"
-	    	return redirect_to device_path(@device)
+	    return redirect_to device_path(@device)
 		end
 		#拿到将要被添加的配件
 		@append_part = Part.find append_part_id #要添加的配件
 		@append_part.device = @device   #设备属于另外哪一个设备
 		@append_part.is_assign = 1
 		@append_part.assign_time = Time.now
-	    @append_part.status = 2 #表明配件已经被使用
+    @append_part.status = 2 #表明配件已经被使用
 
-	    #配件安装记录
-	    @partrecord = Partrecord.new
-	    @partrecord.part_id = append_part_id
-	    @partrecord.device_id = @device.id
-	    @partrecord.note = "安装配件"
-	    #如果配件和配件分配记录都能保存成功,就算成功,其实这里应该用事物来保证
+    #配件安装记录
+    @partrecord = Partrecord.new
+    @partrecord.part_id = append_part_id
+    @partrecord.device_id = @device.id
+    @partrecord.note = "安装配件"
+	  #如果配件和配件分配记录都能保存成功,就算成功,其实这里应该用事物来保证
 		if @append_part.save && @partrecord.save
 			flash[:success] = "配件添加成功"
-	    	redirect_to device_path(@device)
-	    else
-	    	flash[:danger] = "配件添加失败"
-	    	redirect_to device_path(@device)
-	    end
+    	redirect_to device_path(@device)
+    else
+    	flash[:danger] = "配件添加失败"
+    	redirect_to device_path(@device)
+    end
 
 	end
 
@@ -363,7 +363,7 @@ class DevicesController < ApplicationController
 			redirect_to request.referer
 		else
 			flash[:danger] = "设备回收失败"
-	    	redirect_to request.referer
+	    redirect_to request.referer
 		end
 	end
 
@@ -540,7 +540,8 @@ class DevicesController < ApplicationController
 
     	devices = Device.where(decategory_id: decategory_id)
     	num = devices.count + 1
-    	time = Time.now
-    	return 'YK' + time.month.to_s + time.day.to_s + '-' + decategorycode + '-' + num.to_s
+    	time = Time.now.strftime('%Y-%m')
+			times = time.to_s.gsub('-','')[2..5]
+    	return 'YK' + times + '-' + decategorycode + '-' + num.to_s
     end
 end

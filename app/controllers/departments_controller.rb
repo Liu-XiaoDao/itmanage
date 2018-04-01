@@ -45,11 +45,11 @@ class DepartmentsController < ApplicationController
 		#有一个上级部门(顶级部门没有)
 		@higherdepartment = @department.higher
 		#可能会有很多下级部门
-	    @lowerdepartments = @department.lowers
-	    #添加下级部门使用的空对象
-	    @departmentnew = Department.new
-	    #添加下级部门的时候的下拉框中显示所有员工
-	    @users = User.all
+    @lowerdepartments = @department.lowers
+    #添加下级部门使用的空对象
+    @departmentnew = Department.new
+    #添加下级部门的时候的下拉框中显示所有员工
+    @users = User.all
 	end
 	#修改部门
 	def edit
@@ -73,12 +73,12 @@ class DepartmentsController < ApplicationController
 
 
 	#返回指定部门中所有员工
-	def departmentusers  
+	def departmentusers
 		@department = Department.find(params[:id])
 		@departmentusers = @department.users #这种写法可能也要改
 		render json: @departmentusers
 	end
-	
+
 	#在部门中添加下级部门
 	def addlowerdepartment
 		#查询将要添加子类的这个分类中,现在有多少子类,根据子类数量,生成自身的pgcode
@@ -86,7 +86,7 @@ class DepartmentsController < ApplicationController
 		@highdepartment = Department.find(params[:parent_id])
 		#查询此部门下现有下级部门数量
 		@departmentcount = Department.where(parent_id: @highdepartment.id).count
-		
+
 		#添加新部门
 		@department = Department.new(device_params)
 		#要添加的部门的上级部门id
@@ -107,7 +107,7 @@ class DepartmentsController < ApplicationController
 
 			flash[:success] = "添加下级部门成功;"
 			redirect_to department_path(@highdepartment)
-		else 
+		else
 			flash[:danger] = "添加下级部门失败   " + (@department.errors.any? ? @department.errors.full_messages[0] : "")
 			redirect_to department_path(@highdepartment)
 		end
@@ -136,7 +136,7 @@ class DepartmentsController < ApplicationController
 
   	end
 
-	private 
+	private
 	    def device_params
 	      params.require(:department).permit(:department_name, :manager_name)
 	    end
