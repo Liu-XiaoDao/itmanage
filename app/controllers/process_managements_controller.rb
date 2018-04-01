@@ -17,7 +17,6 @@ class ProcessManagementsController < ApplicationController
 			flash[:success] = "添加入职流程成功"
 			redirect_to process_managements_path
 		else
-			@entryproces = EntryProcess.new
 			render :new
 		end
 	end

@@ -17,7 +17,6 @@ class EmployeeInductionsController < ApplicationController
 			flash[:success] = "添加入职流程成功"
 			redirect_to employee_inductions_path
 		else
-			@employeeinduction = EmployeeInduction.new
 			render :new
 		end
 	end

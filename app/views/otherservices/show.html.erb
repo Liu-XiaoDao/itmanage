@@ -105,23 +105,19 @@
 				<div class="row" style="margin: 0 15px; ">
 					<h4>相关附件:</h4>
 					<% @images.each do |image|%>
-
-				        <a href="<%= image.imgurl %>" class="thumbnail" target="black" onclick="window.open(this.href,'popup','width=500,height=500,top=0,left=800');return false">
-				            <!-- <img src="<%#= image.imgurl %>" alt="<%#= image.otherservice_id %>"> -->
-				            <%= image.original %>
-				        </a>
-
+				     <a href="<%= image.imgurl %>" class="thumbnail" target="black" onclick="window.open(this.href,'popup','width=500,height=500,top=0,left=800');return false">
+				        <%= image.original %>
+				     </a>
 					<% end %>
-				        <%= simple_form_for @otherservice, url: upload_img_otherservice_path(@otherservice), method: :post, html:{ multipart: true } do |f| %>
-							<div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
-					            <%= content_tag :span, "上传文件", id: "upload-avatar-btn", class: "btn avatar-btn", style: "color: red;" %>
-
-						        <%= f.input_field :describe, as: :file,  class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
-							    <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
-					        </div>
+				  <%= form_for @otherservice, url: upload_img_otherservice_path(@otherservice), method: :post, html:{ multipart: true } do |f| %>
+						<div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
+					     <%= content_tag :span, "上传文件", id: "upload-avatar-btn", class: "btn avatar-btn", style: "color: red;" %>
+						   <%= f.text_field :describe, as: :file,  class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
+							 <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
+					  </div>
 						<% end %>
 				</div>
-	      	</div>
+	     </div>
     	</div>
     </div>
 </div>
@@ -205,51 +201,3 @@
 		showMeridian: 1
 	});
 </script>
-
-
-<!-- 这是一个方ios的开关,原本用来设置是否提醒,现在不用了 -->
-<%#= stylesheet_link_tag    'iosbtn', media: 'all', 'data-turbolinks-track': 'reload' %>
-<!-- <script>
-	//honeySwitch.themeColor="lightblue";
-	$(function(){
-		switchEvent("#remind",function(){
-			set_remind(1);
-		},function(){
-			set_remind(0);
-		});
-	});
-	function set_remind(tag) {
-        $.ajax({
-            type : "GET",
-            url : "<%= set_remind_otherservice_path(@otherservice) %>",
-            data : {
-                'tag':tag
-            },
-            dataType : "JSON",
-            success : function(result){
-                if(!result.status){
-                	alert('设置成功');
-                }else{
-                	alert('设置失败')
-                }
-            }
-        });
-    }
-</script> -->
-
-
-
-
-
-<!-- 这是原本用来遍历服务对象的所有属性,并显示的 -->
-<!-- <ul class="list-group"> -->
-<%# @otherservice.attributes.dup.each do |key,value|%>
-<!-- <li class="list-group-item"><span style="width: 29%;height: 100%;display: block;float: left;"><%#= key %></span>:<span style="width: 69%;height: 100%;display: block;float: right;"><%#= value %></span></li> -->
-<%# end %>
-<%# if @otherservice.closeremind == 1 %>
-<%# cl = "switch-on" %>
-<%# else %>
-<%# cl = "switch-off" %>
-<%# end %>
-<!-- <li class="list-group-item"><span style="width: 29%;height: 100%;display: block;float: left;">关闭邮件提醒</span>:<span style="width: 69%;height: 100%;display: block;float: right;"><div class="cell-right"><span class="<%#= cl %>" id="remind"></span></div></span></li>
-</ul> -->

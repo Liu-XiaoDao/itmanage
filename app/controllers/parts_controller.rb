@@ -220,7 +220,9 @@ class PartsController < ApplicationController
       partcategorycode = partcategory.partcategorycode
       parts = Part.where(partcategory_id: partcategory_id)
       num = parts.count + 1
-      time = Time.now
-      return 'YK' + time.month.to_s + time.day.to_s + '-' + partcategorycode + '-' + num.to_s
+      time = Time.now.strftime('%Y-%m')
+      times = time.to_s.gsub('-','')[2..5]
+
+      return 'YK' + times + '-' + partcategorycode + '-' + num.to_s
     end
 end
