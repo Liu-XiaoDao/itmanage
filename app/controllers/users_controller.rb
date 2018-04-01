@@ -20,7 +20,6 @@ class UsersController < ApplicationController
   #添加新员工页面
   def new
     @user = User.new
-
     @departments = Department.leafdepartment
   end
 
@@ -81,12 +80,9 @@ class UsersController < ApplicationController
   #用户详情
   def edit
     @user = User.find(params[:id])
-    # @departments = Department.alltree
-
     @decategorydevices = Department.joins("INNER JOIN departments as b ON departments.id = b.parent_id ").select('id').distinct
     @departments = Department.where.not(id: @decategorydevices.collect{|decategorydevice| decategorydevice.id }).order('pgcode')
   end
-
 
   #员工详情页面
   def show
@@ -97,10 +93,8 @@ class UsersController < ApplicationController
     @consumablerecords = @user.consumablerecords
     #用户的所有设备使用记录
     @devicerecords = @user.devicerecords
-
     #用户所拥有的所有授权
     @authorizations = @user.authorizations
-
     @departments = Department.all
   end
 
@@ -130,16 +124,16 @@ class UsersController < ApplicationController
   end
 
   #管理员修改密码
-  def updatepw
-    @user = User.find(params[:id])
-    @user.password = params[:user][:password]
-    if @user.save
-        flash[:success] = "密码修改成功"
-        return render js: "location.reload();"#保存成功使用js刷新页面
-    else
-        return render js: "$('#error-infoassign').html('密码修改失败').css('display','block');"
-    end
-  end
+  # def updatepw
+  #   @user = User.find(params[:id])
+  #   @user.password = params[:user][:password]
+  #   if @user.save
+  #       flash[:success] = "密码修改成功"
+  #       return render js: "location.reload();"#保存成功使用js刷新页面
+  #   else
+  #       return render js: "$('#error-infoassign').html('密码修改失败').css('display','block');"
+  #   end
+  # end
 
   #用户上传头像   上传头像功能取消
   # def upload_avatar
