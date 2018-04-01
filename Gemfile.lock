@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: https://gems.ruby-china.org/
   specs:
     actioncable (5.1.4)
       actionpack (= 5.1.4)
@@ -183,9 +183,6 @@ GEM
     selenium-webdriver (3.6.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
-    simple_form (3.5.0)
-      actionpack (> 4, < 5.2)
-      activemodel (> 4, < 5.2)
     spreadsheet (1.1.7)
       ruby-ole (>= 1.0)
     spring (2.0.2)
@@ -248,7 +245,6 @@ DEPENDENCIES
   rubyXL
   sass-rails (~> 5.0)
   selenium-webdriver
-  simple_form
   spreadsheet
   spring
   spring-watcher-listen (~> 2.0.0)
@@ -261,4 +257,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.16.0
+   1.16.1

@@ -21,6 +21,7 @@
             <ul class="dropdown-menu">
               <li><%= link_to  t("employeemanagement"),users_path %></li>
               <li><%= link_to  t("divisionmanagement"),departments_path %></li>
+              <li><%= link_to  "员工入职",employee_inductions_path %></li>
             </ul>
           </li>
 
@@ -34,14 +35,14 @@
                   <li><%= link_to  " 配件管理",parts_path %></li>
                   <li><%= link_to  " 配件分类",partcategorys_path %><li>
                   <li class="divider"></li>
-                  <li class="dropdown-submenu">  
-                      <%= link_to  " 耗材",consumables_path %>  
+                  <li class="dropdown-submenu">
+                      <%= link_to  " 耗材",consumables_path %>
                       <ul class="dropdown-menu">
                           <li><%= link_to  " 耗材管理",consumables_path %><li>
                           <li><%= link_to  " 耗材分配记录",records_consumables_path %><li>
-                      </ul>  
+                      </ul>
                   </li>
-                  <li><%= link_to  " 设备供应商",suppliers_path %><li> 
+                  <li><%= link_to  " 设备供应商",suppliers_path %><li>
                 </ul>
           </li>
 
@@ -51,7 +52,7 @@
               <li><%= link_to  " 授权",authorizations_path %></li>
             </ul>
           </li>
-          
+
           <li class="<%= check_if_active 'service',yield(:c_active) %>">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-globe"></span> IT服务<b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -67,6 +68,7 @@
               <li><%= link_to  " 系统设置",site_path %></li>
               <li><%= link_to  " 系统日志",logs_path %></li>
               <li><%= link_to  " 统计分析",statistics_path %></li>
+              <li><%= link_to  " 流程管理",process_managements_path %></li>
             </ul>
           </li>
           <li><%= link_to_locale request.path %></li>
@@ -75,4 +77,3 @@
       </div>
     </div>
   </nav>
-    

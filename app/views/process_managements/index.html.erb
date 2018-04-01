@@ -1,0 +1,56 @@
+<% provide :c_active, "set" %>
+<% provide :pre_title, "入职流程" %>
+
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li class="active">入职流程</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <% flash.each do |name, msg| %>
+        <div  class="alert alert-<%= name %>"><%= msg %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <div class="alert alert-info">
+        系统共有 <b><%= @entryprocess.count %></b> 个流程<a href="<%= new_process_management_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">新建流程</a>
+      </div>
+      <div class="table-responsive" style="padding-top: 20px;">
+        <table class="table table-striped">
+          <thead>
+              <tr>
+                <th>流程</th>
+                <th>显示顺序</th>
+                <th>负责人</th>
+                <th>流程资源</th>
+                <th>是否启用</th>
+                <th>操作</th>
+              </tr>
+          </thead>
+          <tbody>
+            <% @entryprocess.each do |entryproces| %>
+              <tr>
+                <td><%= link_to entryproces.process_name, process_management_process_resources_path(entryproces) %></td>
+                <td><%= entryproces.display_order %></td>
+                <td><%= entryproces.responsible %></td>
+                <td><%= entryproces.process_resources.count %></td>
+                <td><%= entryproces.enable %></td>
+                <td><%= link_to '修改', edit_process_management_path(entryproces) %></td>
+    			      <td><%= link_to '删除', process_management_path(entryproces), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @entryprocess, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+</div>

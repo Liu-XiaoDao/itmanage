@@ -1,0 +1,56 @@
+<% provide :c_active, "user" %>
+<% provide :pre_title, "员工入职" %>
+
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li class="active">员工入职</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <% flash.each do |name, msg| %>
+        <div  class="alert alert-<%= name %>"><%= msg %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <div class="alert alert-info">
+        系统共有 <b><%= @employeeinductions.count %></b> 个。。<a href="<%= new_employee_induction_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">新员工入职</a>
+      </div>
+      <div class="table-responsive" style="padding-top: 20px;">
+        <table class="table table-striped">
+          <thead>
+              <tr>
+                <th>姓名</th>
+                <th>入职时间</th>
+                <th>部门</th>
+                <th>领导</th>
+                <th>申请资源</th>
+                <th>操作</th>
+              </tr>
+          </thead>
+          <tbody>
+            <% @employeeinductions.each do |employeeinduction| %>
+              <tr>
+                <td><%= employeeinduction.employee_name %></td>
+                <td><%= employeeinduction.induction_date %></td>
+                <td><%= employeeinduction.department_id %></td>
+                <td><%= employeeinduction.leader %></td>
+                <td><%= "申请资源" %></td>
+                <td><%= link_to '修改', edit_employee_induction_path(employeeinduction) %></td>
+    			      <td><%= link_to '删除', employee_induction_path(employeeinduction), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @employeeinductions, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+</div>

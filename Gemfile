@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gems.ruby-china.org'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -17,7 +17,7 @@ gem 'sprockets'
 #gem 'bootstrap-sass', '~> 3.3.7'
 gem 'mysql2', '>= 0.3.18', '< 0.5'
 gem 'exception_notification'#这个是发生异常后，发送邮件给开发者
-gem 'simple_form'
+
 gem 'rack-mini-profiler'  #这个是在左上角显示性能检测信息
 gem 'omniauth-ldap'     #ldap域登陆
 

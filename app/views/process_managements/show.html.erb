@@ -1,0 +1,52 @@
+<% provide :c_active, "set" %>
+<% provide :pre_title, "入职流程" %>
+
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li class="active">入职流程</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <% flash.each do |name, msg| %>
+        <div  class="alert alert-<%= name %>"><%= msg %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <div class="alert alert-info">
+        本流程共有 <b><%= @process_resources.count %></b> 个资源<a href="<%= new_process_management_process_resource_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">新建流程</a>
+      </div>
+      <div class="table-responsive" style="padding-top: 20px;">
+        <table class="table table-striped">
+          <thead>
+              <tr>
+                <th>资源名称</th>
+                <th>是否默认授予</th>
+                <th>是否可用</th>
+                <th>操作</th>
+              </tr>
+          </thead>
+          <tbody>
+            <% @process_resources.each do |process_resource| %>
+              <tr>
+                <td><%= process_resource.resource_name %></td>
+                <td><%= process_resource.default %></td>
+                <td><%= process_resource.enable %></td>
+                <td><%= link_to '修改', edit_process_management_process_resource_path(entryproces) %></td>
+    			      <td><%= link_to '删除', process_management_process_resource_path(entryproces), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @process_resources, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+</div>

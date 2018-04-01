@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180329064030) do
+ActiveRecord::Schema.define(version: 20180401044223) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -142,6 +142,26 @@ ActiveRecord::Schema.define(version: 20180329064030) do
     t.index ["device_id"], name: "index_deviceservices_on_device_id"
   end
 
+  create_table "employee_inductions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "employee_name"
+    t.date "induction_date"
+    t.bigint "department_id"
+    t.integer "leader"
+    t.text "fields_text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_employee_inductions_on_department_id"
+  end
+
+  create_table "entry_processes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "process_name"
+    t.integer "display_order"
+    t.integer "responsible"
+    t.integer "enable"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "ip", default: "0"
     t.string "controller"
@@ -222,6 +242,16 @@ ActiveRecord::Schema.define(version: 20180329064030) do
     t.index ["partcategory_id"], name: "index_parts_on_partcategory_id"
   end
 
+  create_table "process_resources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "entry_process_id"
+    t.string "resource_name"
+    t.integer "default"
+    t.integer "enable"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["entry_process_id"], name: "index_process_resources_on_entry_process_id"
+  end
+
   create_table "serviceimgs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "imgurl", null: false
     t.bigint "deviceservice_id"
@@ -248,7 +278,7 @@ ActiveRecord::Schema.define(version: 20180329064030) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_model_configs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "user_model_configs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
     t.string "model"
     t.text "fields_text"

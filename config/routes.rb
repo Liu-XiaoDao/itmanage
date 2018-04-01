@@ -2,6 +2,16 @@ Rails.application.routes.draw do
 
 
 
+  get 'process_resources/index'
+
+  get 'process_resources/new'
+
+  get 'process_resources/create'
+
+  get 'process_resources/edit'
+
+  get 'process_resources/update'
+
   #首页
   root 'home#index'
   #刚开始想做首页的现在没用了
@@ -110,6 +120,10 @@ Rails.application.routes.draw do
   resources :suppliers
   resources :statistics
   resources :user_model_configs
+  resources :employee_inductions
+  resources :process_managements do
+    resources :process_resources
+  end
 
 
   #配件路由

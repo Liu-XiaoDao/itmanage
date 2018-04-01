@@ -1,0 +1,2 @@
+class EmployeeInduction < ApplicationRecord
+end
