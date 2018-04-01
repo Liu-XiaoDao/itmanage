@@ -64,23 +64,23 @@
         </div>
         <!-- 密码修改 -->
         <div class="col-sm-3 col-md-3">
-            <div class="panel panel-info">
+            <!-- <div class="panel panel-info">
                 <div class="panel-heading"><h3 class="panel-title">修改密码</h3></div>
                 <div class="panel-body">
-                    <%= simple_form_for @user, url: updatepw_user_path(@user), method: :post, remote: true do |f| %>
+                    <%#= simple_form_for @user, url: updatepw_user_path(@user), method: :post, remote: true do |f| %>
                     <div class="form-error-container">
-                        <%= render 'shared/form_error_messages', object: f.object %>
+                        <%#= render 'shared/form_error_messages', object: f.object %>
                     </div>
                     <div class="form-group">
                         <label for="name">密码:</label>
-                        <%= f.password_field :password, class: "form-control form-input-normal" %>
+                        <%#= f.password_field :password, class: "form-control form-input-normal" %>
                     </div>
                     <div class="form-group">
-                        <%= f.submit t("updateps"), class: "btn btn-primary submit" %>
+                        <%#= f.submit t("updateps"), class: "btn btn-primary submit" %>
                     </div>
-                    <% end %>
+                    <%## end %>
                 </div>
-            </div>
+            </div> -->
             <div class="panel panel-info">
                 <div class="panel-heading"><h3 class="panel-title">分配耗材</h3></div>
                 <div class="panel-body">
