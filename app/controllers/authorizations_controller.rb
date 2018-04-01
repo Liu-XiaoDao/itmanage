@@ -1,7 +1,7 @@
 class AuthorizationsController < ApplicationController
 	layout 'home'
 	def index
-		@authorizations = Authorization.all.paginate page: params[:page], per_page: 20
+		@authorizations = Authorization.all.paginate page: params[:page], per_page: 50
 	end
 
 	def new
@@ -94,7 +94,7 @@ class AuthorizationsController < ApplicationController
 			flash[:danger] = "授权回收失败"
 			redirect_to authorization_path(@authorization)
 		end
-		
+
 	end
 
 	def destroy
@@ -108,11 +108,11 @@ class AuthorizationsController < ApplicationController
 			flash[:danger] = "授权删除失败"
 			redirect_to authorizations_path
 		end
-		
+
 	end
 
 	private
 		def authorization_params
-			params.require(:authorization).permit(:name, :serial_number, :key, :begin_date, :end_date, :amount, :price, :manufacturer, :contact_information, :note)
+			params.require(:authorization).permit(:name, :serial_number, :key, :begin_date, :end_date, :amount, :available_quantity, :price, :manufacturer, :contact_information, :note)
 		end
 end
