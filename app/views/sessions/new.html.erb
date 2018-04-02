@@ -25,6 +25,13 @@
   </nav>
 
     <div class="container" style="padding-top:170px;">
+      <div class="row">
+          <div class="col-sm-12 col-md-12">
+              <% flash.each do |name, msg| %>
+                  <div  class="alert alert-<%= name %>"><%= msg %></div>
+              <% end %>
+          </div>
+      </div>
         <div class="col-xs-12 col-sm-10 col-lg-8 center-block" style="float: none;">
           <ul id="myTab" class="nav nav-tabs">
             <li class="active">
