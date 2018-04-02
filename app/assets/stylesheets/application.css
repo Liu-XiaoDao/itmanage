@@ -4,5 +4,8 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *=
  *= require_self
- *= require_tree .
+ *= require dateselect/bootstrap-datetimepicker.min
+ *= require select/jquery.searchableSelect
+ *= require dateselect/threenav
+ *= require infotip/mTips
 */
