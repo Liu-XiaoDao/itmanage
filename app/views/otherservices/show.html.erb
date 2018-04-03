@@ -112,7 +112,7 @@
 				  <%= form_for @otherservice, url: upload_img_otherservice_path(@otherservice), method: :post, html:{ multipart: true } do |f| %>
 						<div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
 					     <%= content_tag :span, "上传文件", id: "upload-avatar-btn", class: "btn avatar-btn", style: "color: red;" %>
-						   <%= f.text_field :describe, as: :file,  class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
+						   <%= f.file_field :describe,  class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
 							 <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
 					  </div>
 						<% end %>
