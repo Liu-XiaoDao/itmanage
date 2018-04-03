@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
         @user = User.find_by email: session_param(:email)
         if @user && @user.compare(session_param(:password))
             sign_in @user     #用户名加入session
+            remember_me(@user)
             redirect_back_or root_path
         elsif @user
           # 密码错误
@@ -25,6 +26,7 @@ class SessionsController < ApplicationController
     else
         @user = User.from_omniauth(request.env["omniauth.auth"])      #这是通过ldap认证后,返回邮箱,再用邮箱找到用户,在返回用户
         sign_in @user
+        remember_me(@user)
         redirect_back_or root_path
     end
   end
