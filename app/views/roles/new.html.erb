@@ -1,0 +1,39 @@
+<% provide :c_active, "set" %>
+<% provide :pre_title, "添加角色" %>
+<div class="container" style="padding-top:70px;">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb">
+				<li><a href="/">主页</a></li>
+				<li><a href="<%= roles_path %>">角色管理</a></li>
+				<li class="active">添加角色</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
+			<% if @role && @role.errors.any? %>
+				<div id="error-info" class="alert alert-danger">
+					<div class="form-error">
+						<span class="form-error-field"><%= @role.errors.full_messages[0] %></span>
+						<span class="glyphicon glyphicon-info-sign icon"></span>
+					</div>
+				</div>
+			<% end %>
+			<div class="panel panel-primary">
+				<div class="panel-heading"><h3 class="panel-title">添加角色</h3></div>
+				<div class="panel-body">
+					<%= form_for @role, url: roles_path do |u| %>
+						<div id="error-info" class="alert alert-danger" style="display: none;"></div>
+						<div class="form-group">
+							<label>角色名称:</label><br>
+							<%= u.text_field  :role_name, placeholder: "角色名称", class: "form-control" %>
+						</div>
+						<%= u.submit  "确定添加", class: "btn btn-primary btn-block" %>
+					<% end %>
+					<br/><a href="<%= roles_path %>">>>返回角色列表</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

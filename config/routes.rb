@@ -124,6 +124,8 @@ Rails.application.routes.draw do
   resources :process_managements do
     resources :process_resources
   end
+  resources :roles
+  resources :rights
 
 
   #配件路由

@@ -1,0 +1,2 @@
+class RoleRight < ApplicationRecord
+end

@@ -1,0 +1,44 @@
+<% provide :c_active, "set" %>
+<% provide :pre_title, "权限管理" %>
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li class="active">权限管理</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <% flash.each do |name, msg| %>
+        <div  class="alert alert-<%= name %>"><%= msg %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <div class="alert alert-info">
+      	系统共有 <b><%= @rights.count %></b> 个权限<a href="<%= new_right_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加权限</a>
+      </div>
+      <div class="table-responsive" style="padding-top: 20px;">
+        <table class="table table-striped">
+          <thead>
+              <tr><th>权限名称</th><th>权限</th><th>动作</th></tr>
+          </thead>
+          <tbody>
+    		<% @rights.each do |right| %>
+    			<tr>
+            <td><%= link_to right.right_name, right_path(right) %></td>
+	    			<td><%= right.right %></td>
+            <td><%= link_to t('edit'), edit_right_path(right) %></td>
+	    			<td><%= link_to t('delete'), right_path(right), method: :delete, data: { confirm: "确认删除角色#{right.right_name}?" } %></td>
+    		    </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @rights, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+</div>

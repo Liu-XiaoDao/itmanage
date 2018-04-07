@@ -1,0 +1,43 @@
+<% provide :c_active, "set" %>
+<% provide :pre_title, "角色管理" %>
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li class="active">角色管理</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <% flash.each do |name, msg| %>
+        <div  class="alert alert-<%= name %>"><%= msg %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <div class="alert alert-info">
+      	系统共有 <b><%= @roles.count %></b> 个角色<a href="<%= new_role_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加角色</a>
+      </div>
+      <div class="table-responsive" style="padding-top: 20px;">
+        <table class="table table-striped">
+          <thead>
+              <tr><th>角色名成</th><th>动作</th></tr>
+          </thead>
+          <tbody>
+    		<% @roles.each do |role| %>
+    			<tr>
+	    			<td><%= link_to role.role_name, role_path(role) %></td>
+            <td><%= link_to t('edit'), edit_role_path(role) %></td>
+	    			<td><%= link_to t('delete'), role_path(role), method: :delete, data: { confirm: "确认删除角色#{role.role_name}?" } %></td>
+    		    </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @roles, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+</div>
