@@ -2,11 +2,11 @@ class StatisticsController < ApplicationController
   layout 'home'
 
   def index
-    @departments = Department.where(parent_id: 0).paginate page: params[:page], per_page: 50
+    @departments = Department.all
 
     respond_to { |format|
       format.html
-      format.xlsx { send_data to_xlsx(@departments).stream.string, filename: "devices.xlsx", disposition: 'attachment' }
+      format.xlsx { send_data to_xlsx(@departments).stream.string, filename: "statistics.xlsx", disposition: 'attachment' }
     }
   end
 
@@ -18,7 +18,16 @@ class StatisticsController < ApplicationController
     fields = ["部门名称", "人数", "设备总数"] + select_fields.collect{|field| Decategory.find(field).name}
 
     workbook = RubyXL::Workbook.new
-    worksheet = workbook[0]
+    worksheet0 = workbook[0]
+    worksheet1 = workbook.add_worksheet('Sheet2')
+
+    create_sheet(select_fields, fields, departments.where(parent_id: 0), worksheet0)
+    create_sheet(select_fields, fields, departments.where.not(parent_id: 0), worksheet1)
+
+    workbook
+  end
+
+  def create_sheet(select_fields, fields, departments, worksheet)
 
     fields.each_with_index do |field, col|
       worksheet.add_cell(0, col, field)
@@ -29,8 +38,7 @@ class StatisticsController < ApplicationController
     worksheet.change_row_height(0, 18)
 
     departments.each_with_index do |department, row|
-
-      worksheet.add_cell(row+1, 0, parentdepartment_name(department.id))
+      worksheet.add_cell(row+1, 0, department.department_name)
 
       departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'")
       worksheet.add_cell(row+1, 1, departmentUsers.count)
@@ -44,12 +52,11 @@ class StatisticsController < ApplicationController
         departmentUsers.each{ |user| tempdecategorydevicecount = tempdecategorydevicecount + user.statistic_devices(field).count }
         worksheet.add_cell(row+1, col+3, tempdecategorydevicecount)
       end
-      
+
       worksheet.change_row_height(row+1, 18)
     end
-    workbook
-  end
 
+  end
 
 
 
