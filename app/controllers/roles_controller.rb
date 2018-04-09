@@ -20,14 +20,32 @@ class RolesController < ApplicationController
 
   def edit
     @role = Role.find(params[:id])
+    @rights = Right.all
+    @my_rights = @role.rights
   end
 
   def show
     @role = Role.find(params[:id])
+    @rights = Right.all
+    @my_rights = @role.rights
   end
 
   def update
     @role = Role.find(params[:id])
+
+    @my_rights = @role.rights
+    @params_rights = Right.where(id: params[:rights])
+
+    @delete_rights = @my_rights - @params_rights
+    @delete_rights.each do |delete_right|
+      RoleRight.where(role_id: @role.id, right_id: delete_right.id).first.destroy
+    end
+
+    @add_rights = @params_rights - @my_rights
+    @add_rights.each do |add_right|
+      roleright = RoleRight.create(role_id: @role.id, right_id: add_right.id)
+    end
+
     if @role.update(role_params)
       flash[:success] = "角色修改成功"
       redirect_to roles_path

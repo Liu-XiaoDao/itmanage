@@ -50,6 +50,15 @@
 							<label>职位:</label><br>
 							<%= u.text_field :position, placeholder: "员工职位", class: "form-control" %>
 						</div>
+						<div class="form-group">
+							<label>所属角色:</label><br>
+							<% @roles.each do |role| %>
+									<label>
+										<input name="roles[]" type="checkbox" value="<%= role.id %>" />
+										<%= role.role_name %>
+									</label>
+							<% end %>
+						</div>
 						<%= u.submit  "确定添加", class: "btn btn-primary btn-block" %>
 					<% end %>
 					<br/><a href="<%= users_path %>">>>返回用户列表</a>
@@ -65,7 +74,17 @@
     $('#department_id').searchableSelect();
   });
 </script>
-
+<!-- 样式 -->
+<style>
+  label {
+    display: inline-block;
+    width: 240px;
+    padding: 2px 5px;
+  }
+  label input {
+    margin-right: 5px;
+  }
+</style>
 <!-- 设备分配Ajax获得设备 -->
 <!-- <script>
     function show_position(ele) {

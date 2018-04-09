@@ -21,16 +21,27 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     @departments = Department.leafdepartment
+    #所有权限
+    @roles = Role.all
   end
 
   #保存新员工
   def create
     @user = User.new(user_params)
     if @user.save
+
+      #用户所属角色设置
+      @params_roles = Role.where(id: params[:roles])
+      @params_roles.each do |add_role|
+        userrole = UserRole.create(user_id: @user.id, role_id: add_role.id)
+      end
+
       flash[:success] = "新员工创建成功"
       redirect_to users_path
     else
       @departments = Department.leafdepartment
+      #所有权限
+      @roles = Role.all
       render :new
     end
   end
@@ -80,8 +91,10 @@ class UsersController < ApplicationController
   #用户详情
   def edit
     @user = User.find(params[:id])
-    @decategorydevices = Department.joins("INNER JOIN departments as b ON departments.id = b.parent_id ").select('id').distinct
-    @departments = Department.where.not(id: @decategorydevices.collect{|decategorydevice| decategorydevice.id }).order('pgcode')
+    @departments = Department.leafdepartment
+    #所有权限和用户拥有权限
+    @roles = Role.all
+    @my_roles = @user.roles
   end
 
   #员工详情页面
@@ -114,11 +127,26 @@ class UsersController < ApplicationController
   #修改用户信息,现在能改的是考勤号和名字
   def update
     @user = User.find(params[:id])
+    #用户所属角色设置
+    @my_roles = @user.roles
+    @params_roles = Role.where(id: params[:roles])
+    @delete_roles = @my_roles - @params_roles
+    @delete_roles.each do |delete_role|
+      UserRole.where(role_id: delete_role.id, user_id: @user.id).first.destroy
+    end
+    @add_roles = @params_roles - @my_roles
+    @add_roles.each do |add_role|
+      userrole = UserRole.create(user_id: @user.id, role_id: add_role.id)
+    end
+    #用户属性修改
     if @user.update(user_params)
       flash[:success] = "员工修改成功"
       redirect_to users_path
     else
       @departments = Department.leafdepartment
+      #所有权限和用户拥有权限
+      @roles = Role.all
+      @my_roles = @user.roles
       render :edit
     end
   end
