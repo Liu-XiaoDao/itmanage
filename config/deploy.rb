@@ -68,7 +68,7 @@ set :config_files, %w{config/database.yml config/secrets.yml  config/email.yml}
 
 
 # precompile assets - locations that we will look for changed assets to determine whether to precompile
-set :assets_dependencies, %w(app/assets lib/assets vendor/assets Gemfile config/routes.rb)
+set :assets_dependencies, %w(app/assets lib/assets Gemfile config/routes.rb)
 
 
 namespace :deploy do
