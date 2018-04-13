@@ -1,6 +1,6 @@
 class ExceptionMailer < ApplicationMailer
 
-  default from: 'no-reply@abcam.com'
+  default from: Rails.env == "production" ? 'no-reply@abcam.com' : 'liu_xiaodao@163.com'
 
   def exception_nitofy
     @greeting = "Hi"
