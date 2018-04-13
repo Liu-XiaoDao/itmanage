@@ -53,22 +53,11 @@ class ApplicationController < ActionController::Base
   def check_auth
 		controller_name = params[:controller]
 		action_name = params[:action]
-
     unless User::current_user.admin
 	    unless User::current_user.rights.pluck(:right_name).include?("#{controller_name}@#{action_name}")
 				redirect_to "/404.html"
 	    end
 		end
-
-		# if($this->is_superman())return TRUE;
-		#
-		# if(!$function_id)$function_id=FUNCTION_ID;
-		#
-		# $func_ids = array_unique(array_column($this->db->get_where("role_function","role_id=".$_SESSION['role_id'])->result_array(),'function_id'));
-		# if(in_array($function_id,$func_ids)){
-		# 		return TRUE;
-		# }
-		# return FALSE;
   end
 
 
