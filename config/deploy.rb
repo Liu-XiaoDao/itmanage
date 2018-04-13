@@ -61,7 +61,7 @@ set :keep_releases, 10
 
 set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 set :linked_dirs, fetch(:linked_dirs) + %w{public/uploads public/images}
-set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml, 'config/email.yml')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/email.yml')
 
 set :config_dirs, %W{config config/environments/#{fetch(:stage)} public/system public/uploads}
 set :config_files, %w{config/database.yml config/secrets.yml  config/email.yml}
