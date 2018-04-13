@@ -1,6 +1,6 @@
 class ExceptionMailer < ApplicationMailer
 
-  default from: 'liu_xiaodao@163.com'
+  default from: 'no-reply@abcam.com'
 
   def exception_nitofy
     @greeting = "Hi"

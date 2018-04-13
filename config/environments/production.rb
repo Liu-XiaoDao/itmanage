@@ -74,7 +74,7 @@ Rails.application.configure do
   :email => {
     :email_prefix => "[IT_Asset #{Rails.env} Error Notifier] ",
     :sender_address => %{<no-reply@abcam.com>},
-    :exception_recipients => %w(chunliang.liu@abcam.com)
+    :exception_recipients => %w{Chunliang.liu@abcam.com}
   }
   ###############################
 
