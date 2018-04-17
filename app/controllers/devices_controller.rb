@@ -531,7 +531,7 @@ class DevicesController < ApplicationController
 
   private
     def device_params
-    	params.require(:device).permit(:asset_name, :service_sn, :decategory_id, :release_date, :asset_details)
+    	params.require(:device).permit(:asset_code, :asset_name, :service_sn, :decategory_id, :release_date, :asset_details)
     end
     #这个方法怎么改下周一再问
     def getassetcode(decategory_id)
