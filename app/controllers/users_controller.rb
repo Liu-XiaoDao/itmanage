@@ -192,7 +192,7 @@ class UsersController < ApplicationController
   def quit#离职
     @user = User.find(params[:id])
 
-    if @user.devices.blank? && @user.consumablerecords.blank? && @user.devicerecords.blank? && @user.authorization_user_devices.blank?
+    if @user.devices.blank?  && @user.authorization_user_devices.blank?
       @user.is_quit = 1
       if @user.save
         flash[:success] = "用户成功离职"
