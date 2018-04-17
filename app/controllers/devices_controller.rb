@@ -82,7 +82,7 @@ class DevicesController < ApplicationController
 		@device = Device.new(device_params)
 		#设备编号
 		# @device.asset_code = params[:device][:asset_code]
-		@device.asset_code = getassetcode(params[:device][:decategory_id])
+		# @device.asset_code = getassetcode(params[:device][:decategory_id])
 		#设备维保到期时间
 		@device.scrap_date = Time.parse(@device.release_date.try(:strftime, "%Y-%m-%d")) + params[:device][:guaranteed].to_i.months
 		#保存
