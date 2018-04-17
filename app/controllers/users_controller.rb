@@ -70,7 +70,7 @@ class UsersController < ApplicationController
         searchstr = searchstr + andstr
         searchstr += "created_at between '#{begindate.try(:strftime, '%Y-%m-%d')}' And '#{enddate.try(:strftime, '%Y-%m-%d')}'"
       end
-      @users = User.where(searchstr).paginate page: params[:page], per_page: 10
+      @users = User.where(searchstr).paginate page: params[:page], per_page: 15
       @departments = Department.leafdepartment
 
       render "index"

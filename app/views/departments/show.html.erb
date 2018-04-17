@@ -42,7 +42,7 @@
                             <li class="list-group-item">部门名称:<%= lowerdepartment.department_name %><br>部门人数:<%= lowerdepartment.users.count %></li>
                         <% end %>
                     <% end %>
-                    
+
                 </ul>
             </div>
             <div class="panel panel-info">
@@ -76,7 +76,7 @@
                     </thead>
                     <tbody>
                         <% @departmentUsers.each do |user| %>
-                            <tr>
+                            <tr class="<%=  user.is_quit == 1 ? 'danger' : '' %>">
                                 <td><%= link_to user.username, user_path(user) %></td>
                                 <td><%= user.email %></td>
                                 <td><%= link_to t("edit"), edit_user_path(user) %></td>
