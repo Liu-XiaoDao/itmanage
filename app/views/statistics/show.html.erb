@@ -1,5 +1,6 @@
 <% provide :c_active, "set" %>
 <% provide :pre_title, "统计" %>
+<% @user_model_config_index = current_user.user_model_configs.where(model: "custom_statistics").first  %>
 <div class="container" style="padding-top:70px;">
     <div class="row">
         <div class="col-md-12">
@@ -32,9 +33,15 @@
                                 <td><%= user.email %></td>
                                 <td><%= user.devices.count %></td>
                                 <td>
+                                  <%if @user_model_config_index.present? %>
+                                    <% user.statistic_devices(@user_model_config_index.fields).each do |device| %>
+                                       <%= device_assetno device.id %>&nbsp;&nbsp;
+                                    <% end %>
+                                  <% elsif %>
                                     <% user.devices.each do |device| %>
                                        <%= device_assetno device.id %>&nbsp;&nbsp;
                                     <% end %>
+                                  <% end %>
                                 </td>
                             </tr>
                         <% end %>
