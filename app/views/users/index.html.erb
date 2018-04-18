@@ -34,7 +34,7 @@
               <%= f.select :department_id_eq_any, @departments.collect { |d| [ parentdepartment_name(d.id), d.id ] }, {include_blank: true}, {placeholder: "供应商名称", class: "form-control pull_select"} %>
             </div>
             <div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-            <%= f.text_field :created_at_cont, class: "form-control", placeholder: "入职时间", style: "width: 180px;" %>
+            <%= f.text_field :created_at_gteq, class: "form-control", placeholder: "入职时间", style: "width: 180px;" %>
             <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
             </div>
