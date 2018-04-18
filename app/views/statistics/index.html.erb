@@ -52,13 +52,12 @@
                   <tr>
                     <td><%= link_to parentdepartment_name(department.id), statistic_path(department) %></td>
 
-                    <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'") %>
+                    <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id where users.is_quit = 0 AND departments.pgcode like '#{department.pgcode}%'") %>
                     <td style="color: red;"><%= departmentUsers.count %></td>
 
                     <% departmentdevicecount = 0 %>
                     <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.statistic_devices(@user_model_config_index.fields).count } %>
                     <td style="color: red;"><%= departmentdevicecount  %></td>
-
                     <% @user_model_config_index.fields.each do |decategory_id| %>
                       <% tempdecategorydevicecount = 0 %>
                       <% departmentUsers.each{ |user| tempdecategorydevicecount = tempdecategorydevicecount + user.statistic_devices(decategory_id).count } %>
@@ -93,7 +92,7 @@
                   <tr>
                     <!-- <td><%#= link_to parentdepartment_name(department.id), statistic_path(department) %></td> -->
                     <td><%= link_to department.department_name, statistic_path(department) %></td>
-                    <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'") %>
+                    <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id where users.is_quit = 0 AND departments.pgcode like '#{department.pgcode}%'") %>
                     <td style="color: red;"><%= departmentUsers.count %></td>
 
                     <% departmentdevicecount = 0 %>
