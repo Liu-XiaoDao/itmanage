@@ -20,7 +20,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="alert alert-info">部门共有 <b><%= @departmentUsers.count %></b> 个员工</div>
+            <div class="alert alert-info">部门共有 <b><%= @departmentUsers.count %></b> 个员工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;设备列表显示的都是前面选择的</div>
             <div class="table-responsive" style="padding-top: 20px;">
                 <table class="table table-striped">
                     <thead>
@@ -31,7 +31,13 @@
                             <tr>
                                 <td><%= link_to user.username, user_path(user) %></td>
                                 <td><%= user.email %></td>
-                                <td><%= user.devices.count %></td>
+                                <td>
+                                  <%if @user_model_config_index.present? %>
+                                    <%= user.statistic_devices(@user_model_config_index.fields).count %>
+                                  <% elsif %>
+                                    <%= user.devices.count %>
+                                  <% end %>
+                                </td>
                                 <td>
                                   <%if @user_model_config_index.present? %>
                                     <% user.statistic_devices(@user_model_config_index.fields).each do |device| %>
