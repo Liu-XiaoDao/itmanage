@@ -20,7 +20,7 @@
     	</div>
     </div>
     <div class="row">
-        <!-- 头像与密码设置 -->
+        <!-- 使用员工-->
         <div class="col-sm-3 col-md-3">
             <div class="panel panel-info">
                 <div class="panel-heading"><h3 class="panel-title">使用员工</h3></div>
@@ -35,7 +35,7 @@
             </div>
 
             <% if  @device.is_assign == 1  %>
-              <!-- 当设备被使用时(办公使用,借用,报废借用)不能再这设置状态 -->
+              <!-- 当设备被使用时不能再次分配 -->
                 <div class="panel panel-info">
                     <div class="panel-heading"><h3 class="panel-title">分配设备</h3></div>
                     <div class="panel-body">
@@ -52,12 +52,9 @@
                             <label for="assigntype"> 分配类型:</label>
                             <select class="form-control" name="device[assigntype]" id="assigntype" onchange="create_borrowtime(this)">
                                 <option value="">请选择设备分配类型</option>
-                                <% if  @device.is_scrap == 0 %>
-                                    <option value="2">办公使用</option>
-                                    <option value="5">借用</option>
-                                <% else %>
-                                	<option value="7">报废借用</option>
-                                <% end %>
+                                <option value="2">办公使用</option>
+                                <option value="3">人员借用</option>
+                                <option value="4">设备借用</option>
                             </select>
                           </div>
                           <br>
@@ -91,40 +88,6 @@
                 </div>
             <% end %>
 
-            <% if  @device.status == 1 || @device.status == 2 || @device.status == 5 || @device.status == 7 %>
-              <!-- 当设备被使用时(办公使用,借用,报废借用)不能再这设置状态 -->
-              <div class="panel panel-info">
-                  <div class="panel-heading"><h3 class="panel-title">设备状态设置</h3></div>
-                  <div class="panel-body">
-                  当设备状态无人使用时才能设置状态
-                  </div>
-              </div>
-            <% else %>
-              <div class="panel panel-info">
-                  <div class="panel-heading"><h3 class="panel-title">设备状态设置</h3></div>
-                  <div class="panel-body">
-                      <%= form_tag  setstatus_device_path, remote: true do %>
-                       <div class="form-group">
-                           <label for="devicestatus"> 设备状态:</label>
-                          <select class="form-control" name="device[status]" id="devicestatus">
-                            <option value="">请选择设备状态</option>
-                            <% if  @device.is_scrap == 0 %>
-                                <option value="3">闲置</option>
-                                <option value="4">维修</option>
-                            <% else %>
-                            	  <option value="6">报废</option>
-                                <option value="8">报废清理</option>
-                            <% end %>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <%= submit_tag "设置", class: "btn btn-primary submit" %>
-                        </div>
-                      <% end %>
-                  </div>
-              </div>
-            <% end %>
-
         </div>
 
 		<script>
@@ -155,7 +118,7 @@
 		    }
 
 		    function create_borrowtime(ele) {
-		        if ($(ele).val() == 5 || $(ele).val() == 7) {
+		        if ($(ele).val() == 3 || $(ele).val() == 4) {
 		            $("#borrowtime_div").css("display","block");
 		            $("#borrowtime_br").css("display","block");
 		        }else{
@@ -170,7 +133,7 @@
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						<%= "设备: #{@device.asset_code}    状态: #{device_status @device.status}    维保: #{isscrap @device.is_scrap}" %>
+						<%= "设备: #{@device.asset_code}    状态: #{device_status @device.status}    维保: #{isscrap @device.is_scrap}    是否已经清理:#{@device.is_delete}" %>
 					</h3>
 				</div>
 				<div class="panel-body">

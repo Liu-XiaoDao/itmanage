@@ -237,8 +237,8 @@
                 <select class="form-control" name="device[assigntype]" id="assigntype" onchange="create_borrowtime(this)">
                   <option value="0">请选择设备分配类型</option>
                   <option value="2">办公使用</option>
-                  <option value="5">借用</option>
-                  <option value="7">报废借用</option>
+                  <option value="3">人员借用</option>
+                  <option value="4">设备借用</option>
                 </select>
               </div>
               <br>
@@ -331,7 +331,7 @@
         });
     }
     function create_borrowtime(ele) {
-        if ($(ele).val() == 5 || $(ele).val() == 7) {
+        if ($(ele).val() == 3 || $(ele).val() == 4) {
             $("#borrowtime_div").css("display","block");
             $("#borrowtime_br").css("display","block");
         }else{

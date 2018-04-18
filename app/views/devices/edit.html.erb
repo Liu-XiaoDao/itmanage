@@ -25,16 +25,16 @@
 					<%= form_for @device, url: device_path, remote: true do |f| %>
 						<div id="error-info" class="alert alert-danger" style="display: none;"></div>
 						<div class="form-group">
-				          	<label for="decategory_id">设备类型:</label>
-				          	<select class="form-control" name=device[decategory_id] id="decategory_id">
-				            	<% @decategorys.each do |decategory| %>
-													<% if decategory.id == @device.decategory_id %>
-															<% selected = 'selected="selected"' %>
-													<% end %>
-				              		<option value="<%= decategory.id %>" <%= selected %> ><%= parentdecategory_name decategory.id %></option>
-				            	<% end %>
-				          	</select>
-				        </div>
+		          	<label for="decategory_id">设备类型:</label>
+		          	<select class="form-control" name=device[decategory_id] id="decategory_id">
+		            	<% @decategorys.each do |decategory| %>
+											<% if decategory.id == @device.decategory_id %>
+													<% selected = 'selected="selected"' %>
+											<% end %>
+		              		<option value="<%= decategory.id %>" <%= selected %> ><%= parentdecategory_name decategory.id %></option>
+		            	<% end %>
+		          	</select>
+		        </div>
 						<div class="form-group">
 							<label>设备名:</label><br>
 							<%= f.text_field :asset_name, placeholder: "设备名", class: "form-control" %>
