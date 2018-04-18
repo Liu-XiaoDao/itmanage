@@ -42,6 +42,7 @@
                     <th><%= t("departmentname")%></th>
                     <th style="color: red;"><%= t("renshu")%></th>
                     <th style="color: red;">设备总数</th>
+                    <th style="color: red;">接设备</th>
                     <% @user_model_config_index.fields.each do |decategory_id| %>
                       <th><%= @decategory = Decategory.find(decategory_id).name %></th>
                     <% end %>
@@ -50,6 +51,7 @@
               <tbody>
                 <% usercount = 0 %>
                 <% devicecount = 0 %>
+                <% condevicecount = 0 %>
                 <% categorycount = Hash.new(0) %>
                 <% @departments.where(parent_id: 0).each do |department| %>
                   <tr>
@@ -64,6 +66,12 @@
                     <td style="color: red;"><%= departmentdevicecount  %></td>
                     <% devicecount += departmentdevicecount %>
 
+                    <% condepartmentdevicecount = 0 %>
+                    <% departmentUsers.each{ |user| condepartmentdevicecount = condepartmentdevicecount + user.statistic_devices(@user_model_config_index.fields).where(status: 4).count } %>
+                    <td style="color: red;"><%= condepartmentdevicecount  %></td>
+                    <% condevicecount += condepartmentdevicecount %>
+
+
                     <% @user_model_config_index.fields.each do |decategory_id| %>
                       <% tempdecategorydevicecount = 0 %>
                       <% departmentUsers.each{ |user| tempdecategorydevicecount = tempdecategorydevicecount + user.statistic_devices(decategory_id).count } %>
@@ -76,6 +84,7 @@
                   <td><b>总计</b></td>
                   <td><b><%= usercount  %></b></td>
                   <td><b><%= devicecount  %></b></td>
+                  <td><b><%= condevicecount  %></b></td>
                   <% @user_model_config_index.fields.each do |decategory_id| %>
                     <td><b><%= categorycount[decategory_id]  %></b></td>
                   <% end %>
@@ -97,30 +106,53 @@
                     <th><%= t("departmentname")%></th>
                     <th style="color: red;"><%= t("renshu")%></th>
                     <th style="color: red;">设备总数</th>
+                    <th style="color: red;">接设备</th>
                     <% @user_model_config_index.fields.each do |decategory_id| %>
                       <th><%= @decategory = Decategory.find(decategory_id).name %></th>
                     <% end %>
                   </tr>
               </thead>
               <tbody>
+                <% usercount2 = 0 %>
+                <% devicecount2 = 0 %>
+                <% condevicecount2 = 0 %>
+                <% categorycount2 = Hash.new(0) %>
                 <% @departments.where.not(parent_id: 0).each do |department| %>
                   <tr>
                     <!-- <td><%#= link_to parentdepartment_name(department.id), statistic_path(department) %></td> -->
                     <td><%= link_to department.department_name, statistic_path(department) %></td>
                     <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id where users.is_quit = 0 AND departments.pgcode like '#{department.pgcode}%'") %>
                     <td style="color: red;"><%= departmentUsers.count %></td>
+                    <% usercount2 += departmentUsers.count %>
 
                     <% departmentdevicecount = 0 %>
                     <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.statistic_devices(@user_model_config_index.fields).count } %>
                     <td style="color: red;"><%= departmentdevicecount  %></td>
+                    <% devicecount2 += departmentdevicecount %>
+
+
+                    <% condepartmentdevicecount = 0 %>
+                    <% departmentUsers.each{ |user| condepartmentdevicecount = condepartmentdevicecount + user.statistic_devices(@user_model_config_index.fields).where(status: 4).count } %>
+                    <td style="color: red;"><%= condepartmentdevicecount  %></td>
+                    <% condevicecount2 += condepartmentdevicecount %>
 
                     <% @user_model_config_index.fields.each do |decategory_id| %>
                       <% tempdecategorydevicecount = 0 %>
                       <% departmentUsers.each{ |user| tempdecategorydevicecount = tempdecategorydevicecount + user.statistic_devices(decategory_id).count } %>
                       <td><%= tempdecategorydevicecount  %></td>
+                      <% categorycount2[decategory_id] += tempdecategorydevicecount %>
                     <% end %>
                   </tr>
                 <% end %>
+                <tr>
+                  <td><b>总计</b></td>
+                  <td><b><%= usercount2  %></b></td>
+                  <td><b><%= devicecount2  %></b></td>
+                  <td><b><%= condevicecount2  %></b></td>
+                  <% @user_model_config_index.fields.each do |decategory_id| %>
+                    <td><b><%= categorycount2[decategory_id]  %></b></td>
+                  <% end %>
+                </tr>
               </tbody>
             </table>
           </div>
