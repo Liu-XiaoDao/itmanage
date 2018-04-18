@@ -53,23 +53,15 @@ module UsersHelper
 	end
 
 	def device_status(status)   #返回设备状态
-	    case status
-	    when 1
-	    	"未分配"
+	  case status
+	  when 1
+	    	"闲置"
 		when 2
 		   	"办公使用"
 		when 3
-		   "闲置"
+		   "人员借用"
 		when 4
-		   "维修"
-		when 5
-		   "借用"
-		when 6
-		   "报废"
-		when 7
-		   "报废借用"
-		when 8
-		   "报废清理"
+		   "设备借用"
 		else
 		   "状态不详"
 		end
