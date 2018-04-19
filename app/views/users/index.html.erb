@@ -23,49 +23,23 @@
       </div>
       <nav class="navbar navbar-default" role="navigation">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <form class="navbar-form navbar-left" role="search" action="/users/search">
+          <%= search_form_for @search,class: "navbar-form navbar-left" do |f| %>
             <div class="form-group">
-              <label for="name" class="control-label"><%= t("name")%>:&nbsp;</label>
-              <input type="text" name="user[username]" class="form-control" id="name" placeholder="请输入名称" style="width: 150px;" value="<%=  @username %>">
+              <%= f.text_field :username_cont, class: "form-control", placeholder: "姓名", style: "width: 150px;" %>
             </div>
             <div class="form-group">
-              <label for="email" class="control-label"><%= t("email")%>:&nbsp;</label>
-              <input type="text" name="user[email]" class="form-control" id="email" placeholder="请输入邮箱"  style="width: 150px;" value="<%=  @email %>">
+              <%= f.text_field :email_cont, class: "form-control", placeholder: "邮箱", style: "width: 150px;" %>
             </div>
             <div class="form-group">
-              <label for="name"><%= t("department")%>:</label>
-              <select class="form-control" name=user[department_id]>
-                <option value=""></option>
-                <% @departments.each do |department| %>
-                  <% if  @department_id.to_i == department.id %>
-                    <% selected = 'selected="selected"' %>
-                  <% end %>
-                  <option value="<%= department.id %>" <%= selected %> ><%= parentdepartment_name department.id %></option>
-                <% end %>
-              </select>
+              <%= f.select :department_id_eq_any, @departments.collect { |d| [ parentdepartment_name(d.id), d.id ] }, {include_blank: true}, {placeholder: "供应商名称", class: "form-control pull_select"} %>
             </div>
-            <label for="time" class="control-label">入职时间:&nbsp;</label>
             <div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-            <input type="text" class="form-control" size="16" readonly name="user[created_at]" value="<%= @rz %>" placeholder="搜索范围:前后一个月" value="<%=  @created_at %>" style="width: 180px;">
+            <%= f.text_field :created_at_gteq, class: "form-control", placeholder: "入职时间", style: "width: 180px;" %>
             <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
             </div>
-            <script type="text/javascript">
-              $('.form_datetime').datetimepicker({
-                  format: 'yyyy-mm-dd',
-                  minView: "month",
-                  language: 'zh-CN',
-                  weekStart: 1,
-                  todayBtn:  1,
-                  autoclose: 1,
-                  todayHighlight: 1,
-                  startView: 2,
-                  forceParse: 0,
-                  showMeridian: 1
-              });
-            </script>
-            <button type="submit" class="btn btn-default" style="float: right;">搜索</button>
-          </form>
+            <%= f.submit "搜索", class: 'btn btn-default', style: "float: right;" %>
+          <% end %>
         </div>
       </nav>
       <div class="table-responsive" style="padding-top: 20px;">
@@ -94,22 +68,22 @@
   </div>
 </div>
 
-
-
-<!-- <%#= form_tag  users_upload_path, method: :post,  multipart: true  do %>
-
-
-    <div class="form-group">
-      <label>用户批量上传:</label><br>
-      <textarea placeholder="用户" class="form-control" name="users" id="device_asset_details"></textarea>
-    </div>
-
-    <div class="form-group">
-        <%#= submit_tag "上传", class: "btn btn-primary submit" %>
-    </div>
-<%# end %> -->
 <script>
 	$(function(){
 	  $('select').searchableSelect();
 	});
+</script>
+<script type="text/javascript">
+  $('.form_datetime').datetimepicker({
+      format: 'yyyy-mm-dd',
+      minView: "month",
+      language: 'zh-CN',
+      weekStart: 1,
+      todayBtn:  1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      forceParse: 0,
+      showMeridian: 1
+  });
 </script>

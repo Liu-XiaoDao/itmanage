@@ -23,65 +23,27 @@
       </div>
     	<nav class="navbar navbar-default" role="navigation">
     		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    			<form class="navbar-form navbar-left" role="search" action="<%= devices_search_path %>">
+          <%= search_form_for @search,class: "navbar-form navbar-left" do |f| %>
     				    <div class="form-group">
               			<label for="name">设备分类:</label>
-              			<select class="form-control" name=device[decategory_id]>
-                			<option value=""></option>
-                			<% @decategorys.each do |decategory| %>
-                				<% if  @decategory_id.to_i == decategory.id %>
-    	                        	<% selected = 'selected="selected"' %>
-    	                        <% end %>
-                  				<option value="<%= decategory.id %>" <%= selected %> ><%= parentdecategory_name decategory.id %></option>
-                			<% end %>
-              			</select>
+                    <%= f.select :decategory_id_eq_any, @decategorys.collect { |d| [ parentdecategory_name(d.id), d.id ] }, {include_blank: true}, {placeholder: '分类', class: "form-control pull_select"} %>
             		</div>
             		<div class="form-group">
-              			<label for="name" class="control-label">使用者:&nbsp;</label>
-              			<select class="form-control" name=device[user_id]>
-                			<option value=""></option>
-                			<% @users.each do |user| %>
-                				<% if  @user_id.to_i == user.id %>
-    	                    <% selected = 'selected="selected"' %>
-    	                  <% end %>
-                  				<option value="<%= user.id %>" <%= selected %> ><%= user.username %></option>
-                			<% end %>
-              			</select>
+                  <label for="name">员工:</label>
+                  <%= f.select :user_id_eq_any, @users.collect { |u| [ u.username, u.id ] }, {include_blank: true}, {placeholder: '使用者', class: "form-control pull_select"} %>
             		</div>
                 <div class="form-group">
-              			<label for="name">设备状态:</label>
-              			<select class="form-control" name=device[status_id]>
-                			<option value=""></option>
-                			<% @status.each do |zt| %>
-                				<% if  @status_id == zt['id'] %>
-    	                        	<% selected = 'selected="selected"' %>
-    	                        <% end %>
-                  				<option value="<%= zt['id'] %>" <%= selected %> ><%= zt['name'] %></option>
-                			<% end %>
-              			</select>
+                  <label for="name">状态:</label>
+                  <%= f.select :status_eq_any, @status.collect { |s| [ s['name'], s['id']]}, {include_blank: true}, {placeholder: '状态', class: "form-control pull_select"} %>
             		</div>
     				    <label for="time" class="control-label">服务到期时间:&nbsp;</label>
             		<div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1" style="width: 180px;">
-              			<input type="text" class="form-control" size="16" readonly name="device[scrap_date]" value="<%= @scrap_date %>" placeholder="搜索范围:前后一个月" >
-              			<span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+                    <%= f.text_field :scrap_date_gteq, class: "form-control", placeholder: "报废时间", style: "width: 180px;" %>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
               			<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
             		</div>
-    		        <script type="text/javascript">
-    		          $('.form_datetime').datetimepicker({
-    		              format: 'yyyy-mm-dd',
-                      minView: "month",
-    		              language: 'zh-CN',
-    		              weekStart: 1,
-    		              todayBtn:  1,
-    		              autoclose: 1,
-    		              todayHighlight: 1,
-    		              startView: 2,
-    		              forceParse: 0,
-    		              showMeridian: 1
-    		          });
-    		        </script>
-    				<button type="submit" class="btn btn-default" style="float: right;">搜索</button>
-    			</form>
+            <%= f.submit "搜索", class: 'btn btn-default', style: "float: right;" %>
+    			<% end %>
     		</div>
     	</nav>
 
@@ -229,5 +191,19 @@
 <script>
   $(function(){
     $('select').searchableSelect();
+  });
+</script>
+<script type="text/javascript">
+  $('.form_datetime').datetimepicker({
+      format: 'yyyy-mm-dd',
+      minView: "month",
+      language: 'zh-CN',
+      weekStart: 1,
+      todayBtn:  1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      forceParse: 0,
+      showMeridian: 1
   });
 </script>

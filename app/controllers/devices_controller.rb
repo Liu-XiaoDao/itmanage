@@ -2,8 +2,9 @@ class DevicesController < ApplicationController
 	layout 'home'
 	#设备列表
 	def index
+		@search = Device.ransack(params[:q])
 		#设备列表显示is_delete为0的设备
-		@devices = Device.all.order(id: :desc).paginate page: params[:page], per_page: 20
+		@devices = @search.result.order(id: :desc).paginate page: params[:page], per_page: 20
 		#搜索使用部门
 		@departments = Department.leafdepartment
 		#搜索使用设备分类
@@ -18,57 +19,6 @@ class DevicesController < ApplicationController
 	      format.xlsx { send_data Device.to_xlsx(Device.all).stream.string, filename: "devices.xlsx", disposition: 'attachment' }
 	    }
 	end
-  	#搜索设备
-	def search
-		#拿到搜索选项
-		@decategory_id = params[:device][:decategory_id]
-	    @user_id = params[:device][:user_id]
-	    @status_id = params[:device][:status_id]
-	    @scrap_date = params[:device][:scrap_date]
-	    #
-		if @decategory_id.blank? && @user_id.blank? && @status_id.blank? && @scrap_date.blank?
-			#如果以上几项都时空,就当做没有搜索,跳转到设备列表页
-			redirect_to devices_path
-		else
-			#拼接搜索sql
-			searchstr = ''
-			#如果设备类型不为空拼接上
-			if !@decategory_id.blank?
-				searchstr += "decategory_id = #{@decategory_id}"
-			end
-			#如果用户不为空拼接上
-			if !@user_id.blank?
-				andstr = searchstr.blank? ? "" : " and "
-				searchstr = searchstr + andstr
-				searchstr += "user_id = #{@user_id}"
-			end
-			#如果设备状态不为空拼接上
-			if !@status_id.blank?
-				andstr = searchstr.blank? ? "" : " and "
-				searchstr = searchstr + andstr
-				searchstr += "status = #{@status_id}"
-			end
-			#如果设备维保到期日期不为空拼接上
-			if !@scrap_date.blank?
-				andstr = searchstr.blank? ? "" : " and "
-				begindate = Time.parse(@scrap_date) - 1.months
-				enddate = Time.parse(@scrap_date) + 1.months
-				searchstr = searchstr + andstr
-				searchstr += "scrap_date between '#{begindate.try(:strftime, '%Y-%m-%d')}' And '#{enddate.try(:strftime, '%Y-%m-%d')}'"
-			end
-			#查询,并且一页显示20条
-			@devices = Device.where(searchstr).paginate page: params[:page], per_page: 20
-			#首页列表中查询使用的那几个实例变量
-			@departments = Department.leafdepartment
-			@decategorys = Decategory.leafdecategory
-			@users = User.all
-			@status = YAML.load_file("#{Rails.root}/config/status.yml")['device']
-			#渲染列表页
-			render "index"
-		end
-	end
-
-
 
   	#添加设备试图
 	def new

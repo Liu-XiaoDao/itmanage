@@ -3,7 +3,10 @@ class UsersController < ApplicationController
   layout 'home'
 
   def index
-    @users = User.all.order(is_quit: :asc,id: :desc).paginate page: params[:page], per_page: 15
+    @search = User.ransack(params[:q])
+    @users  = @search.result.order(is_quit: :asc,id: :desc).paginate page: params[:page], per_page: 15
+    # @users = User.all.order(is_quit: :asc,id: :desc).paginate page: params[:page], per_page: 15
+
     @departments = Department.leafdepartment
     #导出Excel的.一会在研究
     if params[:format]
@@ -35,47 +38,6 @@ class UsersController < ApplicationController
     end
   end
 
-  #搜索员工
-  def search
-    @username = params[:user][:username]
-    @email = params[:user][:email]
-    @created_at = params[:user][:created_at]
-    @department_id = params[:user][:department_id]
-
-    if @username.blank? && @email.blank? && @created_at.blank? && @department_id.blank?
-      redirect_to users_path
-    else
-      searchstr = ''
-
-      if !@username.blank?
-        searchstr += "username like '%#{@username}%'"
-      end
-
-      if !@email.blank?
-        andstr = searchstr.blank? ? "" : " and "
-        searchstr = searchstr + andstr
-        searchstr += "email like '%#{@email}%'"
-      end
-
-      if !@department_id.blank?
-        andstr = searchstr.blank? ? "" : " and "
-        searchstr = searchstr + andstr
-        searchstr += "department_id = #{@department_id}"
-      end
-
-      if !@created_at.blank?
-        andstr = searchstr.blank? ? "" : " and "
-        begindate = Time.parse(@created_at) - 1.months
-        enddate = Time.parse(@created_at) + 1.months
-        searchstr = searchstr + andstr
-        searchstr += "created_at between '#{begindate.try(:strftime, '%Y-%m-%d')}' And '#{enddate.try(:strftime, '%Y-%m-%d')}'"
-      end
-      @users = User.where(searchstr).paginate page: params[:page], per_page: 15
-      @departments = Department.leafdepartment
-
-      render "index"
-    end
-  end
 
   #用户详情
   def edit
