@@ -23,47 +23,21 @@
       </div>
         <nav class="navbar navbar-default" role="navigation">
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <form class="navbar-form navbar-left" role="search" action="<%= parts_search_path %>">
+        <%= search_form_for @search,class: "navbar-form navbar-left" do |f| %>
           <div class="form-group">
-              <label for="name">配件分类:</label>
-              <select class="form-control" name=part[partcategory_id]>
-                <option value=""></option>
-                <% @partcategorys.each do |partcategory| %>
-                  <% if  @partcategory_id.to_i == partcategory.id %>
-                          <% selected = 'selected="selected"' %>
-                        <% end %>
-                    <option value="<%= partcategory.id %>" <%= selected %> ><%= parentpartcategory_name partcategory.id %></option>
-                <% end %>
-              </select>
+            <%= f.text_field :part_name_cont, class: "form-control", placeholder: "配件名", style: "width: 150px;" %>
           </div>
           <div class="form-group">
-              <label for="name">配件状态:</label>
-              <select class="form-control" name=part[status_id]>
-                <option value=""></option>
-                <% @status.each do |zt| %>
-                  <% if  @status_id == zt['id'] %>
-                          <% selected = 'selected="selected"' %>
-                        <% end %>
-                    <option value="<%= zt['id'] %>" <%= selected %> ><%= zt['name'] %></option>
-                <% end %>
-              </select>
+            <%= f.select :partcategory_id_eq_any, @partcategorys.collect { |p| [ parentpartcategory_name(p.id), p.id ] }, {include_blank: true}, {placeholder: "配件分类", class: "form-control pull_select"} %>
           </div>
           <div class="form-group">
-              <label for="name">可否分配:</label>
-              <select class="form-control" name=part[assign]>
-                <option value="" ></option>
-                <% if @assign == '0' %>
-                  <% selected2 = 'selected="selected"' %>
-                <% elsif @assign == '1' %>
-                  <% selected3 = 'selected="selected"' %>
-                <% end %>
-
-                <option value="0" <%= selected2 %> >可分配</option>
-                <option value="1" <%= selected3 %> >不可分配</option>
-              </select>
+            <%= f.select :status_eq_any, @status.collect { |s| [ s['name'], s['id'] ] }, {include_blank: true}, {placeholder: "配件状态", class: "form-control pull_select"} %>
           </div>
-          <button type="submit" class="btn btn-default">搜索</button>
-        </form>
+          <div class="form-group">
+            <%= f.select :is_assign_eq_any, [["可分配",0], ["不可分配",1]], {include_blank: true}, {placeholder: "可否分配", class: "form-control pull_select"} %>
+          </div>
+          <%= f.submit "搜索", class: 'btn btn-default', style: "float: right;" %>
+        <% end %>
       </div>
     </nav>
   	  <div class="table-responsive">

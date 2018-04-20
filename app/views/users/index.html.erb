@@ -33,6 +33,9 @@
             <div class="form-group">
               <%= f.select :department_id_eq_any, @departments.collect { |d| [ parentdepartment_name(d.id), d.id ] }, {include_blank: true}, {placeholder: "供应商名称", class: "form-control pull_select"} %>
             </div>
+            <div class="form-group">
+              <%= f.select :is_quit_eq_any, [["在职",0], ["离职",1]], {include_blank: true}, {placeholder: "在离职", class: "form-control pull_select"} %>
+            </div>
             <div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
             <%= f.text_field :created_at_gteq, class: "form-control", placeholder: "入职时间", style: "width: 180px;" %>
             <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
@@ -45,7 +48,7 @@
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
           <thead>
-              <tr><th><%= t("name")%></th><th><%= t("email")%></th><th>考勤号</th><th><%= t("department")%></th><th><%= t("devicecount") %></th><th><%= t("operation") %></th></tr>
+              <tr><th><%= t("name")%></th><th><%= t("email")%></th><th>考勤号</th><th><%= t("department")%></th><th>在职情况</th><th><%= t("devicecount") %></th><th><%= t("operation") %></th></tr>
           </thead>
           <tbody>
     			  <% @users.each do |user| %>
@@ -54,6 +57,7 @@
     			      <td><%= user.email %></td>
                 <td><%= user.attendance %></td>
                 <td><%= link_to user.department.department_name, department_path(user.department) %></td>
+                <td><%= user.is_quit == 1 ? "离职" : "在职" %></td>
                 <td><%= user.devices.count %></td>
     			      <td><%= link_to t("edit"), edit_user_path(user) %></td>
     			      <td><%= link_to t("delete"), user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
