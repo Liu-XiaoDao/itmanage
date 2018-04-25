@@ -36,6 +36,10 @@
                   <label for="name">状态:</label>
                   <%= f.select :status_eq_any, @status.collect { |s| [ s['name'], s['id']]}, {include_blank: true}, {placeholder: '状态', class: "form-control pull_select"} %>
             		</div>
+                <div class="form-group">
+                  <label for="name">报废:</label>
+                  <%= f.select :is_scrap_eq_any, [["未报废",0], ["报废",1]], {include_blank: true}, {placeholder: "是否报废", class: "form-control pull_select"} %>
+                </div>
     				    <label for="time" class="control-label">服务到期时间:&nbsp;</label>
             		<div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1" style="width: 180px;">
                     <%= f.text_field :scrap_date_gteq, class: "form-control", placeholder: "报废时间", style: "width: 180px;" %>
@@ -50,7 +54,7 @@
 	  <div class="table-responsive">
 	    <table class="table table-striped table-hover">
 	      <thead>
-	          <tr><th><%= t("devicecode")%></th><th><%= t("devicename")%></th><th>类型</th><th><%= t("deviceserviceno")%></th><th><%= t("devicedetails")%></th><th>使用者</th><th>设备状态</th><th>服务到期时间</th><th><%= t("operation")%></th></tr>
+	          <tr><th><%= t("devicecode")%></th><th><%= t("devicename")%></th><th>类型</th><th><%= t("deviceserviceno")%></th><th><%= t("devicedetails")%></th><th>使用者</th><th>设备状态</th><th>是否报废</th><th>服务到期时间</th><th><%= t("operation")%></th></tr>
 	      </thead>
 	      <tbody>
           <% @devices.each do |device| %>
@@ -67,6 +71,7 @@
               <td class="asset_details" iid="<%= device.id %>" style="word-wrap:break-word;width: 300px;"><p><%= device.asset_details %></p></td>
               <td><%= user_name device.user_id %></td>
               <td><%= device_status device.status %></td>
+              <td><%= device.is_scrap == 1 ? "报废" : "未报废" %></td>
               <td><%= device.scrap_date.try(:strftime, "%Y-%m-%d") %></td>
               <td><%= link_to '修改', edit_device_path(device) %></td>
               <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
