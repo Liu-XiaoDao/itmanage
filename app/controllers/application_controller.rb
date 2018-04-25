@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   	protect_from_forgery      #防止csrf的一会在研究
 
-  	before_action :check_signed_in, :set_time_zone, :set_locale
+  	before_action :check_signed_in, :set_time_zone, :set_locale, :check_auth
   	around_action :writinglog
 
   	# 确保已登录, 否则转向登录页面
@@ -50,6 +50,15 @@ class ApplicationController < ActionController::Base
 	end
 
 
+  def check_auth
+		controller_name = params[:controller]
+		action_name = params[:action]
+    unless User::current_user.admin
+	    unless User::current_user.rights.pluck(:right_name).include?("#{controller_name}@#{action_name}")
+				redirect_to "/404.html"
+	    end
+		end
+  end
 
 
 end
