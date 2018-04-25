@@ -2,47 +2,15 @@ class PartsController < ApplicationController
   layout 'home'
   #显示所有配件
   def index
+    @search = Part.ransack(params[:q])
     #所有配件
-    @parts = Part.all.order(id: :desc).paginate page: params[:page], per_page: 15
+    @parts = @search.result.order(id: :desc).paginate page: params[:page], per_page: 15
     #所有配件分类
     @partcategorys = Partcategory.leafpartcategory
     #从配置文件中拿出所有配件状态
     @status = YAML.load_file("#{Rails.root}/config/status.yml")['part']
   end
-  #搜索配件
-  def search
-    #拿到要查找分类
-    @partcategory_id = params[:part][:partcategory_id]
-    #是否分配
-    @assign = params[:part][:assign]
-    #拿到想要的配件的状态
-    @status_id = params[:part][:status_id]
-    #如果都为空就重新渲染
-    if @partcategory_id.blank? && @assign.blank? && @status_id.blank?
-      redirect_to parts_path
-    else
-      #搜索字符串
-      searchstr = ''
-      if !@partcategory_id.blank?
-        searchstr += "partcategory_id = #{@partcategory_id}"
-      end
-      if !@assign.blank?
-        andstr = searchstr.blank? ? "" : " and "
-        searchstr = searchstr + andstr
-        searchstr += "is_assign = #{@assign}"
-      end
-      if !@status_id.blank?
-        andstr = searchstr.blank? ? "" : " and "
-        searchstr = searchstr + andstr
-        searchstr += "status = #{@status_id}"
-      end
-      @parts = Part.where(searchstr).paginate page: params[:page], per_page: 15
-      #下面是列表页要用的
-      @partcategorys = Partcategory.leafpartcategory
-      @status = YAML.load_file("#{Rails.root}/config/status.yml")['part']
-      render "index"
-    end
-  end
+
   #添加设备试图
   def new
     #空实例
