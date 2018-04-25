@@ -4,7 +4,7 @@ class DevicesController < ApplicationController
 	def index
 		@search = Device.ransack(params[:q])
 		#设备列表显示is_delete为0的设备
-		@devices = @search.result.order(id: :desc).paginate page: params[:page], per_page: 20
+		@devices = @search.result.order(is_delete: :asc, is_scrap: :asc, id: :desc).paginate page: params[:page], per_page: 20
 		#搜索使用部门
 		@departments = Department.leafdepartment
 		#搜索使用设备分类
