@@ -24,28 +24,36 @@
     	<nav class="navbar navbar-default" role="navigation">
     		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <%= search_form_for @search,class: "navbar-form navbar-left" do |f| %>
+                <div class="form-group">
+                    <!-- <label for="name">设备编号:</label> -->
+                    <%= f.text_field :asset_code_cont, class: "form-control", placeholder: "设备编号", style: "width: 150px;" %>
+                </div>
     				    <div class="form-group">
-              			<label for="name">设备分类:</label>
+              			<!-- <label for="name">设备分类:</label> -->
                     <%= f.select :decategory_id_eq_any, @decategorys.collect { |d| [ parentdecategory_name(d.id), d.id ] }, {include_blank: true}, {placeholder: '分类', class: "form-control pull_select"} %>
             		</div>
             		<div class="form-group">
-                  <label for="name">员工:</label>
+                  <!-- <label for="name">员工:</label> -->
                   <%= f.select :user_id_eq_any, @users.collect { |u| [ u.username, u.id ] }, {include_blank: true}, {placeholder: '使用者', class: "form-control pull_select"} %>
             		</div>
                 <div class="form-group">
-                  <label for="name">状态:</label>
+                  <!-- <label for="name">状态:</label> -->
                   <%= f.select :status_eq_any, @status.collect { |s| [ s['name'], s['id']]}, {include_blank: true}, {placeholder: '状态', class: "form-control pull_select"} %>
             		</div>
                 <div class="form-group">
-                  <label for="name">报废:</label>
+                  <!-- <label for="name">报废:</label> -->
                   <%= f.select :is_scrap_eq_any, [["未报废",0], ["报废",1]], {include_blank: true}, {placeholder: "是否报废", class: "form-control pull_select"} %>
                 </div>
-    				    <label for="time" class="control-label">服务到期时间:&nbsp;</label>
-            		<div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1" style="width: 180px;">
-                    <%= f.text_field :scrap_date_gteq, class: "form-control", placeholder: "报废时间", style: "width: 180px;" %>
+                <div class="form-group">
+                  <!-- <label for="name">报废:</label> -->
+                  <%= f.select :is_delete_eq_any, [["未清理",0], ["已清理",1]], {include_blank: true}, {placeholder: "是否清理", class: "form-control pull_select"} %>
+                </div>
+    				    <!-- <label for="time" class="control-label">服务到期时间:&nbsp;</label> -->
+            		<!-- <div class="input-group controls input-append date form_datetime col-sm-3" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1" style="width: 180px;">
+                    <%#= f.text_field :scrap_date_gteq, class: "form-control", placeholder: "报废时间", style: "width: 180px;" %>
                     <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
               			<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-            		</div>
+            		</div> -->
             <%= f.submit "搜索", class: 'btn btn-default', style: "float: right;" %>
     			<% end %>
     		</div>
@@ -54,7 +62,7 @@
 	  <div class="table-responsive">
 	    <table class="table table-striped table-hover">
 	      <thead>
-	          <tr><th><%= t("devicecode")%></th><th><%= t("devicename")%></th><th>类型</th><th><%= t("deviceserviceno")%></th><th><%= t("devicedetails")%></th><th>使用者</th><th>设备状态</th><th>是否报废</th><th>服务到期时间</th><th><%= t("operation")%></th></tr>
+	          <tr><th><%= t("devicecode")%></th><th><%= t("devicename")%></th><th>类型</th><th><%= t("deviceserviceno")%></th><th><%= t("devicedetails")%></th><th>使用者</th><th>设备状态</th><th>是否报废</th><th>是否清理</th><th>服务到期时间</th><th><%= t("operation")%></th></tr>
 	      </thead>
 	      <tbody>
           <% @devices.each do |device| %>
@@ -72,9 +80,10 @@
               <td><%= user_name device.user_id %></td>
               <td><%= device_status device.status %></td>
               <td><%= device.is_scrap == 1 ? "报废" : "未报废" %></td>
+              <td><%= device.is_delete == 1 ? "已清理" : "未清理" %></td>
               <td><%= device.scrap_date.try(:strftime, "%Y-%m-%d") %></td>
               <td><%= link_to '修改', edit_device_path(device) %></td>
-              <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
+              <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000  && device.is_delete == 0 %>
                 <td><%= link_to '续保', "deviceservices/devicenew/#{device.id}" %></td>
               <% else %>
                 <td></td>

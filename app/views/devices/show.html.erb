@@ -167,8 +167,11 @@
 						</div>
 						<div class="form-group">
 							<%= f.submit "更新资料", class: "btn btn-primary submit" %>
-							<% if  (Time.parse(@device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
+							<% if  (Time.parse(@device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 && @device.is_delete == 0 %>
 								<%= link_to '续保', "/deviceservices/devicenew/#{@device.id}",class: "btn btn-primary submit", style: "color: #fff;" %>
+							<% end %>
+              <% if @device.is_scrap == 1 && @device.is_delete == 0 %>
+								<%= link_to '清理', clear_device_path(@device),class: "btn btn-primary submit", style: "color: #fff;" %>
 							<% end %>
 						</div>
 					<% end %>

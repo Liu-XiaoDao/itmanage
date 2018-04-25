@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     get  'recycle', on: :member
     post 'setstatus', on: :member
     post 'showupdate', on: :member   #在show页面的修改
+    get  'clear', on: :member  #设备清理
   end
   post '/devices/editdeviceassetname' => 'devices#editdeviceassetname'
   post '/devices/editdeviceservicesn' => 'devices#editdeviceservicesn'

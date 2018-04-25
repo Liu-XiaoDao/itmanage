@@ -130,6 +130,18 @@ class DevicesController < ApplicationController
 	    end
   	end
 
+		def clear
+      @device = Device.find params[:id]
+			@device.is_delete = 1
+			if @device.save
+				flash[:success] = "设备清理成功"
+				redirect_to devices_path
+			else
+        flash[:danger] = "设备清理失败"
+				redirect_to devices_path
+			end
+		end
+
   	#删除,但是因为其他表的外键依赖,所以添加is_delete属性,删除的话此属性设置为1
   	def destroy
 	    @device = Device.find(params[:id])
