@@ -17,6 +17,11 @@ class User < ApplicationRecord
 
   has_many :user_model_configs
 
+  #用户拥有权限
+  has_many :user_roles
+  has_many :roles, through: :user_roles
+  has_many :rights, through: :roles
+
   cattr_accessor :current_user
 
   validates :username, :email, :attendance, :department_id, presence: true   #这几个变量不能为空

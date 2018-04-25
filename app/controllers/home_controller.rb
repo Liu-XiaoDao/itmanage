@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+	skip_before_action :check_auth, only: [:index, :create]
 	layout 'home'
 	def index
 		#设备数量
