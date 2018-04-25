@@ -41,8 +41,12 @@
                   <tr>
                     <th><%= t("departmentname")%></th>
                     <th style="color: red;"><%= t("renshu")%></th>
-                    <th style="color: red;">设备总数</th>
-                    <th style="color: red;">接设备</th>
+                    <th style="color: red;">电脑</th>
+                    <th style="color: red;">比例</th>
+                    <th style="color: red;">电脑(接设备)</th>
+                    <% if @user_model_config_index.fields.present? %>
+                      <th>设备总数</th>
+                    <% end %>
                     <% @user_model_config_index.fields.each do |decategory_id| %>
                       <th><%= @decategory = Decategory.find(decategory_id).name %></th>
                     <% end %>
@@ -50,8 +54,9 @@
               </thead>
               <tbody>
                 <% usercount = 0 %>
-                <% devicecount = 0 %>
+                <% staffuse = 0 %>
                 <% condevicecount = 0 %>
+                <% devicecount = 0 %>
                 <% categorycount = Hash.new(0) %>
                 <% @departments.where(parent_id: 0).each do |department| %>
                   <tr>
@@ -61,16 +66,26 @@
                     <td style="color: red;"><%= departmentUsers.count %></td>
                     <% usercount += departmentUsers.count %>
 
-                    <% departmentdevicecount = 0 %>
-                    <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.statistic_devices(@user_model_config_index.fields).count } %>
-                    <td style="color: red;"><%= departmentdevicecount  %></td>
-                    <% devicecount += departmentdevicecount %>
+                    <% departstaffuse = 0 %>
+                    <% departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2,3]).count } %>
+                    <td style="color: red;"><%= departstaffuse  %></td>
+                    <% staffuse += departstaffuse %>
+
+                    <!-- 部门人数和电脑比例 -->
+                    <td style="color: red;"><%= (departstaffuse.to_f/departmentUsers.count.to_f*100).round(1) %>%</td>
+
 
                     <% condepartmentdevicecount = 0 %>
-                    <% departmentUsers.each{ |user| condepartmentdevicecount = condepartmentdevicecount + user.statistic_devices(@user_model_config_index.fields).where(status: 4).count } %>
+                    <% departmentUsers.each{ |user| condepartmentdevicecount = condepartmentdevicecount + user.statistic_devices([1,2]).where(status: 4).count } %>
                     <td style="color: red;"><%= condepartmentdevicecount  %></td>
                     <% condevicecount += condepartmentdevicecount %>
 
+                    <% if @user_model_config_index.fields.present? %>
+                      <% departmentdevicecount = 0 %>
+                      <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.statistic_devices(@user_model_config_index.fields).count } %>
+                      <td style="border-left: 1px solid #ddd;"><%= departmentdevicecount  %></td>
+                      <% devicecount += departmentdevicecount %>
+                    <% end %>
 
                     <% @user_model_config_index.fields.each do |decategory_id| %>
                       <% tempdecategorydevicecount = 0 %>
@@ -83,11 +98,16 @@
                 <tr>
                   <td><b>总计</b></td>
                   <td><b><%= usercount  %></b></td>
-                  <td><b><%= devicecount  %></b></td>
+                  <td><b><%= staffuse  %></b></td>
+                  <td><b><%= (staffuse.to_f/usercount.to_f*100).round(1) %>%</b></td>
                   <td><b><%= condevicecount  %></b></td>
+                  <% if @user_model_config_index.fields.present? %>
+                    <td><b><%= devicecount  %></b></td>
+                  <% end %>
                   <% @user_model_config_index.fields.each do |decategory_id| %>
                     <td><b><%= categorycount[decategory_id]  %></b></td>
                   <% end %>
+
                 </tr>
               </tbody>
             </table>
@@ -105,8 +125,12 @@
                     <!-- <th>部门全名</th> -->
                     <th><%= t("departmentname")%></th>
                     <th style="color: red;"><%= t("renshu")%></th>
-                    <th style="color: red;">设备总数</th>
-                    <th style="color: red;">接设备</th>
+                    <th style="color: red;">电脑</th>
+                    <th style="color: red;">比例</th>
+                    <th style="color: red;">电脑(接设备)</th>
+                    <% if @user_model_config_index.fields.present? %>
+                      <th>设备总数</th>
+                    <% end %>
                     <% @user_model_config_index.fields.each do |decategory_id| %>
                       <th><%= @decategory = Decategory.find(decategory_id).name %></th>
                     <% end %>
@@ -114,27 +138,44 @@
               </thead>
               <tbody>
                 <% usercount2 = 0 %>
-                <% devicecount2 = 0 %>
+                <% staffuse2 = 0 %>
                 <% condevicecount2 = 0 %>
+                <% devicecount2 = 0 %>
                 <% categorycount2 = Hash.new(0) %>
                 <% @departments.where.not(parent_id: 0).each do |department| %>
                   <tr>
-                    <!-- <td><%#= link_to parentdepartment_name(department.id), statistic_path(department) %></td> -->
+                    <!-- 部门名称 -->
                     <td><%= link_to department.department_name, statistic_path(department) %></td>
+                    <!-- 部门人数 -->
                     <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id where users.is_quit = 0 AND departments.pgcode like '#{department.pgcode}%'") %>
                     <td style="color: red;"><%= departmentUsers.count %></td>
                     <% usercount2 += departmentUsers.count %>
 
-                    <% departmentdevicecount = 0 %>
-                    <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.statistic_devices(@user_model_config_index.fields).count } %>
-                    <td style="color: red;"><%= departmentdevicecount  %></td>
-                    <% devicecount2 += departmentdevicecount %>
 
+                    <!-- 部门员工使用电脑数量（包括员工正常使用，员工借用） -->
+                    <% departstaffuse = 0 %>
+                    <% departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2,3]).count } %>
+                    <td style="color: red;"><%= departstaffuse  %></td>
+                    <% staffuse2 += departstaffuse %>
 
+                    <!-- 部门人数和电脑比例 -->
+                    <td style="color: red;"><%= (departstaffuse.to_f/departmentUsers.count.to_f*100).round(1) %>%</td>
+
+                    <!-- 部门接设备的电脑数量 -->
                     <% condepartmentdevicecount = 0 %>
-                    <% departmentUsers.each{ |user| condepartmentdevicecount = condepartmentdevicecount + user.statistic_devices(@user_model_config_index.fields).where(status: 4).count } %>
+                    <% departmentUsers.each{ |user| condepartmentdevicecount = condepartmentdevicecount + user.statistic_devices([1,2]).where(status: 4).count } %>
                     <td style="color: red;"><%= condepartmentdevicecount  %></td>
                     <% condevicecount2 += condepartmentdevicecount %>
+
+
+                    <% if @user_model_config_index.fields.present? %>
+                      <% departmentdevicecount = 0 %>
+                      <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.statistic_devices(@user_model_config_index.fields).count } %>
+                      <td style="border-left: 1px solid #ddd;"><%= departmentdevicecount  %></td>
+                      <% devicecount2 += departmentdevicecount %>
+                    <% end %>
+
+
 
                     <% @user_model_config_index.fields.each do |decategory_id| %>
                       <% tempdecategorydevicecount = 0 %>
@@ -147,8 +188,12 @@
                 <tr>
                   <td><b>总计</b></td>
                   <td><b><%= usercount2  %></b></td>
-                  <td><b><%= devicecount2  %></b></td>
+                  <td><b><%= staffuse2  %></b></td>
+                  <td><b><%= (staffuse2.to_f/usercount2.to_f*100).round(1) %>%</b></td>
                   <td><b><%= condevicecount2  %></b></td>
+                  <% if @user_model_config_index.fields.present? %>
+                    <td><b><%= devicecount2  %></b></td>
+                  <% end %>
                   <% @user_model_config_index.fields.each do |decategory_id| %>
                     <td><b><%= categorycount2[decategory_id]  %></b></td>
                   <% end %>
