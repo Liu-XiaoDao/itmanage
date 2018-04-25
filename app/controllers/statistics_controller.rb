@@ -15,7 +15,10 @@ class StatisticsController < ApplicationController
     user_model_configs = current_user.user_model_configs.where(model: "custom_statistics").first
     select_fields = user_model_configs.present? ? user_model_configs.fields : []
 
-    fields = ["部门名称", "人数", "设备总数"] + select_fields.collect{|field| Decategory.find(field).name}
+    fields = ["部门名称", "人数", "电脑", "比例", "电脑(接设备)"]
+    if select_fields.present?
+      fields = fields + ["设备总数",] + select_fields.collect{|field| Decategory.find(field).name}
+    end
 
     workbook = RubyXL::Workbook.new
     worksheet0 = workbook[0]
@@ -28,7 +31,6 @@ class StatisticsController < ApplicationController
   end
 
   def create_sheet(select_fields, fields, departments, worksheet)
-
     fields.each_with_index do |field, col|
       worksheet.add_cell(0, col, field)
       worksheet.sheet_data[0][col].change_font_bold(true)
@@ -40,18 +42,34 @@ class StatisticsController < ApplicationController
     departments.each_with_index do |department, row|
       worksheet.add_cell(row+1, 0, department.department_name)
 
-      departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'")
+      departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id where users.is_quit = 0 AND departments.pgcode like '#{department.pgcode}%'")
       worksheet.add_cell(row+1, 1, departmentUsers.count)
 
-      departmentdevicecount = 0
-      departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.statistic_devices(select_fields).count }
-      worksheet.add_cell(row+1, 2, departmentdevicecount)
+      departstaffuse = 0
+      departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2,3]).count }
+      worksheet.add_cell(row+1, 2, departstaffuse)
 
-      select_fields.each_with_index do |field, col|
-        tempdecategorydevicecount = 0
-        departmentUsers.each{ |user| tempdecategorydevicecount = tempdecategorydevicecount + user.statistic_devices(field).count }
-        worksheet.add_cell(row+1, col+3, tempdecategorydevicecount)
+      #比例
+      worksheet.add_cell(row+1, 3, "#{(departstaffuse.to_f/departmentUsers.count.to_f*100).round(1)}%")
+
+      #部门接设备的电脑
+      condepartmentdevicecount = 0
+      departmentUsers.each{ |user| condepartmentdevicecount = condepartmentdevicecount + user.statistic_devices([1,2]).where(status: 4).count }
+      worksheet.add_cell(row+1, 4, condepartmentdevicecount)
+
+      if select_fields.present?
+        departmentdevicecount = 0
+        departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.statistic_devices(select_fields).count }
+        worksheet.add_cell(row+1, 5, departmentdevicecount)
+
+        select_fields.each_with_index do |field, col|
+          tempdecategorydevicecount = 0
+          departmentUsers.each{ |user| tempdecategorydevicecount = tempdecategorydevicecount + user.statistic_devices(field).count }
+          worksheet.add_cell(row+1, col+6, tempdecategorydevicecount)
+        end
       end
+
+
 
       worksheet.change_row_height(row+1, 18)
     end
