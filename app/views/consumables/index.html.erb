@@ -58,3 +58,16 @@
 		</div>
 	</div>
 </div>
+
+
+<script>
+  //  $("#myModal").on("hidden", function() {
+  //    $(this).removeData("modal-content");
+  //   });
+	//上面的是之前的bootstrap2.x
+	//下面是bootstarp3.x
+	$('#myModal').on('hide.bs.modal', function () {
+		// $(this).find(".modal-content").html('');
+	  $(this).removeData();
+	})
+</script>
