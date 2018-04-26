@@ -43,6 +43,7 @@
                     <th style="color: red;"><%= t("renshu")%></th>
                     <th style="color: red;">电脑</th>
                     <th style="color: red;">比例</th>
+                    <th style="color: red;">电脑(员工借用)</th>
                     <th style="color: red;">电脑(接设备)</th>
                     <% if @user_model_config_index.fields.present? %>
                       <th>设备总数</th>
@@ -55,6 +56,7 @@
               <tbody>
                 <% usercount = 0 %>
                 <% staffuse = 0 %>
+                <% staffusebrorow = 0 %>
                 <% condevicecount = 0 %>
                 <% devicecount = 0 %>
                 <% categorycount = Hash.new(0) %>
@@ -67,13 +69,18 @@
                     <% usercount += departmentUsers.count %>
 
                     <% departstaffuse = 0 %>
-                    <% departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2,3]).count } %>
+                    <% departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2]).count } %>
                     <td style="color: red;"><%= departstaffuse  %></td>
                     <% staffuse += departstaffuse %>
 
                     <!-- 部门人数和电脑比例 -->
                     <td style="color: red;"><%= (departstaffuse.to_f/departmentUsers.count.to_f*100).round(1) %>%</td>
 
+                    <!-- 员工借用电脑 -->
+                    <% departstaffusebrorow = 0 %>
+                    <% departmentUsers.each{ |user| departstaffusebrorow = departstaffusebrorow + user.statistic_devices([1,2]).where(status: [3]).count } %>
+                    <td style="color: red;"><%= departstaffusebrorow  %></td>
+                    <% staffusebrorow += departstaffusebrorow %>
 
                     <% condepartmentdevicecount = 0 %>
                     <% departmentUsers.each{ |user| condepartmentdevicecount = condepartmentdevicecount + user.statistic_devices([1,2]).where(status: 4).count } %>
@@ -100,6 +107,7 @@
                   <td><b><%= usercount  %></b></td>
                   <td><b><%= staffuse  %></b></td>
                   <td><b><%= (staffuse.to_f/usercount.to_f*100).round(1) %>%</b></td>
+                  <td><b><%= staffusebrorow  %></b></td>
                   <td><b><%= condevicecount  %></b></td>
                   <% if @user_model_config_index.fields.present? %>
                     <td><b><%= devicecount  %></b></td>
@@ -127,6 +135,7 @@
                     <th style="color: red;"><%= t("renshu")%></th>
                     <th style="color: red;">电脑</th>
                     <th style="color: red;">比例</th>
+                    <th style="color: red;">电脑(员工借用)</th>
                     <th style="color: red;">电脑(接设备)</th>
                     <% if @user_model_config_index.fields.present? %>
                       <th>设备总数</th>
@@ -139,6 +148,7 @@
               <tbody>
                 <% usercount2 = 0 %>
                 <% staffuse2 = 0 %>
+                <% staffusebrorow2 = 0 %>
                 <% condevicecount2 = 0 %>
                 <% devicecount2 = 0 %>
                 <% categorycount2 = Hash.new(0) %>
@@ -152,14 +162,20 @@
                     <% usercount2 += departmentUsers.count %>
 
 
-                    <!-- 部门员工使用电脑数量（包括员工正常使用，员工借用） -->
+                    <!-- 部门员工使用电脑数量（包括员工正常使用） -->
                     <% departstaffuse = 0 %>
-                    <% departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2,3]).count } %>
+                    <% departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2]).count } %>
                     <td style="color: red;"><%= departstaffuse  %></td>
                     <% staffuse2 += departstaffuse %>
 
                     <!-- 部门人数和电脑比例 -->
                     <td style="color: red;"><%= (departstaffuse.to_f/departmentUsers.count.to_f*100).round(1) %>%</td>
+
+                    <!-- 部门员工使用电脑数量（包括员工借用） -->
+                    <% departstaffusebrorow = 0 %>
+                    <% departmentUsers.each{ |user| departstaffusebrorow = departstaffusebrorow + user.statistic_devices([1,2]).where(status: [3]).count } %>
+                    <td style="color: red;"><%= departstaffusebrorow  %></td>
+                    <% staffusebrorow2 += departstaffusebrorow %>
 
                     <!-- 部门接设备的电脑数量 -->
                     <% condepartmentdevicecount = 0 %>
@@ -190,6 +206,7 @@
                   <td><b><%= usercount2  %></b></td>
                   <td><b><%= staffuse2  %></b></td>
                   <td><b><%= (staffuse2.to_f/usercount2.to_f*100).round(1) %>%</b></td>
+                  <td><b><%= staffusebrorow2  %></b></td>
                   <td><b><%= condevicecount2  %></b></td>
                   <% if @user_model_config_index.fields.present? %>
                     <td><b><%= devicecount2  %></b></td>
