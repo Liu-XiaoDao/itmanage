@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
 		controller_name = params[:controller]
 		action_name = params[:action]
     unless User::current_user.admin
-	    unless User::current_user.rights.pluck(:right_name).include?("#{controller_name}@#{action_name}")
+	    unless User::current_user.rights.pluck(:right).include?("#{controller_name}@#{action_name}")
 				redirect_to "/404.html"
 	    end
 		end
