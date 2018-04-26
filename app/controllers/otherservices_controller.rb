@@ -137,7 +137,7 @@ class OtherservicesController < ApplicationController
   #设置是否提醒,为1时会提醒,关闭后也就是置为0,就不会再提醒了
   def set_remind
     @otherservice = Otherservice.find params[:id]
-    @otherservice.closeremind = params[:tag]
+    @otherservice.closeremind = 1
     if @otherservice.save
       #设置成功
       flash[:success] = "服务关闭成功"
