@@ -1,4 +1,4 @@
-namespace :device do	
+namespace :device do
 	desc "每天遍历一遍设备,根据维保日期,设置设备的is_scrap属性"
 	task(:scrap => :environment) do
 	  devices = Device.all
@@ -16,12 +16,12 @@ namespace :device do
 	task(:oservice => :environment) do
 		otherservices = Otherservice.where("remindtime <= :now_date AND closeremind = 0",{now_date: Time.now})
 		# otherservices.each{ |otherservice| puts otherservice.servicename }
-		ExceptionMailer.service_nitofy(otherservices).deliver_now!					
+		ExceptionMailer.service_nitofy(otherservices).deliver_now!
 	end
 
 	desc "每天遍历设备.当超过维保时间,设置is_scrap为1"
 	task(:devicemail => :environment) do
-	  devices = Device.all
+	  devices = Device.where(is_delete: 0)
 
 	  senddevice = []
 
