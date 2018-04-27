@@ -41,11 +41,11 @@
                                 <td>
                                   <%if @user_model_config_index.fields.present? %>
                                     <% user.statistic_devices(@user_model_config_index.fields).each do |device| %>
-                                       <%= device_assetno device.id %><%= "(接设备使用)" if device.status == 4 %>&nbsp;&nbsp;
+                                       <%= device_assetno device.id %><%= "(员工借用)" if device.status == 3 %><%= "(接设备使用)" if device.status == 4 %>&nbsp;&nbsp;
                                     <% end %>
                                   <% elsif %>
                                     <% user.statistic_devices([1,2]).each do |device| %>
-                                       <%= device_assetno device.id %><%= "(接设备使用)" if device.status == 4 %>&nbsp;&nbsp;
+                                       <%= device_assetno device.id %><%= "(员工借用)" if device.status == 3 %><%= "(接设备使用)" if device.status == 4 %>&nbsp;&nbsp;
                                     <% end %>
                                   <% end %>
                                 </td>
