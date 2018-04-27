@@ -69,7 +69,7 @@
                     <% usercount += departmentUsers.count %>
 
                     <% departstaffuse = 0 %>
-                    <% departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2]).count } %>
+                    <% departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2,3]).count } %>
                     <td style="color: red;"><%= departstaffuse  %></td>
                     <% staffuse += departstaffuse %>
 
@@ -164,7 +164,7 @@
 
                     <!-- 部门员工使用电脑数量（包括员工正常使用） -->
                     <% departstaffuse = 0 %>
-                    <% departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2]).count } %>
+                    <% departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2,3]).count } %>
                     <td style="color: red;"><%= departstaffuse  %></td>
                     <% staffuse2 += departstaffuse %>
 

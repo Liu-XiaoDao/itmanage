@@ -46,7 +46,7 @@ class StatisticsController < ApplicationController
       worksheet.add_cell(row+1, 1, departmentUsers.count)
 
       departstaffuse = 0
-      departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2]).count }
+      departmentUsers.each{ |user| departstaffuse = departstaffuse + user.statistic_devices([1,2]).where(status: [2,3]).count }
       worksheet.add_cell(row+1, 2, departstaffuse)
 
       #比例
