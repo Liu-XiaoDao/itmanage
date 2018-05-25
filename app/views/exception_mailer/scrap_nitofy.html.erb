@@ -11,16 +11,18 @@
       <tr style="background-color: #f8f8f8;-webkit-transition: all .3s;display: table-row;vertical-align: inherit;border-color: inherit;  ">
         <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">设备名</th>
         <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">设备编号</th>
+        <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">设备类型</th>
         <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">服务到期时间</th>
         <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">使用人</th>
         <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">操作</th>
-      </tr> 
+      </tr>
     </thead>
     <tbody style="display: table-row-group;vertical-align: middle;border-color: inherit; ">
-      <% @devices.each do |device| %>
+      <% @devices.order(decategory_id: :asc).each do |device| %>
 	    <tr style="-webkit-transition: all .3s;display: table-row;vertical-align: inherit;border-color: inherit; ">
 	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= device.asset_name %></td>
-	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= device.asset_code %></td>
+          <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= device.asset_code %></td>
+	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= device.device_category_name %></td>
 	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= device.scrap_date %></td>
 	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= device.user ? device.user.username : "未分配" %></td>
 	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><a href="<%= "http://itmanage.liuxiaodao.top/deviceservices/devicenew/#{device.id}" %>" class="layui-btn" target="_blank" style="margin-left: 0;margin: 0 7px 10px 0;display: inline-block;height: 38px;line-height: 38px;padding: 0 18px;background-color: #009688;color: #fff;white-space: nowrap;text-align: center;font-size: 14px;border: none;border-radius: 2px;cursor: pointer;outline: 0;-webkit-appearance: none;-webkit-transition: all .3s;box-sizing: border-box;vertical-align: middle;text-decoration: none;">续保</a></td>
