@@ -21,7 +21,7 @@ namespace :device do
 
 	desc "每天遍历设备.当超过维保时间,设置is_scrap为1"
 	task(:devicemail => :environment) do
-	  devices = Device.where(is_delete: 0)
+	  devices = Device.where(is_delete: 0).order(decategory_id: :asc)
 
 	  senddevice = []
 
