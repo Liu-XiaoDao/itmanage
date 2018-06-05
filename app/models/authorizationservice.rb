@@ -1,0 +1,2 @@
+class Authorizationservice < ApplicationRecord
+end
