@@ -95,7 +95,11 @@ Rails.application.routes.draw do
     post 'upload_img', on: :member
   end
 
-
+ #授权软件服务路由
+  get 'authorizationservices/devicenew/:device_id', to: 'authorizationservices#authorizationnew'
+  resources :authorizationservices do
+    post 'upload_img', on: :member
+  end
 
   #其他服务路由
   resources :otherservices do
