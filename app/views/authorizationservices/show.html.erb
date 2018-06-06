@@ -1,0 +1,73 @@
+<% provide :c_active, "service" %>
+<% provide :pre_title, "设备服务详情" %>
+<div class="container" style="padding-top:70px;" >
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb">
+				<li><a href="/">主页</a></li>
+				<li><a href="<%= deviceservices_path %>">设备维保</a></li>
+				<li class="active">服务详情</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<% flash.each do |name, msg| %>
+				<div  class="alert alert-<%= name %>"><%= msg %></div>
+			<% end %>
+		</div>
+	</div>
+    <div class="row">
+    	<div class="col-sm-12 col-md-12 center-block">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading"><h3 class="panel-title">服务详情</h3></div>
+	          	<ul class="list-group">
+					<% @deviceservice.attributes.dup.each do |key,value|%>
+						<li class="list-group-item"><span style="width: 29%;height: 100%;display: block;float: left;"><%= key %></span>:<span style="width: 69%;height: 100%;display: block;float: right;"><%= value %></span></li>
+					<% end %>
+				</ul>
+				<br/>
+				<br/>
+				<br/>
+				<div class="row" style="margin: 0 15px; ">
+					<h4>相关附件:</h4>
+					<% @images.each do |image|%>
+				        <a href="<%= image.imgurl %>" class="thumbnail" target="black" >
+				            <%= image.original %>
+				        </a>
+					<% end %>
+					<div class="col-sm-6 col-md-3">
+						<%= form_for @deviceservice, url: upload_img_deviceservice_path(@deviceservice), method: :post, html:{ multipart: true } do |f| %>
+							<div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
+					            <%= content_tag :span, "上传文件", id: "upload-avatar-btn", class: "btn avatar-btn" %>
+						        <%= f.file_field :describe, class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
+							    <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
+					        </div>
+						<% end %>
+				    </div>
+				</div>
+	      	</div>
+    	</div>
+    </div>
+</div>
+
+<!-- 上传服务图片的js方法 -->
+<script type="text/javascript">
+	$(".avatar-upload").on("click", "#upload-avatar-btn", function(){
+		$("#upload-avatar-input").click()
+	});
+</script>
+
+<script>
+    $("#upload-avatar-input").on("change", function(){
+        var size_in_megabytes = this.files[0].size/1024/1024;
+        if (size_in_megabytes > 1) {
+            <% flash.now[:warning] = t "flash.warning.avatar_too_big", size: 1 %>
+            $(".mainer").eq(0).before("<%= j render(partial: 'shared/flash_messages_inner') %>");
+            <% flash.delete :warning %>
+        } else {
+            // 提交图片
+            $("#avatar-submit").click();
+        }
+    });
+</script>

@@ -1,0 +1,2 @@
+class Authorizationserviceimg < ApplicationRecord
+end

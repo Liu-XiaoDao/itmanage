@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180605152539) do
+ActiveRecord::Schema.define(version: 20180606163500) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -54,6 +54,15 @@ ActiveRecord::Schema.define(version: 20180605152539) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "note"
+  end
+
+  create_table "authorizationserviceimgs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "imgurl", null: false
+    t.bigint "authorizationservice_id"
+    t.string "original"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["authorizationservice_id"], name: "index_authorizationserviceimgs_on_authorizationservice_id"
   end
 
   create_table "authorizationservices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -350,6 +359,7 @@ ActiveRecord::Schema.define(version: 20180605152539) do
     t.index ["department_id"], name: "index_users_on_department_id"
   end
 
+  add_foreign_key "authorizationserviceimgs", "authorizationservices"
   add_foreign_key "authorizationservices", "authorizations"
   add_foreign_key "consumablerecords", "consumables"
   add_foreign_key "consumablerecords", "users"

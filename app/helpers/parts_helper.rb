@@ -5,14 +5,22 @@ module PartsHelper
 	end
 
 	def device_name(device_id)   #返回属于的设备
-	    
-	    if device_id
+	  if device_id
 			device = Device.find device_id
-	    	link_to device.asset_name, device_path(device)
+	   	link_to device.asset_name, device_path(device)
 		else
 			'无'
 		end
 	end
+
+  def authorization_name(authorization_id)   #返回属于的授权
+    if authorization_id
+      authorization = Authorization.find authorization_id
+      link_to authorization.name, authorization_path(authorization)
+    else
+      '无'
+    end
+  end
 
 	def is_assin(is_assin)
 		case is_assin
