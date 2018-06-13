@@ -1,2 +1,0 @@
-class Authorizationserviceimg < ApplicationRecord
-end

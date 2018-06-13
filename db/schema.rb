@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180612095449) do
+ActiveRecord::Schema.define(version: 20180613044354) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -63,15 +63,6 @@ ActiveRecord::Schema.define(version: 20180612095449) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "note"
-  end
-
-  create_table "authorizationserviceimgs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.string "imgurl", null: false
-    t.bigint "authorizationservice_id"
-    t.string "original"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["authorizationservice_id"], name: "index_authorizationserviceimgs_on_authorizationservice_id"
   end
 
   create_table "authorizationservices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -205,15 +196,6 @@ ActiveRecord::Schema.define(version: 20180612095449) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "oserviceimgs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.string "imgurl", null: false
-    t.bigint "otherservice_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "original"
-    t.index ["otherservice_id"], name: "index_oserviceimgs_on_otherservice_id"
-  end
-
   create_table "oslengthens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.bigint "otherservice_id"
     t.datetime "serviceenddate"
@@ -309,15 +291,6 @@ ActiveRecord::Schema.define(version: 20180612095449) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "serviceimgs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.string "imgurl", null: false
-    t.bigint "deviceservice_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "original"
-    t.index ["deviceservice_id"], name: "index_serviceimgs_on_deviceservice_id"
-  end
-
   create_table "siteinfos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "title"
     t.string "emailrecive"
@@ -368,7 +341,6 @@ ActiveRecord::Schema.define(version: 20180612095449) do
     t.index ["department_id"], name: "index_users_on_department_id"
   end
 
-  add_foreign_key "authorizationserviceimgs", "authorizationservices"
   add_foreign_key "authorizationservices", "authorizations"
   add_foreign_key "consumablerecords", "consumables"
   add_foreign_key "consumablerecords", "users"
@@ -376,11 +348,9 @@ ActiveRecord::Schema.define(version: 20180612095449) do
   add_foreign_key "devicerecords", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "deviceservices", "devices"
-  add_foreign_key "oserviceimgs", "otherservices"
   add_foreign_key "partrecords", "devices"
   add_foreign_key "partrecords", "parts"
   add_foreign_key "parts", "devices"
   add_foreign_key "parts", "partcategories"
-  add_foreign_key "serviceimgs", "deviceservices"
   add_foreign_key "users", "departments"
 end
