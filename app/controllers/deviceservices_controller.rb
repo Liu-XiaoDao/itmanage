@@ -1,12 +1,12 @@
 class DeviceservicesController < ApplicationController
 
   layout 'home'
-  
+
   #列出所有设备维保item
   def index
     @deviceservices = Deviceservice.all.paginate page: params[:page], per_page: 15
   end
-  
+
   #新建维保服务页面
   def new
     @deviceservice = Deviceservice.new
@@ -44,7 +44,7 @@ class DeviceservicesController < ApplicationController
     #拿到这条设备维保服务信息
     @deviceservice = Deviceservice.find params[:id]
     #拿到这条服务下面的所有照片
-    @images = @deviceservice.serviceimgs
+    @images = @deviceservice.attached_files
   end
 
   #返回修改一条维保记录的页面
@@ -137,14 +137,13 @@ class DeviceservicesController < ApplicationController
   #上传维保相关的一些图片
   def upload_img
     @deviceservice = Deviceservice.find params[:id]
-    imgurl = save_img(params[:deviceservice][:describe])
+
     #生成一个保存服务图片的路径的对象
-    serviceimg = Serviceimg.new
-    serviceimg.imgurl = imgurl
-    serviceimg.original = params[:deviceservice][:describe].original_filename
-    serviceimg.deviceservice = @deviceservice
-    #保存
-    if serviceimg.save
+    attached_file = AttachedFile.new
+    attached_file.upload_file(file_param,@deviceservice)
+
+
+    if attached_file.save
       flash[:success] = "图片上传成功"
       redirect_to deviceservice_path(@deviceservice)
     else
@@ -153,21 +152,7 @@ class DeviceservicesController < ApplicationController
     end
   end
 
-  #保存图片
-  def save_img(file)
-    root_path = "#{Rails.root}/public"
-    dir_path = "/images/service/#{Time.now.strftime('%Y%m')}"
-    final_path = root_path + dir_path
-    if !File.exist?(final_path)
-      FileUtils.makedirs(final_path)
-    end
-    file_rename = "#{Digest::MD5.hexdigest(Time.now.to_s)}#{File.extname(file.original_filename)}"
-    file_path = "#{final_path}/#{file_rename}"
-    File.open(file_path,'wb+') do |item| #用二进制对文件进行写入
-      item.write(file.read)
-    end
-    "#{dir_path}/#{file_rename}"
-  end
+
 
 
   private
@@ -177,6 +162,10 @@ class DeviceservicesController < ApplicationController
 
     def edit_params
       params.require(:deviceservice).permit(:servicename, :serviceprovider, :price, :begin_date, :months, :describe)
+    end
+
+    def file_param
+      params[:deviceservice][:describe]
     end
 
 

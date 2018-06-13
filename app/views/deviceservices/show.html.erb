@@ -32,7 +32,7 @@
 				<div class="row" style="margin: 0 15px; ">
 					<h4>相关附件:</h4>
 					<% @images.each do |image|%>
-				        <a href="<%= image.imgurl %>" class="thumbnail" target="black" >
+				        <a href="<%= image.filepath %>" class="thumbnail" target="black" >
 				            <%= image.original %>
 				        </a>
 					<% end %>
