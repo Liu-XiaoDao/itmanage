@@ -1,4 +1,5 @@
 class Otherservice < ApplicationRecord
 	has_many :oslengthens
-	has_many :oserviceimgs   #一个服务会有多张图片
+
+	has_many :attached_files, ->{ where( attached_files: { target_class: "otherservices" } ) }, :foreign_key => :target_id
 end

@@ -31,7 +31,7 @@ class OtherservicesController < ApplicationController
   	#拿到一条服务
     @otherservice = Otherservice.find params[:id]
     #这条服务下的所有图片
-    @images = @otherservice.oserviceimgs
+    @images = @otherservice.attached_files
 
     @oslengthens = Oslengthen.where(otherservice_id: @otherservice.id).order(id: :desc)
     #延长服务的new对象
@@ -106,34 +106,20 @@ class OtherservicesController < ApplicationController
   #上传图片
   def upload_img
     @otherservice = Otherservice.find params[:id]
-    imgurl = save_img(params[:otherservice][:describe])
 
-    oserviceimg = Oserviceimg.new
-    oserviceimg.imgurl = imgurl
-    oserviceimg.original = params[:otherservice][:describe].original_filename
-    oserviceimg.otherservice = @otherservice
+    #生成一个保存服务图片的路径的对象
+    attached_file = AttachedFile.new
+    attached_file.upload_file(file_param,@otherservice)
 
-    if oserviceimg.save
+    if attached_file.save
+      flash[:success] = "附件上传成功"
       redirect_to otherservice_path(@otherservice)
     else
+      flash[:danger] = "附件上传失败"
+      redirect_to otherservice_path(@otherservice)
+    end
+  end
 
-    end
-  end
-  #保存图片
-  def save_img(file)
-    root_path = "#{Rails.root}/public"
-    dir_path = "/images/service/#{Time.now.strftime('%Y%m')}"
-    final_path = root_path + dir_path
-    if !File.exist?(final_path)
-      FileUtils.makedirs(final_path)
-    end
-    file_rename = "#{Digest::MD5.hexdigest(Time.now.to_s)}#{File.extname(file.original_filename)}"
-    file_path = "#{final_path}/#{file_rename}"
-    File.open(file_path,'wb+') do |item| #用二进制对文件进行写入
-      item.write(file.read)
-    end
-    "#{dir_path}/#{file_rename}"
-  end
   #设置是否提醒,为1时会提醒,关闭后也就是置为0,就不会再提醒了
   def set_remind
     @otherservice = Otherservice.find params[:id]
@@ -152,5 +138,9 @@ class OtherservicesController < ApplicationController
   private
     def otherservice_params
       params.require(:otherservice).permit(:servicename, :serviceprovider, :price, :begin_date, :months, :describe)
+    end
+
+    def file_param
+      params[:otherservice][:describe]
     end
 end
