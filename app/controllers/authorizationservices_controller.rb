@@ -43,7 +43,7 @@ class AuthorizationservicesController < ApplicationController
     #拿到这条设备维保服务信息
     @authorizationservice = Authorizationservice.find params[:id]
     #拿到这条服务下面的所有照片
-    @images = @authorizationservice.serviceimgs
+    @images = @authorizationservice.attached_files
   end
 
   #返回修改一条维保记录的页面
@@ -100,14 +100,14 @@ class AuthorizationservicesController < ApplicationController
   #上传维保相关的一些图片
   def upload_img
     @authorizationservice = Authorizationservice.find params[:id]
-    imgurl = save_img(params[:authorizationservice][:describe])
+
     #生成一个保存服务图片的路径的对象
-    serviceimg = Serviceimg.new
-    serviceimg.imgurl = imgurl
-    serviceimg.original = params[:authorizationservice][:describe].original_filename
-    serviceimg.authorizationservice = @authorizationservice
+    attached_file = AttachedFile.new
+    attached_file.upload_file(file_param,@authorizationservice)
+
+
     #保存
-    if serviceimg.save
+    if attached_file.save
       flash[:success] = "图片上传成功"
       redirect_to authorizationservice_path(@authorizationservice)
     else
@@ -116,21 +116,6 @@ class AuthorizationservicesController < ApplicationController
     end
   end
 
-  #保存图片
-  def save_img(file)
-    root_path = "#{Rails.root}/public"
-    dir_path = "/images/service/#{Time.now.strftime('%Y%m')}"
-    final_path = root_path + dir_path
-    if !File.exist?(final_path)
-      FileUtils.makedirs(final_path)
-    end
-    file_rename = "#{Digest::MD5.hexdigest(Time.now.to_s)}#{File.extname(file.original_filename)}"
-    file_path = "#{final_path}/#{file_rename}"
-    File.open(file_path,'wb+') do |item| #用二进制对文件进行写入
-      item.write(file.read)
-    end
-    "#{dir_path}/#{file_rename}"
-  end
 
 
   private
@@ -140,6 +125,10 @@ class AuthorizationservicesController < ApplicationController
 
     def edit_params
       params.require(:authorizationservice).permit(:servicename, :serviceprovider, :price, :begin_date, :months, :describe)
+    end
+
+    def file_param
+      params[:authorizationservice][:describe]
     end
 
 

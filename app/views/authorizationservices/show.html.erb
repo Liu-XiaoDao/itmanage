@@ -1,11 +1,11 @@
 <% provide :c_active, "service" %>
-<% provide :pre_title, "设备服务详情" %>
+<% provide :pre_title, "授权服务详情" %>
 <div class="container" style="padding-top:70px;" >
 	<div class="row">
 		<div class="col-md-12">
 			<ul class="breadcrumb">
 				<li><a href="/">主页</a></li>
-				<li><a href="<%= deviceservices_path %>">设备维保</a></li>
+				<li><a href="<%= authorizationservices_path %>">授权维保</a></li>
 				<li class="active">服务详情</li>
 			</ul>
 		</div>
@@ -22,7 +22,7 @@
 	        <div class="panel panel-primary">
 	        	<div class="panel-heading"><h3 class="panel-title">服务详情</h3></div>
 	          	<ul class="list-group">
-					<% @deviceservice.attributes.dup.each do |key,value|%>
+					<% @authorizationservice.attributes.dup.each do |key,value|%>
 						<li class="list-group-item"><span style="width: 29%;height: 100%;display: block;float: left;"><%= key %></span>:<span style="width: 69%;height: 100%;display: block;float: right;"><%= value %></span></li>
 					<% end %>
 				</ul>
@@ -32,12 +32,12 @@
 				<div class="row" style="margin: 0 15px; ">
 					<h4>相关附件:</h4>
 					<% @images.each do |image|%>
-				        <a href="<%= image.imgurl %>" class="thumbnail" target="black" >
+				        <a href="<%= image.filepath %>" class="thumbnail" target="black" >
 				            <%= image.original %>
 				        </a>
 					<% end %>
 					<div class="col-sm-6 col-md-3">
-						<%= form_for @deviceservice, url: upload_img_deviceservice_path(@deviceservice), method: :post, html:{ multipart: true } do |f| %>
+						<%= form_for @authorizationservice, url: upload_img_authorizationservice_path(@authorizationservice), method: :post, html:{ multipart: true } do |f| %>
 							<div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
 					            <%= content_tag :span, "上传文件", id: "upload-avatar-btn", class: "btn avatar-btn" %>
 						        <%= f.file_field :describe, class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>

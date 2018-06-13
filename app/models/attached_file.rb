@@ -1,8 +1,15 @@
 class AttachedFile < ApplicationRecord
 
-has_many :request_lines ,:foreign_key=>:target_id, :conditions=>["request_lines.target_class='products'"]
+
 
   #保存图片
+  def upload_file(file,obj)
+    self.filepath = save_file(file)
+    self.target_class = obj.class.table_name
+    self.target_id = obj.id
+    self.original = file.original_filename
+  end
+
   def save_file(file)
     root_path = "#{Rails.root}/public"
     dir_path = "/images/service/#{Time.now.strftime('%Y%m')}"
