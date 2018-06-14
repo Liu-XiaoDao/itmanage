@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180613044354) do
+ActiveRecord::Schema.define(version: 20180614015933) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -339,6 +339,16 @@ ActiveRecord::Schema.define(version: 20180613044354) do
     t.string "position"
     t.integer "is_quit", default: 0
     t.index ["department_id"], name: "index_users_on_department_id"
+  end
+
+  create_table "white_lists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "web_name"
+    t.string "url"
+    t.string "introduce"
+    t.string "requester"
+    t.integer "is_add", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "authorizationservices", "authorizations"

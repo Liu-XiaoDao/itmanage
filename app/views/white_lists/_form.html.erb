@@ -1,0 +1,24 @@
+<%= form_for @white_list do |w| %>
+  <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+  <div class="form-group">
+    <label>网站名称:</label><br>
+    <%= w.text_field  :web_name, placeholder: "网站名称", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <label>网站URL:</label><br>
+    <%= w.text_field :url, placeholder: "网站URL", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <label>介绍:</label><br>
+    <%= w.text_field :introduce, placeholder: "介绍", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <label>请求人:</label><br>
+    <%= w.text_field :requester, placeholder: "请求人", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <label>是否上线:</label><br>
+    <%= w.text_field :is_add, placeholder: "是否上线", class: "form-control" %>
+  </div>
+  <%= w.submit  "确定添加", class: "btn btn-primary btn-block" %>
+<% end %>

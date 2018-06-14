@@ -1,0 +1,48 @@
+<% provide :c_active, "set" %>
+<% provide :pre_title, "白名单" %>
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li class="active">白名单</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <% flash.each do |name, msg| %>
+        <div  class="alert alert-<%= name %>"><%= msg %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <div class="alert alert-info">
+      	系统共有 <b><%= @white_lists.count %></b> 个白名单<a href="<%= new_white_list_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加白名单</a>
+      </div>
+      <div class="table-responsive" style="padding-top: 20px;">
+        <table class="table table-striped">
+          <thead>
+              <tr><th>ID</th><th>网站名称</th><th>网址</th><th>介绍</th><th>请求者</th><th>是否添加</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+        		<% @white_lists.each do |white_list| %>
+        			<tr>
+                <td><%= white_list.id %></td>
+    	    			<td><%= link_to white_list.web_name, white_list_path(white_list) %></td>
+    	    			<td><%= white_list.url %></td>
+                <td><%= white_list.introduce %></td>
+                <td><%= white_list.requester %></td>
+                <td><%= white_list.is_add %></td>
+                <td><%= link_to t('edit'), edit_white_list_path(white_list) %></td>
+    	    			<td><%= link_to t('delete'), white_list_path(white_list), method: :delete, data: { confirm: "确认删除白名单#{white_list.web_name}?" } %></td>
+      		    </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @white_lists, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+    </div>
+  </div>
+</div>

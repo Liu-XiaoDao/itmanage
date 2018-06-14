@@ -131,6 +131,7 @@ Rails.application.routes.draw do
   end
   resources :roles
   resources :rights
+  resources :white_lists
 
 
   #配件路由
