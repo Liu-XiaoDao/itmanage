@@ -30,7 +30,7 @@
         		<% @white_lists.each do |white_list| %>
         			<tr>
                 <td><%= white_list.id %></td>
-    	    			<td><%= link_to white_list.web_name, white_list_path(white_list) %></td>
+    	    			<td><%= white_list.web_name %></td>
     	    			<td><%= white_list.url %></td>
                 <td><%= white_list.introduce %></td>
                 <td><%= white_list.requester %></td>

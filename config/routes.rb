@@ -131,7 +131,9 @@ Rails.application.routes.draw do
   end
   resources :roles
   resources :rights
-  resources :white_lists
+  resources :white_lists do
+    get 'display_list', on: :collection
+  end
 
 
   #配件路由

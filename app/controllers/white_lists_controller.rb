@@ -36,6 +36,11 @@ class WhiteListsController < ApplicationController
     end
   end
 
+  def display_list
+    @white_lists = WhiteList.all.paginate page: params[:page], per_page: 20
+    render layout: false
+  end
+
   def destroy
     @white_list = WhiteList.find(params[:id])
     @white_list.destroy
