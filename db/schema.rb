@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "attached_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "attached_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "filepath", null: false
     t.string "target_class"
     t.string "target_id"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.text "note"
   end
 
-  create_table "authorizationservices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "authorizationservices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "servicename", null: false
     t.bigint "authorization_id"
     t.string "serviceprovider"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.index ["device_id"], name: "index_deviceservices_on_device_id"
   end
 
-  create_table "employee_inductions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "employee_inductions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "employee_name"
     t.date "induction_date"
     t.bigint "department_id"
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.index ["department_id"], name: "index_employee_inductions_on_department_id"
   end
 
-  create_table "entry_processes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "entry_processes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "process_name"
     t.integer "display_order"
     t.integer "responsible"
@@ -257,7 +257,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.index ["partcategory_id"], name: "index_parts_on_partcategory_id"
   end
 
-  create_table "process_resources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "process_resources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "entry_process_id"
     t.string "resource_name"
     t.integer "default"
@@ -267,7 +267,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.index ["entry_process_id"], name: "index_process_resources_on_entry_process_id"
   end
 
-  create_table "rights", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "rights", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "right_name"
     t.string "right", comment: "权限码(控制器@动作)"
     t.integer "status"
@@ -275,7 +275,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "role_rights", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "role_rights", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "role_id"
     t.bigint "right_id"
     t.datetime "created_at", null: false
@@ -284,7 +284,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.index ["role_id"], name: "index_role_rights_on_role_id"
   end
 
-  create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "role_name"
     t.integer "status"
     t.datetime "created_at", null: false
@@ -308,7 +308,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_model_configs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "user_model_configs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
     t.string "model"
     t.text "fields_text"
@@ -317,7 +317,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.index ["user_id"], name: "index_user_model_configs_on_user_id"
   end
 
-  create_table "user_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "user_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
     t.bigint "role_id"
     t.datetime "created_at", null: false
@@ -341,7 +341,7 @@ ActiveRecord::Schema.define(version: 20180614015933) do
     t.index ["department_id"], name: "index_users_on_department_id"
   end
 
-  create_table "white_lists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "white_lists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "web_name"
     t.string "url"
     t.string "introduce"
