@@ -43,14 +43,8 @@
                       </ul>
                   </li>
                   <li><%= link_to  " 设备供应商",suppliers_path %><li>
+                  <li><%= link_to  " 授权",authorizations_path %></li>
                 </ul>
-          </li>
-
-          <li class="<%= check_if_active 'authorization',yield(:c_active) %>">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-lock"></span> 授权<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to  " 授权",authorizations_path %></li>
-            </ul>
           </li>
 
           <li class="<%= check_if_active 'service',yield(:c_active) %>">
@@ -63,17 +57,19 @@
           </li>
 
 
-		  <li class="<%= check_if_active 'set',yield(:c_active) %>">
+		      <li class="<%= check_if_active 'set',yield(:c_active) %>">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> <%= t("settings") %><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><%= link_to  " 系统设置",site_path %></li>
               <li><%= link_to  " 系统日志",logs_path %></li>
-              <li><%= link_to  " 统计分析",statistics_path %></li>
               <li><%= link_to  " 流程管理",process_managements_path %></li>
               <li><%= link_to  " 角色管理",roles_path %></li>
               <li><%= link_to  " 权限管理",rights_path %></li>
               <li><%= link_to  " 白名单管理",white_lists_path %></li>
             </ul>
+          </li>
+          <li class="<%= check_if_active 'statistics',yield(:c_active) %>">
+            <%= link_to  content_tag(:span, '', class: "glyphicon glyphicon-stats")+" "+t("统计分析"),statistics_path %>
           </li>
           <li><%= link_to_locale request.path %></li>
           <li><%= link_to  content_tag(:span, '', class: "glyphicon glyphicon-log-out")+" "+t("signout"),signout_path,method: :delete %></li>
