@@ -29,9 +29,6 @@ class User < ApplicationRecord
                        uniqueness: { case_sensitive: false, message: "用户名已经被使用" }  #唯一性检测，不区分大小写
   validates :email,    length: { in: 6..55 },  #最长为255
                        uniqueness: { case_sensitive: false, message: "邮箱已经被使用" }  #唯一性检测，不区分大小写
-  # validates :password, length: { minimum: 6 },  #密码最短6位
-  #                      allow_nil: false  #为空也不跳过
-
 
    #ldap登录
   def self.from_omniauth(auth)
@@ -48,8 +45,6 @@ class User < ApplicationRecord
     department.department_name
   end
 
-
-
   def statistic_devices(fields)
     # fields = current_user.user_model_configs.where(model: "custom_statistics").first.present? ? current_user.user_model_configs.where(model: "custom_statistics").first.fields : []
     fields.present? ? devices.where(decategory_id: fields) : devices
@@ -60,7 +55,5 @@ class User < ApplicationRecord
     export_fields = ["id", "username", "email", "department_name", "position"]
     SpreadsheetService.new.generate(export_fields, records)
   end
-
-
 
 end
