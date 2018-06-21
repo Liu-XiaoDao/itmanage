@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title><%= title yield(:pre_title) %></title>
+    <title>网络白名单</title>
     <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
     <%= csrf_meta_tags %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -26,7 +26,7 @@
         	    			<td><%= white_list.url %></td>
                     <td><%= white_list.introduce %></td>
                     <td><%= white_list.requester %></td>
-                    <td><%= white_list.is_add == 0 ? "未添加" : "已添加" %></td>
+                    <td><%= white_list.is_add == 0 ? "<span class='label label-danger'>未添加</span>".html_safe : "<span class='label label-success'>已添加</span>".html_safe %></td>
           		    </tr>
                 <% end %>
               </tbody>
