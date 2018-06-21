@@ -43,14 +43,6 @@ class User < ApplicationRecord
       self.password == password ? true : false
   end
 
-
-
-  def delete_picture(picture_path)
-    file_path = "#{Rails.root}/public/#{picture_path}"
-    if File.exist?(file_path)
-      File.delete(file_path)
-    end
-  end
   #导出数据时显示部门名称使用
   def department_name
     department.department_name
