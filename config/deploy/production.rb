@@ -1,5 +1,5 @@
 set :application, 'it_asset'
-
+set :repo_url, 'git@han-gitlab.abcam.com:abcam/itmanage.git'
 # server '10.8.1.36', roles: [:app, :web, :db], primary: true
 
 set :deploy_to, "/usr/rubyWeb/#{fetch(:application)}"
