@@ -51,6 +51,10 @@ class User < ApplicationRecord
       File.delete(file_path)
     end
   end
+  #导出数据时显示部门名称使用
+  def department_name
+    department.department_name
+  end
 
 
 
@@ -61,7 +65,7 @@ class User < ApplicationRecord
   end
 
   def self.to_xlsx(records)
-    export_fields = ["id", "username", "email", "department", "position"]
+    export_fields = ["id", "username", "email", "department_name", "position"]
     SpreadsheetService.new.generate(export_fields, records)
   end
 
