@@ -17,8 +17,8 @@
     <%= w.text_field :requester, placeholder: "请求人", class: "form-control" %>
   </div>
   <div class="form-group">
-    <label>是否上线:</label><br>
-    <%= w.text_field :is_add, placeholder: "是否上线", class: "form-control" %>
+    <label>是否已经加入白名单:</label><br>
+    <%= w.select :is_add, [["未添加",0],["已添加",1]], { include_blank: true }, { class: "form-control" } %>
   </div>
   <%= w.submit  "确定添加", class: "btn btn-primary btn-block" %>
 <% end %>
