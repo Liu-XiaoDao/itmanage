@@ -125,13 +125,6 @@ class UsersController < ApplicationController
   #   end
   # end
 
-  #用户上传头像   上传头像功能取消
-  # def upload_avatar
-  #   @user = User.find(params[:id])
-  #   @user.avatar_upload(params[:user][:avatar])
-  #   redirect_to user_path(@user)
-  # end
-
 
   #在用户详情页给用户分配设备
   def assigndevise
