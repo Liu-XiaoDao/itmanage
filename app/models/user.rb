@@ -42,7 +42,15 @@ class User < ApplicationRecord
 
   #导出数据时显示部门名称使用
   def department_name
-    department.department_name
+    department.try :department_name
+  end
+
+  def department_name=(department_name)
+    department = Department.find_by_department_name(department_name)
+    if department.present?
+      self.department_id = department.id
+    end
+
   end
 
   def statistic_devices(fields)
@@ -54,6 +62,32 @@ class User < ApplicationRecord
   def self.to_xlsx(records)
     export_fields = ["id", "username", "email", "department_name", "position"]
     SpreadsheetService.new.generate(export_fields, records)
+  end
+
+  def self.import_fields
+    ["id", "username", "email", "department_name", "position"]
+  end
+
+  def self.import_preview(file)
+    update_record = []
+    create_record = []
+
+    spreadsheet = SpreadsheetService.new.parse(file)
+    headers = spreadsheet.row(1)
+    (2..spreadsheet.last_row).each do |i|
+      row = Hash[[headers, spreadsheet.row(i).map(&:to_s)].transpose]
+      user = find_by_id(row["id"])
+      if user
+        user.attributes = row.to_hash.slice(*import_fields)
+        update_record << user if user.changed?
+      else
+        user = new
+        user.attributes = row.to_hash.slice(*import_fields)
+        create_record << user
+      end
+    end
+
+    {update_record: update_record, create_record: create_record}
   end
 
 end

@@ -1,0 +1,53 @@
+<%
+error_tasks = []
+@users[:update_record].each do |user|
+  unless user.valid?
+    error_tasks << user
+  end
+end
+@users[:update_record] = @users[:update_record] - error_tasks
+
+@users[:create_record].each do |user|
+  unless user.valid?
+    error_tasks << user
+  end
+end
+@users[:create_record] = @users[:create_record] - error_tasks
+%>
+
+<% provide :c_active, "user" %>
+<% provide :pre_title, "员工" %>
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <div class="alert alert-info">
+        <%= form_tag import_user_list_users_path, multipart: true do %>
+          <%= hidden_field_tag :users_cache_key, @users_cache_key %>
+          <%= submit_tag "Import", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+      <div class="table-responsive" style="padding-top: 20px;">
+
+        <% if error_tasks.size > 0 %>
+          <h3 style="color:red;font-weight: bold"><%= error_tasks.size %>条无效记录<small style="color:red;">无效数据不会导入，请修改后重新导入</small></h3>
+          <%= render "lists", users: error_tasks %>
+          <hr />
+        <% end %>
+
+
+        <h3>更新<%= @users[:update_record].size %>条记录</h3>
+        <% if @users[:update_record].size > 0 %>
+          <%= render "lists", users: @users[:update_record] %>
+          <hr />
+        <% end %>
+
+        <h3>新增<%= @users[:create_record].size %>条记录</h3>
+        <% if @users[:create_record].size > 0 %>
+          <%= render "lists", users: @users[:create_record] %>
+          <hr />
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>

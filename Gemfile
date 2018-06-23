@@ -23,12 +23,13 @@ gem 'omniauth-ldap'     #ldap域登陆
 
 gem 'will_paginate'   #分页
 gem 'rails-i18n'   #多语言
-# gem 'pry'   #调试工具
+gem 'pry'   #调试工具
 # gem 'pry-remote'
 # gem 'pry-rails'   #这三个是关于调试的
 
 gem "rubyXL"
 gem "spreadsheet"
+gem 'roo', "~> 1.13.2"
 
 gem "capistrano", "~> 3.10"
 gem 'capistrano-rails', '~> 1.1'

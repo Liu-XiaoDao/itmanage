@@ -22,14 +22,11 @@
       	系统共有 <b><%= @users.count %></b> 位用户
         <a href="<%= new_user_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加新员工</a>
         <a href="<%= users_path(format: :xlsx) %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">导出</a>
-        <a href="#" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;">导入</a>
+        <a href="javascript:void(0);" class="btn btn-primary" id="upload-users-btn" style="position: relative;top: -8px;float: right;margin-right: 10px;">导入</a>
 
-        <%= form_for @deviceservice, url: upload_img_deviceservice_path(@deviceservice), method: :post, html:{ multipart: true } do |f| %>
-          <div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
-            <%= content_tag :span, "上传文件", id: "upload-avatar-btn", class: "btn avatar-btn" %>
-            <%= f.file_field :describe, class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
-            <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
-          </div>
+        <%= form_for :user_list, url: upload_user_list_users_path, method: :post, html:{ multipart: true,style: "display: none" } do |f| %>
+          <%= f.file_field :user_list, class: "input-hidden", id: "upload-users-input", style: 'display: none;' %>
+          <%= f.submit '', style: "visibility: hidden;", id: "upload-users-submit" %>
         <% end %>
       </div>
       <nav class="navbar navbar-default" role="navigation">
@@ -75,6 +72,7 @@
     			  <% end %>
           </tbody>
         </table>
+        <!-- <%#= render "lists", users: @users %> -->
       </div>
       <%= will_paginate @users, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
     </div>
@@ -99,4 +97,19 @@
       forceParse: 0,
       showMeridian: 1
   });
+</script>
+<!-- 上传用户的js方法 -->
+<script>
+  $("#upload-users-btn").on("click", function(){
+    $("#upload-users-input").click()
+  });
+    $("#upload-users-input").on("change", function(){
+      var size_in_megabytes = this.files[0].size/1024/1024;
+      if (size_in_megabytes > 10) {
+        alert("上传文件过大");
+      } else {
+          // 提交图片
+        $("#upload-users-submit").click();
+      }
+    });
 </script>

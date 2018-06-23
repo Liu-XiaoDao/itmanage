@@ -261,9 +261,45 @@ class UsersController < ApplicationController
     render plain: count
   end
 
+  def upload_user_list
+    # return render plain: params[:user_list][:user_list].original_filename
+    if !file_param
+      redirect_to :back, alert: "You need select a file"
+    else
+      @users = User.import_preview(file_param)
+      @users_cache_key = "users#{SecureRandom.hex}"
+      puts @users_cache_key
+      Rails.cache.write(@users_cache_key, @users, expires_in: 1.days)
+    end
+  end
+
+  def import_user_list
+    up, cr, er = 0, 0, 0
+    @users = Rails.cache.read(params[:users_cache_key])
+    puts params[:users_cache_key]
+    binding.pry
+    return render json: @users
+    @users[:update_record].map do |t|
+      t.save ? up += 1 : er += 1
+    end
+    @users[:create_record].each do |t|
+      unless User.exists?(id: t.id)
+        t.save ? cr += 1 : er += 1
+      end
+    end
+    Rails.cache.delete(params[:users_cache_key])
+    info = (er == 0) ? :notice : :alert
+    flash[info] = "create: " + cr.to_s + " update: " + up.to_s + " error: " + er.to_s
+    redirect_to users_url
+  end
+
   private
     def user_params
       params.require(:user).permit(:username, :email, :department_id, :position)
+    end
+
+    def file_param
+      params[:user_list][:user_list]
     end
 end
 
