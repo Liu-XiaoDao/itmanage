@@ -35,10 +35,6 @@
                         <%= f.text_field :position, class: "form-control form-input-normal" %>
                     </div>
                     <div class="form-group">
-                        <label for="name">邮箱:</label>
-                        <%= f.text_field :email, disabled: true, class: "form-control form-input-normal" %>
-                    </div>
-                    <div class="form-group">
                         <label for="name">部门:</label>
                         <select disabled="disabled" class="form-control" name="user[department_id]">
                             <% @departments.each do |department| %>

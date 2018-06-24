@@ -24,11 +24,9 @@ class User < ApplicationRecord
 
   cattr_accessor :current_user
 
-  validates :username, :email, :department_id, presence: true   #这几个变量不能为空
+  validates :username, :department_id, presence: true   #这几个变量不能为空
   validates :username, length: { in: 2..25 }, #长度6-25
                        uniqueness: { case_sensitive: false, message: "用户名已经被使用" }  #唯一性检测，不区分大小写
-  validates :email,    length: { in: 6..55 },  #最长为255
-                       uniqueness: { case_sensitive: false, message: "邮箱已经被使用" }  #唯一性检测，不区分大小写
 
    #ldap登录
   def self.from_omniauth(auth)
@@ -59,12 +57,12 @@ class User < ApplicationRecord
   end
 
   def self.to_xlsx(records)
-    export_fields = ["id", "username", "email", "department_name", "position"]
+    export_fields = ["id", "username", "department_name", "position"]
     SpreadsheetService.new.generate(export_fields, records)
   end
 
   def self.import_fields
-    ["username", "email", "department_name", "position"]
+    ["username", "department_name", "position"]
   end
 
   def self.import_preview(file)
