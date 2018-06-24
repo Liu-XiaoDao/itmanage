@@ -5,4 +5,8 @@ class UserModelConfig < ApplicationRecord
   def fields
     read_attribute(:fields_text).present? ? read_attribute(:fields_text).split(',').reject(&:empty?) : []
   end
+
+  def department_nil_fields
+    fields.present? ? fields : Department.all.pluck(:id)
+  end
 end
