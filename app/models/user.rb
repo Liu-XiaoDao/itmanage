@@ -50,7 +50,6 @@ class User < ApplicationRecord
     if department.present?
       self.department_id = department.id
     end
-
   end
 
   def statistic_devices(fields)
@@ -65,7 +64,7 @@ class User < ApplicationRecord
   end
 
   def self.import_fields
-    ["id", "username", "email", "department_name", "position"]
+    ["username", "email", "department_name", "position"]
   end
 
   def self.import_preview(file)
@@ -76,7 +75,7 @@ class User < ApplicationRecord
     headers = spreadsheet.row(1)
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[headers, spreadsheet.row(i).map(&:to_s)].transpose]
-      user = find_by_id(row["id"])
+      user = find_by_username(row["username"])
       if user
         user.attributes = row.to_hash.slice(*import_fields)
         update_record << user if user.changed?

@@ -276,9 +276,6 @@ class UsersController < ApplicationController
   def import_user_list
     up, cr, er = 0, 0, 0
     @users = Rails.cache.read(params[:users_cache_key])
-    puts params[:users_cache_key]
-    binding.pry
-    return render json: @users
     @users[:update_record].map do |t|
       t.save ? up += 1 : er += 1
     end
