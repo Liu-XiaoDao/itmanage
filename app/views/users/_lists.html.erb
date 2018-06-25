@@ -1,0 +1,18 @@
+<table class="table table-striped">
+  <thead>
+      <tr><th><%= t("name")%></th><th><%= t("department")%></th><th><%= t("position") %></th></tr>
+  </thead>
+  <tbody>
+    <% users.each do |user| %>
+      <tr>
+        <td><%= user.username %></td>
+        <td><%= user.department_name %></td>
+        <td><%= user.position %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<style media="screen">
+  table{table-layout:fixed;word-break:break-all;}
+</style>

@@ -197,13 +197,12 @@
                         <div class="table-responsive">
                             <table class="table table-striped">
                               <thead>
-                                  <tr><th><%= t("name")%></th><th><%= t("email")%></th><th><%= t("department")%></th></th><th>操作</th></tr>
+                                  <tr><th><%= t("name")%></th><th><%= t("department")%></th></th><th>操作</th></tr>
                               </thead>
                               <tbody>
                                 <% @authorizationusers.each do |user| %>
                                   <tr>
                                     <td><%= link_to user.username, user_path(user) %></td>
-                                    <td><%= user.email %></td>
                                     <td><%= link_to user.department.department_name, department_path(user.department) %></td>
                                     <td><%= link_to '收回授权', "/authorizations/recycleuser/#{@authorization.id}/#{user.id}", method: :post, data: { confirm: '你确定要收回授权吗?' } %></td>
                                   </tr>

@@ -24,15 +24,9 @@ class User < ApplicationRecord
 
   cattr_accessor :current_user
 
-  validates :username, :email, :attendance, :department_id, presence: true   #这几个变量不能为空
+  validates :username, :department_id, presence: true   #这几个变量不能为空
   validates :username, length: { in: 2..25 }, #长度6-25
                        uniqueness: { case_sensitive: false, message: "用户名已经被使用" }  #唯一性检测，不区分大小写
-  validates :attendance, length: { in: 1..25 } #长度6-25
-  validates :email,    length: { in: 6..55 },  #最长为255
-                       uniqueness: { case_sensitive: false, message: "邮箱已经被使用" }  #唯一性检测，不区分大小写
-  # validates :password, length: { minimum: 6 },  #密码最短6位
-  #                      allow_nil: false  #为空也不跳过
-
 
    #ldap登录
   def self.from_omniauth(auth)
@@ -44,31 +38,17 @@ class User < ApplicationRecord
       self.password == password ? true : false
   end
 
-
-  def avatar_upload(file)
-    root_path = "#{Rails.root}/public"
-    dir_path = "/images/avatar/#{Time.now.strftime('%Y%m')}"
-    final_path = root_path + dir_path
-    if !File.exist?(final_path)
-      FileUtils.makedirs(final_path)
-    end
-    file_rename = "#{Digest::MD5.hexdigest(Time.now.to_s)}#{File.extname(file.original_filename)}"
-    file_path = "#{final_path}/#{file_rename}"
-    File.open(file_path,'wb+') do |item| #用二进制对文件进行写入
-      item.write(file.read)
-    end
-    self.avatar = "#{dir_path}/#{file_rename}"
-    save
+  #导出数据时显示部门名称使用
+  def department_name
+    department.try :department_name
   end
 
-  def delete_picture(picture_path)
-    file_path = "#{Rails.root}/public/#{picture_path}"
-    if File.exist?(file_path)
-      File.delete(file_path)
+  def department_name=(department_name)
+    department = Department.find_by_department_name(department_name)
+    if department.present?
+      self.department_id = department.id
     end
   end
-
-
 
   def statistic_devices(fields)
     # fields = current_user.user_model_configs.where(model: "custom_statistics").first.present? ? current_user.user_model_configs.where(model: "custom_statistics").first.fields : []
@@ -77,10 +57,34 @@ class User < ApplicationRecord
   end
 
   def self.to_xlsx(records)
-    export_fields = ["id", "username", "email", "attendance", "department", "position"]
+    export_fields = ["id", "username", "department_name", "position"]
     SpreadsheetService.new.generate(export_fields, records)
   end
 
+  def self.import_fields
+    ["username", "department_name", "position"]
+  end
 
+  def self.import_preview(file)
+    update_record = []
+    create_record = []
+
+    spreadsheet = SpreadsheetService.new.parse(file)
+    headers = spreadsheet.row(1)
+    (2..spreadsheet.last_row).each do |i|
+      row = Hash[[headers, spreadsheet.row(i).map(&:to_s)].transpose]
+      user = find_by_username(row["username"])
+      if user
+        user.attributes = row.to_hash.slice(*import_fields)
+        update_record << user if user.changed?
+      else
+        user = new
+        user.attributes = row.to_hash.slice(*import_fields)
+        create_record << user
+      end
+    end
+
+    {update_record: update_record, create_record: create_record}
+  end
 
 end

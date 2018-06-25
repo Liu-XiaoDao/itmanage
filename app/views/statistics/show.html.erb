@@ -24,13 +24,12 @@
             <div class="table-responsive" style="padding-top: 20px;">
                 <table class="table table-striped">
                     <thead>
-                        <tr><th><%= t("name")%></th><th><%= t("email")%></th><th><%= t("devicecount")%></th><th>设备列表</th></tr>
+                        <tr><th><%= t("name")%></th><th><%= t("devicecount")%></th><th>设备列表</th></tr>
                     </thead>
                     <tbody>
                         <% @departmentUsers.each do |user| %>
                             <tr>
                                 <td><%= link_to user.username, user_path(user) %></td>
-                                <td><%= user.email %></td>
                                 <td>
                                   <%if @user_model_config_index.fields.present? %>
                                     <%= user.statistic_devices(@user_model_config_index.fields).count %>

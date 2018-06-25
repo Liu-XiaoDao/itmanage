@@ -50,3 +50,43 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+<!-- 统计部门选择 -->
+
+<% @user_model_config_department = current_user.user_model_configs.where(model: "custom_statistics_department").first  %>
+<% @user_model_config_department ||= UserModelConfig.new(user: current_user, model: "custom_statistics_department") %>
+
+<div class="modal fade" id="consumabledepartment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">统计部门选择</h4>
+      </div>
+      <%= form_for(@user_model_config_department) do |f| %>
+        <div class="modal-body" style="padding: 15px;">
+          <div class="modal-body">
+            <%= f.hidden_field :user_id %>
+            <%= f.hidden_field :model %>
+            <div id="checkboxes">
+              <% Department.where(parent_id: 0).sort.each do |department| %>
+                <label>
+                  <input name="user_model_config[fields_text][]" type="checkbox" value="<%= department.id %>" <%= @user_model_config_department.fields.include?(department.id.to_s) ? "checked=checked" : '' %>/>
+                  <%= department.department_name %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-primary">提交</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

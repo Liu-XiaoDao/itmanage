@@ -27,7 +27,7 @@
                 <div class="panel-body">
                     <% if !@user.nil? %>
                       <h3 style="margin-top: 0px"><%= @user.username %></h3>
-                      <h5>部门:&nbsp;&nbsp;<%= department_name @user.department_id %><br/>邮箱:&nbsp;&nbsp;<%= @user.email %><br/>使用方式:&nbsp;&nbsp;<%= device_status @device.status %></h5>
+                      <h5>部门:&nbsp;&nbsp;<%= department_name @user.department_id %><br/>使用方式:&nbsp;&nbsp;<%= device_status @device.status %></h5>
                     <% else %>
                       <h3>未分配</h3>
                     <% end %>
