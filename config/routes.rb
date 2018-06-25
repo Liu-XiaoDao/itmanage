@@ -79,7 +79,8 @@ Rails.application.routes.draw do
   post "users/upload" => 'users#upload'
   get 'users/search' => 'users#search'
   resources :users do
-  	post 'upload_avatar', on: :member
+  	post 'upload_user_list', on: :collection
+    post 'import_user_list', on: :collection
   	post 'updatepw', on: :member
     post 'assigndevise', on: :member
     post 'assignconsumable', on: :member

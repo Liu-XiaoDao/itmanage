@@ -26,6 +26,7 @@
       <div class="alert alert-info">
         &nbsp;<a href="<%= statistics_path(format: :xlsx) %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">导出</a>
         <a href="#" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;" data-toggle="modal" data-target="#consumableModal" >自定义统计</a>
+        <a href="#" class="btn btn-primary" style="position: relative;top: -8px;float: right;margin-right: 10px;" data-toggle="modal" data-target="#consumabledepartment" >选择统计部门</a>
       </div>
       <!-- 标签页 -->
       <ul id="myTab" class="nav nav-tabs">
@@ -60,7 +61,7 @@
                 <% condevicecount = 0 %>
                 <% devicecount = 0 %>
                 <% categorycount = Hash.new(0) %>
-                <% @departments.where(parent_id: 0).each do |department| %>
+                <% @departments.where(parent_id: 0).where(id: @user_model_config_department.department_nil_fields).each do |department| %>
                   <tr>
                     <td><%= link_to parentdepartment_name(department.id), statistic_path(department) %></td>
 

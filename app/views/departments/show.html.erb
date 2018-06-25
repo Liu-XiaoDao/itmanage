@@ -72,13 +72,12 @@
             <div class="table-responsive" style="padding-top: 20px;">
                 <table class="table table-striped">
                     <thead>
-                        <tr><th><%= t("name")%></th><th><%= t("email")%></th><th><%= t("operation")%></th></tr>
+                        <tr><th><%= t("name")%></th><th><%= t("operation")%></th></tr>
                     </thead>
                     <tbody>
                         <% @departmentUsers.each do |user| %>
                             <tr class="<%=  user.is_quit == 1 ? 'danger' : '' %>">
                                 <td><%= link_to user.username, user_path(user) %></td>
-                                <td><%= user.email %></td>
                                 <td><%= link_to t("edit"), edit_user_path(user) %></td>
                                 <td><%#= link_to t("delete"), user_path(user), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
                             </tr>
