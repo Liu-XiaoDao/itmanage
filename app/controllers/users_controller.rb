@@ -10,14 +10,14 @@ class UsersController < ApplicationController
     @departments = Department.leafdepartment
     #导出Excel的.一会在研究
     if params[:format]
-      export_csv(User)
+      export_csv(@users)
     end
   end
   #导出报表
-  def export_csv(model)
+  def export_csv(users)
     respond_to { |format|
       format.html
-      format.xlsx { send_data model.to_xlsx(model.all).stream.string, filename: "users.xlsx", disposition: 'attachment' }
+      format.xlsx { send_data User.to_xlsx(users).stream.string, filename: "users.xlsx", disposition: 'attachment' }
     }
   end
   #添加新员工页面
