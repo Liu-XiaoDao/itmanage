@@ -19,3 +19,7 @@
 
 //首页瀑布流
 //= require pobu/pubu
+
+
+// 汉字转拼音
+//= require convert_pinyin

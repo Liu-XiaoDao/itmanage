@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180624124510) do
+ActiveRecord::Schema.define(version: 20180629102923) do
 
   create_table "assets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "asset_code", null: false
@@ -335,6 +335,7 @@ ActiveRecord::Schema.define(version: 20180624124510) do
     t.bigint "department_id"
     t.string "position"
     t.integer "is_quit", default: 0
+    t.string "email"
     t.index ["department_id"], name: "index_users_on_department_id"
   end
 

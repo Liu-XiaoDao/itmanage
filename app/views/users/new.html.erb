@@ -39,6 +39,10 @@
 							<%= u.text_field  :username, placeholder: "员工姓名", class: "form-control" %>
 						</div>
 						<div class="form-group">
+							<label>邮箱:</label><br>
+							<%= u.text_field  :email, placeholder: "员工邮箱", class: "form-control" %>
+						</div>
+						<div class="form-group">
 							<label>职位:</label><br>
 							<%= u.text_field :position, placeholder: "员工职位", class: "form-control" %>
 						</div>
@@ -59,6 +63,26 @@
 		</div>
 	</div>
 </div>
+
+<script>
+
+	$('#user_username').change(function () {
+	    var chinaName = $('#user_username').val();
+			if (chinaName.length == 4) {
+				var last_name = chinaName.substr(0,2)
+				var first_name = chinaName.substr(2)
+			}else {
+				var last_name = chinaName.substr(0,1)
+				var first_name = chinaName.substr(1)
+			}
+	    //获取全写拼音（调用js中方法）
+			var en_last_name = pinyin.getFullChars(last_name);
+	    var en_first_name = pinyin.getFullChars(first_name);
+
+	    $('#user_email').val(en_first_name + '.' + en_last_name + '@abcam.com');
+	});
+
+</script>
 
 <!-- 搜索设备的三个下拉框 -->
 <script>
