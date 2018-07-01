@@ -10,13 +10,13 @@
     </div>
   </div>
   <div class="row">
-      <div class="col-sm-12 col-md-12">
-          <% flash.each do |name, msg| %>
-              <div  class="alert alert-<%= name %>"><%= msg %></div>
-          <% end %>
-          <div id="error-infoassign" class="alert alert-danger" style="display: none;"></div>
-      </div>
+    <div class="col-sm-12 col-md-12">
+      <% flash.each do |name, msg| %>
+        <div  class="alert alert-<%= name %>"><%= msg %></div>
+      <% end %>
+      <div id="error-infoassign" class="alert alert-danger" style="display: none;"></div>
     </div>
+  </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
       <div class="panel panel-primary">
