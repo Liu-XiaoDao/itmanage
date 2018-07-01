@@ -1,77 +1,77 @@
 <% provide :c_active, "asset" %>
 <% provide :pre_title, "修改配件信息" %>
 <div class="container" style="padding-top:70px;">
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="breadcrumb">
-				<li><a href="/">主页</a></li>
-				<li><a href="<%= parts_path %>">配件管理</a></li>
-				<li class="active">修改配件信息</li>
-			</ul>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
-			<% if @part && @part.errors.any? %>
-				<div id="error-info" class="alert alert-danger">
-					<div class="form-error">
-						<span class="form-error-field"><%= @part.errors.full_messages[0] %></span>
-					</div>
-				</div>
-			<% end %>
-			<div class="panel panel-primary">
-				<div class="panel-heading"><h3 class="panel-title">修改配件信息</h3></div>
-				<div class="panel-body">
-					<%= form_for @part, url: part_path, remote: true do |f| %>
-						<div id="error-info" class="alert alert-danger" style="display: none;"></div>
-						<div class="form-group">
-				          	<label for="partcategory_id">配件类型:</label>
-				          	<select class="form-control" name=part[partcategory_id] id="partcategory_id">
-				            	<% @partcategorys.each do |partcategory| %>
-													<% if partcategory.id == @part.partcategory_id %>
-														 <% selected = 'selected="selected"' %>
-													<% end %>
-				              		<option value="<%= partcategory.id %>" <%= selected %> ><%= parentpartcategory_name partcategory.id %></option>
-				            	<% end %>
-				          	</select>
-				        </div>
-						<div class="form-group">
-							<label>配件名:</label><br>
-							<%= f.text_field :part_name, placeholder: "配件名", class: "form-control" %>
-						</div>
-						<div class="form-group">
-							<label>配件详情:</label><br>
-							<%= f.text_field :part_details, placeholder: "设备名", class: "form-control" %>
-						</div>
-				        <div class="form-group">
-							<label for="time" class="control-label">收货日期:&nbsp;</label>
-					        <div class="input-group controls input-append date form_datetime" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-					          <input type="text" class="form-control" size="16" readonly name="part[receive_date]" value="<%= @part.receive_date.try(:strftime, "%Y-%m-%d") %>">
-					          <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
-					          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-					        </div>
-					        <script type="text/javascript">
-					          $('.form_datetime').datetimepicker({
-					              format: 'yyyy-mm-dd',
-												minView: "month",
-					              language: 'zh-CN',
-					              weekStart: 1,
-					              todayBtn:  1,
-					              autoclose: 1,
-					              todayHighlight: 1,
-					              startView: 2,
-					              forceParse: 0,
-					              showMeridian: 1
-					          });
-					        </script>
-				        </div>
-						<%= f.submit "确定修改", class: "btn btn-primary btn-block" %>
-					<% end %>
-					<br/><a href="<%= parts_path %>">>>返回配件列表</a>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li><a href="<%= parts_path %>">配件管理</a></li>
+        <li class="active">修改配件信息</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <% if @part && @part.errors.any? %>
+        <div id="error-info" class="alert alert-danger">
+          <div class="form-error">
+            <span class="form-error-field"><%= @part.errors.full_messages[0] %></span>
+          </div>
+        </div>
+      <% end %>
+      <div class="panel panel-primary">
+        <div class="panel-heading"><h3 class="panel-title">修改配件信息</h3></div>
+        <div class="panel-body">
+          <%= form_for @part, url: part_path, remote: true do |f| %>
+            <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+            <div class="form-group">
+                    <label for="partcategory_id">配件类型:</label>
+                    <select class="form-control" name=part[partcategory_id] id="partcategory_id">
+                      <% @partcategorys.each do |partcategory| %>
+                          <% if partcategory.id == @part.partcategory_id %>
+                             <% selected = 'selected="selected"' %>
+                          <% end %>
+                          <option value="<%= partcategory.id %>" <%= selected %> ><%= parentpartcategory_name partcategory.id %></option>
+                      <% end %>
+                    </select>
+                </div>
+            <div class="form-group">
+              <label>配件名:</label><br>
+              <%= f.text_field :part_name, placeholder: "配件名", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <label>配件详情:</label><br>
+              <%= f.text_field :part_details, placeholder: "设备名", class: "form-control" %>
+            </div>
+                <div class="form-group">
+              <label for="time" class="control-label">收货日期:&nbsp;</label>
+                  <div class="input-group controls input-append date form_datetime" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                    <input type="text" class="form-control" size="16" readonly name="part[receive_date]" value="<%= @part.receive_date.try(:strftime, "%Y-%m-%d") %>">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </div>
+                  <script type="text/javascript">
+                    $('.form_datetime').datetimepicker({
+                        format: 'yyyy-mm-dd',
+                        minView: "month",
+                        language: 'zh-CN',
+                        weekStart: 1,
+                        todayBtn:  1,
+                        autoclose: 1,
+                        todayHighlight: 1,
+                        startView: 2,
+                        forceParse: 0,
+                        showMeridian: 1
+                    });
+                  </script>
+                </div>
+            <%= f.submit "确定修改", class: "btn btn-primary btn-block" %>
+          <% end %>
+          <br/><a href="<%= parts_path %>">>>返回配件列表</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>

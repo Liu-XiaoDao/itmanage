@@ -12,12 +12,12 @@
       </div>
     </div>
     <div class="row">
-    	<div class="col-sm-12 col-md-12">
-    	    <% flash.each do |name, msg| %>
-				      <div  class="alert alert-<%= name %>"><%= msg %></div>
-			    <% end %>
+      <div class="col-sm-12 col-md-12">
+          <% flash.each do |name, msg| %>
+              <div  class="alert alert-<%= name %>"><%= msg %></div>
+          <% end %>
           <div id="error-infoassign" class="alert alert-danger" style="display: none;"></div>
-    	</div>
+      </div>
     </div>
     <div class="row">
         <!-- 使用员工-->
@@ -90,94 +90,94 @@
 
         </div>
 
-		<script>
+    <script>
 
-		    function show_position(ele) {
-		        $.ajax({
-		            type : "GET",
-		            url : "<%= ajaxgetuser_path %>",
-		            data : {
-		                'id':$(ele).val()
-		            },
-		            dataType : "JSON",
-		            success : function(result){
-		                if(!result.status){
-		                    var str = '<option value ="">请选择员工</option>';
-		                    $.each(result,function (i,value) {
-		                      str += '<option value ="'+value.id+'">'+value.username+'</option>';
-		                    });
-		                    $('#ajaxuser').html(str);
+        function show_position(ele) {
+            $.ajax({
+                type : "GET",
+                url : "<%= ajaxgetuser_path %>",
+                data : {
+                    'id':$(ele).val()
+                },
+                dataType : "JSON",
+                success : function(result){
+                    if(!result.status){
+                        var str = '<option value ="">请选择员工</option>';
+                        $.each(result,function (i,value) {
+                          str += '<option value ="'+value.id+'">'+value.username+'</option>';
+                        });
+                        $('#ajaxuser').html(str);
                         $('#ajaxuser').searchableSelect();
-		                }else{
-		                    if(result.msg){
-		                        alert(result.msg);
-		                    }
-		                }
-		            }
-		        });
-		    }
+                    }else{
+                        if(result.msg){
+                            alert(result.msg);
+                        }
+                    }
+                }
+            });
+        }
 
-		    function create_borrowtime(ele) {
-		        if ($(ele).val() == 3 || $(ele).val() == 4) {
-		            $("#borrowtime_div").css("display","block");
-		            $("#borrowtime_br").css("display","block");
-		        }else{
-		            $("#borrowtime_div").css("display","none");
-		            $("#borrowtime_br").css("display","none");
-		        }
-		    }
-		</script>
+        function create_borrowtime(ele) {
+            if ($(ele).val() == 3 || $(ele).val() == 4) {
+                $("#borrowtime_div").css("display","block");
+                $("#borrowtime_br").css("display","block");
+            }else{
+                $("#borrowtime_div").css("display","none");
+                $("#borrowtime_br").css("display","none");
+            }
+        }
+    </script>
 
-		<!-- 设备信息设置 -->
-		<div class="col-sm-9 col-md-9">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						<%= "设备: #{@device.asset_code}    状态: #{device_status @device.status}    维保: #{isscrap @device.is_scrap}    是否已经清理:#{@device.is_delete}" %>
-					</h3>
-				</div>
-				<div class="panel-body">
-					<%= form_for @device, url: showupdate_device_path(@device), method: :post,  remote: true do |f| %>
-						<div class="form-group">
-							<label>设备名:</label><br>
-							<%= f.text_field :asset_name, class: "form-control form-input-normal" %>
-						</div>
-						<div class="form-group">
-							<label>设备服务号:</label><br>
-							<%= f.text_field :service_sn, class: "form-control form-input-normal" %>
-						</div>
-						<div class="form-group">
-							<label for="devicetype">设备类型:</label>
-							<select class="form-control" name=device[decategory_id] id="devicetype">
-								<% @decategorys.each do |decategory| %>
+    <!-- 设备信息设置 -->
+    <div class="col-sm-9 col-md-9">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <%= "设备: #{@device.asset_code}    状态: #{device_status @device.status}    维保: #{isscrap @device.is_scrap}    是否已经清理:#{@device.is_delete}" %>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <%= form_for @device, url: showupdate_device_path(@device), method: :post,  remote: true do |f| %>
+            <div class="form-group">
+              <label>设备名:</label><br>
+              <%= f.text_field :asset_name, class: "form-control form-input-normal" %>
+            </div>
+            <div class="form-group">
+              <label>设备服务号:</label><br>
+              <%= f.text_field :service_sn, class: "form-control form-input-normal" %>
+            </div>
+            <div class="form-group">
+              <label for="devicetype">设备类型:</label>
+              <select class="form-control" name=device[decategory_id] id="devicetype">
+                <% @decategorys.each do |decategory| %>
                   <% if  @device.decategory_id == decategory.id %>
                     <% selected = 'selected="selected"' %>
                   <% end %>
-									<option value="<%= decategory.id %>" <%= selected %> ><%= parentdecategory_name decategory.id %></option>
-								<% end %>
-							</select>
-						</div>
-						<div class="form-group">
-							<label>设备详情:</label><br>
-							<%= f.text_field :asset_details, placeholder: "设备详情", class: "form-control" %>
-						</div>
-						<div class="form-group">
-							<label>设备位置:</label><br>
-							<%= f.text_field :location, placeholder: "设备所在位置", class: "form-control" %>
-						</div>
-						<div class="form-group">
-							<%= f.submit "更新资料", class: "btn btn-primary submit" %>
-							<% if  (Time.parse(@device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 && @device.is_delete == 0 %>
-								<%= link_to '续保', "/deviceservices/devicenew/#{@device.id}",class: "btn btn-primary submit", style: "color: #fff;" %>
-							<% end %>
+                  <option value="<%= decategory.id %>" <%= selected %> ><%= parentdecategory_name decategory.id %></option>
+                <% end %>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>设备详情:</label><br>
+              <%= f.text_field :asset_details, placeholder: "设备详情", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <label>设备位置:</label><br>
+              <%= f.text_field :location, placeholder: "设备所在位置", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.submit "更新资料", class: "btn btn-primary submit" %>
+              <% if  (Time.parse(@device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 && @device.is_delete == 0 %>
+                <%= link_to '续保', "/deviceservices/devicenew/#{@device.id}",class: "btn btn-primary submit", style: "color: #fff;" %>
+              <% end %>
               <% if @device.is_scrap == 1 && @device.is_delete == 0 %>
-								<%= link_to '清理', clear_device_path(@device),class: "btn btn-primary submit", style: "color: #fff;" %>
-							<% end %>
-						</div>
-					<% end %>
-				</div>
-			</div>
-		</div>
+                <%= link_to '清理', clear_device_path(@device),class: "btn btn-primary submit", style: "color: #fff;" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
 
         <div class="col-sm-12 col-md-12" style="padding-top: 30px;">
@@ -263,38 +263,38 @@
 
 <!-- 添加配件方法 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">添加配件</h4>
-			</div>
-			<%= form_tag  appendpart_device_path do %>
-				<div class="modal-body" style="padding: 15px;">
-					<div class="form-group">
-						<label for="parttype"> 配件分类:</label>
-						<select class="form-control" name="device[decategory]" id="parttype" onchange="get_part(this)">
-							<option value="">请选择配件分类</option>
-							<% @partcategorys.each do |partcategory| %>
-								<option value="<%= partcategory.id %>"><%= parentpartcategory_name partcategory.id %></option>
-							<% end %>
-						</select>
-					</div>
-					<br>
-					<div class="form-group">
-						<label for="part_id"> 配件:</label>
-						<select id="part_id" class="form-control" name="part[part_id]">
-							<option value="">请选择配件</option>
-						</select>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="submit" class="btn btn-primary">添加</button>
-				</div>
-			<% end %>
-		</div>
-	</div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">添加配件</h4>
+      </div>
+      <%= form_tag  appendpart_device_path do %>
+        <div class="modal-body" style="padding: 15px;">
+          <div class="form-group">
+            <label for="parttype"> 配件分类:</label>
+            <select class="form-control" name="device[decategory]" id="parttype" onchange="get_part(this)">
+              <option value="">请选择配件分类</option>
+              <% @partcategorys.each do |partcategory| %>
+                <option value="<%= partcategory.id %>"><%= parentpartcategory_name partcategory.id %></option>
+              <% end %>
+            </select>
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="part_id"> 配件:</label>
+            <select id="part_id" class="form-control" name="part[part_id]">
+              <option value="">请选择配件</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-primary">添加</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <script>

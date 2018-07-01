@@ -9,17 +9,17 @@ class ProcessManagementsController < ApplicationController
   end
 
   #入职流程
-	def create
-		#
-		@entryproces = EntryProcess.new(process_params)
-		#保存
-		if @entryproces.save
-			flash[:success] = "添加入职流程成功"
-			redirect_to process_managements_path
-		else
-			render :new
-		end
-	end
+  def create
+    #
+    @entryproces = EntryProcess.new(process_params)
+    #保存
+    if @entryproces.save
+      flash[:success] = "添加入职流程成功"
+      redirect_to process_managements_path
+    else
+      render :new
+    end
+  end
 
   def edit
     @entryproces = EntryProcess.find(params[:id])

@@ -1,92 +1,90 @@
 <% provide :c_active, "asset" %>
 <% provide :pre_title, "设备分类详情" %>
 <div class="container" style="padding-top:70px;">
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="breadcrumb">
-				<li><a href="/">主页</a></li>
-				<li><a href="<%= decategorys_path %>">设备分类</a></li>
-				<li class="active">设备分类详情</li>
-			</ul>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12 col-md-12">
-			<div class="alert alert-danger" id="error-info" style="display: none;"></div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-3 col-md-3">
-			<div class="panel panel-info">
-				<div class="panel-heading"><h3 class="panel-title">分类详情</h3></div>
-				<ul class="list-group">
-	          		<li class="list-group-item">分类名:<b><%= @decategory.name %></b></li>
-					<li class="list-group-item">分类代码:<b><%= @decategory.decategorycode %></b></li>
-				</ul>
-			</div>
-			<div class="panel panel-info">
-				<div class="panel-heading"><h3 class="panel-title">设备分类详情</h3></div>
-				<div class="panel-body">
-					父分类:<%= @parentcategory.nil? ? '顶级分类' : @parentcategory.name %>
-				</div>
-			</div>
-			<div class="panel panel-info">
-	        	<div class="panel-heading"><h3 class="panel-title">设备子分类</h3></div>
-	          	<ul class="list-group">
-	          		<% if @childcategories.blank? %>
-	          			<li class="list-group-item">没有子分类</li>
-	          		<% else %>
-	          			<% @childcategories.each do |category|%>
-							<li class="list-group-item">分类名:<%= category.name %><br>分类代码:<%= category.decategorycode %></li>
-						<% end %>
-	          		<% end %>
-					
-				</ul>
-	      	</div>
-			<div class="panel panel-info">
-				<div class="panel-heading"><h3 class="panel-title">添加子分类</h3></div>
-				<div class="panel-body">
-					<%= form_for @decategorynew, url: decategorys_addchildcategory_path, remote: true do |f| %>
-						<%= hidden_field_tag(:parent_id, @decategory.id) %>
-						<div class="form-group">
-							<label>设备分类名:</label><br>
-							<%= f.text_field :name, placeholder: "设备分类名", class: "form-control" %>
-							<br>
-							<label>设备分类代码:</label><br>
-							<%= f.text_field :decategorycode, placeholder: "设备分类代码", class: "form-control" %>
-						</div>
-						<%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
-					<% end %>
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-9 col-md-9">
-			<div class="alert alert-info">此类共有 <b><%= @decategorydevices.count %></b> 个设备</div>
-		    <div class="table-responsive">
-		        <table class="table table-striped">
-		            <thead>
-		                <tr><th><%= t("devicecode")%></th><th><%= t("devicename")%></th><th><%= t("deviceserviceno")%></th><th>使用者</th><th>设备状态</th><th>服务到期时间</th></tr>
-		            </thead>
-		            <tbody>
-		                <% @decategorydevices.each do |device| %>
-							<% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
-								<% danger = 'class= danger' %>
-							<% end %>
-							<tr <%= danger %> >
-								<td><%= link_to device.asset_code, device_path(device) %></td>
-								<td ><p><%= device.asset_name %></p></td>
-								<td ><p><%= device.service_sn %></p></td>
-								<td><%= user_name device.user_id %></td>
-								<td><%= device_status device.status %></td>
-								<td><%= device.scrap_date.try(:strftime, "%Y-%m-%d") %></td>
-							</tr>
-		                <% end %>
-		            </tbody>
-		        </table>
-		        <%= will_paginate @decategorydevices, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
-		        <br/><a href="<%= decategorys_path %>">>>返回设备分类列表</a>
-		    </div>
-		</div>
-	</div>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li><a href="<%= decategorys_path %>">设备分类</a></li>
+        <li class="active">设备分类详情</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="alert alert-danger" id="error-info" style="display: none;"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-3">
+      <div class="panel panel-info">
+        <div class="panel-heading"><h3 class="panel-title">分类详情</h3></div>
+        <ul class="list-group">
+          <li class="list-group-item">分类名:<b><%= @decategory.name %></b></li>
+          <li class="list-group-item">分类代码:<b><%= @decategory.decategorycode %></b></li>
+        </ul>
+      </div>
+      <div class="panel panel-info">
+        <div class="panel-heading"><h3 class="panel-title">设备分类详情</h3></div>
+        <div class="panel-body">
+          父分类:<%= @parentcategory.nil? ? '顶级分类' : @parentcategory.name %>
+        </div>
+      </div>
+      <div class="panel panel-info">
+        <div class="panel-heading"><h3 class="panel-title">设备子分类</h3></div>
+          <ul class="list-group">
+            <% if @childcategories.blank? %>
+              <li class="list-group-item">没有子分类</li>
+            <% else %>
+              <% @childcategories.each do |category|%>
+                <li class="list-group-item">分类名:<%= category.name %><br>分类代码:<%= category.decategorycode %></li>
+              <% end %>
+            <% end %>
+        </ul>
+      </div>
+      <div class="panel panel-info">
+        <div class="panel-heading"><h3 class="panel-title">添加子分类</h3></div>
+        <div class="panel-body">
+          <%= form_for @decategorynew, url: decategorys_addchildcategory_path, remote: true do |f| %>
+            <%= hidden_field_tag(:parent_id, @decategory.id) %>
+            <div class="form-group">
+              <label>设备分类名:</label><br>
+              <%= f.text_field :name, placeholder: "设备分类名", class: "form-control" %>
+              <br>
+              <label>设备分类代码:</label><br>
+              <%= f.text_field :decategorycode, placeholder: "设备分类代码", class: "form-control" %>
+            </div>
+            <%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-9 col-md-9">
+      <div class="alert alert-info">此类共有 <b><%= @decategorydevices.count %></b> 个设备</div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr><th><%= t("devicecode")%></th><th><%= t("devicename")%></th><th><%= t("deviceserviceno")%></th><th>使用者</th><th>设备状态</th><th>服务到期时间</th></tr>
+                </thead>
+                <tbody>
+                    <% @decategorydevices.each do |device| %>
+              <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
+                <% danger = 'class= danger' %>
+              <% end %>
+              <tr <%= danger %> >
+                <td><%= link_to device.asset_code, device_path(device) %></td>
+                <td ><p><%= device.asset_name %></p></td>
+                <td ><p><%= device.service_sn %></p></td>
+                <td><%= user_name device.user_id %></td>
+                <td><%= device_status device.status %></td>
+                <td><%= device.scrap_date.try(:strftime, "%Y-%m-%d") %></td>
+              </tr>
+                    <% end %>
+                </tbody>
+            </table>
+            <%= will_paginate @decategorydevices, renderer: WillPaginate::ActionView::BlogLinkRenderer %>
+            <br/><a href="<%= decategorys_path %>">>>返回设备分类列表</a>
+        </div>
+    </div>
+  </div>
 </div>
-

@@ -19,15 +19,15 @@
                   <tr><th>#</th><th>网站名称</th><th>网址</th><th>介绍</th><th>请求者</th><th>是否添加</th></tr>
               </thead>
               <tbody>
-            		<% @white_lists.each do |white_list| %>
-            			<tr>
+                <% @white_lists.each do |white_list| %>
+                  <tr>
                     <td><%= white_list.id %></td>
-        	    			<td><%= link_to white_list.web_name, "#{white_list.url}" %></td>
-        	    			<td><%= white_list.url %></td>
+                    <td><%= link_to white_list.web_name, "#{white_list.url}" %></td>
+                    <td><%= white_list.url %></td>
                     <td><%= white_list.introduce %></td>
                     <td><%= white_list.requester %></td>
                     <td><%= white_list.is_add == 0 ? "未添加" : "已添加" %></td>
-          		    </tr>
+                  </tr>
                 <% end %>
               </tbody>
             </table>

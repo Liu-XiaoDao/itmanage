@@ -12,7 +12,7 @@ class Decategory < ApplicationRecord
                   presence: true
   #分类代码,不能为空,可以重复,长度2-10
   validates :decategorycode,  length: { in: 2..10 },
-                  			  presence: true
+                          presence: true
 
 
   def self.alltree

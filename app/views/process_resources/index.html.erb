@@ -6,8 +6,8 @@
     <div class="col-md-12">
       <ul class="breadcrumb">
         <li><a href="/">主页</a></li>
-				<li><a href="<%= process_managements_path %>">流程管理</a></li>
-				<li class="active">流程资源列表</li>
+        <li><a href="<%= process_managements_path %>">流程管理</a></li>
+        <li class="active">流程资源列表</li>
       </ul>
     </div>
   </div>
@@ -41,7 +41,7 @@
                 <td><%= process_resource.default %></td>
                 <td><%= process_resource.enable %></td>
                 <td><%= link_to '修改', edit_process_management_process_resource_path(@entryprocess,process_resource) %></td>
-    			      <td><%= link_to '删除', process_management_process_resource_path(@entryprocess,process_resource), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                <td><%= link_to '删除', process_management_process_resource_path(@entryprocess,process_resource), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
               </tr>
             <% end %>
           </tbody>

@@ -1,68 +1,68 @@
 <% provide :c_active, "set" %>
 <% provide :pre_title, "流程管理" %>
 <div class="container" style="padding-top:70px;">
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="breadcrumb">
-				<li><a href="/">主页</a></li>
-				<li><a href="<%= process_managements_path %>">流程管理</a></li>
-				<li class="active">新建流程</li>
-			</ul>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
-			<% if @entryproces && @entryproces.errors.any? %>
-				<div id="error-info" class="alert alert-danger">
-					<div class="form-error">
-						<span class="form-error-field"><%= @entryproces.errors.full_messages[0] %></span>
-						<span class="glyphicon glyphicon-info-sign icon"></span>
-					</div>
-				</div>
-			<% end %>
-			<div class="panel panel-primary">
-				<div class="panel-heading"><h3 class="panel-title">新建流程</h3></div>
-				<div class="panel-body">
-					<%= form_for @entryproces, url: process_managements_path do |u| %>
-						<div id="error-info" class="alert alert-danger" style="display: none;"></div>
-						<div class="form-group">
-							<label>流程名:</label><br>
-							<%= u.text_field  :process_name, placeholder: "流程名", class: "form-control" %>
-						</div>
-						<div class="form-group">
-							<label>流程顺序:</label><br>
-							<%= u.text_field  :display_order, placeholder: "显示顺序", class: "form-control" %>
-						</div>
-						<div class="form-group">
-							<label>负责人:</label><br>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li><a href="<%= process_managements_path %>">流程管理</a></li>
+        <li class="active">新建流程</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <% if @entryproces && @entryproces.errors.any? %>
+        <div id="error-info" class="alert alert-danger">
+          <div class="form-error">
+            <span class="form-error-field"><%= @entryproces.errors.full_messages[0] %></span>
+            <span class="glyphicon glyphicon-info-sign icon"></span>
+          </div>
+        </div>
+      <% end %>
+      <div class="panel panel-primary">
+        <div class="panel-heading"><h3 class="panel-title">新建流程</h3></div>
+        <div class="panel-body">
+          <%= form_for @entryproces, url: process_managements_path do |u| %>
+            <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+            <div class="form-group">
+              <label>流程名:</label><br>
+              <%= u.text_field  :process_name, placeholder: "流程名", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <label>流程顺序:</label><br>
+              <%= u.text_field  :display_order, placeholder: "显示顺序", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <label>负责人:</label><br>
               <%= u.select :responsible, User.all.collect { |u| [ u.username, u.id ] }, {include_blank: true}, {placeholder: "供应商名称", class: "form-control pull_select"} %>
-						</div>
-						<div class="form-group">
-							<label>是否启用:</label><br>
+            </div>
+            <div class="form-group">
+              <label>是否启用:</label><br>
               <%= u.select :enable, { "启用":1,"不起用":0 }, {include_blank: true}, {placeholder: "供应商名称", class: "form-control pull_select"} %>
-						</div>
-						<%= u.submit  "确定添加", class: "btn btn-primary btn-block" %>
-					<% end %>
-					<br/><a href="<%= process_managements_path %>">>>返回列表</a>
-				</div>
-			</div>
-		</div>
-	</div>
+            </div>
+            <%= u.submit  "确定添加", class: "btn btn-primary btn-block" %>
+          <% end %>
+          <br/><a href="<%= process_managements_path %>">>>返回列表</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script type="text/javascript">
-	$('.form_datetime').datetimepicker({
-			format: 'yyyy-mm-dd',
-			minView: "month",
-			language: 'zh-CN',
-			weekStart: 1,
-			todayBtn:  1,
-			autoclose: 1,
-			todayHighlight: 1,
-			startView: 2,
-			forceParse: 0,
-			showMeridian: 1
-	});
-	$(function(){
-		$('.pull_select').searchableSelect();
-	});
+  $('.form_datetime').datetimepicker({
+      format: 'yyyy-mm-dd',
+      minView: "month",
+      language: 'zh-CN',
+      weekStart: 1,
+      todayBtn:  1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      forceParse: 0,
+      showMeridian: 1
+  });
+  $(function(){
+    $('.pull_select').searchableSelect();
+  });
 </script>
