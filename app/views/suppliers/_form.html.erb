@@ -1,0 +1,24 @@
+<%= form_for @supplier do |u| %>
+  <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+  <div class="form-group">
+    <label>产品名称:</label><br>
+    <%= u.text_field  :product_name, placeholder: "产品名称", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <label>供应商名称:</label><br>
+    <%= u.text_field :supplier_name, placeholder: "供应商名称", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <label>联系人:</label><br>
+    <%= u.text_field :contact, placeholder: "联系人", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <label>联系方式:</label><br>
+    <%= u.text_field :contact_information, placeholder: "联系方式", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <label>备注:</label><br>
+    <%= u.text_field :note, placeholder: "备注", class: "form-control" %>
+  </div>
+  <%= u.submit  "提交", class: "btn btn-primary btn-block" %>
+<% end %>
