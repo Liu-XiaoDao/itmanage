@@ -26,6 +26,7 @@ class UsersController < ApplicationController
     @departments = Department.leafdepartment
     #所有权限
     @roles = Role.all
+    @my_roles = @user.roles
   end
 
   #保存新员工
@@ -45,6 +46,7 @@ class UsersController < ApplicationController
       @departments = Department.leafdepartment
       #所有权限
       @roles = Role.all
+      @my_roles = @user.roles
       render :new
     end
   end

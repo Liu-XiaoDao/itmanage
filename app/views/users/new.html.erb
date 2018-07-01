@@ -12,121 +12,14 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
-      <% if @user && @user.errors.any? %>
-        <div id="error-info" class="alert alert-danger">
-          <div class="form-error">
-            <span class="form-error-field"><%= @user.errors.full_messages[0] %></span>
-            <span class="glyphicon glyphicon-info-sign icon"></span>
-          </div>
-        </div>
-      <% end %>
+      <%= render "error_msg", user: @user %>
       <div class="panel panel-primary">
         <div class="panel-heading"><h3 class="panel-title">添加新员工</h3></div>
         <div class="panel-body">
-          <%= form_for @user, url: users_path do |u| %>
-            <div id="error-info" class="alert alert-danger" style="display: none;"></div>
-            <div class="form-group">
-                <label for="department_id">员工部门:</label><br>
-                <select class="form-control" name="user[department_id]" id="department_id">
-                  <option value="">请选择部门</option>
-                  <% @departments.each do |department| %>
-                      <option value="<%= department.id %>"><%= parentdepartment_name department.id %></option>
-                  <% end %>
-                </select>
-            </div>
-            <div class="form-group">
-              <label>姓名:</label><br>
-              <%= u.text_field  :username, placeholder: "员工姓名", class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <label>邮箱:</label><br>
-              <%= u.text_field  :email, placeholder: "员工邮箱", class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <label>职位:</label><br>
-              <%= u.text_field :position, placeholder: "员工职位", class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <label>所属角色:</label><br>
-              <% @roles.each do |role| %>
-                  <label>
-                    <input name="roles[]" type="checkbox" value="<%= role.id %>" />
-                    <%= role.role_name %>
-                  </label>
-              <% end %>
-            </div>
-            <%= u.submit  "确定添加", class: "btn btn-primary btn-block" %>
-          <% end %>
+          <%= render "form", user: @user %>
           <br/><a href="<%= users_path %>">>>返回用户列表</a>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-
-  $('#user_username').change(function () {
-      var chinaName = $('#user_username').val();
-      if (chinaName.length == 4) {
-        var last_name = chinaName.substr(0,2)
-        var first_name = chinaName.substr(2)
-      }else {
-        var last_name = chinaName.substr(0,1)
-        var first_name = chinaName.substr(1)
-      }
-      //获取全写拼音（调用js中方法）
-      var en_last_name = pinyin.getFullChars(last_name);
-      var en_first_name = pinyin.getFullChars(first_name);
-
-      $('#user_email').val(en_first_name + '.' + en_last_name + '@abcam.com');
-  });
-
-</script>
-
-<!-- 搜索设备的三个下拉框 -->
-<script>
-  $(function(){
-    $('#department_id').searchableSelect();
-  });
-</script>
-<!-- 样式 -->
-<style>
-  label {
-    display: inline-block;
-    width: 240px;
-    padding: 2px 5px;
-  }
-  label input {
-    margin-right: 5px;
-  }
-</style>
-<!-- 设备分配Ajax获得设备 -->
-<!-- <script>
-    function show_position(ele) {
-      var selfsele = $(ele);
-        $.ajax({
-            type : "GET",
-            url : "<%= ajaxgetlowerdepartments_path %>",
-            data : {
-                'parent_id':$(ele).val()
-            },
-            dataType : "JSON",
-            success : function(result){
-                if(!result.status){
-                    var str = '';
-                    $.each(result.lowerdepartments,function (i,value) {
-                      str += '<option value ="'+value.id+'">'+value.department_name+'</option>';
-                    });
-                    var selectstr = '<select  class="form-control" name="user[department_id]" onchange="show_position(this)"></select>';
-
-                    selfsele.after($(selectstr).html(str));
-                }else{
-                    if(result.msg){
-                        alert(result.msg);
-                    }
-                }
-            }
-        });
-    }
-</script> -->
