@@ -89,4 +89,15 @@ class StatisticsController < ApplicationController
     #本部门及下级部门所有员工
     @departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id where users.is_quit = 0 AND departments.pgcode like '#{@department.pgcode}%'")
   end
+
+
+  def statistics_user
+    if params[:id] == '0'
+      @user = User.new(username: "无")
+      @understrappers = User.where(is_quit: 0).where("leader_id IS NULL")
+    else
+      @user = User.find params[:id]
+      @understrappers = @user.understrappers
+    end
+  end
 end

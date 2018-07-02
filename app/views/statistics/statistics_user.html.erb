@@ -1,0 +1,51 @@
+<% provide :c_active, "statistics" %>
+<% provide :pre_title, "统计" %>
+<% @user_model_config_index = current_user.user_model_configs.where(model: "custom_statistics").first  %>
+<div class="container" style="padding-top:70px;">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li><a href="<%= statistics_path %>">统计</a></li>
+        <li class="active">部门设备统计</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="alert alert-info">当前领导:<%= @user.username%></div>
+      <div class="table-responsive" style="padding-top: 20px;">
+        <table class="table table-striped">
+          <thead>
+            <tr><th><%= t("name")%></th><th><%= t("devicecount")%></th><th>设备列表</th></tr>
+          </thead>
+          <tbody>
+            <% @understrappers.each do |user| %>
+              <tr>
+                <td><%= link_to user.username, statistics_user_statistic_path(user) %></td>
+                <td>
+                  <%if @user_model_config_index.fields.present? %>
+                    <%= user.statistic_devices(@user_model_config_index.fields).count %>
+                  <% elsif %>
+                    <%= user.statistic_devices([1,2]).count %>
+                  <% end %>
+                </td>
+                <td>
+                  <%if @user_model_config_index.fields.present? %>
+                    <% user.statistic_devices(@user_model_config_index.fields).each do |device| %>
+                      <%= device_assetno device.id %><%= "(员工借用)" if device.status == 3 %><%= "(接设备使用)" if device.status == 4 %>&nbsp;&nbsp;
+                    <% end %>
+                  <% elsif %>
+                    <% user.statistic_devices([1,2]).each do |device| %>
+                      <%= device_assetno device.id %><%= "(员工借用)" if device.status == 3 %><%= "(接设备使用)" if device.status == 4 %>&nbsp;&nbsp;
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

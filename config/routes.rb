@@ -124,7 +124,9 @@ Rails.application.routes.draw do
   resources :logs
 
   resources :suppliers
-  resources :statistics
+  resources :statistics do
+    get 'statistics_user', on: :member
+  end
   resources :user_model_configs
   resources :employee_inductions
   resources :process_managements do
