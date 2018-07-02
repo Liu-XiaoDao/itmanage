@@ -12,29 +12,11 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
-      <% if @right && @right.errors.any? %>
-        <div id="error-info" class="alert alert-danger">
-          <div class="form-error">
-            <span class="form-error-field"><%= @right.errors.full_messages[0] %></span>
-            <span class="glyphicon glyphicon-info-sign icon"></span>
-          </div>
-        </div>
-      <% end %>
+      <%= render "error_msg" %>
       <div class="panel panel-primary">
         <div class="panel-heading"><h3 class="panel-title">添加权限</h3></div>
         <div class="panel-body">
-          <%= form_for @right, url: rights_path do |u| %>
-            <div id="error-info" class="alert alert-danger" style="display: none;"></div>
-            <div class="form-group">
-              <label>权限名称:</label><br>
-              <%= u.text_field  :right_name, placeholder: "权限名称", class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <label>权限:</label><br>
-              <%= u.text_field  :right, placeholder: "权限(控制器名@方法名)", class: "form-control" %>
-            </div>
-            <%= u.submit  "确定添加", class: "btn btn-primary btn-block" %>
-          <% end %>
+          <%= render "form" %>
           <br/><a href="<%= rights_path %>">>>返回权限列表</a>
         </div>
       </div>
