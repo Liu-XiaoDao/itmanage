@@ -1,0 +1,12 @@
+<%= form_for @right do |u| %>
+  <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+  <div class="form-group">
+    <label>权限名称:</label><br>
+    <%= u.text_field  :right_name, placeholder: "权限名称", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <label>权限:</label><br>
+    <%= u.text_field  :right, placeholder: "权限(控制器名@方法名)", class: "form-control" %>
+  </div>
+  <%= u.submit  "保存", class: "btn btn-primary btn-block" %>
+<% end %>

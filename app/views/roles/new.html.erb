@@ -12,14 +12,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
-      <% if @role && @role.errors.any? %>
-        <div id="error-info" class="alert alert-danger">
-          <div class="form-error">
-            <span class="form-error-field"><%= @role.errors.full_messages[0] %></span>
-            <span class="glyphicon glyphicon-info-sign icon"></span>
-          </div>
-        </div>
-      <% end %>
+      <%= render "error_msg", role: @role %>
       <div class="panel panel-primary">
         <div class="panel-heading"><h3 class="panel-title">添加角色</h3></div>
         <div class="panel-body">
