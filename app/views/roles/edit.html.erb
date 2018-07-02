@@ -1,50 +1,42 @@
 <% provide :c_active, "set" %>
 <% provide :pre_title, "角色管理" %>
 <div class="container" style="padding-top:70px;">
-    <div class="row">
-        <div class="col-md-12">
-            <ul class="breadcrumb">
-                <li><a href="/">主页</a></li>
-                <li><a href="<%= roles_path %>">角色管理</a></li>
-                <li class="active">修改角色</li>
-            </ul>
-        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li><a href="<%= roles_path %>">角色管理</a></li>
+        <li class="active">修改角色</li>
+      </ul>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <% flash.each do |name, msg| %>
-                <div  class="alert alert-<%= name %>"><%= msg %></div>
-            <% end %>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <!-- <div class="alert alert-info">部门共有 <b><%= 10 %></b> 个员工</div> -->
-            <div class="panel panel-primary">
-              <div class="panel-heading"><h3 class="panel-title">角色</h3></div>
-              <div class="panel-body">
-                <%= form_for @role, url: role_path do |r| %>
-                  <div class="form-group">
-                    <label>角色名称:</label><br>
-                    <%= r.text_field  :role_name, placeholder: " 角色名称", class: "form-control" %>
-                  </div>
-                  <div class="form-group">
-                    <label>拥有权限:</label><br>
-                    <% @rights.each do |right| %>
-                        <label>
-                          <input name="rights[]" type="checkbox" value="<%= right.id %>" <%= @my_rights.include?(right) ? "checked=checked" : '' %> />
-                          <%= right.right_name %>
-                        </label>
-                    <% end %>
-                  </div>
-
-                  <%= r.submit  "提交", class: "btn btn-primary btn-block" %>
-                <% end %>
-              </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <%= render "error_msg", role: @role %>
+      <div class="panel panel-primary">
+        <div class="panel-heading"><h3 class="panel-title">角色</h3></div>
+        <div class="panel-body">
+          <%= form_for @role, url: role_path do |r| %>
+            <div class="form-group">
+              <label>角色名称:</label><br>
+              <%= r.text_field  :role_name, placeholder: " 角色名称", class: "form-control" %>
             </div>
-
+            <div class="form-group">
+              <label>拥有权限:</label><br>
+              <% @rights.each do |right| %>
+                <label>
+                  <input name="rights[]" type="checkbox" value="<%= right.id %>" <%= @my_rights.include?(right) ? "checked=checked" : '' %> />
+                  <%= right.right_name %>
+                </label>
+              <% end %>
+            </div>
+            <%= r.submit  "提交", class: "btn btn-primary btn-block" %>
+          <% end %>
         </div>
+      </div>
+
     </div>
+  </div>
 </div>
 <!-- 样式 -->
 
@@ -58,9 +50,3 @@
     margin-right: 5px;
   }
 </style>
-<!-- 添加下级部门时,选择部门经理下拉框 -->
-<script>
-  $(function(){
-    $('#departmentmanager').searchableSelect();
-  });
-</script>
