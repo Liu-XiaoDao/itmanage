@@ -1,14 +1,7 @@
 <% provide :c_active, "set" %>
 <% provide :pre_title, "权限管理" %>
 <div class="container" style="padding-top:70px;">
-  <div class="row">
-    <div class="col-md-12">
-      <ul class="breadcrumb">
-        <li><a href="/">主页</a></li>
-        <li class="active">权限管理</li>
-      </ul>
-    </div>
-  </div>
+  <%= render "shared/page_header", second_url: nil, second_title: "权限管理", third_title: nil %>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <% flash.each do |name, msg| %>
