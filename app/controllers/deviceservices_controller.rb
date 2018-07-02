@@ -92,9 +92,9 @@ class DeviceservicesController < ApplicationController
       @olddevice.scrap_date = @deviceservice.devicescraptime
       #旧设备根据原始设备维保到期时间修改,是否到期状态
       if (@olddevice.scrap_date - Time.now) < 0
-      	@olddevice.is_scrap = 0
+        @olddevice.is_scrap = 0
       else
-      	@olddevice.is_scrap = 1
+        @olddevice.is_scrap = 1
       end
       @olddevice.save  #旧设备保存
 

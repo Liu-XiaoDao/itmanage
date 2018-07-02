@@ -11,8 +11,8 @@ class Partcategory < ApplicationRecord
                   length: { minimum: 2 },
                   presence: true
   validates :partcategorycode,  uniqueness: { case_sensitive: false },
-                  			length: { in: 2..10 },
-                  			presence: true
+                  length: { in: 2..10 },
+                  presence: true
 
 
   def self.alltree

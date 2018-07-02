@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
       <div class="alert alert-info">
-      	系统共有 <b><%= @authorizations.count %></b> 种授权<a href="<%= new_authorization_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加授权</a>
+        系统共有 <b><%= @authorizations.count %></b> 种授权<a href="<%= new_authorization_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加授权</a>
       </div>
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
@@ -27,17 +27,17 @@
               <tr><th>授权名</th><th>厂商</th><th>结束时间</th><th>授权数量</th><th>可用数量</th><th>操作</th></tr>
           </thead>
           <tbody>
-    			  <% @authorizations.each do |authorization| %>
-    			    <tr>
+            <% @authorizations.each do |authorization| %>
+              <tr>
                 <td><%= link_to authorization.name, authorization_path(authorization) %></td>
-    			      <td><%= authorization.manufacturer %></td>
+                <td><%= authorization.manufacturer %></td>
                 <td><%= authorization.end_date %></td>
-    			      <td><%= authorization.amount %></td>
+                <td><%= authorization.amount %></td>
                 <td><%= authorization.available_quantity %></td>
-    			      <td><%= link_to '修改', edit_authorization_path(authorization) %></td>
-    			      <td><%= link_to '删除', authorization_path(authorization), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
-    			    </tr>
-    			  <% end %>
+                <td><%= link_to '修改', edit_authorization_path(authorization) %></td>
+                <td><%= link_to '删除', authorization_path(authorization), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
       </div>

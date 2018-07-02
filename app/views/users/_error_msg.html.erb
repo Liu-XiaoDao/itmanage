@@ -1,0 +1,8 @@
+<% if user && user.errors.any? %>
+  <div id="error-info" class="alert alert-danger">
+    <div class="form-error">
+      <span class="form-error-field"><%= user.errors.full_messages[0] %></span>
+      <span class="glyphicon glyphicon-info-sign icon"></span>
+    </div>
+  </div>
+<% end %>

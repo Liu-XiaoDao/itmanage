@@ -3,128 +3,128 @@
 
 
 <div class="container" style="padding-top:70px;" >
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="breadcrumb">
-				<li><a href="/">主页</a></li>
-				<li><a href="<%= otherservices_path %>">其他服务</a></li>
-				<li class="active">服务详情</li>
-			</ul>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12 col-md-12">
-			<% flash.each do |name, msg| %>
-				<div  class="alert alert-<%= name %>"><%= msg %></div>
-			<% end %>
-		</div>
-	</div>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li><a href="<%= otherservices_path %>">其他服务</a></li>
+        <li class="active">服务详情</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <% flash.each do |name, msg| %>
+        <div  class="alert alert-<%= name %>"><%= msg %></div>
+      <% end %>
+    </div>
+  </div>
     <div class="row">
-    	<div class="col-sm-12 col-md-12 center-block">
-	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">服务详情</h3></div>
-				<div class="panel-body">
-					<%= form_for @otherservice,  remote: true do |f| %>
-						<div class="row">
-							<div class="col-sm-6 col-md-6">
-								<div class="form-group">
-									<label>服务名称:</label><br>
-									<%= f.text_field :servicename, class: "form-control form-input-normal" %>
-								</div>
-								<div class="form-group">
-									<label>价格:</label><br>
-									<%= f.text_field :price, placeholder: "价格", class: "form-control" %>
-								</div>
-								<div class="form-group">
-									<label>服务结束时间:</label><br>
-									<%= f.text_field :end_date, class: "form-control form-input-normal" %>
-								</div>
-								<div class="form-group">
-									<label>是否提醒:</label><br>
-									<%= f.text_field :closeremind, placeholder: "是否提醒", class: "form-control" %>
-								</div>
-								<div class="form-group">
-									<label>服务周期:</label><br>
-									<%= f.text_field :months, placeholder: "服务周期(多少个月)", class: "form-control" %>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-6">
-								<div class="form-group">
-									<label>服务提供商:</label><br>
-									<%= f.text_field :serviceprovider, placeholder: "服务提供商", class: "form-control" %>
-								</div>
-								<div class="form-group">
-									<label>服务开始时间:</label><br>
-									<%= f.text_field :begin_date, class: "form-control form-input-normal" %>
-								</div>
-								<div class="form-group">
-									<label>服务描述:</label><br>
-									<%= f.text_area :describe, placeholder: "服务描述", class: "form-control", rows: "4" %>
-								</div>
-								<div class="form-group">
-									<label>服务提醒时间:</label><br>
-									<%= f.text_field :remindtime, placeholder: "服务提醒时间", class: "form-control" %>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12 col-md-12">
-								<div class="form-group">
-									<a href="<%= set_remind_otherservice_path(@otherservice) %>"  class="btn btn-primary submit" style="color: #fff; ">关闭此服务</a>
-									<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; ">延长服务周期</a>
-								</div>
-							</div>
-						</div>
-					<% end %>
-				</div>
-				<div class="panel-body">
-					<div class="table-responsive">
-						<table class="table table-striped table-hover">
-							<thead>
-								<tr><th>开始时间</th><th>结束时间</th><th>价格</th><th>备注</th><th>服务之前的到期时间</th><th>操作</th></tr>
-							</thead>
-							<tbody>
-								<% @oslengthens.each_with_index  do |oslengthen,index| %>
-									<tr>
-										<td><%= oslengthen.bagindate.try(:strftime, "%Y-%m-%d") %></td>
-										<td><%= oslengthen.enddate.try(:strftime, "%Y-%m-%d") %></td>
-										<td><%= oslengthen.price %></td>
-										<td><%= oslengthen.note %></td>
-										<td><%= oslengthen.serviceenddate %></td>
-										<% if index == 0 %>
-											<td><%= link_to '删除', "/otherservices/lengthendestory/#{@otherservice.id}/#{oslengthen.id}", method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
-										<% else %>
-											<td></td>
-										<% end %>
-									</tr>
-								<% end %>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="row" style="margin: 0 15px; ">
-					<h4>相关附件:</h4>
-					<% @images.each do |image|%>
-				     <a href="<%= image.filepath %>" class="thumbnail" target="black" onclick="window.open(this.href,'popup','width=500,height=500,top=0,left=800');return false">
-				        <%= image.original %>
-				     </a>
-					<% end %>
-				  <%= form_for @otherservice, url: upload_img_otherservice_path(@otherservice), method: :post, html:{ multipart: true } do |f| %>
-						<div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
-					     <%= content_tag :span, "上传文件", id: "upload-avatar-btn", class: "btn avatar-btn", style: "color: red;" %>
-						   <%= f.file_field :describe,  class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
-							 <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
-					  </div>
-						<% end %>
-				</div>
-	     </div>
-    	</div>
+      <div class="col-sm-12 col-md-12 center-block">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h3 class="panel-title">服务详情</h3></div>
+        <div class="panel-body">
+          <%= form_for @otherservice,  remote: true do |f| %>
+            <div class="row">
+              <div class="col-sm-6 col-md-6">
+                <div class="form-group">
+                  <label>服务名称:</label><br>
+                  <%= f.text_field :servicename, class: "form-control form-input-normal" %>
+                </div>
+                <div class="form-group">
+                  <label>价格:</label><br>
+                  <%= f.text_field :price, placeholder: "价格", class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <label>服务结束时间:</label><br>
+                  <%= f.text_field :end_date, class: "form-control form-input-normal" %>
+                </div>
+                <div class="form-group">
+                  <label>是否提醒:</label><br>
+                  <%= f.text_field :closeremind, placeholder: "是否提醒", class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <label>服务周期:</label><br>
+                  <%= f.text_field :months, placeholder: "服务周期(多少个月)", class: "form-control" %>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="form-group">
+                  <label>服务提供商:</label><br>
+                  <%= f.text_field :serviceprovider, placeholder: "服务提供商", class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <label>服务开始时间:</label><br>
+                  <%= f.text_field :begin_date, class: "form-control form-input-normal" %>
+                </div>
+                <div class="form-group">
+                  <label>服务描述:</label><br>
+                  <%= f.text_area :describe, placeholder: "服务描述", class: "form-control", rows: "4" %>
+                </div>
+                <div class="form-group">
+                  <label>服务提醒时间:</label><br>
+                  <%= f.text_field :remindtime, placeholder: "服务提醒时间", class: "form-control" %>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                  <a href="<%= set_remind_otherservice_path(@otherservice) %>"  class="btn btn-primary submit" style="color: #fff; ">关闭此服务</a>
+                  <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; ">延长服务周期</a>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr><th>开始时间</th><th>结束时间</th><th>价格</th><th>备注</th><th>服务之前的到期时间</th><th>操作</th></tr>
+              </thead>
+              <tbody>
+                <% @oslengthens.each_with_index  do |oslengthen,index| %>
+                  <tr>
+                    <td><%= oslengthen.bagindate.try(:strftime, "%Y-%m-%d") %></td>
+                    <td><%= oslengthen.enddate.try(:strftime, "%Y-%m-%d") %></td>
+                    <td><%= oslengthen.price %></td>
+                    <td><%= oslengthen.note %></td>
+                    <td><%= oslengthen.serviceenddate %></td>
+                    <% if index == 0 %>
+                      <td><%= link_to '删除', "/otherservices/lengthendestory/#{@otherservice.id}/#{oslengthen.id}", method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row" style="margin: 0 15px; ">
+          <h4>相关附件:</h4>
+          <% @images.each do |image|%>
+             <a href="<%= image.filepath %>" class="thumbnail" target="black" onclick="window.open(this.href,'popup','width=500,height=500,top=0,left=800');return false">
+                <%= image.original %>
+             </a>
+          <% end %>
+          <%= form_for @otherservice, url: upload_img_otherservice_path(@otherservice), method: :post, html:{ multipart: true } do |f| %>
+            <div class="avatar-upload" style="text-align: center;padding-bottom: 15px;">
+               <%= content_tag :span, "上传文件", id: "upload-avatar-btn", class: "btn avatar-btn", style: "color: red;" %>
+               <%= f.file_field :describe,  class: "input-hidden", id: "upload-avatar-input", style: 'display: none;' %>
+               <%= f.submit '', style: "visibility: hidden;", id: "avatar-submit" %>
+            </div>
+            <% end %>
+        </div>
+       </div>
+      </div>
     </div>
 </div>
 <script type="text/javascript">
-	$(".avatar-upload").on("click", "#upload-avatar-btn", function(){
-		$("#upload-avatar-input").click()
-	});
+  $(".avatar-upload").on("click", "#upload-avatar-btn", function(){
+    $("#upload-avatar-input").click()
+  });
 </script>
 
 <script>
@@ -143,61 +143,61 @@
 
 <!-- 延长服务时间的方法 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">延长服务周期</h4>
-			</div>
-			<%= form_for @oslengthen, url: lengthen_otherservice_path(@otherservice) do |f| %>
-				<div class="modal-body" style="padding: 15px;">
-					<div class="form-group">
-						<label for="time" class="control-label">开始日期:&nbsp;</label>
-						<div class="input-group controls input-append date form_datetime" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-							<input type="text" class="form-control" size="16" readonly name="oslengthen[bagindate]">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
-							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="time" class="control-label">结束日期:&nbsp;</label>
-						<div class="input-group controls input-append date form_datetime" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-							<input type="text" class="form-control" size="16" readonly name="oslengthen[enddate]">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
-							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						</div>
-					</div>
-					<div class="form-group">
-						<label>价格:</label><br>
-						<%= f.number_field :price, placeholder: "价格", class: "form-control" %>
-					</div>
-					<div class="form-group">
-						<label>备注:</label><br>
-						<%= f.text_area :note, placeholder: "备注", class: "form-control" %>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="submit" class="btn btn-primary">添加</button>
-				</div>
-			<% end %>
-		</div>
-	</div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">延长服务周期</h4>
+      </div>
+      <%= form_for @oslengthen, url: lengthen_otherservice_path(@otherservice) do |f| %>
+        <div class="modal-body" style="padding: 15px;">
+          <div class="form-group">
+            <label for="time" class="control-label">开始日期:&nbsp;</label>
+            <div class="input-group controls input-append date form_datetime" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+              <input type="text" class="form-control" size="16" readonly name="oslengthen[bagindate]">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="time" class="control-label">结束日期:&nbsp;</label>
+            <div class="input-group controls input-append date form_datetime" data-date="2017-12-7T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+              <input type="text" class="form-control" size="16" readonly name="oslengthen[enddate]">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>价格:</label><br>
+            <%= f.number_field :price, placeholder: "价格", class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <label>备注:</label><br>
+            <%= f.text_area :note, placeholder: "备注", class: "form-control" %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-primary">添加</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 
 
 <script type="text/javascript">
-	$('.form_datetime').datetimepicker({
-		format: 'yyyy-mm-dd',
-		minView: "month",
-		language: 'zh-CN',
-		weekStart: 1,
-		todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 2,
-		forceParse: 0,
-		showMeridian: 1
-	});
+  $('.form_datetime').datetimepicker({
+    format: 'yyyy-mm-dd',
+    minView: "month",
+    language: 'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
+  });
 </script>

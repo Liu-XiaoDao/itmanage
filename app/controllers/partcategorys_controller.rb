@@ -3,11 +3,11 @@ class PartcategorysController < ApplicationController
   layout 'home'
   #配件所有分类列表
   def index
-  	@partcategorys = Partcategory.all.paginate page: params[:page], per_page: 15
+    @partcategorys = Partcategory.all.paginate page: params[:page], per_page: 15
   end
   #新建配件分类页面
   def new
-  	@partcategory = Partcategory.new
+    @partcategory = Partcategory.new
   end
   #添加配件分类
   def create
@@ -95,7 +95,7 @@ class PartcategorysController < ApplicationController
   def editpartcategorycode
     @partcategory = Partcategory.find params[:id]
     @partcategory.partcategorycode = params[:partcategorycode]
-    @partcategory.save 
+    @partcategory.save
   end
 
   def destroy
@@ -109,10 +109,10 @@ class PartcategorysController < ApplicationController
       flash[:danger] = "配件分类删除失败"
       redirect_to partcategorys_path
     end
-      
+
   end
 
-  private 
+  private
     def partcategory_params
       params.require(:partcategory).permit(:name,:partcategorycode)
     end

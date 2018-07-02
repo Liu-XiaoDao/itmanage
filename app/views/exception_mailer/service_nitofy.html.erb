@@ -18,18 +18,18 @@
         <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">服务开始时间</th>
         <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">服务到期时间</th>
         <th style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;border-width: 1px;border-style: solid;border-color: #eee;text-align: left;font-weight: 400; display: table-cell;   ">描述</th>
-      </tr> 
+      </tr>
     </thead>
     <tbody style="display: table-row-group;vertical-align: middle;border-color: inherit; ">
       <% @services.each do |service| %>
-	    <tr style="-webkit-transition: all .3s;display: table-row;vertical-align: inherit;border-color: inherit; ">
-	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.servicename %></td>
-	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.serviceprovider %></td>
+      <tr style="-webkit-transition: all .3s;display: table-row;vertical-align: inherit;border-color: inherit; ">
+          <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.servicename %></td>
+          <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.serviceprovider %></td>
           <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.begin_date.try(:strftime, "%Y-%m-%d") %></td>
-	        <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.end_date.try(:strftime, "%Y-%m-%d") %></td>
+          <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.end_date.try(:strftime, "%Y-%m-%d") %></td>
           <td style="position: relative;padding: 9px 15px;min-height: 20px;line-height: 20px;font-size: 14px;    border-width: 1px;border-style: solid;border-color: #eee;      display: table-cell; "><%= service.describe %></td>
-	    </tr>
-	  <% end %>
+      </tr>
+    <% end %>
     </tbody>
   </table>
 </div>

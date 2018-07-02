@@ -1,53 +1,53 @@
 <% provide :c_active, "set" %>
 <% provide :pre_title, "添加流程资源" %>
 <div class="container" style="padding-top:70px;">
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="breadcrumb">
-				<li><a href="/">主页</a></li>
-				<li><a href="<%= process_managements_path %>">流程管理</a></li>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li><a href="<%= process_managements_path %>">流程管理</a></li>
         <li><a href="<%= process_management_process_resources_path(@entryprocess) %>">流程资源列表</a></li>
-				<li class="active">添加流程资源</li>
-			</ul>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
-			<% if @process_resource && @process_resource.errors.any? %>
-				<div id="error-info" class="alert alert-danger">
-					<div class="form-error">
-						<span class="form-error-field"><%= @process_resource.errors.full_messages[0] %></span>
-						<span class="glyphicon glyphicon-info-sign icon"></span>
-					</div>
-				</div>
-			<% end %>
-			<div class="panel panel-primary">
-				<div class="panel-heading"><h3 class="panel-title">添加流程资源</h3></div>
-				<div class="panel-body">
-					<%= form_for @process_resource, url: process_management_process_resources_path(@entryprocess) do |u| %>
-						<div id="error-info" class="alert alert-danger" style="display: none;"></div>
-						<div class="form-group">
-							<label>资源名:</label><br>
-							<%= u.text_field  :resource_name, placeholder: "资源名", class: "form-control" %>
-						</div>
-						<div class="form-group">
-							<label>默认授予:</label><br>
-							<%= u.select :default, { "默认":1,"自选":0 }, {include_blank: true}, {placeholder: "供应商名称", class: "form-control pull_select"} %>
-						</div>
-						<div class="form-group">
-							<label>是否启用:</label><br>
+        <li class="active">添加流程资源</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <% if @process_resource && @process_resource.errors.any? %>
+        <div id="error-info" class="alert alert-danger">
+          <div class="form-error">
+            <span class="form-error-field"><%= @process_resource.errors.full_messages[0] %></span>
+            <span class="glyphicon glyphicon-info-sign icon"></span>
+          </div>
+        </div>
+      <% end %>
+      <div class="panel panel-primary">
+        <div class="panel-heading"><h3 class="panel-title">添加流程资源</h3></div>
+        <div class="panel-body">
+          <%= form_for @process_resource, url: process_management_process_resources_path(@entryprocess) do |u| %>
+            <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+            <div class="form-group">
+              <label>资源名:</label><br>
+              <%= u.text_field  :resource_name, placeholder: "资源名", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <label>默认授予:</label><br>
+              <%= u.select :default, { "默认":1,"自选":0 }, {include_blank: true}, {placeholder: "供应商名称", class: "form-control pull_select"} %>
+            </div>
+            <div class="form-group">
+              <label>是否启用:</label><br>
               <%= u.select :enable, { "启用":1,"不起用":0 }, {include_blank: true}, {placeholder: "供应商名称", class: "form-control pull_select"} %>
-						</div>
-						<%= u.submit  "确定添加", class: "btn btn-primary btn-block" %>
-					<% end %>
-					<br/><a href="<%= process_management_process_resources_path(@entryprocess) %>">>>返回列表</a>
-				</div>
-			</div>
-		</div>
-	</div>
+            </div>
+            <%= u.submit  "确定添加", class: "btn btn-primary btn-block" %>
+          <% end %>
+          <br/><a href="<%= process_management_process_resources_path(@entryprocess) %>">>>返回列表</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script type="text/javascript">
-	$(function(){
-		$('.pull_select').searchableSelect();
-	});
+  $(function(){
+    $('.pull_select').searchableSelect();
+  });
 </script>

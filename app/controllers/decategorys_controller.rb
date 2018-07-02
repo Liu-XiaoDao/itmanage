@@ -14,7 +14,7 @@ class DecategorysController < ApplicationController
   #添加分类
   def create
     #拿到当前顶级分类数量
-  	@decategorycount = Decategory.where(parent_id: 0).count
+    @decategorycount = Decategory.where(parent_id: 0).count
     #增加分类
     @decategory = Decategory.new(decategory_params)
     @decategory.parent_id = 0  #在这类创假的都是顶级分类,所以为0
@@ -106,7 +106,7 @@ class DecategorysController < ApplicationController
     #设置编码
     decategory.decategorycode = params[:decategorycode]
     #保存
-    decategory.save 
+    decategory.save
   end
 
   def destroy
@@ -120,10 +120,10 @@ class DecategorysController < ApplicationController
       flash[:danger] = "设备分类有子类或者分类下有设备,不允许删除"
       redirect_to decategorys_path
     end
-      
+
   end
 
-  private 
+  private
       def decategory_params
         params.require(:decategory).permit(:name,:decategorycode)
       end

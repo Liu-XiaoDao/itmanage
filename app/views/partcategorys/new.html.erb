@@ -1,43 +1,40 @@
 <% provide :c_active, "asset" %>
 <% provide :pre_title, "添加配件分类" %>
 <div class="container" style="padding-top:70px;">
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="breadcrumb">
-				<li><a href="/">主页</a></li>
-				<li><a href="<%= partcategorys_path %>">配件分类</a></li>
-				<li class="active">添加配件分类</li>
-			</ul>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12 col-md-12 center-block" style="float: none;">
-			<% if @partcategory && @partcategory.errors.any? %>
-				<div id="error-info" class="alert alert-danger">
-					<div class="form-error">
-						<span class="form-error-field"><%= @partcategory.errors.full_messages[0] %></span>
-					</div>
-				</div>
-			<% end %>
-			<div class="panel panel-primary">
-				<div class="panel-heading"><h3 class="panel-title">添加配件分类</h3></div>
-				<div class="panel-body">
-					<%= form_for @partcategory, url: partcategorys_path do |f| %>
-						<div class="form-group">
-							<label>设备分类名:</label><br>
-							<%= f.text_field :name, placeholder: "配件分类名", class: "form-control" %>
-							<br>
-							<label>设备分类代码:</label><br>
-							<%= f.text_field :partcategorycode, placeholder: "配件分类代码", class: "form-control" %>
-						</div>
-						<%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
-					<% end %>
-					<br/><a href="<%= partcategorys_path %>">>>返回配件分类列表</a>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li><a href="/">主页</a></li>
+        <li><a href="<%= partcategorys_path %>">配件分类</a></li>
+        <li class="active">添加配件分类</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 center-block" style="float: none;">
+      <% if @partcategory && @partcategory.errors.any? %>
+        <div id="error-info" class="alert alert-danger">
+          <div class="form-error">
+            <span class="form-error-field"><%= @partcategory.errors.full_messages[0] %></span>
+          </div>
+        </div>
+      <% end %>
+      <div class="panel panel-primary">
+        <div class="panel-heading"><h3 class="panel-title">添加配件分类</h3></div>
+        <div class="panel-body">
+          <%= form_for @partcategory, url: partcategorys_path do |f| %>
+            <div class="form-group">
+              <label>设备分类名:</label><br>
+              <%= f.text_field :name, placeholder: "配件分类名", class: "form-control" %>
+              <br>
+              <label>设备分类代码:</label><br>
+              <%= f.text_field :partcategorycode, placeholder: "配件分类代码", class: "form-control" %>
+            </div>
+            <%= f.submit "确定添加", class: "btn btn-primary btn-block" %>
+          <% end %>
+          <br/><a href="<%= partcategorys_path %>">>>返回配件分类列表</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-

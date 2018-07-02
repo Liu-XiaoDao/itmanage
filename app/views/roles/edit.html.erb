@@ -21,9 +21,9 @@
         <div class="col-sm-12 col-md-12">
             <!-- <div class="alert alert-info">部门共有 <b><%= 10 %></b> 个员工</div> -->
             <div class="panel panel-primary">
-      				<div class="panel-heading"><h3 class="panel-title">角色</h3></div>
-      				<div class="panel-body">
-      					<%= form_for @role, url: role_path do |r| %>
+              <div class="panel-heading"><h3 class="panel-title">角色</h3></div>
+              <div class="panel-body">
+                <%= form_for @role, url: role_path do |r| %>
                   <div class="form-group">
                     <label>角色名称:</label><br>
                     <%= r.text_field  :role_name, placeholder: " 角色名称", class: "form-control" %>
@@ -38,10 +38,10 @@
                     <% end %>
                   </div>
 
-      						<%= r.submit  "提交", class: "btn btn-primary btn-block" %>
-      					<% end %>
-      				</div>
-      			</div>
+                  <%= r.submit  "提交", class: "btn btn-primary btn-block" %>
+                <% end %>
+              </div>
+            </div>
 
         </div>
     </div>

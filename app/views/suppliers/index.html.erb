@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
       <div class="alert alert-info">
-      	系统共有 <b><%= @suppliers.count %></b> 个供应商<a href="<%= new_supplier_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加供应商</a>
+        系统共有 <b><%= @suppliers.count %></b> 个供应商<a href="<%= new_supplier_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加供应商</a>
       </div>
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
@@ -27,15 +27,15 @@
               <tr><th>产品名称</th><th>供应商名称</th><th>联系人</th><th>联系方式</th><th>备注</th></tr>
           </thead>
           <tbody>
-    		<% @suppliers.each do |supplier| %>
-    			<tr>
-	    			<td><%= link_to supplier.product_name, supplier_path(supplier) %></td>
-	    			<td><%= supplier.supplier_name %></td>
-	                <td><%= supplier.contact %></td>
-	                <td><%= supplier.contact_information %></td>
-	                <td><%= link_to t('edit'), edit_supplier_path(supplier) %></td>
-	    			<td><%= link_to t('delete'), supplier_path(supplier), method: :delete, data: { confirm: "确认删除供应商#{supplier.supplier_name}?" } %></td>
-    		    </tr>
+        <% @suppliers.each do |supplier| %>
+          <tr>
+            <td><%= link_to supplier.product_name, supplier_path(supplier) %></td>
+            <td><%= supplier.supplier_name %></td>
+                  <td><%= supplier.contact %></td>
+                  <td><%= supplier.contact_information %></td>
+                  <td><%= link_to t('edit'), edit_supplier_path(supplier) %></td>
+            <td><%= link_to t('delete'), supplier_path(supplier), method: :delete, data: { confirm: "确认删除供应商#{supplier.supplier_name}?" } %></td>
+            </tr>
             <% end %>
           </tbody>
         </table>
