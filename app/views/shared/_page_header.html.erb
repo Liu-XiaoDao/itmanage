@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-12">
+    <ul class="breadcrumb">
+      <li><a href="/">主页</a></li>
+
+      <% if second_url.present? %>
+        <li><a href="<%= second_url %>"><%= second_title %></a></li>
+      <% else %>
+        <li class="active"><%= second_title %></li>
+      <% end %>
+
+      <% if third_title.present? %>
+        <li class="active"><%= third_title %></li>
+      <% end %>
+
+    </ul>
+  </div>
+</div>

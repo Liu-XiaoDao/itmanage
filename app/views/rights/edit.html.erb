@@ -1,15 +1,7 @@
 <% provide :c_active, "set" %>
 <% provide :pre_title, "修改权限" %>
 <div class="container" style="padding-top:70px;">
-  <div class="row">
-    <div class="col-md-12">
-      <ul class="breadcrumb">
-        <li><a href="/">主页</a></li>
-        <li><a href="<%= rights_path %>">权限管理</a></li>
-        <li class="active">修改权限</li>
-      </ul>
-    </div>
-  </div>
+  <%= render "shared/page_header", second_url: rights_path, second_title: "权限管理", third_title: "修改权限" %>
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
       <%= render "error_msg" %>
