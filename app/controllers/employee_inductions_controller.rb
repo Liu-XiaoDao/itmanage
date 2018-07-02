@@ -9,17 +9,17 @@ class EmployeeInductionsController < ApplicationController
   end
 
   #入职流程
-	def create
-		#
-		@employeeinduction = EmployeeInduction.new(induction_params)
-		#保存
-		if @employeeinduction.save
-			flash[:success] = "添加入职流程成功"
-			redirect_to employee_inductions_path
-		else
-			render :new
-		end
-	end
+  def create
+    #
+    @employeeinduction = EmployeeInduction.new(induction_params)
+    #保存
+    if @employeeinduction.save
+      flash[:success] = "添加入职流程成功"
+      redirect_to employee_inductions_path
+    else
+      render :new
+    end
+  end
 
   def edit
     @employeeinduction = EmployeeInduction.find(params[:id])

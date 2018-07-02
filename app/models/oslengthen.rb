@@ -1,3 +1,3 @@
 class Oslengthen < ApplicationRecord
-	belongs_to :otherservice
+  belongs_to :otherservice
 end

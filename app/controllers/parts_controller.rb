@@ -18,7 +18,7 @@ class PartsController < ApplicationController
     #所有配件分类
     @partcategorys = Partcategory.leafpartcategory
   end
-	#添加设备
+  #添加设备
   def create
     #:partcategory_id, :part_name, :part_details, :receive_date
     @part = Part.new(part_params)
@@ -44,7 +44,7 @@ class PartsController < ApplicationController
   end
   #修改
   def update
-  	@part = Part.find params[:id]
+    @part = Part.find params[:id]
     if @part.update part_params
       flash[:success] = "配件信息修改成功"
       redirect_to parts_path
@@ -73,31 +73,31 @@ class PartsController < ApplicationController
   end
 
   #批量添加设备
-	def batchcreate
-		partcount = params[:part][:count].to_i
-		if partcount <= 0
-			partcount = 0
-		end
-		i = 0
-		while i < partcount  do
-		  part = Part.new
-		  part.part_name = params[:part][:part_name]
-		  part.part_code = getpartcode(params[:part][:partcategory_id])
-		  part.receive_date = params[:part][:receive_date]
-		  part.part_details = params[:part][:part_details]
-		  part.partcategory_id = params[:part][:partcategory_id]
-		  part.status = 1
+  def batchcreate
+    partcount = params[:part][:count].to_i
+    if partcount <= 0
+      partcount = 0
+    end
+    i = 0
+    while i < partcount  do
+      part = Part.new
+      part.part_name = params[:part][:part_name]
+      part.part_code = getpartcode(params[:part][:partcategory_id])
+      part.receive_date = params[:part][:receive_date]
+      part.part_details = params[:part][:part_details]
+      part.partcategory_id = params[:part][:partcategory_id]
+      part.status = 1
       part.is_assign = 0
       #保存
       unless part.save
         flash[:danger] = "配件批量添加失败: 第#{i}个开始失败"
         return redirect_to parts_path
       end
-		   i +=1
-		end
+       i +=1
+    end
     flash[:success] = "配件批量添加成功,添加数量#{i}个"
-		redirect_to parts_path
-	end
+    redirect_to parts_path
+  end
 
 
   #配件信息展示页面

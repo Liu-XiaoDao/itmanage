@@ -12,7 +12,7 @@ module PagesHelper
   # text: 标签文本, 当text=path时, 显示css_class
   # css_class: 显示的样式
   def link_to_login(text, css_class, path)
-    link_class = css_class	if text == path
+    link_class = css_class  if text == path
     link_text = text
     link_to link_text, "#", class: link_class
   end

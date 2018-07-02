@@ -26,6 +26,7 @@ class UsersController < ApplicationController
     @departments = Department.leafdepartment
     #所有权限
     @roles = Role.all
+    @my_roles = @user.roles
   end
 
   #保存新员工
@@ -45,6 +46,7 @@ class UsersController < ApplicationController
       @departments = Department.leafdepartment
       #所有权限
       @roles = Role.all
+      @my_roles = @user.roles
       render :new
     end
   end
@@ -292,7 +294,7 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:username, :department_id, :position)
+      params.require(:user).permit(:username,:email, :department_id, :position)
     end
 
     def file_param

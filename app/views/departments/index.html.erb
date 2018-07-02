@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
       <div class="alert alert-info">
-      	系统共有 <b><%= @departments.count %></b> 个部门<a href="<%= new_department_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加部门</a>
+        系统共有 <b><%= @departments.count %></b> 个部门<a href="<%= new_department_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加部门</a>
       </div>
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
@@ -27,19 +27,19 @@
               <tr><th>类别代码</th><th><%= t("departmentname")%></th><th><%= t("departmentmanager")%></th><th>上级部门</th><th><%= t("renshu")%></th><th><%= t("operation")%></th></tr>
           </thead>
           <tbody>
-    			  <% @departments.each do |department| %>
-    			    <tr>
+            <% @departments.each do |department| %>
+              <tr>
                 <td><%= department.pgcode %></td>
-    			      <td><%= link_to parentdepartment_name(department.id), department_path(department) %></td>
-    			      <td><%= department.manager_name %></td>
+                <td><%= link_to parentdepartment_name(department.id), department_path(department) %></td>
+                <td><%= department.manager_name %></td>
                 <td><%= department.higher.blank? ? '无' : department.higher.department_name %></td>
                 <% departmentdevicecount = 0 %>
                 <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'") %>
                 <td><%= departmentUsers.count %></td>
-    			      <td><%= link_to t('edit'), edit_department_path(department) %></td>
-    			      <td><%= link_to t('delete'), department_path(department), method: :delete, data: { confirm: t('areyousure') } %></td>
-    			    </tr>
-    			  <% end %>
+                <td><%= link_to t('edit'), edit_department_path(department) %></td>
+                <td><%= link_to t('delete'), department_path(department), method: :delete, data: { confirm: t('areyousure') } %></td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
       </div>

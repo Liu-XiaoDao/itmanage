@@ -11,7 +11,7 @@ class OtherservicesController < ApplicationController
   end
   #新建其他服务
   def create
-  	#其他服务对像   :servicename, :serviceprovider, :price, :begin_date, :months, :describe
+    #其他服务对像   :servicename, :serviceprovider, :price, :begin_date, :months, :describe
     @otherservice = Otherservice.new(otherservice_params)
     #其他服务结束时间
     @otherservice.end_date = (Time.parse(@otherservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:otherservice][:months].to_i.month).strftime("%Y-%m-%d")
@@ -28,7 +28,7 @@ class OtherservicesController < ApplicationController
   end
   #服务的详情
   def show
-  	#拿到一条服务
+    #拿到一条服务
     @otherservice = Otherservice.find params[:id]
     #这条服务下的所有图片
     @images = @otherservice.attached_files
@@ -44,7 +44,7 @@ class OtherservicesController < ApplicationController
 
   #修改
   def update
-  	#其他服务对像   :servicename, :serviceprovider, :price, :begin_date, :months, :describe
+    #其他服务对像   :servicename, :serviceprovider, :price, :begin_date, :months, :describe
     @otherservice = Otherservice.find params[:id]
     @otherservice.servicename = params[:otherservice][:servicename]
     @otherservice.serviceprovider = params[:otherservice][:serviceprovider]

@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 center-block" style="float: none;">
       <div class="alert alert-info">
-      	系统共有 <b><%= @white_lists.count %></b> 个白名单<a href="<%= new_white_list_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加白名单</a>
+        系统共有 <b><%= @white_lists.count %></b> 个白名单<a href="<%= new_white_list_path %>" class="btn btn-primary" style="position: relative;top: -8px;float: right;">添加白名单</a>
       </div>
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
@@ -27,17 +27,17 @@
               <tr><th>ID</th><th>网站名称</th><th>网址</th><th>介绍</th><th>请求者</th><th>是否添加</th><th>操作</th></tr>
           </thead>
           <tbody>
-        		<% @white_lists.each do |white_list| %>
-        			<tr>
+            <% @white_lists.each do |white_list| %>
+              <tr>
                 <td><%= white_list.id %></td>
-    	    			<td><%= white_list.web_name %></td>
-    	    			<td><%= white_list.url %></td>
+                <td><%= white_list.web_name %></td>
+                <td><%= white_list.url %></td>
                 <td><%= white_list.introduce %></td>
                 <td><%= white_list.requester %></td>
                 <td><%= white_list.is_add %></td>
                 <td><%= link_to t('edit'), edit_white_list_path(white_list) %></td>
-    	    			<td><%= link_to t('delete'), white_list_path(white_list), method: :delete, data: { confirm: "确认删除白名单#{white_list.web_name}?" } %></td>
-      		    </tr>
+                <td><%= link_to t('delete'), white_list_path(white_list), method: :delete, data: { confirm: "确认删除白名单#{white_list.web_name}?" } %></td>
+              </tr>
             <% end %>
           </tbody>
         </table>

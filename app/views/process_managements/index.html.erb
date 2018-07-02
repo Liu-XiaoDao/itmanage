@@ -44,7 +44,7 @@
                 <td><%= entryproces.process_resources.count %></td>
                 <td><%= entryproces.enable %></td>
                 <td><%= link_to '修改', edit_process_management_path(entryproces) %></td>
-    			      <td><%= link_to '删除', process_management_path(entryproces), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
+                <td><%= link_to '删除', process_management_path(entryproces), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
               </tr>
             <% end %>
           </tbody>

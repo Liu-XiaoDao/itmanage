@@ -1,236 +1,236 @@
 <% provide :c_active, "home" %>
 <% provide :pre_title, "主页" %>
 <div class="container" style="padding-top:70px;">
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="breadcrumb">
-				<li class="active">主页</li>
-			</ul>
-		</div>
-	</div>
-	<!-- 四个圆形统计图使用的样式 -->
-	<style type="text/css">
-		.easyPieChart {
-		    margin: 0px auto;
-		}
-		.easyPieChart {
-		    position: relative;
-		    text-align: center;
-		}
-		*, *:before, *:after {
-		    -webkit-box-sizing: border-box;
-		    -moz-box-sizing: border-box;
-		    box-sizing: border-box;
-		}
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="breadcrumb">
+        <li class="active">主页</li>
+      </ul>
+    </div>
+  </div>
+  <!-- 四个圆形统计图使用的样式 -->
+  <style type="text/css">
+    .easyPieChart {
+        margin: 0px auto;
+    }
+    .easyPieChart {
+        position: relative;
+        text-align: center;
+    }
+    *, *:before, *:after {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
 
-		audio, canvas, progress, video {
-		    display: inline-block;
-		}
-		.easyPieChart canvas {
-		    position: absolute;
-		    top: 0;
-		    left: 0;
-		}
-		.chart-bottom-heading {
-		    margin-top: 5px;
-		    text-align: center;
-		}
-	</style>
-	<!-- 四个圆形统计图使用的样式 -->
-	<div class="row">
-		<div class="col-md-12">
-		    <div class="panel panel-primary">
-				<div class="panel-heading"><h3 class="panel-title">设备数量</h3></div>
-		        <div class="panel-body">
-		            <div class="col-md-3">
-		                <div class="easyPieChart" data-percent="<%= sprintf("%.2f",@devicepercent) %>" style="width: 110px; height: 110px; line-height: 110px;"><%= sprintf("%.2f",@devicepercent) %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
-		                <div class="chart-bottom-heading"><span class="label label-info">设备剩余量</span></div>
-		            </div>
-		            <div class="col-md-3">
-		                <div class="easyPieChart" data-percent="<%= sprintf("%.2f",@partpercent) %>" style="width: 110px; height: 110px; line-height: 110px;"><%= sprintf("%.2f",@partpercent) %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
-		                <div class="chart-bottom-heading"><span class="label label-info">配件剩余量</span></div>
-		            </div>
-		            <div class="col-md-3">
-		                <div class="easyPieChart" data-percent="<%= sprintf("%.2f",@consumablepercent) %>" style="width: 110px; height: 110px; line-height: 110px;"><%= sprintf("%.2f",@consumablepercent) %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
-		                <div class="chart-bottom-heading"><span class="label label-info">耗材剩余量</span></div>
-		            </div>
-		            <div class="col-md-3">
-		                <div class="easyPieChart" data-percent="<%= sprintf("%.2f",@userpercent) %>" style="width: 110px; height: 110px; line-height: 110px;"><%= sprintf("%.2f",@userpercent) %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
-		                <div class="chart-bottom-heading"><span class="label label-info">新员工</span></div>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-	</div>
+    audio, canvas, progress, video {
+        display: inline-block;
+    }
+    .easyPieChart canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .chart-bottom-heading {
+        margin-top: 5px;
+        text-align: center;
+    }
+  </style>
+  <!-- 四个圆形统计图使用的样式 -->
+  <div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+        <div class="panel-heading"><h3 class="panel-title">设备数量</h3></div>
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <div class="easyPieChart" data-percent="<%= sprintf("%.2f",@devicepercent) %>" style="width: 110px; height: 110px; line-height: 110px;"><%= sprintf("%.2f",@devicepercent) %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+                    <div class="chart-bottom-heading"><span class="label label-info">设备剩余量</span></div>
+                </div>
+                <div class="col-md-3">
+                    <div class="easyPieChart" data-percent="<%= sprintf("%.2f",@partpercent) %>" style="width: 110px; height: 110px; line-height: 110px;"><%= sprintf("%.2f",@partpercent) %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+                    <div class="chart-bottom-heading"><span class="label label-info">配件剩余量</span></div>
+                </div>
+                <div class="col-md-3">
+                    <div class="easyPieChart" data-percent="<%= sprintf("%.2f",@consumablepercent) %>" style="width: 110px; height: 110px; line-height: 110px;"><%= sprintf("%.2f",@consumablepercent) %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+                    <div class="chart-bottom-heading"><span class="label label-info">耗材剩余量</span></div>
+                </div>
+                <div class="col-md-3">
+                    <div class="easyPieChart" data-percent="<%= sprintf("%.2f",@userpercent) %>" style="width: 110px; height: 110px; line-height: 110px;"><%= sprintf("%.2f",@userpercent) %>%<canvas width="110" height="110"></canvas><canvas width="110" height="110"></canvas></div>
+                    <div class="chart-bottom-heading"><span class="label label-info">新员工</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
     <!-- <div > -->
-	<div class="row">
+  <div class="row">
 
-    	<div class="col-md-6">
-	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">设备</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= devices_path %>">查看更多</a></span></div>
-	          	<div class="panel-body">
-					<table class="table table-striped table-hover">
-						<thead>
-							<tr><th><%= t("devicecode")%></th><th>使用人</th><th>状态</th><th>到期时间</th><th>操作</th></tr>
-						</thead>
-						<tbody>
-							<% @devices.each do |device| %>
-								<% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
-									<% danger = 'class= danger' %>
-								<% elsif (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
-									<% danger = 'class= warning' %>
-								<% end %>
-								<tr <%= danger %> >
-									<td><%= link_to device.asset_code, device_path(device) %></td>
-									<td><%= user_name device.user_id %></td>
-									<td><%= device_status device.status %></td>
-									<td><%= device.scrap_date.try(:strftime, "%Y-%m-%d") %></td>
-									<% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
-										<td><%= link_to '续保', "deviceservices/devicenew/#{device.id}" %></td>
-									<% else %>
-										<td></td>
-									<% end %>
-								</tr>
-							<% end %>
-						</tbody>
-					</table>
-				</div>
-	      	</div>
-    	</div>
-    	<div class="col-md-6">
-	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">其他服务</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= otherservices_path %>">查看更多</a></span></div>
-	          	<div class="panel-body">
-					<table class="table table-striped table-hover">
-						<thead>
-							<tr><th>服务名</th><th>开始时间</th><th>到期时间</th></tr>
-						</thead>
-						<tbody>
-							<% @otherservices.each do |otherservice| %>
-								<% if  (Time.parse(otherservice.end_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
-									<% danger = 'class= danger' %>
-								<% elsif (Time.parse(otherservice.end_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
-									<% danger = 'class= warning' %>
-								<% end %>
-								<tr <%= danger %> >
-									<td><%= link_to otherservice.servicename, otherservice_path(otherservice) %></td>
-									<td><%= otherservice.begin_date.try(:strftime, "%Y-%m-%d") %></td>
-									<td><%= otherservice.end_date.try(:strftime, "%Y-%m-%d") %></td>
-								</tr>
-							<% end %>
-						</tbody>
-					</table>
-				</div>
-	      	</div>
-    	</div>
+      <div class="col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h3 class="panel-title">设备</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= devices_path %>">查看更多</a></span></div>
+              <div class="panel-body">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr><th><%= t("devicecode")%></th><th>使用人</th><th>状态</th><th>到期时间</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <% @devices.each do |device| %>
+                <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
+                  <% danger = 'class= danger' %>
+                <% elsif (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
+                  <% danger = 'class= warning' %>
+                <% end %>
+                <tr <%= danger %> >
+                  <td><%= link_to device.asset_code, device_path(device) %></td>
+                  <td><%= user_name device.user_id %></td>
+                  <td><%= device_status device.status %></td>
+                  <td><%= device.scrap_date.try(:strftime, "%Y-%m-%d") %></td>
+                  <% if  (Time.parse(device.scrap_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
+                    <td><%= link_to '续保', "deviceservices/devicenew/#{device.id}" %></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h3 class="panel-title">其他服务</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= otherservices_path %>">查看更多</a></span></div>
+              <div class="panel-body">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr><th>服务名</th><th>开始时间</th><th>到期时间</th></tr>
+            </thead>
+            <tbody>
+              <% @otherservices.each do |otherservice| %>
+                <% if  (Time.parse(otherservice.end_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 0 %>
+                  <% danger = 'class= danger' %>
+                <% elsif (Time.parse(otherservice.end_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
+                  <% danger = 'class= warning' %>
+                <% end %>
+                <tr <%= danger %> >
+                  <td><%= link_to otherservice.servicename, otherservice_path(otherservice) %></td>
+                  <td><%= otherservice.begin_date.try(:strftime, "%Y-%m-%d") %></td>
+                  <td><%= otherservice.end_date.try(:strftime, "%Y-%m-%d") %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+          </div>
+      </div>
     </div>
     <div class="row">
-		<div class="col-md-6">
-	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">部门</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= departments_path %>">查看更多</a></span></div>
-				<div class="panel-body">
-					<table class="table table-striped table-hover">
-						<thead>
-							<tr><th>部门</th><th>部门经理</th><th>人数</th><th>设备</th></tr>
-						</thead>
-						<tbody>
-							<% @departments.each do |department| %>
-								<tr>
-									<td><%= link_to department.department_name, department_path(department) %></td>
-									<td><%= department.manager_name %></td>
-									<% departmentdevicecount = 0 %>
-									<% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'") %>
-									<td><%= departmentUsers.count %></td>
-									<% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.devices.count } %>
-									<td><%= departmentdevicecount  %></td>
-								</tr>
-							<% end %>
-						</tbody>
-					</table>
-				</div>
-	      	</div>
-    	</div>
-    	<div class="col-md-6">
-	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">设备分类</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= decategorys_path %>">查看更多</a></span></div>
-	          	<div class="panel-body">
-					<table class="table table-striped">
-						<thead>
-							<tr><th>设备类型</th><th>设备类型代码</th><th>设备数量</th><th>可用数量</th></tr>
-						</thead>
-						<tbody>
-							<% @decategorys.each do |decategory| %>
-								<tr>
-									<td><%= link_to decategory.name, decategory_path(decategory) %></td>
-									<td><%= decategory.decategorycode %></td>
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading"><h3 class="panel-title">部门</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= departments_path %>">查看更多</a></span></div>
+        <div class="panel-body">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr><th>部门</th><th>部门经理</th><th>人数</th><th>设备</th></tr>
+            </thead>
+            <tbody>
+              <% @departments.each do |department| %>
+                <tr>
+                  <td><%= link_to department.department_name, department_path(department) %></td>
+                  <td><%= department.manager_name %></td>
+                  <% departmentdevicecount = 0 %>
+                  <% departmentUsers = User.joins("INNER JOIN departments ON users.department_id = departments.id AND departments.pgcode like '#{department.pgcode}%'") %>
+                  <td><%= departmentUsers.count %></td>
+                  <% departmentUsers.each{ |user| departmentdevicecount = departmentdevicecount + user.devices.count } %>
+                  <td><%= departmentdevicecount  %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h3 class="panel-title">设备分类</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= decategorys_path %>">查看更多</a></span></div>
+              <div class="panel-body">
+          <table class="table table-striped">
+            <thead>
+              <tr><th>设备类型</th><th>设备类型代码</th><th>设备数量</th><th>可用数量</th></tr>
+            </thead>
+            <tbody>
+              <% @decategorys.each do |decategory| %>
+                <tr>
+                  <td><%= link_to decategory.name, decategory_path(decategory) %></td>
+                  <td><%= decategory.decategorycode %></td>
 
-									<% decategorydevices = Device.joins("INNER JOIN decategories ON devices.decategory_id = decategories.id AND decategories.pgcode like '#{decategory.pgcode}%'") %>
-									<td><%= decategorydevices.count %></td>
+                  <% decategorydevices = Device.joins("INNER JOIN decategories ON devices.decategory_id = decategories.id AND decategories.pgcode like '#{decategory.pgcode}%'") %>
+                  <td><%= decategorydevices.count %></td>
 
-									<% restdevicecount = 0 %>
-									<% decategorydevices.each{ |device| restdevicecount = restdevicecount + 1  if device.is_assign == 0 } %>
-									<td><%= restdevicecount  %></td>
-								</tr>
-							<% end %>
-						</tbody>
-					</table>
-				</div>
-	      	</div>
-    	</div>
-		
-	</div>
+                  <% restdevicecount = 0 %>
+                  <% decategorydevices.each{ |device| restdevicecount = restdevicecount + 1  if device.is_assign == 0 } %>
+                  <td><%= restdevicecount  %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+          </div>
+      </div>
+
+  </div>
     <div class="row">
-    	<div class="col-md-6">
-	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">耗材</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= consumables_path %>">查看更多</a></span></div>
-	          	<div class="panel-body">
-					<table class="table table-striped table-hover">
-						<thead>
-							<tr><th>耗材</th><th>可用数量</th><th>已用数量</th><th>位置</th></tr>
-						</thead>
-						<tbody>
-							<% @consumables.each do |consumable| %>
-								<tr>
-									<td><%= link_to consumable.name, consumable_path(consumable) %></td>
-									<td><%= consumable.surplus_amount %></td>
-									<td><%= consumable.used_amount %></td>
-									<td><%= consumable.location %></td>
-								</tr>
-							<% end %>
-						</tbody>
-					</table>
+      <div class="col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h3 class="panel-title">耗材</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= consumables_path %>">查看更多</a></span></div>
+              <div class="panel-body">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr><th>耗材</th><th>可用数量</th><th>已用数量</th><th>位置</th></tr>
+            </thead>
+            <tbody>
+              <% @consumables.each do |consumable| %>
+                <tr>
+                  <td><%= link_to consumable.name, consumable_path(consumable) %></td>
+                  <td><%= consumable.surplus_amount %></td>
+                  <td><%= consumable.used_amount %></td>
+                  <td><%= consumable.location %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
 
-				</div>
-	      	</div>
-    	</div>
-    	<div class="col-md-6">
-	        <div class="panel panel-primary">
-	        	<div class="panel-heading"><h3 class="panel-title">配件分类</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= partcategorys_path %>">查看更多</a></span></div>
-	          	<div class="panel-body">
-					<table class="table table-striped">
-						<thead>
-							<tr><th>配件类型</th><th>配件类型代码</th><th>配件数量</th><th>可用数量</th></tr>
-						</thead>
-						<tbody>
-							<% @partcategorys.each do |partcategory| %>
-								<tr>
-									<td><%= link_to partcategory.name, partcategory_path(partcategory) %></td>
-									<td><%= partcategory.partcategorycode %></td>
+        </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h3 class="panel-title">配件分类</h3><span class="badge" style="position: absolute;right: 25px;top: 11px;"><a href="<%= partcategorys_path %>">查看更多</a></span></div>
+              <div class="panel-body">
+          <table class="table table-striped">
+            <thead>
+              <tr><th>配件类型</th><th>配件类型代码</th><th>配件数量</th><th>可用数量</th></tr>
+            </thead>
+            <tbody>
+              <% @partcategorys.each do |partcategory| %>
+                <tr>
+                  <td><%= link_to partcategory.name, partcategory_path(partcategory) %></td>
+                  <td><%= partcategory.partcategorycode %></td>
 
-									<% partcategoryparts = Part.joins("INNER JOIN partcategories ON parts.partcategory_id = partcategories.id AND partcategories.pgcode like '#{partcategory.pgcode}%'") %>
-									<td><%= partcategoryparts.count %></td>
+                  <% partcategoryparts = Part.joins("INNER JOIN partcategories ON parts.partcategory_id = partcategories.id AND partcategories.pgcode like '#{partcategory.pgcode}%'") %>
+                  <td><%= partcategoryparts.count %></td>
 
-									<% restpartcount = 0 %>
-									<% partcategoryparts.each{ |part| restpartcount = restpartcount + 1  if part.is_assign == 0 } %>
-									<td><%= restpartcount %></td>
+                  <% restpartcount = 0 %>
+                  <% partcategoryparts.each{ |part| restpartcount = restpartcount + 1  if part.is_assign == 0 } %>
+                  <td><%= restpartcount %></td>
 
-								</tr>
-							<% end %>
-						</tbody>
-					</table>
-				</div>
-	      	</div>
-    	</div>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+          </div>
+      </div>
     </div>
     <!-- </div> -->
 </div>
@@ -243,11 +243,3 @@
     });
 </script>
 <!-- 圆形统计图使用的js -->
-
-
-
-
-
-
-
-
