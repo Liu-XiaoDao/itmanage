@@ -5,6 +5,10 @@
     <%= u.select :department_id, @departments.collect { |d| [ parentdepartment_name(d.id), d.id ] }, {include_blank: true}, {placeholder: "选择部门", class: "form-control"} %>
   </div>
   <div class="form-group">
+    <label for="leader_id">直属领导:</label>
+    <%= u.select :leader_id, User.where(is_quit: 0).collect { |u| [ u.username, u.id ] }, {include_blank: true}, {placeholder: "选择上级", class: "form-control"} %>
+  </div>
+  <div class="form-group">
     <label>姓名:</label><br>
     <%= u.text_field  :username, placeholder: "员工姓名", class: "form-control" %>
   </div>
@@ -50,7 +54,7 @@
 
 <script>
   $(function(){
-    $('#user_department_id').searchableSelect();
+    $('select').searchableSelect();
   });
 </script>
 <!-- 样式 -->

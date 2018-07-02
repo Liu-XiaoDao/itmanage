@@ -294,7 +294,7 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:username,:email, :department_id, :position)
+      params.require(:user).permit(:username, :leader_id, :email, :department_id, :position)
     end
 
     def file_param

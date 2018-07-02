@@ -53,13 +53,14 @@
       <div class="table-responsive" style="padding-top: 20px;">
         <table class="table table-striped">
           <thead>
-              <tr><th><%= t("name")%></th><th><%= t("department")%></th><th>在职情况</th><th><%= t("devicecount") %></th><th><%= t("operation") %></th></tr>
+              <tr><th><%= t("name")%></th><th><%= t("department")%></th><th>直接领导</th><th>在职情况</th><th><%= t("devicecount") %></th><th><%= t("operation") %></th></tr>
           </thead>
           <tbody>
             <% @users.each do |user| %>
               <tr class="<%=  user.is_quit == 1 ? 'danger' : '' %>">
                 <td><%= link_to user.username, user_path(user) %></td>
                 <td><%= link_to user.department.department_name, department_path(user.department) %></td>
+                <td><%= user.header_name %></td>
                 <td><%= user.is_quit == 1 ? "离职" : "在职" %></td>
                 <td><%= user.devices.count %></td>
                 <td><%= link_to t("edit"), edit_user_path(user) %></td>

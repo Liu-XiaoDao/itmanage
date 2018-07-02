@@ -22,6 +22,11 @@ class User < ApplicationRecord
   has_many :roles, through: :user_roles
   has_many :rights, through: :roles
 
+  #上下属关系
+  belongs_to :header, class_name:  'User', foreign_key: 'leader_id', optional: true  #直接领导
+  has_many :understrappers, class_name: 'User', foreign_key: 'leader_id'  #直接下属
+
+
   cattr_accessor :current_user
 
   validates :username, :department_id, presence: true   #这几个变量不能为空
@@ -48,6 +53,10 @@ class User < ApplicationRecord
     if department.present?
       self.department_id = department.id
     end
+  end
+  #直属上级领导姓名
+  def header_name
+    header.present? ? header.username : "无"
   end
 
   def statistic_devices(fields)
