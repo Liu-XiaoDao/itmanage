@@ -95,5 +95,9 @@ class User < ApplicationRecord
 
     {update_record: update_record, create_record: create_record}
   end
+  #拿到所有下属（包括直接和间接）
+  def all_understrappers
+    
+  end
 
 end
