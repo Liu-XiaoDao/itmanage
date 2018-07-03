@@ -31,14 +31,14 @@
                             <tr>
                                 <td><%= link_to user.username, user_path(user) %></td>
                                 <td>
-                                  <%if @user_model_config_index.fields.present? %>
+                                  <%if @user_model_config_index.present? && @user_model_config_index.fields.present? %>
                                     <%= user.statistic_devices(@user_model_config_index.fields).count %>
                                   <% elsif %>
                                     <%= user.statistic_devices([1,2]).count %>
                                   <% end %>
                                 </td>
                                 <td>
-                                  <%if @user_model_config_index.fields.present? %>
+                                  <%if @user_model_config_index.present? && @user_model_config_index.fields.present? %>
                                     <% user.statistic_devices(@user_model_config_index.fields).each do |device| %>
                                        <%= device_assetno device.id %><%= "(员工借用)" if device.status == 3 %><%= "(接设备使用)" if device.status == 4 %>&nbsp;&nbsp;
                                     <% end %>
