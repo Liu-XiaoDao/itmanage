@@ -27,7 +27,7 @@ class User < ApplicationRecord
   has_many :understrappers, class_name: 'User', foreign_key: 'leader_id'  #直接下属
 
 
-  cattr_accessor :current_user
+  cattr_accessor :current_user  #所有对象共享的类实例属性
 
   validates :username, :department_id, presence: true   #这几个变量不能为空
   validates :username, length: { in: 2..25 }, #长度6-25
