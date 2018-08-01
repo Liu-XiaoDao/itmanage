@@ -47,7 +47,7 @@ set :application, "it_asset"
 
 set :deploy_user, 'xiaodao'
 
-set :repo_url, 'git@han-gitlab.abcam.com:abcam/itmanage.git'
+set :repo_url, 'git@github.com:Liu-XiaoDao/itmanage.git'
 
 set :branch, 'master'
 # set :scm_verbose, true
