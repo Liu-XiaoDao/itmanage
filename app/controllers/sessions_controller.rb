@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-  skip_before_action :check_signed_in, only: [:new, :create]      #整个系统都需要登录操作所以在application中设置,检测是都登录,但是在登录和注册页面需要跳过验证
+  skip_before_action :check_signed_in, :check_auth, only: [:new, :create]      #整个系统都需要登录操作所以在application中设置,检测是都登录,但是在登录和注册页面需要跳过验证
 
   layout 'home'
 
