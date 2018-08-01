@@ -1,5 +1,5 @@
 class WhiteListsController < ApplicationController
-  skip_before_action :check_signed_in, only: [:display_list]
+  skip_before_action :check_signed_in, only: [:display_list, :check_auth]
   layout 'home'
   def index
     @white_lists = WhiteList.all.paginate page: params[:page], per_page: 20
