@@ -14,7 +14,7 @@ class OtherservicesController < ApplicationController
     #其他服务对像   :servicename, :serviceprovider, :price, :begin_date, :months, :describe
     @otherservice = Otherservice.new(otherservice_params)
     #其他服务结束时间
-    @otherservice.end_date = (Time.parse(@otherservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:otherservice][:months].to_i.month).strftime("%Y-%m-%d")
+    @otherservice.end_date = (Time.parse(@otherservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:otherservice][:months].to_i.month - 1.day).strftime("%Y-%m-%d")
     #其他服务的开始提醒时间
     @otherservice.remindtime = (Time.parse(@otherservice.end_date.try(:strftime, "%Y-%m-%d")) - 2.month).strftime("%Y-%m-%d")
     #保存
@@ -53,7 +53,7 @@ class OtherservicesController < ApplicationController
     @otherservice.months = params[:otherservice][:months]
     @otherservice.describe = params[:otherservice][:describe]
     #计算时间
-    @otherservice.end_date = (Time.parse(@otherservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:otherservice][:months].to_i.month).strftime("%Y-%m-%d")
+    @otherservice.end_date = (Time.parse(@otherservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:otherservice][:months].to_i.month - 1.day).strftime("%Y-%m-%d")
     @otherservice.remindtime = (Time.parse(@otherservice.end_date.try(:strftime, "%Y-%m-%d")) - 2.month).strftime("%Y-%m-%d")
 
     if @otherservice.save

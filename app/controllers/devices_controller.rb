@@ -31,7 +31,7 @@ class DevicesController < ApplicationController
     #新建设备 device_params内容包括:asset_name, :service_sn, :decategory_id, :release_date, :asset_details
     @device = Device.new(device_params)
     #设备维保到期时间
-    @device.scrap_date = Time.parse(@device.release_date.try(:strftime, "%Y-%m-%d")) + params[:device][:guaranteed].to_i.months
+    @device.scrap_date = Time.parse(@device.release_date.try(:strftime, "%Y-%m-%d")) + params[:device][:guaranteed].to_i.months - 1.day
     #保存
     if @device.save
       flash[:success] = "设备增加成功"
@@ -66,7 +66,7 @@ class DevicesController < ApplicationController
       device.decategory_id = params[:device][:decategory_id]#设备类型
       device.asset_details = params[:device][:asset_details]#设备详情
       #设备维保到期时间
-      device.scrap_date = Time.parse(device.release_date.try(:strftime, "%Y-%m-%d")) + params[:device][:guaranteed].to_i.months
+      device.scrap_date = Time.parse(device.release_date.try(:strftime, "%Y-%m-%d")) + params[:device][:guaranteed].to_i.months - 1.day
       #保存
       unless device.save
         flash[:danger] = "设备批量添加失败: 第#{i}个开始失败"

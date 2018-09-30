@@ -19,7 +19,7 @@ class DeviceservicesController < ApplicationController
     #新建一条记录  :device_id, :servicename, :serviceprovider, :price, :begin_date, :months, :describe
     @deviceservice = Deviceservice.new(deviceservice_params)
     #用这个服务的开始时间和周期,计算出这个维保的到期时间
-    @deviceservice.end_date = (Time.parse(@deviceservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:deviceservice][:months].to_i.month).strftime("%Y-%m-%d")
+    @deviceservice.end_date = (Time.parse(@deviceservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:deviceservice][:months].to_i.month - 1.day).strftime("%Y-%m-%d")
     #拿到添加服务的设备
     @device = Device.find params[:deviceservice][:device_id]
     #先在服务里面保存设备原本的维保到期时间
@@ -70,7 +70,7 @@ class DeviceservicesController < ApplicationController
       #更改属性   :servicename, :serviceprovider, :price, :begin_date, :months, :describe
       @deviceservice.update edit_params   #这个地方使用update直接改动数据库
       #使用开始时间和维保时长计算服务结束时间
-      @deviceservice.end_date = (Time.parse(@deviceservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:deviceservice][:months].to_i.month).strftime("%Y-%m-%d")
+      @deviceservice.end_date = (Time.parse(@deviceservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:deviceservice][:months].to_i.month - 1.day).strftime("%Y-%m-%d")
       #因为时间获取会改变,所以在这里在设置一下
       @device = Device.find params[:deviceservice][:device_id]
       #结束时间
@@ -104,7 +104,7 @@ class DeviceservicesController < ApplicationController
       #更改属性
       @deviceservice.update edit_params
       #使用开始时间和维保时长计算服务结束时间
-      @deviceservice.end_date = (Time.parse(@deviceservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:deviceservice][:months].to_i.month).strftime("%Y-%m-%d")
+      @deviceservice.end_date = (Time.parse(@deviceservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:deviceservice][:months].to_i.month - 1.day).strftime("%Y-%m-%d")
       #拿到新设备,设置设备的维保到期时间个是否到期tag
       @device = Device.find params[:deviceservice][:device_id]
       @deviceservice.devicescraptime = @device.scrap_date
