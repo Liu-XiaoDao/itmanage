@@ -19,7 +19,7 @@ class AuthorizationservicesController < ApplicationController
     #新建一条记录  :device_id, :servicename, :serviceprovider, :price, :begin_date, :months, :describe
     @authorizationservice = Authorizationservice.new(authorizationservice_params)
     #用这个服务的开始时间和周期,计算出这个维保的到期时间
-    @authorizationservice.end_date = (Time.parse(@authorizationservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:authorizationservice][:months].to_i.month).strftime("%Y-%m-%d")
+    @authorizationservice.end_date = (Time.parse(@authorizationservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:authorizationservice][:months].to_i.month - 1.day).strftime("%Y-%m-%d")
     #拿到添加服务的设备
     @authorization = Authorization.find params[:authorizationservice][:authorization_id]
     #先在服务里面保存设备原本的维保到期时间
@@ -67,7 +67,7 @@ class AuthorizationservicesController < ApplicationController
     #更改属性   :servicename, :serviceprovider, :price, :begin_date, :months, :describe
     @authorizationservice.update edit_params   #这个地方使用update直接改动数据库
     #使用开始时间和维保时长计算服务结束时间
-    @authorizationservice.end_date = (Time.parse(@authorizationservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:authorizationservice][:months].to_i.month).strftime("%Y-%m-%d")
+    @authorizationservice.end_date = (Time.parse(@authorizationservice.begin_date.try(:strftime, "%Y-%m-%d")) + params[:authorizationservice][:months].to_i.month - 1.day).strftime("%Y-%m-%d")
     #因为时间获取会改变,所以在这里在设置一下
     @authorization = Authorization.find params[:authorizationservice][:authorization_id]
     #结束时间
