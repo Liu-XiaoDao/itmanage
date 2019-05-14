@@ -132,13 +132,18 @@ class DevicesController < ApplicationController
 
     def clear
       @device = Device.find params[:id]
+      if @device.user.present? || @device.is_assign?
+        flash[:danger] = "设备正在使用或者未报废不能清理"
+        redirect_to request.referer
+        return
+      end
       @device.is_delete = 1
       if @device.save
         flash[:success] = "设备清理成功"
-        redirect_to devices_path
+        redirect_to request.referer
       else
         flash[:danger] = "设备清理失败"
-        redirect_to devices_path
+        redirect_to request.referer
       end
     end
 

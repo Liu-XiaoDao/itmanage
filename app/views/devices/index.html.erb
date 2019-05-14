@@ -88,6 +88,8 @@
               <% else %>
                 <td></td>
               <% end %>
+              <td><%= link_to '收回', recycle_device_path(device), data: { confirm: '确定收回设备吗?' } %></td>
+              <td><%= link_to '清理', clear_device_path(device), data: { confirm: '确定清理设备吗?' } %></td>
               <td><%= link_to '删除', device_path(device), method: :delete, data: { confirm: '你确定要删除吗?' } %></td>
             </tr>
           <% end %>
