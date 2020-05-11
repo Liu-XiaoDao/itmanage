@@ -32,8 +32,10 @@
                 <% danger = 'class= danger' %>
               <% elsif (Time.parse(otherservice.end_date.try(:strftime, "%Y-%m-%d")) - Time.now) < 2592000 %>
                 <% danger = 'class= warning' %>
-              <% elsif otherservice.closeremind == 1 %>
-                <% danger = 'class= danger' %>
+              <% end %>
+
+              <% if otherservice.closeremind == 1 %>
+                <% danger = 'class=' %>
               <% end %>
               <tr <%= danger %> >
                 <td><%= link_to otherservice.servicename, otherservice_path(otherservice) %></td>

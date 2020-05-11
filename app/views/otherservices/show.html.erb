@@ -70,7 +70,9 @@
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
-                  <a href="<%= set_remind_otherservice_path(@otherservice) %>"  class="btn btn-primary submit" style="color: #fff; ">关闭此服务</a>
+                  <% if @otherservice.closeremind == 0 %>
+                    <a href="<%= set_remind_otherservice_path(@otherservice) %>"  class="btn btn-primary submit" style="color: #fff; ">关闭此服务</a>
+                  <% end %>
                   <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary submit" style="color: #fff; ">延长服务周期</a>
                 </div>
               </div>
